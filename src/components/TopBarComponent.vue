@@ -1,6 +1,7 @@
 <template>
     <div class="bg-secondary top-bar">
         <h1 class="title">Developeers</h1>
+        <button class="btn btn-light">Log Out</button>
     </div>
 </template>
 

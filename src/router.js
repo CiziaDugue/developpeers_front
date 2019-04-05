@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import DashboardComponent from '@/components/DashboardComponent.vue'
-import ArticlesComponent from '@/components/ArticlesComponent.vue'
+import PostsListComponent from '@/components/PostsListComponent.vue'
 
 Vue.use(Router)
 
@@ -14,14 +14,19 @@ export default new Router({
             component: DashboardComponent
         },
         {
-            path: '/mes-articles',
-            name: 'articles',
-            component: ArticlesComponent
+            path: '/tous-les-articles',
+            name: 'postsList',
+            component: PostsListComponent
+        },
+        {
+            path: '/article/:postId',
+            name: 'postSingle',
+            component: PostsListComponent
         },
         // {
-        //     path: '/groupes',
-        //     name: 'groupes',
-        //     component: GroupesComponent
+        //     path: '/tous-les-groupes',
+        //     name: 'groupsList',
+        //     component: GroupsListComponent
         // },
         {
             path: '/about',

@@ -84,7 +84,7 @@ export default {
                     },
                     {
                         href: '/profil',
-                        title: 'Profil',
+                        title: 'Mon Profil',
                         icon: 'fa fa-user'
                     }
 
