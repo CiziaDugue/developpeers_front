@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid p-0">
         <top-bar-component></top-bar-component>
         <dashboard-component></dashboard-component>
     </div>
