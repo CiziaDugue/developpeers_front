@@ -2,13 +2,14 @@
 <div class="container main-block">
     <h2 class="text-center">{{ title }}</h2>
     <div class="card-columns">
-        <div v-for="post in postsList" v-bind:key="post._id" class="card p-3">
+        <div v-for="group in groupsList" v-bind:key="group._id" class="card p-3">
             <div class="card-body">
-                <h3 class="card-title">{{ post.title }}<span class="badge badge-pill badge-info">{{ post.voteCount }}</span></h3>
+                <h3 class="card-title">{{ group.name }}</h3>
+                <p class="card-text">{{ group.description }}</p>
                 <ul class="card-text">
-                    <li v-for="keyword in post.keywords">{{ keyword }}</li>
+                    <li v-for="keyword in group.keywords">{{ keyword }}</li>
                 </ul>
-                <p class="card-text"><small class="text-muted">{{ post.updated_at }}</small></p>
+                <p class="card-text"><small class="text-muted">{{ group.updated_at }}</small></p>
             </div>
         </div>
     </div>
@@ -24,17 +25,17 @@ import {
 export default {
     data: function() {
         return {
-            name: 'PostsListComponent',
-            title: 'Tous les Articles',
+            name: 'GroupsListComponent',
+            title: 'Tous les Groupes',
         }
     },
     computed: {
         ...mapState([
-            'postsList'
+            'groupsList'
         ])
     },
     mounted: function() {
-        this.$store.dispatch('initPostsListAction')
+        this.$store.dispatch('initGroupsListAction')
     }
 }
 </script>

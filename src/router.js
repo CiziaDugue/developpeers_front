@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import DashboardComponent from '@/components/DashboardComponent.vue'
 import PostsListComponent from '@/components/PostsListComponent.vue'
+import GroupsListComponent from '@/components/GroupsListComponent.vue'
 
 Vue.use(Router)
 
@@ -19,14 +20,29 @@ export default new Router({
             component: PostsListComponent
         },
         {
-            path: '/article/:postId',
-            name: 'postSingle',
+            path: '/mes-articles/:userId',
+            name: 'usersPosts',
             component: PostsListComponent
         },
         // {
-        //     path: '/tous-les-groupes',
-        //     name: 'groupsList',
-        //     component: GroupsListComponent
+        //     path: '/article/:postId',
+        //     name: 'postSingle',
+        //     component: PostSingleComponent
+        // },
+        {
+            path: '/tous-les-groupes',
+            name: 'groupsList',
+            component: GroupsListComponent
+        },
+        {
+            path: '/mes-groupes/:userId',
+            name: 'usersGroups',
+            component: GroupsListComponent
+        },
+        // {
+        //     path: '/groupes/:groupId',
+        //     name: 'groupSingle',
+        //     component: GroupSingleComponent
         // },
         {
             path: '/about',

@@ -8,46 +8,43 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
 
-        postsList: []
+        postsList: [],
+        groupsList: []
 
     },
     mutations: {
 
-        // initPostsList: function(state, payload) {
-        //
-        //     state.postsList = payload;
-        //
-        // },
         SET_POSTS (state, posts) {
 
+            for (let post of posts) {
+
+                let voteCount = 0;
+
+                for (let vote in post.votes) {
+
+                    if (vote.toLowerCase() == "true") {
+
+                        voteCount++;
+                    }
+                    else if (vote.toLowerCase() == "false") {
+                        voteCount--;
+                    }
+                }
+                post.voteCount = voteCount;
+
+            }
+
             state.postsList = posts;
+
+        },
+        SET_GROUPS (state, groups) {
+
+            state.groupsList = groups;
 
         }
     },
     actions: {
 
-        // initPostsListAction: function(context) {
-        //
-        //     return new Promise((resolve) => {
-        //
-        //         axios.get('http://localhost/projets/developeers/public/api/posts')
-        //
-        //             .then((response) => {
-        //
-        //                 let freshPostsList = [];
-        //
-        //                 for (let post of response.data) {
-        //
-        //                     freshPostList.push(post);
-        //                 }
-        //
-        //                 context.dispatch('initPostsList', freshPostsList);
-        //
-        //                 resolve();
-        //             });
-        //     });
-        //
-        // },
         initPostsListAction: function({commit}) {
 
             axios.get('http://localhost/projets/developeers/public/api/posts')
@@ -63,8 +60,23 @@ export default new Vuex.Store({
                 .catch(error => {
                     console.log(error)
                 });
-            }
+        },
+        initGroupsListAction: function({commit}) {
 
+            axios.get('http://localhost/projets/developeers/public/api/groups')
+
+                .then(response => {
+
+                    console.log(response.data)
+
+                    let groups = response.data;
+
+                    commit('SET_GROUPS', groups);
+                })
+                .catch(error => {
+                    console.log(error)
+                });
+        }
 
     }
 })
