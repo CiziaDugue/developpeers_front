@@ -13,35 +13,58 @@ export default new Vuex.Store({
     },
     mutations: {
 
-        initPostsList: function(state, payload) {
+        // initPostsList: function(state, payload) {
+        //
+        //     state.postsList = payload;
+        //
+        // },
+        SET_POSTS (state, posts) {
 
-            state.postsList = payload;
+            state.postsList = posts;
 
         }
     },
     actions: {
 
-        initPostsListAction: function(context) {
+        // initPostsListAction: function(context) {
+        //
+        //     return new Promise((resolve) => {
+        //
+        //         axios.get('http://localhost/projets/developeers/public/api/posts')
+        //
+        //             .then((response) => {
+        //
+        //                 let freshPostsList = [];
+        //
+        //                 for (let post of response.data) {
+        //
+        //                     freshPostList.push(post);
+        //                 }
+        //
+        //                 context.dispatch('initPostsList', freshPostsList);
+        //
+        //                 resolve();
+        //             });
+        //     });
+        //
+        // },
+        initPostsListAction: function({commit}) {
 
-            return new Promise((resolve) => {
+            axios.get('http://localhost/projets/developeers/public/api/posts')
 
-                axios.get('http://localhost/projets/developeers/public/api/posts')
+                .then(response => {
 
-                    .then((response) => {
+                    console.log(response.data)
 
-                        let freshPostsList = [];
+                    let posts = response.data;
 
-                        for (let post of response.data) {
+                    commit('SET_POSTS', posts);
+                })
+                .catch(error => {
+                    console.log(error)
+                });
+            }
 
-                            freshPostList.push(post);
-                        }
 
-                        context.dispatch('initPostsList', freshPostsList);
-
-                        resolve();
-                    });
-            });
-
-        }
     }
 })

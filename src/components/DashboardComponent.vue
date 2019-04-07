@@ -20,7 +20,7 @@ export default {
                     {
                         href: '/',
                         title: 'Dashboard',
-                        icon: 'fa fa-user',
+                        icon: 'fa fa-chart-area',
                         /*
                         disabled: true
                         badge: {
@@ -31,7 +31,7 @@ export default {
                     },
                     {
                         title: 'Groupes',
-                        icon: 'fa fa-chart-area',
+                        icon: 'fas fa-users',
                         child: [
                             {
                                 href: '/tous-les-groupes',
@@ -53,7 +53,7 @@ export default {
                     },
                     {
                         title: 'Articles',
-                        icon: 'fa fa-chart-area',
+                        icon: 'far fa-file-alt',
                         child: [
                             {
                                 href: '/tous-les-articles',
