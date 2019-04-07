@@ -1,6 +1,6 @@
 <template>
 <div class="container-fluid">
-    <sidebar-menu :menu="menu" />
+    <sidebar-menu :menu="menu" :collapsed="true"/>
     <router-view></router-view>
 </div>
 </template>
@@ -10,85 +10,83 @@ export default {
     data: function() {
         return {
             name: 'DashboardComponent',
-            menu: [
-                    {
-                        header: true,
-                        title: 'Menu',
-                        // component: componentName
-                        visibleOnCollapse: false
-                    },
-                    {
-                        href: '/',
-                        title: 'Dashboard',
-                        icon: 'fa fa-user',
-                        /*
-                        disabled: true
-                        badge: {
-                            text: 'new',
-                            // class:''
-                        }
-                        */
-                    },
-                    {
-                        title: 'Groupes',
-                        icon: 'fa fa-chart-area',
-                        child: [
-                            {
-                                href: '/tous-les-groupes',
-                                title: 'Tous les Groupes'
-                            },
-                            {
-                                href: '/mes-groupes',
-                                title: 'Mes Groupes',
-                                badge: {
-                                    text: '1',
-                                    class: 'badge badge-light'
-                                }
-                            },
-                            {
-                                href: '/creer-un-groupe',
-                                title: 'Créer un Groupe',
-                            }
-                        ]
-                    },
-                    {
-                        title: 'Articles',
-                        icon: 'fa fa-chart-area',
-                        child: [
-                            {
-                                href: '/tous-les-articles',
-                                title: 'Tous les Articles',
-                            },
-                            {
-                                href: '/mes-articles',
-                                title: 'Mes Articles',
-                                badge: {
-                                    text: '1',
-                                    class: 'badge badge-light'
-                                }
-                            },
-                            {
-                                href: '/articles-suivis',
-                                title: 'Articles suivis',
-                                badge: {
-                                    text: '1',
-                                    class: 'badge badge-light'
-                                }
-                            },
-                            {
-                                href: '/creer-un-article',
-                                title: 'Créer un Article',
-                            }
-
-                        ]
-                    },
-                    {
-                        href: '/profil',
-                        title: 'Profil',
-                        icon: 'fa fa-user'
+            // theme: 'white-theme',
+            menu: [{
+                    header: true,
+                    title: 'Menu',
+                    // component: componentName
+                    visibleOnCollapse: false
+                },
+                {
+                    href: '/',
+                    title: 'Dashboard',
+                    icon: 'fa fa-chart-area',
+                    /*
+                    disabled: true
+                    badge: {
+                        text: 'new',
+                        // class:''
                     }
+                    */
+                },
+                {
+                    title: 'Groupes',
+                    icon: 'fas fa-users',
+                    child: [{
+                            href: '/tous-les-groupes',
+                            title: 'Tous les Groupes'
+                        },
+                        {
+                            href: '/mes-groupes/:userId',
+                            title: 'Mes Groupes',
+                            badge: {
+                                text: '1',
+                                class: 'badge badge-light'
+                            }
+                        },
+                        {
+                            href: '/creer-un-groupe',
+                            title: 'Créer un Groupe',
+                        }
+                    ]
+                },
+                {
+                    title: 'Articles',
+                    icon: 'far fa-file-alt',
+                    child: [{
+                            href: '/tous-les-articles',
+                            title: 'Tous les Articles',
+                        },
+                        {
+                            href: '/mes-articles',
+                            title: 'Mes Articles',
+                            badge: {
+                                text: '1',
+                                class: 'badge badge-light'
+                            }
+                        },
+                        {
+                            href: '/articles-suivis',
+                            title: 'Articles suivis',
+                            badge: {
+                                text: '1',
+                                class: 'badge badge-light'
+                            }
+                        },
+                        {
+                            href: '/creer-un-article',
+                            title: 'Créer un Article',
+                        }
 
-                ]
+                    ]
+                },
+                {
+                    href: '/profil',
+                    title: 'Mon Profil',
+                    icon: 'fa fa-user'
+                }
+
+            ]
         }
     }
 }
@@ -97,12 +95,18 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .v-sidebar-menu {
-    max-width: 20vw;
     height: 92vh;
     position: fixed;
     bottom: 0;
     top: 8vh;
 }
+
+@media (min-width: 640px) {
+    .v-sidebar-menu {
+        max-width: 20vw;
+    }
+}
+
 /* vsm-dropdown {
     max-width: 50vw;
 } */
