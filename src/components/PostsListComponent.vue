@@ -4,7 +4,19 @@
     <div class="card-columns">
         <div v-for="post in postsList" v-bind:key="post._id" class="card p-3">
             <div class="card-body">
-                <router-link :to="{ name: 'postSingle', params: { postId: post._id }}"><h3 class="card-title">{{ post.title }}<span class="badge badge-pill badge-info">{{ post.voteCount }}</span></h3></router-link>
+                <div class="row">
+                    <div class="col-8">
+                        <router-link :to="{ name: 'postSingle', params: { postId: post._id }}">
+                            <h3 class="card-title">{{ post.title }}</h3>
+                        </router-link>
+                    </div>
+                    <div class="col-4">
+                        <button class="fas fa-angle-up"></button>
+                        <small class="badge badge-pill badge-success">{{ post.votePros }}</small>
+                        <small class="badge badge-pill badge-danger">{{ post.voteCons }}</small>
+                        <button class="fas fa-angle-down"></button>
+                    </div>
+                </div>
                 <ul class="card-text">
                     <li v-for="keyword in post.keywords">{{ keyword }}</li>
                 </ul>
@@ -33,7 +45,7 @@ export default {
             'postsList'
         ])
     },
-    mounted: function() {
+    created: function() {
         this.$store.dispatch('initPostsListAction');
     },
     // created: function() {

@@ -5,6 +5,23 @@ const axios = require('axios');
 
 Vue.use(Vuex)
 
+let voteCounter = function(object) {
+    let votePros = 0;
+    let voteCons = 0;
+    for (let i = 0; i < object.votes.length; i++) {
+
+        if (object.votes[i] === "true") {
+            votePros = votePros + 1;
+        }
+        else if (object.votes[i] === "false") {
+            voteCons = voteCons + 1;
+        }
+    }
+    object.votePros = votePros;
+    object.voteCons = voteCons;
+    return object;
+}
+
 export default new Vuex.Store({
     state: {
 
@@ -19,28 +36,7 @@ export default new Vuex.Store({
 
             for (let post of posts) {
 
-                let voteCount = 0;
-
-                for (let i = 0; i < post.votes.length; i++) {
-
-                    if (post.votes[i] === "true") {
-
-                        voteCount = voteCount + 1;
-                    } else if (post.votes[i] === "false") {
-                        voteCount = voteCount - 1;
-                    }
-                }
-                post.voteCount = voteCount;
-
-                voteCount = 0;
-
-            }
-
-            for (let post of posts) {
-
-                let singlePostPath = "/tous-les-articles/" + post._id;
-
-                post.singlePostPath = singlePostPath;
+                voteCounter(post);
 
             }
 
@@ -51,16 +47,13 @@ export default new Vuex.Store({
 
             let voteCount = 0;
 
-            for (let i = 0; i < post.votes.length; i++) {
+            voteCounter(post);
 
-                if (post.votes[i] === "true") {
+            for (let comment of post.active_version.comments) {
 
-                    voteCount = voteCount + 1;
-                } else if (post.votes[i] === "false") {
-                    voteCount = voteCount - 1;
-                }
+                voteCounter(comment);
+
             }
-            post.voteCount = voteCount;
 
             state.postSingle = post;
 
@@ -107,9 +100,7 @@ export default new Vuex.Store({
                     console.log(error)
                 });
         },
-        initGroupsListAction: function({
-            commit
-        }) {
+        initGroupsListAction: function({commit}) {
 
             axios.get('http://localhost/projets/developeers/public/api/groups')
 
