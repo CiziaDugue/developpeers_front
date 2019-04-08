@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import DashboardComponent from '@/components/DashboardComponent.vue'
 import PostsListComponent from '@/components/PostsListComponent.vue'
+import PostSingleComponent from '@/components/PostSingleComponent.vue'
 import GroupsListComponent from '@/components/GroupsListComponent.vue'
 
 Vue.use(Router)
@@ -10,40 +11,34 @@ export default new Router({
     mode: 'history',
     base: process.env.BASE_URL,
     routes: [{
-            path: '/',
-            name: 'dashboard',
-            component: DashboardComponent
-        },
-        {
-            path: '/tous-les-articles',
+            path: '/articles/:listType',
             name: 'postsList',
-            component: PostsListComponent
+            component: PostsListComponent,
+            // children: [{
+            //     path: ':postId',
+            //     name: 'postSingle',
+            //     component: PostSingleComponent
+            // }]
         },
         {
-            path: '/mes-articles/:userId',
+            path: '/mes-articles',
             name: 'usersPosts',
             component: PostsListComponent
         },
-        // {
-        //     path: '/article/:postId',
-        //     name: 'postSingle',
-        //     component: PostSingleComponent
-        // },
+        {
+            path: '/article/:postId',
+            name: 'postSingle',
+            component: PostSingleComponent
+        },
         {
             path: '/tous-les-groupes',
             name: 'groupsList',
             component: GroupsListComponent
-        },
-        {
-            path: '/mes-groupes/:userId',
+        }, {
+            path: '/mes-groupes',
             name: 'usersGroups',
             component: GroupsListComponent
         },
-        // {
-        //     path: '/groupes/:groupId',
-        //     name: 'groupSingle',
-        //     component: GroupSingleComponent
-        // },
         {
             path: '/about',
             name: 'about',
