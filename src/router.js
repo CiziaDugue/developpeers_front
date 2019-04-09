@@ -5,6 +5,7 @@ import PostsListComponent from '@/components/PostsListComponent.vue'
 import PostSingleComponent from '@/components/PostSingleComponent.vue'
 import GroupsListComponent from '@/components/GroupsListComponent.vue'
 import LoginComponent from '@/components/LoginComponent.vue'
+import RegisterComponent from '@/components/RegisterComponent.vue'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
           path: '/login',
           name: 'login',
           component: LoginComponent
+        },
+        {
+          path: '/register',
+          name: 'register',
+          component: RegisterComponent
         },
         {
             path: '/about',

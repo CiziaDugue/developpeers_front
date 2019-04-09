@@ -198,6 +198,44 @@ export default new Vuex.Store({
               console.log(error);
             });
         },
+
+        registerUser: function({commit}, registerData) {
+
+          axios.post('http://localhost/developeers/public/api/register', registerData)
+                .then( (response1) => {
+
+                    axios.get('http://localhost/developeers/public/api/user',
+                    {
+                      headers :
+                      {
+                        'Authorization': 'Bearer '+ response1.data.token,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                      }
+                    })
+                        .then( (response2) => {
+
+                            let userData = {
+                              "token": "bearer "+response1.data.token,
+                              "id": response2.data.user.id,
+                              "email": response2.data.user.email,
+                              "name": response2.data.user.name
+                            };
+
+                            commit('SET_AUTH_USER_DATA_IN', userData);
+
+                        })
+                        .catch( (error) => {
+                            console.log(error);
+                        });
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+
+          console.log(registerData);
+        },
+
         disconnectUser: function({commit}) {
           console.log("store.disconnect");
           commit('SET_AUTH_USER_DATA_OUT');
