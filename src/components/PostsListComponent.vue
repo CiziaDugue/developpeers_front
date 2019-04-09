@@ -45,7 +45,7 @@ export default {
             'postsList'
         ])
     },
-    created: function() {
+    mounted: function() {
         this.$store.dispatch('initPostsListAction');
     },
     // created: function() {
