@@ -49,6 +49,8 @@ export default new Vuex.Store({
 
             voteCounter(post);
 
+            voteCounter(post.active_version);
+
             for (let comment of post.active_version.comments) {
 
                 voteCounter(comment);
@@ -56,6 +58,11 @@ export default new Vuex.Store({
             }
 
             state.postSingle = post;
+
+        },
+        ADD_COMMENT(state, payload) {
+
+            state.postSingle.active_version.comments.push(payload.comment);
 
         },
         SET_GROUPS(state, groups) {
@@ -100,6 +107,22 @@ export default new Vuex.Store({
                     console.log(error)
                 });
         },
+
+        addCommentAction: function({commit}, payload) {
+
+            let headerConfig = {'Content-Type': 'application/json'}
+
+            axios.post('http://localhost/projets/developeers/public/api/comments/' + payload.version_id, payload.comment, { headers: headerConfig })
+
+                .then(response => {
+
+                    commit('ADD_COMMENT', payload);
+                })
+                .catch(error => {
+                    console.log(error)
+                });
+        },
+
         initGroupsListAction: function({commit}) {
 
             axios.get('http://localhost/projets/developeers/public/api/groups')
