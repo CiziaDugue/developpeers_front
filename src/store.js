@@ -47,7 +47,7 @@ export default new Vuex.Store({
 
         initPostsListAction: function({commit}) {
 
-            axios.get('http://localhost/projets/developeers/public/api/posts')
+            axios.get('http://localhost/developeers/public/api/posts')
 
                 .then(response => {
 
@@ -63,7 +63,7 @@ export default new Vuex.Store({
         },
         initGroupsListAction: function({commit}) {
 
-            axios.get('http://localhost/projets/developeers/public/api/groups')
+            axios.get('http://localhost/developeers/public/api/groups')
 
                 .then(response => {
 
