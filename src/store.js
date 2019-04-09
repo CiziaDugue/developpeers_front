@@ -27,7 +27,9 @@ export default new Vuex.Store({
 
         postsList: [],
         postSingle: [],
-        groupsList: []
+        groupsList: [],
+        userLogged: false,
+        authUserData: {}
 
     },
     mutations: {
@@ -69,13 +71,22 @@ export default new Vuex.Store({
 
             state.groupsList = groups;
 
+        },
+        SET_AUTH_USER_DATA_IN(state, userData) {
+
+          state.authUserData = userData;
+          state.userLogged = true;
+          console.log(this.state);
+        },
+        SET_AUTH_USER_DATA_OUT(state) {
+
+          state.authUserData = {};
+          state.userLogged = false;
         }
     },
     actions: {
 
-        initPostsListAction: function({
-            commit
-        }) {
+        initPostsListAction: function({commit}) {
           let headersConfig = {
             'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijg2NWQ2ODViN2E1OGZkMjI1M2ViYjRkZTgwZmI1NGM2ZDZjMDkxZmFkZDRlNjc5ZGU0YmRjMjA0NzdlZGMzMGZmMWI0OTI2NDJlOTY0Y2Y3In0.eyJhdWQiOiIxIiwianRpIjoiODY1ZDY4NWI3YTU4ZmQyMjUzZWJiNGRlODBmYjU0YzZkNmMwOTFmYWRkNGU2NzlkZTRiZGMyMDQ3N2VkYzMwZmYxYjQ5MjY0MmU5NjRjZjciLCJpYXQiOjE1NTQ3MjgxMzcsIm5iZiI6MTU1NDcyODEzNywiZXhwIjoxNTg2MzUwNTM3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.I0DZeMFE-vRKu73EUYGRtp9brjj21km_mK1upK_vjeaFUUZ9LQdu8HcT9Vynti_qzV9g5LTUudtkixzLvLBouQANLmqPICaXUbHxz4__PLwC45yBG0IH5898Xbg6CKf9Ng_8iFs2bI0OJ_tUzZqlXWlBsB_TkwvsXZVLyMJW65YhL39TgQNus256O5rvj9vELmJL2hiPUKTALqbryi79iKfMmUDWz6Pu2gn_M-EhpuzizTPpVRqB7gErGGqbD76mg2zw_jB7AAu0SRJlpX1E3Zal_0ZhlyOWZWsz3pffIkwHeps1SbPNwEy2i_zqhGG6BXrBk2w_jXgbESWkEGfemjwUniqWaPCRb1w7Hvf3zqtl2jKATvIW4_YvwdD1--pljGeSgJnT4TGPUbROjsXeJrjCbGjzvgrYOK4JW2tI0a4TOxPrzV2UGbRUFP2XonES6VJ4m3VN1oIYCLlCpZ8cHqZB0hJ_ejg_dKuhG296SgNtMGV7jcV-UlbB9HllS1b1PaL2Ir7yE_xyb8XEmTpG1PPDNDO8hNqm-ZXR0YhpNUYrOrqlzh-oqSMsLnot_8h6eSkmaC-3dn-BDZLMQJelYK9FLTYmIKjsDLPPRv1N1ZvQ-xVjZsh7s_JzyH6hCZlUCHBljkq9X96trfwT2FCMlV_qAfn4ImB41FIfVoW0XP4`,
             'Accept' : 'application/json'
@@ -126,7 +137,7 @@ export default new Vuex.Store({
 
                     commit('ADD_COMMENT', payload);
                 })
-                .catch(error => {
+                .catch(error => {          console.log(this.state);
                     console.log(error)
                 });
         },
@@ -151,6 +162,45 @@ export default new Vuex.Store({
                 .catch(error => {
                     console.log(error);
                 });
+        },
+
+        logUser: function({commit}, logData) {
+
+          axios.post('http://localhost/developeers/public/api/login', logData)
+            .then( (response1) => {
+
+              axios.get('http://localhost/developeers/public/api/user',
+              {
+                headers :
+                {
+                  'Authorization': 'Bearer '+ response1.data.token,
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+                }
+              })
+                  .then( (response2) => {
+
+                      let userData = {
+                        "token": "bearer "+response1.data.token,
+                        "id": response2.data.user.id,
+                        "email": response2.data.user.email,
+                        "name": response2.data.user.name
+                      };
+
+                      commit('SET_AUTH_USER_DATA_IN', userData);
+
+                  })
+                  .catch( (error) => {
+                      console.log(error);
+                  });
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        },
+        disconnectUser: function({commit}) {
+          console.log("store.disconnect");
+          commit('SET_AUTH_USER_DATA_OUT');
         }
 
     }

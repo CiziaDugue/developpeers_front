@@ -4,6 +4,7 @@ import DashboardComponent from '@/components/DashboardComponent.vue'
 import PostsListComponent from '@/components/PostsListComponent.vue'
 import PostSingleComponent from '@/components/PostSingleComponent.vue'
 import GroupsListComponent from '@/components/GroupsListComponent.vue'
+import LoginComponent from '@/components/LoginComponent.vue'
 
 Vue.use(Router)
 
@@ -35,10 +36,16 @@ export default new Router({
             path: '/tous-les-groupes',
             name: 'groupsList',
             component: GroupsListComponent
-        }, {
+        },
+        {
             path: '/mes-groupes',
             name: 'usersGroups',
             component: GroupsListComponent
+        },
+        {
+          path: '/login',
+          name: 'login',
+          component: LoginComponent
         },
         {
             path: '/about',

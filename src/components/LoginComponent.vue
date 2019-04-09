@@ -1,0 +1,62 @@
+<template>
+  <main>
+    <form v-if="this.$store.state.userLogged == false">
+      <div class="form-group">
+        <h2>Login</h2>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="Votre email" name="email" class="form-control" v-model="email"/>
+      </div>
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <input type="password" placeholder="Votre mot de passe" name="password" class="form-control" v-model="password"/>
+      </div>
+      <div class="form-group">
+        <input type="button" value="Se connecter" class="btn btn-primary" v-on:click="logUser"/>
+      </div>
+    </form>
+    <div v-if="this.$store.state.userLogged == true">
+      <h3>Bienvenue {{this.$store.state.authUserData.name}} !</h3>
+      <span>Vous vous êtes connecté avec succès.</span>
+      <router-link to="/">Home</router-link>
+    </div>
+  </main>
+</template>
+
+<script>
+  export default {
+    data: function() {
+      return {
+        name: 'LoginComponent',
+        email: '',
+        password: ''
+      }
+    },
+    methods: {
+      logUser: function() {
+        let logData = {
+          "email": this.email,
+          "password": this.password
+        };
+        this.$store.dispatch('logUser', logData);
+      }
+    }
+  }
+</script>
+
+<style scoped>
+main {
+    position: relative;
+    right: 0;
+    top: 200px;
+    width: 1000px;
+    margin: 0 auto;
+}
+
+form {
+  border: 1px solid #ccc;
+  padding: 30px;
+  box-shadow: 2px 2px 8px #eee;
+}
+</style>
