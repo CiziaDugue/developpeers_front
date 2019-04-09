@@ -1,8 +1,11 @@
 <template>
 <div class="container main-block">
-    <div class="row justify-content-center align-items-center">
+    <div v-if="!postSingle" class="container">
+        <img src="../assets/spinner.gif" alt="Chargement en cours">
+    </div>
+    <div v-else class="row justify-content-center align-items-center">
         <div class="col-10">
-            <div class="row">
+            <div class="row border">
                 <div class="col-md-6 col-12">
                     <h2 class="text-center">{{ postSingle.title }}</h2>
                 </div>
@@ -13,9 +16,9 @@
                     <button class="fas fa-angle-down"></button>
                 </div>
             </div>
-            <div class="row">
+            <div class="row border">
                 <div class="col-md-6 col-12">
-                    <p class="text-center">Auteur: {{ postSingle.author_id }} - Groupe: {{ postSingle.group_id }}</p>
+                    <p class="text-center">Auteur: {{ postSingle.author_name }} - Groupe: {{ postSingle.group_id }}</p>
                 </div>
                 <div class="col-md-6 col-12">
                     <small class="text-center">Créé le {{ postSingle.created_at }}</small>
@@ -24,18 +27,18 @@
                     <p class="text-center">
                         Version: {{ postSingle.active_version.number }}
                     </p>
-                    <p v-for="snippet in postSingle.active_version.code_snippets" class="text-center">
+                </div>
+            </div>
+            <div class="row border">
+                <div class="col-12">
+                    <p class="text-center">{{ postSingle.active_version.text_content }}</p>
+                    <p v-for="snippet in postSingle.active_version.code_snippets" class="border" v-on:click="">
                         {{ snippet.content }}
                     </p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-12">
-                    <p class="text-center">{{ postSingle.active_version.text_content }}</p>
-                </div>
-            </div>
-            <div class="row">
-                <table class="table table-hover table-dark">
+                <table class="table table-hover table-dark table-responsive">
                     <tbody>
                         <tr v-for="comment in postSingle.active_version.comments">
                             <th scope="row">{{ comment.created_at }}</th>
@@ -52,14 +55,12 @@
                 </table>
             </div>
         </div>
-        <div class="col-2">
-            <ul>
-                <li v-for="version in postSingle.versions">
-                    <router-link :to="{ name: 'postSingle', params: { postId: postSingle._id, versionId: version._id }}">
-                        {{ version.number }}
-                    </router-link>
-                </li>
-            </ul>
+        <div class="col-2 border">
+
+            <button class="btn btn-outline-secondary m-2" v-for="version in postSingle.versions">
+                {{ version.number }}
+            </button>
+
         </div>
     </div>
 </div>
@@ -82,10 +83,18 @@ export default {
             'postSingle'
         ])
     },
-    created: function() {
+    methods: {
+        changeVersion: function() {
+            this.$store.dispatch('changePostVersionAction', {
+                postId: this.$route.params.postId
+            })
+        },
+    },
+    mounted: function() {
         this.$store.dispatch('initPostSingleAction', {
             postId: this.$route.params.postId
         })
+
     },
     // created: function() {
     //
