@@ -108,6 +108,23 @@ export default new Vuex.Store({
                 });
         },
 
+        changePostVersionAction: function({commit}, payload) {
+
+            axios.get('http://localhost/projets/developeers/public/api/posts/' + payload.post_id + '/' + payload.version_id)
+
+                .then(response => {
+
+                    console.log(response.data);
+
+                    let post = response.data;
+
+                    commit('GET_POST', post);
+                })
+                .catch(error => {
+                    console.log(error)
+                });
+        },
+
         addCommentAction: function({commit}, payload) {
 
             let headerConfig = {'Content-Type': 'application/json'}

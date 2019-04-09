@@ -56,7 +56,7 @@ export default {
                     child: [{
                             href: '/articles/tous-les-articles',
                             title: 'Tous les Articles',
-                            
+
                         },
                         {
                             href: '/articles/mes-articles',
