@@ -32,7 +32,7 @@ export default new Vuex.Store({
     },
     mutations: {
 
-        SET_POSTS(state, posts) {
+        GET_POSTS(state, posts) {
 
             for (let post of posts) {
 
@@ -43,7 +43,7 @@ export default new Vuex.Store({
             state.postsList = posts;
 
         },
-        SET_POST(state, post) {
+        GET_POST(state, post) {
 
             let voteCount = 0;
 
@@ -65,7 +65,7 @@ export default new Vuex.Store({
             state.postSingle.active_version.comments.push(payload.comment);
 
         },
-        SET_GROUPS(state, groups) {
+        GET_GROUPS(state, groups) {
 
             state.groupsList = groups;
 
@@ -85,7 +85,7 @@ export default new Vuex.Store({
 
                     let posts = response.data;
 
-                    commit('SET_POSTS', posts);
+                    commit('GET_POSTS', posts);
                 })
                 .catch(error => {
                     console.log(error)
@@ -101,7 +101,7 @@ export default new Vuex.Store({
 
                     let post = response.data;
 
-                    commit('SET_POST', post);
+                    commit('GET_POST', post);
                 })
                 .catch(error => {
                     console.log(error)
@@ -117,6 +117,7 @@ export default new Vuex.Store({
                 .then(response => {
 
                     commit('ADD_COMMENT', payload);
+                    // commit('GET_POST', payload.post_id);
                 })
                 .catch(error => {
                     console.log(error)
@@ -133,7 +134,7 @@ export default new Vuex.Store({
 
                     let groups = response.data;
 
-                    commit('SET_GROUPS', groups);
+                    commit('GET_GROUPS', groups);
                 })
                 .catch(error => {
                     console.log(error);

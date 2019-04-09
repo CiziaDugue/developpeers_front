@@ -115,10 +115,14 @@ export default {
 
                 let comment = {
                     author_id: 1,
-                    content: this.commentToAdd
+                    content: this.commentToAdd,
+                    created_at: new Date().toISOString().substring(0,19).replace('T',' '),
+                    votePros: 0,
+                    voteCons: 0
                 }
                 // UserId temporaire
                 let payload = {
+                    post_id: this.$store.state.postSingle._id,
                     version_id: this.$store.state.postSingle.active_version._id,
                     comment: comment
                 }
