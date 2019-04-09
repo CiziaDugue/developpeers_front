@@ -54,11 +54,12 @@ export default {
                     title: 'Articles',
                     icon: 'far fa-file-alt',
                     child: [{
-                            href: '/tous-les-articles',
+                            href: '/articles/tous-les-articles',
                             title: 'Tous les Articles',
+                            
                         },
                         {
-                            href: '/mes-articles',
+                            href: '/articles/mes-articles',
                             title: 'Mes Articles',
                             badge: {
                                 text: '1',

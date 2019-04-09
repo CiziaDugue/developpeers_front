@@ -1,6 +1,8 @@
 <template>
     <div class="bg-secondary top-bar fixed-top">
-        <h1 class="title">Developeers</h1>
+        <router-link :to="{ path: '/' }">
+            <h1 class="title">Developeers</h1>
+        </router-link>
         <!-- <button class="btn btn-light btn-inline">Log Out</button> -->
     </div>
 </template>

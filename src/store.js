@@ -5,39 +5,60 @@ const axios = require('axios');
 
 Vue.use(Vuex)
 
+let voteCounter = function(object) {
+    let votePros = 0;
+    let voteCons = 0;
+    for (let i = 0; i < object.votes.length; i++) {
+
+        if (object.votes[i] === "true") {
+            votePros = votePros + 1;
+        }
+        else if (object.votes[i] === "false") {
+            voteCons = voteCons + 1;
+        }
+    }
+    object.votePros = votePros;
+    object.voteCons = voteCons;
+    return object;
+}
+
 export default new Vuex.Store({
     state: {
 
         postsList: [],
+        postSingle: [],
         groupsList: []
 
     },
     mutations: {
 
-        SET_POSTS (state, posts) {
+        SET_POSTS(state, posts) {
 
             for (let post of posts) {
 
-                let voteCount = 0;
-
-                for (let vote in post.votes) {
-
-                    if (vote.toLowerCase() == "true") {
-
-                        voteCount++;
-                    }
-                    else if (vote.toLowerCase() == "false") {
-                        voteCount--;
-                    }
-                }
-                post.voteCount = voteCount;
+                voteCounter(post);
 
             }
 
             state.postsList = posts;
 
         },
-        SET_GROUPS (state, groups) {
+        SET_POST(state, post) {
+
+            let voteCount = 0;
+
+            voteCounter(post);
+
+            for (let comment of post.active_version.comments) {
+
+                voteCounter(comment);
+
+            }
+
+            state.postSingle = post;
+
+        },
+        SET_GROUPS(state, groups) {
 
             state.groupsList = groups;
 
@@ -45,17 +66,35 @@ export default new Vuex.Store({
     },
     actions: {
 
-        initPostsListAction: function({commit}) {
+        initPostsListAction: function({
+            commit
+        }) {
 
             axios.get('http://localhost/developeers/public/api/posts')
 
                 .then(response => {
 
-                    console.log(response.data)
+                    console.log(response.data);
 
                     let posts = response.data;
 
                     commit('SET_POSTS', posts);
+                })
+                .catch(error => {
+                    console.log(error)
+                });
+        },
+        initPostSingleAction: function({commit}, payload) {
+
+            axios.get('http://localhost/projets/developeers/public/api/posts/' + payload.postId)
+
+                .then(response => {
+
+                    console.log(response.data);
+
+                    let post = response.data;
+
+                    commit('SET_POST', post);
                 })
                 .catch(error => {
                     console.log(error)
@@ -67,14 +106,14 @@ export default new Vuex.Store({
 
                 .then(response => {
 
-                    console.log(response.data)
+                    console.log(response.data);
 
                     let groups = response.data;
 
                     commit('SET_GROUPS', groups);
                 })
                 .catch(error => {
-                    console.log(error)
+                    console.log(error);
                 });
         }
 
