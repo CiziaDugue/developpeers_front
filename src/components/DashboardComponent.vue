@@ -37,7 +37,7 @@ export default {
                             title: 'Tous les Groupes'
                         },
                         {
-                            href: '/mes-groupes/:userId',
+                            href: '/mes-groupes',
                             title: 'Mes Groupes',
                             badge: {
                                 text: '1',

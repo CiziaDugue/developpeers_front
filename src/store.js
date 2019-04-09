@@ -73,11 +73,24 @@ export default new Vuex.Store({
     },
     actions: {
 
-        initPostsListAction: function({
-            commit
-        }) {
+        initPostsListAction: function({commit}, listType) {
 
-            axios.get('http://localhost/projets/developeers/public/api/posts')
+            console.log(listType.type);
+
+            let req = '';
+
+            if (listType.type == 'tous-les-articles') {
+
+                req = 'http://localhost/projets/developeers/public/api/posts';
+
+            }
+            else if (listType.type == 'mes-articles') {
+
+                req = 'http://localhost/projets/developeers/public/api/posts/author/' + '1';
+
+            }
+
+            axios.get(req)
 
                 .then(response => {
 
@@ -90,6 +103,7 @@ export default new Vuex.Store({
                 .catch(error => {
                     console.log(error)
                 });
+
         },
         initPostSingleAction: function({commit}, payload) {
 

@@ -12,7 +12,7 @@ export default new Router({
     base: process.env.BASE_URL,
     routes: [
         {
-            path: '/articles/:listType',
+            path: '/articles/:postsListType',
             name: 'postsList',
             component: PostsListComponent,
             // children: [{
@@ -21,11 +21,11 @@ export default new Router({
             //     component: PostSingleComponent
             // }]
         },
-        {
-            path: '/mes-articles',
-            name: 'usersPosts',
-            component: PostsListComponent
-        },
+        // {
+        //     path: '/mes-articles',
+        //     name: 'usersPosts',
+        //     component: PostsListComponent
+        // },
         {
             path: '/article/:postId',
             name: 'postSingle',
