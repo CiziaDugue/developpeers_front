@@ -1,7 +1,7 @@
 <template>
 <div class="container main-block">
-    <div v-if="!postSingle" class="container">
-        <img src="../assets/spinner.gif" alt="Chargement en cours">
+    <div v-if="postSingle == ''" class="container">
+        <img src="spinner.gif" alt="Chargement en cours">
     </div>
     <div v-else class="row justify-content-center align-items-center">
         <div class="col-10">
@@ -18,15 +18,21 @@
             </div>
             <div class="row border">
                 <div class="col-md-6 col-12">
-                    <p class="text-center">Auteur: {{ postSingle.author_name }} - Groupe: {{ postSingle.group_id }}</p>
+                    <p class="text-center">Auteur: {{ postSingle.author_name }} - Groupe: {{ postSingle.group_name }}</p>
                 </div>
                 <div class="col-md-6 col-12">
                     <small class="text-center">Créé le {{ postSingle.created_at }}</small>
                 </div>
-                <div class="col-12">
+                <div class="col-md-6 col-12">
                     <p class="text-center">
                         Version: {{ postSingle.active_version.number }}
                     </p>
+                </div>
+                <div class="col-md-6 col-12">
+                    <button class="fas fa-angle-up"></button>
+                    <small class="badge badge-pill badge-success">{{ postSingle.active_version.votePros }}</small>
+                    <small class="badge badge-pill badge-danger">{{ postSingle.active_version.voteCons }}</small>
+                    <button class="fas fa-angle-down"></button>
                 </div>
             </div>
             <div class="row border">
@@ -38,21 +44,32 @@
                 </div>
             </div>
             <div class="row">
-                <table class="table table-hover table-dark table-responsive">
-                    <tbody>
-                        <tr v-for="comment in postSingle.active_version.comments">
-                            <th scope="row">{{ comment.created_at }}</th>
-                            <td>{{ comment.author_id }}</td>
-                            <td>{{ comment.content }}</td>
-                            <td>
-                                <button class="fas fa-angle-up"></button>
-                                <small class="badge badge-pill badge-success">{{ comment.votePros }}</small>
-                                <small class="badge badge-pill badge-danger">{{ comment.voteCons }}</small>
-                                <button class="fas fa-angle-down"></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="col-12">
+                    <table class="table table-hover table-dark table-responsive">
+                        <tbody>
+                            <tr v-for="comment in postSingle.active_version.comments">
+                                <th scope="row">{{ comment.created_at }}</th>
+                                <td>{{ comment.author_id }}</td>
+                                <td>{{ comment.content }}</td>
+                                <td>
+                                    <button class="fas fa-angle-up"></button>
+                                    <small class="badge badge-pill badge-success">{{ comment.votePros }}</small>
+                                    <small class="badge badge-pill badge-danger">{{ comment.voteCons }}</small>
+                                    <button class="fas fa-angle-down"></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12">
+                    <div class="input-group">
+                        <textarea class="form-control" aria-label="With textarea" v-model="commentToAdd"></textarea>
+                        <div class="input-group-append">
+                            <button class="fas fa-plus" v-on:click="addComment"></button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="col-2 border">
@@ -76,6 +93,8 @@ export default {
     data: function() {
         return {
             name: 'PostSingleComponent',
+            commentToAdd: '',
+            loading: 'true'
         }
     },
     computed: {
@@ -89,6 +108,26 @@ export default {
                 postId: this.$route.params.postId
             })
         },
+
+        addComment: function() {
+
+            if (this.commentToAdd != '') {
+
+                let comment = {
+                    author_id: 1,
+                    content: this.commentToAdd
+                }
+                // UserId temporaire
+                let payload = {
+                    version_id: this.$store.state.postSingle.active_version._id,
+                    comment: comment
+                }
+
+                this.$store.dispatch('addCommentAction', payload);
+
+                this.commentToAdd = '';
+            }
+        }
     },
     mounted: function() {
         this.$store.dispatch('initPostSingleAction', {
