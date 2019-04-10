@@ -28,10 +28,7 @@
 </template>
 
 <script>
-const axios = require('axios');
-import {
-    mapState
-} from 'vuex'
+import {mapState} from 'vuex'
 
 export default {
     data: function() {

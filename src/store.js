@@ -28,6 +28,7 @@ export default new Vuex.Store({
         postsList: [],
         postSingle: [],
         groupsList: [],
+        postsFeed: [],
         userLogged: false,
         authUserData: {},
         headerObject:{}
@@ -90,6 +91,9 @@ export default new Vuex.Store({
 
           state.headerObject = headerObject;
           //console.log(headerObject);
+        },
+        SET_POSTS_FEED(state, posts) {
+          state.postsFeed = posts;
         }
     },
     actions: {
@@ -178,7 +182,7 @@ export default new Vuex.Store({
 
             axios.get('http://localhost/developeers/public/api/groups', {headers: this.state.headerObject})
 
-                .then(response => {
+                .then( (response) => {
 
                     console.log(response.data);
 
@@ -189,6 +193,19 @@ export default new Vuex.Store({
                 .catch(error => {
                     console.log(error);
                 });
+        },
+
+        getPostsFeed: function({commit}) {
+          axios.get('http://localhost/developeers/public/api/postsfeed', {headers: this.state.headerObject})
+
+              .then( (response) => {
+                  console.log(response.data);
+                  let posts = response.data;
+                  commit('SET_POSTS_FEED', posts);
+              })
+              .catch( (error) => {
+                  console.log(error);
+              });
         },
 
         logUser: function({commit, dispatch}, logData) {

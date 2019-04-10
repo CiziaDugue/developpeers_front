@@ -92,7 +92,6 @@
 </template>
 
 <script>
-const axios = require('axios');
 import {
     mapState
 } from 'vuex'

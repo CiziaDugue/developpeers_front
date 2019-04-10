@@ -1,5 +1,5 @@
 <template>
-<div class="container-fluid">
+<div class="dashboard-container">
     <sidebar-menu :menu="menu" :collapsed="true" v-if="this.$store.state.userLogged == true"/>
     <router-view></router-view>
 </div>
@@ -97,7 +97,7 @@ export default {
 <style scoped>
 .v-sidebar-menu {
     height: 92vh;
-    position: fixed;
+    /* position: fixed; */
     bottom: 0;
     top: 8vh;
 }

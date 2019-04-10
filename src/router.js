@@ -7,6 +7,7 @@ import GroupsListComponent from '@/components/GroupsListComponent.vue'
 import LoginComponent from '@/components/LoginComponent.vue'
 import RegisterComponent from '@/components/RegisterComponent.vue'
 import ProfileComponent from '@/components/ProfileComponent.vue'
+import HomeComponent from '@/components/HomeComponent.vue'
 
 Vue.use(Router)
 
@@ -58,6 +59,11 @@ export default new Router({
           path: '/profil',
           name: 'profile',
           component: ProfileComponent
+        },
+        {
+          path: '/',
+          name: 'home',
+          component: HomeComponent
         },
         {
             path: '/about',
