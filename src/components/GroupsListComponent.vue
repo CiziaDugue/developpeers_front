@@ -4,12 +4,15 @@
     <div class="card-columns">
         <div v-for="group in groupsList" v-bind:key="group._id" class="card p-3">
             <div class="card-body">
-                <h3 class="card-title">{{ group.name }}</h3>
+                <router-link :to="{ name: 'groupPostsList', params: { groupId: group._id }}">
+                    <h3 class="card-title">{{ groupe.name }}</h3>
+                </router-link>
                 <p class="card-text">{{ group.description }}</p>
                 <ul class="card-text">
                     <li v-for="keyword in group.keywords">{{ keyword }}</li>
                 </ul>
-                <p class="card-text"><small class="text-muted">{{ group.updated_at }}</small></p>
+                <button class="btn btn-outline-secondary">Suivre</button>
+                <p class="card-footer"><small class="text-muted">{{ group.updated_at }}</small></p>
             </div>
         </div>
     </div>
@@ -26,16 +29,49 @@ export default {
     data: function() {
         return {
             name: 'GroupsListComponent',
-            title: 'Tous les Groupes',
         }
     },
     computed: {
         ...mapState([
             'groupsList'
-        ])
+        ]),
+        title: function() {
+            let title = '';
+            if (this.$route.params.groupsListType == 'tous-les-groupes') {
+                title = 'Tous les Groupes';
+            }
+            else if (this.$route.params.groupsListType == 'mes-groupes') {
+                title = 'Mes Groupes';
+            }
+            return title;
+        }
     },
-    mounted: function() {
-        this.$store.dispatch('initGroupsListAction')
+    methods: {
+        initGroupsList: function(listType) {
+
+            this.$store.dispatch('initGroupsListAction', listType);
+
+        }
+    },
+    created: function() {
+
+        let listType = {
+            type: this.$route.params.groupsListType
+        }
+
+        console.log('initializing ' + listType.type + ' groups list');
+
+        this.initGroupsList(listType);
+    },
+    watch: {
+        '$route': function(to, from) {
+
+            let listType = {
+                type: to.params.groupsListType
+            }
+
+            this.initGroupsList(listType);
+        }
     }
 }
 </script>

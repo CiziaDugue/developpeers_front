@@ -33,11 +33,11 @@ export default {
                     title: 'Groupes',
                     icon: 'fas fa-users',
                     child: [{
-                            href: '/tous-les-groupes',
+                            href: '/groupes/tous-les-groupes',
                             title: 'Tous les Groupes'
                         },
                         {
-                            href: '/mes-groupes',
+                            href: '/groupes/mes-groupes',
                             title: 'Mes Groupes',
                             badge: {
                                 text: '1',
