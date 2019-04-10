@@ -10,10 +10,10 @@
                     <h2 class="text-center">{{ postSingle.title }}</h2>
                 </div>
                 <div class="col-md-6 col-12">
-                    <button class="fas fa-angle-up"></button>
+                    <button class="fas fa-angle-up" v-on:click="voteTarget(postSingle, 'post', true)"></button>
                     <small class="badge badge-pill badge-success">{{ postSingle.votePros }}</small>
                     <small class="badge badge-pill badge-danger">{{ postSingle.voteCons }}</small>
-                    <button class="fas fa-angle-down"></button>
+                    <button class="fas fa-angle-down" v-on:click="voteTarget(postSingle, 'post', false)"></button>
                 </div>
             </div>
             <div class="row border">
@@ -29,10 +29,10 @@
                     </p>
                 </div>
                 <div class="col-md-6 col-12">
-                    <button class="fas fa-angle-up"></button>
+                    <button class="fas fa-angle-up" v-on:click="voteTarget(postSingle.active_version, 'version', true)"></button>
                     <small class="badge badge-pill badge-success">{{ postSingle.active_version.votePros }}</small>
                     <small class="badge badge-pill badge-danger">{{ postSingle.active_version.voteCons }}</small>
-                    <button class="fas fa-angle-down"></button>
+                    <button class="fas fa-angle-down" v-on:click="voteTarget(postSingle.active_version, 'version', false)"></button>
                 </div>
             </div>
             <div class="row border">
@@ -69,10 +69,10 @@
                         <td>{{ comment.author_id }}</td>
                         <td>{{ comment.content }}</td>
                         <td>
-                            <button class="fas fa-angle-up"></button>
+                            <button class="fas fa-angle-up" v-on:click="voteTarget(comment, 'comment', true)"></button>
                             <small class="badge badge-pill badge-success">{{ comment.votePros }}</small>
                             <small class="badge badge-pill badge-danger">{{ comment.voteCons }}</small>
-                            <button class="fas fa-angle-down"></button>
+                            <button class="fas fa-angle-down" v-on:click="voteTarget(comment, 'comment', false)"></button>
                         </td>
                     </tr>
                 </tbody>
@@ -148,6 +148,18 @@ export default {
 
                 this.commentToAdd = '';
             }
+        },
+
+        voteTarget: function(target, type, vote) {
+
+            let payload = {
+                type: type,
+                vote: vote,
+                target: target,
+                urlParam: this.$route.params.postId
+            }
+
+            this.$store.dispatch('voteAction', payload);
         }
     },
     mounted: function() {

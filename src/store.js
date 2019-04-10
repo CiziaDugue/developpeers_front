@@ -195,13 +195,32 @@ export default new Vuex.Store({
 
                     console.log(response.data);
 
-                    let listType;
+                    // if(this.$route.params.postsListType) {
+                    //     let listType = {
+                    //         type: this.$route.params.postsListType
+                    //     };
+                    //     dispatch('initPostsListAction', listType);
+                    //
+                    // }
+                    // else if(this.$route.params.postId) {
+                    //     let postId = {
+                    //         postId: this.$route.params.postId
+                    //     };
+                    //     dispatch('initSinglePostAction', postId);
+                    // }
 
-                    listType = {
-                        type: payload.urlParam
-                    };
-
-                    dispatch('initPostsListAction', listType);
+                    if (payload.urlParam == 'tous-les-articles' || payload.urlParam == 'mes-articles' || payload.urlParam == 'articles-suivis') {
+                        let listType = {
+                            type: payload.urlParam
+                        };
+                        dispatch('initPostsListAction', listType);
+                    }
+                    else {
+                        let postId = {
+                            postId: payload.urlParam
+                        };
+                        dispatch('initSinglePostAction', postId);
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
