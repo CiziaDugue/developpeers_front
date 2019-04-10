@@ -36,7 +36,7 @@
   export default {
     data: function() {
       return {
-        name: 'LoginComponent',
+        name: 'RegisterComponent',
         userName: '',
         email: '',
         password: '',
