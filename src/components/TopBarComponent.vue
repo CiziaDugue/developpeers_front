@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-secondary top-bar fixed-top navbar navbar-expand-lg">
+    <div class="top-bar fixed-top navbar navbar-dark navbar-expand-lg">
         <router-link :to="{ path: '/' }">
             <h1 class="title">Developeers</h1>
         </router-link>
@@ -35,6 +35,7 @@ export default {
     height: 8vh;
     margin: 0;
     padding: 5px 0;
+    background-color: #2a2a2e;
 }
 .title {
     font-family: monospace;

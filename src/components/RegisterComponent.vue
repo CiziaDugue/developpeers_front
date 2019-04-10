@@ -2,7 +2,7 @@
   <main>
     <form v-if="this.$store.state.userLogged == false">
       <div class="form-group">
-        <h2>Register</h2>
+        <h2>Créer mon compte</h2>
       </div>
       <div class="form-group">
         <label>Nom</label>
@@ -61,7 +61,7 @@
 main {
     position: relative;
     right: 0;
-    top: 200px;
+    top: 140px;
     width: 1000px;
     margin: 0 auto;
 }

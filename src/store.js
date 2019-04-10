@@ -30,7 +30,6 @@ export default new Vuex.Store({
         groupsList: [],
         userLogged: false,
         authUserData: {}
-
     },
     mutations: {
 
@@ -82,6 +81,7 @@ export default new Vuex.Store({
 
           state.authUserData = {};
           state.userLogged = false;
+          console.log(this.state);
         }
     },
     actions: {
@@ -203,6 +203,8 @@ export default new Vuex.Store({
 
           axios.post('http://localhost/developeers/public/api/register', registerData)
                 .then( (response1) => {
+
+                  console.log(response1);
 
                     axios.get('http://localhost/developeers/public/api/user',
                     {
