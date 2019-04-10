@@ -37,7 +37,7 @@ export default {
                             title: 'Tous les Groupes'
                         },
                         {
-                            href: '/mes-groupes/:userId',
+                            href: '/mes-groupes',
                             title: 'Mes Groupes',
                             badge: {
                                 text: '1',
@@ -56,7 +56,7 @@ export default {
                     child: [{
                             href: '/articles/tous-les-articles',
                             title: 'Tous les Articles',
-                            
+
                         },
                         {
                             href: '/articles/mes-articles',

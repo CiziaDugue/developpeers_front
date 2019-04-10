@@ -33,7 +33,7 @@ export default new Vuex.Store({
     },
     mutations: {
 
-        SET_POSTS(state, posts) {
+        GET_POSTS(state, posts) {
 
             for (let post of posts) {
 
@@ -44,7 +44,7 @@ export default new Vuex.Store({
             state.postsList = posts;
 
         },
-        SET_POST(state, post) {
+        GET_POST(state, post) {
 
             let voteCount = 0;
 
@@ -66,7 +66,7 @@ export default new Vuex.Store({
             state.postSingle.active_version.comments.push(payload.comment);
 
         },
-        SET_GROUPS(state, groups) {
+        GET_GROUPS(state, groups) {
 
             state.groupsList = groups;
 
@@ -86,12 +86,24 @@ export default new Vuex.Store({
     },
     actions: {
 
-        initPostsListAction: function({commit}) {
-          let headersConfig = {
-            'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijg2NWQ2ODViN2E1OGZkMjI1M2ViYjRkZTgwZmI1NGM2ZDZjMDkxZmFkZDRlNjc5ZGU0YmRjMjA0NzdlZGMzMGZmMWI0OTI2NDJlOTY0Y2Y3In0.eyJhdWQiOiIxIiwianRpIjoiODY1ZDY4NWI3YTU4ZmQyMjUzZWJiNGRlODBmYjU0YzZkNmMwOTFmYWRkNGU2NzlkZTRiZGMyMDQ3N2VkYzMwZmYxYjQ5MjY0MmU5NjRjZjciLCJpYXQiOjE1NTQ3MjgxMzcsIm5iZiI6MTU1NDcyODEzNywiZXhwIjoxNTg2MzUwNTM3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.I0DZeMFE-vRKu73EUYGRtp9brjj21km_mK1upK_vjeaFUUZ9LQdu8HcT9Vynti_qzV9g5LTUudtkixzLvLBouQANLmqPICaXUbHxz4__PLwC45yBG0IH5898Xbg6CKf9Ng_8iFs2bI0OJ_tUzZqlXWlBsB_TkwvsXZVLyMJW65YhL39TgQNus256O5rvj9vELmJL2hiPUKTALqbryi79iKfMmUDWz6Pu2gn_M-EhpuzizTPpVRqB7gErGGqbD76mg2zw_jB7AAu0SRJlpX1E3Zal_0ZhlyOWZWsz3pffIkwHeps1SbPNwEy2i_zqhGG6BXrBk2w_jXgbESWkEGfemjwUniqWaPCRb1w7Hvf3zqtl2jKATvIW4_YvwdD1--pljGeSgJnT4TGPUbROjsXeJrjCbGjzvgrYOK4JW2tI0a4TOxPrzV2UGbRUFP2XonES6VJ4m3VN1oIYCLlCpZ8cHqZB0hJ_ejg_dKuhG296SgNtMGV7jcV-UlbB9HllS1b1PaL2Ir7yE_xyb8XEmTpG1PPDNDO8hNqm-ZXR0YhpNUYrOrqlzh-oqSMsLnot_8h6eSkmaC-3dn-BDZLMQJelYK9FLTYmIKjsDLPPRv1N1ZvQ-xVjZsh7s_JzyH6hCZlUCHBljkq9X96trfwT2FCMlV_qAfn4ImB41FIfVoW0XP4`,
-            'Accept' : 'application/json'
-          };
-            axios.get('http://localhost/developeers/public/api/posts', {headers: headersConfig})
+        initPostsListAction: function({commit}, listType) {
+
+            console.log(listType.type);
+
+            let req = '';
+
+            if (listType.type == 'tous-les-articles') {
+
+                req = 'http://localhost/projets/developeers/public/api/posts';
+
+            }
+            else if (listType.type == 'mes-articles') {
+
+                req = 'http://localhost/projets/developeers/public/api/posts/author/' + '1';
+
+            }
+
+            axios.get(req)
 
                 .then(response => {
 
@@ -99,11 +111,12 @@ export default new Vuex.Store({
 
                     let posts = response.data;
 
-                    commit('SET_POSTS', posts);
+                    commit('GET_POSTS', posts);
                 })
                 .catch(error => {
                     console.log(error)
                 });
+
         },
         initPostSingleAction: function({commit}, payload) {
 
@@ -120,7 +133,24 @@ export default new Vuex.Store({
 
                     let post = response.data;
 
-                    commit('SET_POST', post);
+                    commit('GET_POST', post);
+                })
+                .catch(error => {
+                    console.log(error)
+                });
+        },
+
+        changePostVersionAction: function({commit}, payload) {
+
+            axios.get('http://localhost/projets/developeers/public/api/posts/' + payload.post_id + '/' + payload.version_id)
+
+                .then(response => {
+
+                    console.log(response.data);
+
+                    let post = response.data;
+
+                    commit('GET_POST', post);
                 })
                 .catch(error => {
                     console.log(error)
@@ -136,6 +166,7 @@ export default new Vuex.Store({
                 .then(response => {
 
                     commit('ADD_COMMENT', payload);
+                    // commit('GET_POST', payload.post_id);
                 })
                 .catch(error => {          console.log(this.state);
                     console.log(error)
@@ -157,7 +188,7 @@ export default new Vuex.Store({
 
                     let groups = response.data;
 
-                    commit('SET_GROUPS', groups);
+                    commit('GET_GROUPS', groups);
                 })
                 .catch(error => {
                     console.log(error);

@@ -37,28 +37,50 @@ export default {
     data: function() {
         return {
             name: 'PostsListComponent',
-            title: 'Tous les Articles',
         }
     },
     computed: {
         ...mapState([
             'postsList'
-        ])
+        ]),
+        title: function() {
+            let title = '';
+            if (this.$route.params.postsListType == 'tous-les-articles') {
+                title = 'Tous les Articles';
+            }
+            else if (this.$route.params.postsListType == 'mes-articles') {
+                title = 'Mes Articles';
+            }
+            return title;
+        }
     },
-    mounted: function() {
-        this.$store.dispatch('initPostsListAction');
+    methods: {
+        initPostsList: function(listType) {
+
+            this.$store.dispatch('initPostsListAction', listType);
+
+        }
     },
-    // created: function() {
-    //
-    //     this.initializeList(this.$route.params.userId);
-    // },
-    //
-    // watch: {
-    //     '$route': function(to, from) {
-    //
-    //         this.initializeList(to.params.userId);
-    //     }
-    // }
+    created: function() {
+
+        let listType = {
+            type: this.$route.params.postsListType
+        }
+
+        console.log('initializing ' + listType.type + ' posts list');
+
+        this.initPostsList(listType);
+    },
+    watch: {
+        '$route': function(to, from) {
+
+            let listType = {
+                type: to.params.postsListType
+            }
+
+            this.initPostsList(listType);
+        }
+    }
 }
 </script>
 

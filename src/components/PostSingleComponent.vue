@@ -43,42 +43,50 @@
                     </p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <table class="table table-hover table-dark table-responsive">
-                        <tbody>
-                            <tr v-for="comment in postSingle.active_version.comments">
-                                <th scope="row">{{ comment.created_at }}</th>
-                                <td>{{ comment.author_id }}</td>
-                                <td>{{ comment.content }}</td>
-                                <td>
-                                    <button class="fas fa-angle-up"></button>
-                                    <small class="badge badge-pill badge-success">{{ comment.votePros }}</small>
-                                    <small class="badge badge-pill badge-danger">{{ comment.voteCons }}</small>
-                                    <button class="fas fa-angle-down"></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-12">
-                    <div class="input-group">
-                        <textarea class="form-control" aria-label="With textarea" v-model="commentToAdd"></textarea>
-                        <div class="input-group-append">
-                            <button class="fas fa-plus" v-on:click="addComment"></button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
         </div>
         <div class="col-2 border">
 
-            <button class="btn btn-outline-secondary m-2" v-for="version in postSingle.versions">
-                {{ version.number }}
-            </button>
-
+            <div class="row">
+                <div class="col-12">
+                    <button v-for="version in postSingle.versions" v-on:click="changeVersion(version._id)" class="btn btn-outline-secondary">
+                        {{ version.number }}
+                    </button>
+                </div>
+                <div class="col-12">
+                    <router-link :to="{ name: '', params: {} }">
+                        <button class="btn btn-outline-secondary">+</button>
+                    </router-link>
+                </div>
+            </div>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover table-dark">
+                <tbody>
+                    <tr v-for="comment in postSingle.active_version.comments">
+                        <th scope="row">{{ comment.created_at }}</th>
+                        <td>{{ comment.author_id }}</td>
+                        <td>{{ comment.content }}</td>
+                        <td>
+                            <button class="fas fa-angle-up"></button>
+                            <small class="badge badge-pill badge-success">{{ comment.votePros }}</small>
+                            <small class="badge badge-pill badge-danger">{{ comment.voteCons }}</small>
+                            <button class="fas fa-angle-down"></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12">
+            <div class="input-group">
+                <textarea class="form-control" aria-label="With textarea" v-model="commentToAdd"></textarea>
+                <div class="input-group-append">
+                    <button class="fas fa-plus" v-on:click="addComment"></button>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 </template>
@@ -103,10 +111,19 @@ export default {
         ])
     },
     methods: {
-        changeVersion: function() {
-            this.$store.dispatch('changePostVersionAction', {
-                postId: this.$route.params.postId
-            })
+        changeVersion: function(version_id) {
+
+            let payload = {
+                post_id: this.$store.state.postSingle._id,
+                version_id: version_id
+            }
+
+            this.$store.dispatch('changePostVersionAction', payload)
+        },
+
+        addVote: function(target) {
+
+
         },
 
         addComment: function() {
@@ -115,10 +132,14 @@ export default {
 
                 let comment = {
                     author_id: 1,
-                    content: this.commentToAdd
+                    content: this.commentToAdd,
+                    created_at: new Date().toISOString().substring(0, 19).replace('T', ' '),
+                    votePros: 0,
+                    voteCons: 0
                 }
                 // UserId temporaire
                 let payload = {
+                    post_id: this.$store.state.postSingle._id,
                     version_id: this.$store.state.postSingle.active_version._id,
                     comment: comment
                 }
