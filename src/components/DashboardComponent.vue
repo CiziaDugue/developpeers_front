@@ -1,6 +1,6 @@
 <template>
 <div class="container-fluid">
-    <sidebar-menu :menu="menu" :collapsed="true"/>
+    <sidebar-menu :menu="menu" :collapsed="true" v-if="this.$store.state.userLogged == true"/>
     <router-view></router-view>
 </div>
 </template>

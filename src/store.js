@@ -27,8 +27,10 @@ export default new Vuex.Store({
 
         postsList: [],
         postSingle: [],
-        groupsList: []
-
+        groupsList: [],
+        userLogged: false,
+        authUserData: {},
+        headerObject:{}
     },
     mutations: {
 
@@ -69,6 +71,25 @@ export default new Vuex.Store({
 
             state.groupsList = groups;
 
+        },
+        SET_AUTH_USER_DATA_IN(state, userData) {
+
+          state.authUserData = userData;
+          state.userLogged = true;
+          //console.log(this.state);
+        },
+        SET_AUTH_USER_DATA_OUT(state, headerObject) {
+
+          state.authUserData = {};
+          state.headerObject = headerObject;
+          state.userLogged = false;
+          //console.log(this.state);
+          console.log(state.headerObject);
+        },
+        SET_HEADER_OBJECT(state, headerObject) {
+
+          state.headerObject = headerObject;
+          //console.log(headerObject);
         }
     },
     actions: {
@@ -81,16 +102,16 @@ export default new Vuex.Store({
 
             if (listType.type == 'tous-les-articles') {
 
-                req = 'http://localhost/projets/developeers/public/api/posts';
+                req = 'http://localhost/developeers/public/api/posts';
 
             }
             else if (listType.type == 'mes-articles') {
 
-                req = 'http://localhost/projets/developeers/public/api/posts/author/' + '1';
+                req = 'http://localhost/developeers/public/api/posts/author';
 
             }
 
-            axios.get(req)
+            axios.get(req, {headers: this.state.headerObject})
 
                 .then(response => {
 
@@ -107,7 +128,7 @@ export default new Vuex.Store({
         },
         initPostSingleAction: function({commit}, payload) {
 
-            axios.get('http://localhost/projets/developeers/public/api/posts/' + payload.postId)
+            axios.get('http://localhost/developeers/public/api/posts/' + payload.postId, {headers: this.state.headerObject})
 
                 .then(response => {
 
@@ -124,7 +145,7 @@ export default new Vuex.Store({
 
         changePostVersionAction: function({commit}, payload) {
 
-            axios.get('http://localhost/projets/developeers/public/api/posts/' + payload.post_id + '/' + payload.version_id)
+            axios.get('http://localhost/developeers/public/api/posts/' + payload.post_id + '/' + payload.version_id, {headers: this.state.headerObject})
 
                 .then(response => {
 
@@ -141,22 +162,21 @@ export default new Vuex.Store({
 
         addCommentAction: function({commit}, payload) {
 
-            let headerConfig = {'Content-Type': 'application/json'}
-
-            axios.post('http://localhost/projets/developeers/public/api/comments/' + payload.version_id, payload.comment, { headers: headerConfig })
+            axios.post('http://localhost/developeers/public/api/comments/' + payload.version_id, payload.comment, { headers: this.state.headerObject})
 
                 .then(response => {
 
                     commit('ADD_COMMENT', payload);
                     // commit('GET_POST', payload.post_id);
                 })
-                .catch(error => {
+                .catch(error => {          console.log(this.state);
                     console.log(error)
                 });
         },
 
         initGroupsListAction: function({commit}, listType) {
 
+<<<<<<< HEAD
             console.log(listType.type);
 
             let req = '';
@@ -173,6 +193,9 @@ export default new Vuex.Store({
             }
 
             axios.get(req)
+=======
+            axios.get('http://localhost/developeers/public/api/groups', {headers: this.state.headerObject})
+>>>>>>> origin/master
 
                 .then(response => {
 
@@ -185,7 +208,100 @@ export default new Vuex.Store({
                 .catch(error => {
                     console.log(error);
                 });
-        }
+        },
 
+        logUser: function({commit, dispatch}, logData) {
+
+          axios.post('http://localhost/developeers/public/api/login', logData)
+            .then( (response1) => {
+
+              axios.get('http://localhost/developeers/public/api/user',
+              {
+                headers :
+                {
+                  'Authorization': 'Bearer '+ response1.data.token,
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+                }
+              })
+                  .then( (response2) => {
+
+                      let userData = {
+                        "token": "Bearer "+response1.data.token,
+                        "id": response2.data.user.id,
+                        "email": response2.data.user.email,
+                        "name": response2.data.user.name
+                      };
+
+                      commit('SET_AUTH_USER_DATA_IN', userData);
+                      dispatch('setHeaderObject', userData);
+
+                  })
+                  .catch( (error) => {
+                      console.log(error);
+                  });
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        },
+
+        registerUser: function({commit, dispatch}, registerData) {
+
+          axios.post('http://localhost/developeers/public/api/register', registerData)
+                .then( (response1) => {
+
+                  console.log(response1);
+
+                    axios.get('http://localhost/developeers/public/api/user',
+                    {
+                      headers :
+                      {
+                        'Authorization': 'Bearer '+ response1.data.token,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                      }
+                    })
+                        .then( (response2) => {
+
+                            let userData = {
+                              "token": "bearer "+response1.data.token,
+                              "id": response2.data.user.id,
+                              "email": response2.data.user.email,
+                              "name": response2.data.user.name
+                            };
+
+                            commit('SET_AUTH_USER_DATA_IN', userData);
+                            dispatch('setHeaderObject', userData);
+
+                        })
+                        .catch( (error) => {
+                            console.log(error);
+                        });
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+
+          console.log(registerData);
+        },
+
+        disconnectUser: function({commit}) {
+          console.log("store.disconnect");
+          let headerObject = {
+            'Content-Type': 'application/json'
+          };
+          commit('SET_AUTH_USER_DATA_OUT', headerObject);
+        },
+
+        setHeaderObject: function({commit}, userData) {
+          let headerObject = {
+            'Authorization': userData.token,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          };
+          commit('SET_HEADER_OBJECT', headerObject);
+          console.log('setting header object');
+        }
     }
 })

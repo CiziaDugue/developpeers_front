@@ -4,11 +4,15 @@ import DashboardComponent from '@/components/DashboardComponent.vue'
 import PostsListComponent from '@/components/PostsListComponent.vue'
 import PostSingleComponent from '@/components/PostSingleComponent.vue'
 import GroupsListComponent from '@/components/GroupsListComponent.vue'
+import LoginComponent from '@/components/LoginComponent.vue'
+import RegisterComponent from '@/components/RegisterComponent.vue'
+import ProfileComponent from '@/components/ProfileComponent.vue'
 
 Vue.use(Router)
 
 export default new Router({
     mode: 'history',
+
     base: process.env.BASE_URL + '/projets/developeers_front/dist',
     routes: [
         {
@@ -36,6 +40,21 @@ export default new Router({
         //     name: 'usersGroups',
         //     component: GroupsListComponent
         // },
+        {
+          path: '/login',
+          name: 'login',
+          component: LoginComponent
+        },
+        {
+          path: '/register',
+          name: 'register',
+          component: RegisterComponent
+        },
+        {
+          path: '/profil',
+          name: 'profile',
+          component: ProfileComponent
+        },
         {
             path: '/about',
             name: 'about',
