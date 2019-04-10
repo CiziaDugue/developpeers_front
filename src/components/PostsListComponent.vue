@@ -51,6 +51,9 @@ export default {
             else if (this.$route.params.postsListType == 'mes-articles') {
                 title = 'Mes Articles';
             }
+            else if (this.$route.params.postsListType == 'articles-suivis') {
+                title = 'Mes Articles Suivis';
+            }
             return title;
         }
     },

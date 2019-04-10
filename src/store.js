@@ -102,12 +102,17 @@ export default new Vuex.Store({
 
             if (listType.type == 'tous-les-articles') {
 
-                req = 'http://localhost/developeers/public/api/posts';
+                req = 'http://localhost/projets/developeers/public/api/posts';
 
             }
             else if (listType.type == 'mes-articles') {
 
-                req = 'http://localhost/developeers/public/api/posts/author';
+                req = 'http://localhost/projets/developeers/public/api/posts/author';
+
+            }
+            else if (listType.type == 'articles-suivis') {
+
+                req = 'http://localhost/projets/developeers/public/api/posts/user';
 
             }
 
@@ -126,9 +131,10 @@ export default new Vuex.Store({
                 });
 
         },
+
         initPostSingleAction: function({commit}, payload) {
 
-            axios.get('http://localhost/developeers/public/api/posts/' + payload.postId, {headers: this.state.headerObject})
+            axios.get('http://localhost/projets/developeers/public/api/posts/' + payload.postId, {headers: this.state.headerObject})
 
                 .then(response => {
 
@@ -145,7 +151,7 @@ export default new Vuex.Store({
 
         changePostVersionAction: function({commit}, payload) {
 
-            axios.get('http://localhost/developeers/public/api/posts/' + payload.post_id + '/' + payload.version_id, {headers: this.state.headerObject})
+            axios.get('http://localhost/projets/developeers/public/api/posts/' + payload.post_id + '/' + payload.version_id, {headers: this.state.headerObject})
 
                 .then(response => {
 
@@ -162,7 +168,7 @@ export default new Vuex.Store({
 
         addCommentAction: function({commit}, payload) {
 
-            axios.post('http://localhost/developeers/public/api/comments/' + payload.version_id, payload.comment, { headers: this.state.headerObject})
+            axios.post('http://localhost/projets/developeers/public/api/comments/' + payload.version_id, payload.comment, { headers: this.state.headerObject})
 
                 .then(response => {
 
@@ -187,7 +193,7 @@ export default new Vuex.Store({
             }
             else if (listType.type == 'mes-groupes') {
 
-                req = 'http://localhost/projets/developeers/public/api/groups/user/' + '1';
+                req = 'http://localhost/projets/developeers/public/api/groups/user';
 
             }
 
@@ -208,10 +214,10 @@ export default new Vuex.Store({
 
         logUser: function({commit, dispatch}, logData) {
 
-          axios.post('http://localhost/developeers/public/api/login', logData)
+          axios.post('http://localhost/projets/developeers/public/api/login', logData)
             .then( (response1) => {
 
-              axios.get('http://localhost/developeers/public/api/user',
+              axios.get('http://localhost/projets/developeers/public/api/user',
               {
                 headers :
                 {
@@ -244,12 +250,12 @@ export default new Vuex.Store({
 
         registerUser: function({commit, dispatch}, registerData) {
 
-          axios.post('http://localhost/developeers/public/api/register', registerData)
+          axios.post('http://localhost/projets/developeers/public/api/register', registerData)
                 .then( (response1) => {
 
                   console.log(response1);
 
-                    axios.get('http://localhost/developeers/public/api/user',
+                    axios.get('http://localhost/projets/developeers/public/api/user',
                     {
                       headers :
                       {

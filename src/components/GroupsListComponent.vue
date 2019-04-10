@@ -5,13 +5,14 @@
         <div v-for="group in groupsList" v-bind:key="group._id" class="card p-3">
             <div class="card-body">
                 <router-link :to="{ name: 'groupPostsList', params: { groupId: group._id }}">
-                    <h3 class="card-title">{{ groupe.name }}</h3>
+                    <h3 class="card-title">{{ group.name }}</h3>
                 </router-link>
                 <p class="card-text">{{ group.description }}</p>
                 <ul class="card-text">
                     <li v-for="keyword in group.keywords">{{ keyword }}</li>
                 </ul>
-                <button class="btn btn-outline-secondary">Suivre</button>
+                <button v-if="isUserInGroup(group.users_id, authUserData.id)" class="btn btn-outline-secondary btn-lg">Suivi</button>
+                <button v-else class="btn btn-primary btn-lg">Suivre</button>
                 <p class="card-footer"><small class="text-muted">{{ group.updated_at }}</small></p>
             </div>
         </div>
@@ -33,7 +34,7 @@ export default {
     },
     computed: {
         ...mapState([
-            'groupsList'
+            'groupsList', 'authUserData'
         ]),
         title: function() {
             let title = '';
@@ -51,6 +52,10 @@ export default {
 
             this.$store.dispatch('initGroupsListAction', listType);
 
+        },
+        isUserInGroup: function(groupUsers, userId) {
+
+            return groupUsers.includes(userId);
         }
     },
     created: function() {

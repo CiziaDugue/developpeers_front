@@ -67,7 +67,7 @@ export default {
                             }
                         },
                         {
-                            href: '/articles-suivis',
+                            href: '/articles/articles-suivis',
                             title: 'Articles suivis',
                             badge: {
                                 text: '1',
