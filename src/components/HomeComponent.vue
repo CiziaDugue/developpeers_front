@@ -1,8 +1,28 @@
 <template>
   <main class="main-container">
     <h1>Home</h1>
-    <div v-for="post in postsFeed" v-bind:key="post._id" v-if="userLogged">
-      <span>{{post.title}}</span>
+    <div class="card-columns">
+        <div v-for="post in postsFeed" v-bind:key="post._id" class="card p-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-8">
+                        <router-link :to="{ name: 'postSingle', params: { postId: post._id }}">
+                            <h3 class="card-title">{{ post.title }}</h3>
+                        </router-link>
+                    </div>
+                    <div class="col-4">
+                        <button class="fas fa-angle-up"></button>
+                        <small class="badge badge-pill badge-success">{{ post.votePros }}</small>
+                        <small class="badge badge-pill badge-danger">{{ post.voteCons }}</small>
+                        <button class="fas fa-angle-down"></button>
+                    </div>
+                </div>
+                <ul class="card-text">
+                    <li v-for="keyword in post.keywords">{{ keyword }}</li>
+                </ul>
+                <p class="card-text"><small class="text-muted">{{ post.updated_at }}</small></p>
+            </div>
+        </div>
     </div>
   </main>
 </template>
@@ -38,6 +58,5 @@ main {
   position: relative;
   left: 50px;
   top: 8vh;
-  border: 1px solid #eee;
 }
 </style>

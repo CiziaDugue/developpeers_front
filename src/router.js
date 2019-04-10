@@ -14,7 +14,7 @@ Vue.use(Router)
 export default new Router({
     mode: 'history',
 
-    base: process.env.BASE_URL + '/projets/developeers_front/dist',
+    base: process.env.BASE_URL + '/developpeers_front/dist',
     routes: [
         {
             path: '/articles/:postsListType',

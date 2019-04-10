@@ -53,11 +53,12 @@ export default {
                 {
                     title: 'Articles',
                     icon: 'far fa-file-alt',
-                    child: [{
-                            href: '/articles/tous-les-articles',
-                            title: 'Tous les Articles',
-
-                        },
+                    child: [
+                        // {
+                        //     href: '/articles/tous-les-articles',
+                        //     title: 'Tous les Articles',
+                        //
+                        // },
                         {
                             href: '/articles/mes-articles',
                             title: 'Mes Articles',
