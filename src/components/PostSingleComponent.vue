@@ -1,7 +1,7 @@
 <template>
 <div class="container main-block">
     <div v-if="postSingle == ''" class="container">
-        <img src="spinner.gif" alt="Chargement en cours">
+        <img src="@/assets/spinner.gif" alt="Chargement en cours">
     </div>
     <div v-else class="row justify-content-center align-items-center">
         <div class="col-10">
