@@ -35,7 +35,7 @@ export default new Vuex.Store({
     },
     mutations: {
 
-        GET_POSTS(state, posts) {
+        SET_POSTS(state, posts) {
 
             for (let post of posts) {
 
@@ -46,7 +46,7 @@ export default new Vuex.Store({
             state.postsList = posts;
 
         },
-        GET_POST(state, post) {
+        SET_POST(state, post) {
 
             let voteCount = 0;
 
@@ -68,7 +68,7 @@ export default new Vuex.Store({
             state.postSingle.active_version.comments.push(payload.comment);
 
         },
-        GET_GROUPS(state, groups) {
+        SET_GROUPS(state, groups) {
 
             state.groupsList = groups;
 
@@ -106,12 +106,17 @@ export default new Vuex.Store({
 
             if (listType.type == 'tous-les-articles') {
 
-                req = 'http://localhost/developeers/public/api/posts';
+                req = 'http://localhost/projets/developeers/public/api/posts';
 
             }
             else if (listType.type == 'mes-articles') {
 
-                req = 'http://localhost/developeers/public/api/posts/author';
+                req = 'http://localhost/projets/developeers/public/api/posts/author';
+
+            }
+            else if (listType.type == 'articles-suivis') {
+
+                req = 'http://localhost/projets/developeers/public/api/posts/user';
 
             }
 
@@ -123,16 +128,17 @@ export default new Vuex.Store({
 
                     let posts = response.data;
 
-                    commit('GET_POSTS', posts);
+                    commit('SET_POSTS', posts);
                 })
                 .catch(error => {
                     console.log(error)
                 });
 
         },
+
         initPostSingleAction: function({commit}, payload) {
 
-            axios.get('http://localhost/developeers/public/api/posts/' + payload.postId, {headers: this.state.headerObject})
+            axios.get('http://localhost/projets/developeers/public/api/posts/' + payload.postId, {headers: this.state.headerObject})
 
                 .then(response => {
 
@@ -140,7 +146,7 @@ export default new Vuex.Store({
 
                     let post = response.data;
 
-                    commit('GET_POST', post);
+                    commit('SET_POST', post);
                 })
                 .catch(error => {
                     console.log(error)
@@ -149,7 +155,7 @@ export default new Vuex.Store({
 
         changePostVersionAction: function({commit}, payload) {
 
-            axios.get('http://localhost/developeers/public/api/posts/' + payload.post_id + '/' + payload.version_id, {headers: this.state.headerObject})
+            axios.get('http://localhost/projets/developeers/public/api/posts/' + payload.post_id + '/' + payload.version_id, {headers: this.state.headerObject})
 
                 .then(response => {
 
@@ -157,7 +163,7 @@ export default new Vuex.Store({
 
                     let post = response.data;
 
-                    commit('GET_POST', post);
+                    commit('SET_POST', post);
                 })
                 .catch(error => {
                     console.log(error)
@@ -166,7 +172,7 @@ export default new Vuex.Store({
 
         addCommentAction: function({commit}, payload) {
 
-            axios.post('http://localhost/developeers/public/api/comments/' + payload.version_id, payload.comment, { headers: this.state.headerObject})
+            axios.post('http://localhost/projets/developeers/public/api/comments/' + payload.version_id, payload.comment, { headers: this.state.headerObject})
 
                 .then(response => {
 
@@ -178,9 +184,24 @@ export default new Vuex.Store({
                 });
         },
 
-        initGroupsListAction: function({commit}) {
+        initGroupsListAction: function({commit}, listType) {
 
-            axios.get('http://localhost/developeers/public/api/groups', {headers: this.state.headerObject})
+            console.log(listType.type);
+
+            let req = '';
+
+            if (listType.type == 'tous-les-groupes') {
+
+                req = 'http://localhost/projets/developeers/public/api/groups';
+
+            }
+            else if (listType.type == 'mes-groupes') {
+
+                req = 'http://localhost/projets/developeers/public/api/groups/user';
+
+            }
+
+            axios.get(req, {headers: this.state.headerObject})
 
                 .then( (response) => {
 
@@ -188,7 +209,7 @@ export default new Vuex.Store({
 
                     let groups = response.data;
 
-                    commit('GET_GROUPS', groups);
+                    commit('SET_GROUPS', groups);
                 })
                 .catch(error => {
                     console.log(error);
@@ -210,10 +231,10 @@ export default new Vuex.Store({
 
         logUser: function({commit, dispatch}, logData) {
 
-          axios.post('http://localhost/developeers/public/api/login', logData)
+          axios.post('http://localhost/projets/developeers/public/api/login', logData)
             .then( (response1) => {
 
-              axios.get('http://localhost/developeers/public/api/user',
+              axios.get('http://localhost/projets/developeers/public/api/user',
               {
                 headers :
                 {
@@ -246,12 +267,12 @@ export default new Vuex.Store({
 
         registerUser: function({commit, dispatch}, registerData) {
 
-          axios.post('http://localhost/developeers/public/api/register', registerData)
+          axios.post('http://localhost/projets/developeers/public/api/register', registerData)
                 .then( (response1) => {
 
                   console.log(response1);
 
-                    axios.get('http://localhost/developeers/public/api/user',
+                    axios.get('http://localhost/projets/developeers/public/api/user',
                     {
                       headers :
                       {

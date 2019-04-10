@@ -13,38 +13,34 @@ Vue.use(Router)
 
 export default new Router({
     mode: 'history',
-    base: process.env.BASE_URL + '/developpeers_front/dist',
+
+    base: process.env.BASE_URL + '/projets/developeers_front/dist',
     routes: [
         {
             path: '/articles/:postsListType',
             name: 'postsList',
             component: PostsListComponent,
-            // children: [{
-            //     path: ':postId',
-            //     name: 'postSingle',
-            //     component: PostSingleComponent
-            // }]
         },
-        // {
-        //     path: '/mes-articles',
-        //     name: 'usersPosts',
-        //     component: PostsListComponent
-        // },
         {
             path: '/article/:postId',
             name: 'postSingle',
             component: PostSingleComponent
         },
         {
-            path: '/tous-les-groupes',
+            path: '/groupes/:groupsListType',
             name: 'groupsList',
-            component: GroupsListComponent
+            component: GroupsListComponent,
         },
         {
-            path: '/mes-groupes',
-            name: 'usersGroups',
-            component: GroupsListComponent
+            path: '/groupe/:groupId',
+            name: 'groupPostsList',
+            component: PostsListComponent
         },
+        // {
+        //     path: '/mes-groupes',
+        //     name: 'usersGroups',
+        //     component: GroupsListComponent
+        // },
         {
           path: '/login',
           name: 'login',
