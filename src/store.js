@@ -10,10 +10,10 @@ let voteCounter = function(object) {
     let voteCons = 0;
     for (let i = 0; i < object.votes.length; i++) {
 
-        if (object.votes[i] === "true") {
+        if (object.votes[i].vote == true) {
             votePros = votePros + 1;
         }
-        else if (object.votes[i] === "false") {
+        else if (object.votes[i].vote == false) {
             voteCons = voteCons + 1;
         }
     }
@@ -72,21 +72,7 @@ export default new Vuex.Store({
             state.groupsList = groups;
 
         },
-        // SET_FOLLOW_GROUP(state, group) {
-        //
-        //     //plutot reexecuter requete get groups
-        //     let id = state.authUserData._id;
-        //     let name = state.authUserData.name;
-        //
-        //     for (let item of state.groupsList){
-        //
-        //         if (item._id === group._id){
-        //
-        //             item.users_id.push(id);
-        //             item.users.push({[id]: name});
-        //         }
-        //     }
-        // },
+
         SET_AUTH_USER_DATA_IN(state, userData) {
 
           state.authUserData = userData;
@@ -192,6 +178,33 @@ export default new Vuex.Store({
                 })
                 .catch(error => {          console.log(this.state);
                     console.log(error)
+                });
+        },
+
+        voteAction: function({dispatch}, payload) {
+
+            let req = 'http://localhost/projets/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
+
+            let voteType = {
+                vote: payload.vote
+            };
+
+            axios.put(req, voteType, { headers: this.state.headerObject })
+
+                .then((response) => {
+
+                    console.log(response.data);
+
+                    let listType;
+
+                    listType = {
+                        type: payload.urlParam
+                    };
+
+                    dispatch('initPostsListAction', listType);
+                })
+                .catch((error) => {
+                    console.log(error);
                 });
         },
 
