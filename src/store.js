@@ -111,7 +111,7 @@ export default new Vuex.Store({
             }
             else if (listType.type == 'mes-articles') {
 
-                req = 'http://localhost/developeers/public/api/posts/author';
+                req = 'http://localhost/developeers/public/api/authorposts';
 
             }
 
