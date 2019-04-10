@@ -176,7 +176,6 @@ export default new Vuex.Store({
 
         initGroupsListAction: function({commit}, listType) {
 
-<<<<<<< HEAD
             console.log(listType.type);
 
             let req = '';
@@ -192,10 +191,7 @@ export default new Vuex.Store({
 
             }
 
-            axios.get(req)
-=======
-            axios.get('http://localhost/developeers/public/api/groups', {headers: this.state.headerObject})
->>>>>>> origin/master
+            axios.get(req, {headers: this.state.headerObject})
 
                 .then(response => {
 
