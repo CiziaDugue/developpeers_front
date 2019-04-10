@@ -103,8 +103,10 @@ export default new Vuex.Store({
     },
     actions: {
 
-        initPostsListAction: function({commit}, listType) {
+        initPostsListAction: function({commit}, data) {
 
+            let listType = data.listType;
+            let groupId = data.groupId;
             console.log(listType.type);
 
             let req = '';
@@ -124,10 +126,14 @@ export default new Vuex.Store({
                 req = 'http://localhost/developeers/public/api/userposts';
 
             }
+            else if (listType.type == 'group-posts') {
+              req = 'http://localhost/developeers/public/api/posts/group/'+groupId;
+              console.log(groupId);
+            }
 
             axios.get(req, {headers: this.state.headerObject})
 
-                .then(response => {
+                .then( (response) => {
 
                     console.log(response.data);
 

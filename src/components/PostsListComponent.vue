@@ -50,35 +50,44 @@ export default {
             }
             else if (this.$route.params.postsListType == 'articles-suivis') {
                 title = 'Mes Articles Suivis';
+            } else if (this.$route.params.groupId) {
+              title = "Groupe";//Temporaire
             }
             return title;
         }
     },
     methods: {
-        initPostsList: function(listType) {
+        initPostsList: function(listType, groupId) {
 
-            this.$store.dispatch('initPostsListAction', listType);
+            this.$store.dispatch('initPostsListAction', listType, groupId);
 
         }
     },
     created: function() {
 
-        let listType = {
-            type: this.$route.params.postsListType
-        }
+        let listType = (this.$route.params.groupId) ? {type:"group-posts"} : {type: this.$route.params.postsListType};
 
         console.log('initializing ' + listType.type + ' posts list');
 
-        this.initPostsList(listType);
+        let groupId = (this.$route.params.groupId) ? this.$route.params.groupId : null;
+
+        let data = {
+          groupId: groupId,
+          listType: listType
+        }
+
+        this.initPostsList(data);
     },
     watch: {
         '$route': function(to, from) {
 
-            let listType = {
-                type: to.params.postsListType /*? to.params.postsListType : to.params.groupId*/
-            }
+            // let listType = {
+            //     type: to.params.postsListType /*? to.params.postsListType : to.params.groupId*/
+            // }
+            let listType = (to.params.groupId) ? {type:"group-posts"} : {type: to.params.postsListType};
+            let groupId = (to.params.groupId) ? to.params.groupId : null;
 
-            this.initPostsList(listType);
+            this.initPostsList(listType, groupId);
         }
     }
 }

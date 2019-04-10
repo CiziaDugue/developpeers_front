@@ -1,7 +1,7 @@
 <template>
   <main class="main-container">
     <h1>Home</h1>
-    <div class="card-columns">
+    <div>
         <div v-for="post in postsFeed" v-bind:key="post._id" class="card p-3">
             <div class="card-body">
                 <div class="row">
