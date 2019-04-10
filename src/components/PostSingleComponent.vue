@@ -1,8 +1,11 @@
 <template>
 <div class="container main-block">
-    <div class="row justify-content-center align-items-center">
+    <div v-if="postSingle == ''" class="container">
+        <img src="spinner.gif" alt="Chargement en cours">
+    </div>
+    <div v-else class="row justify-content-center align-items-center">
         <div class="col-10">
-            <div class="row">
+            <div class="row border">
                 <div class="col-md-6 col-12">
                     <h2 class="text-center">{{ postSingle.title }}</h2>
                 </div>
@@ -13,54 +16,77 @@
                     <button class="fas fa-angle-down"></button>
                 </div>
             </div>
-            <div class="row">
+            <div class="row border">
                 <div class="col-md-6 col-12">
-                    <p class="text-center">Auteur: {{ postSingle.author_id }} - Groupe: {{ postSingle.group_id }}</p>
+                    <p class="text-center">Auteur: {{ postSingle.author_name }} - Groupe: {{ postSingle.group_name }}</p>
                 </div>
                 <div class="col-md-6 col-12">
                     <small class="text-center">Créé le {{ postSingle.created_at }}</small>
                 </div>
-                <div class="col-12">
+                <div class="col-md-6 col-12">
                     <p class="text-center">
                         Version: {{ postSingle.active_version.number }}
                     </p>
-                    <p v-for="snippet in postSingle.active_version.code_snippets" class="text-center">
+                </div>
+                <div class="col-md-6 col-12">
+                    <button class="fas fa-angle-up"></button>
+                    <small class="badge badge-pill badge-success">{{ postSingle.active_version.votePros }}</small>
+                    <small class="badge badge-pill badge-danger">{{ postSingle.active_version.voteCons }}</small>
+                    <button class="fas fa-angle-down"></button>
+                </div>
+            </div>
+            <div class="row border">
+                <div class="col-12">
+                    <p class="text-center">{{ postSingle.active_version.text_content }}</p>
+                    <p v-for="snippet in postSingle.active_version.code_snippets" class="border" v-on:click="">
                         {{ snippet.content }}
                     </p>
                 </div>
             </div>
+        </div>
+        <div class="col-2 border">
+
             <div class="row">
                 <div class="col-12">
-                    <p class="text-center">{{ postSingle.active_version.text_content }}</p>
+                    <button v-for="version in postSingle.versions" v-on:click="changeVersion(version._id)" class="btn btn-outline-secondary">
+                        {{ version.number }}
+                    </button>
+                </div>
+                <div class="col-12">
+                    <router-link :to="{ name: '', params: {} }">
+                        <button class="btn btn-outline-secondary">+</button>
+                    </router-link>
                 </div>
             </div>
-            <div class="row">
-                <table class="table table-hover table-dark">
-                    <tbody>
-                        <tr v-for="comment in postSingle.active_version.comments">
-                            <th scope="row">{{ comment.created_at }}</th>
-                            <td>{{ comment.author_id }}</td>
-                            <td>{{ comment.content }}</td>
-                            <td>
-                                <button class="fas fa-angle-up"></button>
-                                <small class="badge badge-pill badge-success">{{ comment.votePros }}</small>
-                                <small class="badge badge-pill badge-danger">{{ comment.voteCons }}</small>
-                                <button class="fas fa-angle-down"></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover table-dark">
+                <tbody>
+                    <tr v-for="comment in postSingle.active_version.comments">
+                        <th scope="row">{{ comment.created_at }}</th>
+                        <td>{{ comment.author_id }}</td>
+                        <td>{{ comment.content }}</td>
+                        <td>
+                            <button class="fas fa-angle-up"></button>
+                            <small class="badge badge-pill badge-success">{{ comment.votePros }}</small>
+                            <small class="badge badge-pill badge-danger">{{ comment.voteCons }}</small>
+                            <button class="fas fa-angle-down"></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12">
+            <div class="input-group">
+                <textarea class="form-control" aria-label="With textarea" v-model="commentToAdd"></textarea>
+                <div class="input-group-append">
+                    <button class="fas fa-plus" v-on:click="addComment"></button>
+                </div>
             </div>
         </div>
-        <div class="col-2">
-            <ul>
-                <li v-for="version in postSingle.versions">
-                    <router-link :to="{ name: 'postSingle', params: { postId: postSingle._id, versionId: version._id }}">
-                        {{ version.number }}
-                    </router-link>
-                </li>
-            </ul>
-        </div>
+
     </div>
 </div>
 </template>
@@ -75,6 +101,8 @@ export default {
     data: function() {
         return {
             name: 'PostSingleComponent',
+            commentToAdd: '',
+            loading: 'true'
         }
     },
     computed: {
@@ -82,10 +110,51 @@ export default {
             'postSingle'
         ])
     },
-    created: function() {
+    methods: {
+        changeVersion: function(version_id) {
+
+            let payload = {
+                post_id: this.$store.state.postSingle._id,
+                version_id: version_id
+            }
+
+            this.$store.dispatch('changePostVersionAction', payload)
+        },
+
+        addVote: function(target) {
+
+
+        },
+
+        addComment: function() {
+
+            if (this.commentToAdd != '') {
+
+                let comment = {
+                    author_id: 1,
+                    content: this.commentToAdd,
+                    created_at: new Date().toISOString().substring(0, 19).replace('T', ' '),
+                    votePros: 0,
+                    voteCons: 0
+                }
+                // UserId temporaire
+                let payload = {
+                    post_id: this.$store.state.postSingle._id,
+                    version_id: this.$store.state.postSingle.active_version._id,
+                    comment: comment
+                }
+
+                this.$store.dispatch('addCommentAction', payload);
+
+                this.commentToAdd = '';
+            }
+        }
+    },
+    mounted: function() {
         this.$store.dispatch('initPostSingleAction', {
             postId: this.$route.params.postId
         })
+
     },
     // created: function() {
     //

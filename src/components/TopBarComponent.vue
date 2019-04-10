@@ -3,6 +3,9 @@
         <router-link :to="{ path: '/' }">
             <h1 class="title">Developeers</h1>
         </router-link>
+        <!-- <router-link :to="{ name: 'postSingle', params: { postId: '5ca9db30e075042c16576462' }}">
+            <h3 class="card-title">5ca9db30e075042c16576462</h3>
+        </router-link> -->
         <!-- <button class="btn btn-light btn-inline">Log Out</button> -->
     </div>
 </template>
