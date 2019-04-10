@@ -4,12 +4,16 @@
     <div class="card-columns">
         <div v-for="group in groupsList" v-bind:key="group._id" class="card p-3">
             <div class="card-body">
-                <h3 class="card-title">{{ group.name }}</h3>
+                <router-link :to="{ name: 'groupPostsList', params: { groupId: group._id }}">
+                    <h3 class="card-title">{{ group.name }}</h3>
+                </router-link>
                 <p class="card-text">{{ group.description }}</p>
                 <ul class="card-text">
                     <li v-for="keyword in group.keywords">{{ keyword }}</li>
                 </ul>
-                <p class="card-text"><small class="text-muted">{{ group.updated_at }}</small></p>
+                <button v-if="isUserInGroup(group.users_id, authUserData.id)" class="btn btn-outline-secondary btn-lg">Suivi</button>
+                <button v-else class="btn btn-primary btn-lg">Suivre</button>
+                <p class="card-footer"><small class="text-muted">{{ group.updated_at }}</small></p>
             </div>
         </div>
     </div>
@@ -26,16 +30,53 @@ export default {
     data: function() {
         return {
             name: 'GroupsListComponent',
-            title: 'Tous les Groupes',
         }
     },
     computed: {
         ...mapState([
-            'groupsList'
-        ])
+            'groupsList', 'authUserData'
+        ]),
+        title: function() {
+            let title = '';
+            if (this.$route.params.groupsListType == 'tous-les-groupes') {
+                title = 'Tous les Groupes';
+            }
+            else if (this.$route.params.groupsListType == 'mes-groupes') {
+                title = 'Mes Groupes';
+            }
+            return title;
+        }
     },
-    mounted: function() {
-        this.$store.dispatch('initGroupsListAction')
+    methods: {
+        initGroupsList: function(listType) {
+
+            this.$store.dispatch('initGroupsListAction', listType);
+
+        },
+        isUserInGroup: function(groupUsers, userId) {
+
+            return groupUsers.includes(userId);
+        }
+    },
+    created: function() {
+
+        let listType = {
+            type: this.$route.params.groupsListType
+        }
+
+        console.log('initializing ' + listType.type + ' groups list');
+
+        this.initGroupsList(listType);
+    },
+    watch: {
+        '$route': function(to, from) {
+
+            let listType = {
+                type: to.params.groupsListType
+            }
+
+            this.initGroupsList(listType);
+        }
     }
 }
 </script>

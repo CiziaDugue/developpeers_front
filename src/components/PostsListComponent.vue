@@ -48,6 +48,9 @@ export default {
             else if (this.$route.params.postsListType == 'mes-articles') {
                 title = 'Mes Articles';
             }
+            else if (this.$route.params.postsListType == 'articles-suivis') {
+                title = 'Mes Articles Suivis';
+            }
             return title;
         }
     },
@@ -72,7 +75,7 @@ export default {
         '$route': function(to, from) {
 
             let listType = {
-                type: to.params.postsListType
+                type: to.params.postsListType /*? to.params.postsListType : to.params.groupId*/
             }
 
             this.initPostsList(listType);
