@@ -72,6 +72,21 @@ export default new Vuex.Store({
             state.groupsList = groups;
 
         },
+        // SET_FOLLOW_GROUP(state, group) {
+        //
+        //     //plutot reexecuter requete get groups
+        //     let id = state.authUserData._id;
+        //     let name = state.authUserData.name;
+        //
+        //     for (let item of state.groupsList){
+        //
+        //         if (item._id === group._id){
+        //
+        //             item.users_id.push(id);
+        //             item.users.push({[id]: name});
+        //         }
+        //     }
+        // },
         SET_AUTH_USER_DATA_IN(state, userData) {
 
           state.authUserData = userData;
@@ -208,6 +223,27 @@ export default new Vuex.Store({
                     commit('SET_GROUPS', groups);
                 })
                 .catch(error => {
+                    console.log(error);
+                });
+        },
+
+        leaveOrJoinGroupAction: function({commit, dispatch}, payload) {
+
+            let req = 'http://localhost/projets/developeers/public/api/groups/' + payload.action + '/' + payload.group._id;
+
+            axios.put(req, {}, { headers: this.state.headerObject } )
+
+                .then((response) => {
+
+                    console.log(response.data);
+
+                    let listType = {
+                        type: payload.param
+                    }
+
+                    dispatch('initGroupsListAction', listType);
+                })
+                .catch((error) => {
                     console.log(error);
                 });
         },
