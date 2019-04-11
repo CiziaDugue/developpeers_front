@@ -67,7 +67,7 @@
                 <tbody>
                     <tr v-for="comment in postSingle.active_version.comments">
                         <th scope="row">{{ comment.created_at }}</th>
-                        <td>{{ comment.author_id }}</td>
+                        <td>{{ comment.author_name }}</td>
                         <td>{{ comment.content }}</td>
                         <td>
                             <button class="fas fa-angle-up" v-on:click="voteTarget(comment, 'comment', true)"></button>
@@ -121,11 +121,6 @@ export default {
             this.$store.dispatch('changePostVersionAction', payload)
         },
 
-        addVote: function(target) {
-
-
-        },
-
         addComment: function() {
 
             if (this.commentToAdd != '') {
@@ -133,7 +128,7 @@ export default {
                 let comment = {
                     content: this.commentToAdd,
                 }
-                
+
                 let payload = {
                     post_id: this.$store.state.postSingle._id,
                     version_id: this.$store.state.postSingle.active_version._id,
@@ -148,12 +143,18 @@ export default {
 
         voteTarget: function(target, type, vote) {
 
+            let postId = this.$route.params.postId ? this.$route.params.postId : null;
+
             let payload = {
                 type: type,
                 vote: vote,
                 target: target,
-                urlParam: this.$route.params.postId
+                listType: null,
+                postId: postId,
+                groupId: null
             }
+
+            console.log(payload);
 
             this.$store.dispatch('voteAction', payload);
         },

@@ -15,8 +15,7 @@ export default new Router({
     mode: 'history',
 
     base: process.env.BASE_URL + '/projets/developeers_front/dist',
-    routes: [
-        {
+    routes: [{
             path: '/articles/:postsListType',
             name: 'postsList',
             component: PostsListComponent,
@@ -36,30 +35,25 @@ export default new Router({
             name: 'groupPostsList',
             component: PostsListComponent
         },
-        // {
-        //     path: '/mes-groupes',
-        //     name: 'usersGroups',
-        //     component: GroupsListComponent
-        // },
         {
-          path: '/login',
-          name: 'login',
-          component: LoginComponent
+            path: '/login',
+            name: 'login',
+            component: LoginComponent
         },
         {
-          path: '/register',
-          name: 'register',
-          component: RegisterComponent
+            path: '/register',
+            name: 'register',
+            component: RegisterComponent
         },
         {
-          path: '/profil',
-          name: 'profile',
-          component: ProfileComponent
+            path: '/profil',
+            name: 'profile',
+            component: ProfileComponent
         },
         {
-          path: '/',
-          name: 'home',
-          component: HomeComponent
+            path: '/',
+            name: 'home',
+            component: HomeComponent
         },
         {
             path: '/about',

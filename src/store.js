@@ -62,11 +62,7 @@ export default new Vuex.Store({
             state.postSingle = post;
 
         },
-        // ADD_COMMENT(state, payload) {
-        //
-        //     state.postSingle.active_version.comments.push(payload.comment);
-        //
-        // },
+
         SET_GROUPS(state, groups) {
 
             state.groupsList = groups;
@@ -109,27 +105,26 @@ export default new Vuex.Store({
 
             let listType = data.listType;
             let groupId = data.groupId;
-            console.log(listType.type);
 
             let req = '';
 
-            if (listType.type == 'tous-les-articles') {
+            if (listType == 'tous-les-articles') {
 
                 req = 'http://localhost/projets/developeers/public/api/posts';
 
             }
-            else if (listType.type == 'mes-articles') {
+            else if (listType == 'mes-articles') {
 
                 req = 'http://localhost/projets/developeers/public/api/authorposts';
 
             }
-            else if (listType.type == 'articles-suivis') {
+            else if (listType == 'articles-suivis') {
 
                 req = 'http://localhost/projets/developeers/public/api/userposts';
 
             }
-            else if (listType.type == 'group-posts') {
-              req = 'http://localhost/projets/developeers/public/api/posts/group/'+groupId;
+            else if (listType == 'group-posts') {
+              req = 'http://localhost/projets/developeers/public/api/posts/group/'+ groupId;
               console.log(groupId);
             }
 
@@ -210,18 +205,43 @@ export default new Vuex.Store({
 
                     console.log(response.data);
 
-                    if (payload.urlParam == 'tous-les-articles' || payload.urlParam == 'mes-articles' || payload.urlParam == 'articles-suivis') {
+                    if (payload.listType == null && payload.postId == null && payload.groupId == null) {
+                        dispatch('getPostsFeed');
+                    }
+
+                    else if (payload.listType != null) {
                         let listType = {
-                            type: payload.urlParam
+                            listType: payload.listType,
+                            groupId: null
                         };
                         dispatch('initPostsListAction', listType);
                     }
-                    else {
+                    else if (payload.postId != null) {
                         let postId = {
-                            postId: payload.urlParam
+                            postId: payload.postId
                         };
                         dispatch('initPostSingleAction', postId);
                     }
+                    else if (payload.groupId != null) {
+                        let groupId = {
+                            listType: 'group-posts',
+                            groupId: payload.groupId
+                        };
+                        dispatch('initPostsListAction', groupId);
+                    }
+
+                    // if (payload.urlParam == 'tous-les-articles' || payload.urlParam == 'mes-articles' || payload.urlParam == 'articles-suivis') {
+                    //     let listType = {
+                    //         type: payload.urlParam
+                    //     };
+                    //     dispatch('initPostsListAction', listType);
+                    // }
+                    // else {
+                    //     let postId = {
+                    //         postId: payload.urlParam
+                    //     };
+                    //     dispatch('initPostSingleAction', postId);
+                    // }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -297,7 +317,7 @@ export default new Vuex.Store({
 
         logUser: function({commit, dispatch}, logData) {
 
-          axios.post('http://localhost/developeers/public/api/login', logData)
+          axios.post('http://localhost/projets/developeers/public/api/login', logData)
             .then( (response1) => {
 
               axios.get('http://localhost/projets/developeers/public/api/user',
@@ -325,8 +345,6 @@ export default new Vuex.Store({
                       // setTimeout(function() {
                       //   window.location = "http://localhost/developpeers_front/dist";
                       // }, 500);
-
-                      return "ok";
 
                   })
                   .catch( (error) => {
