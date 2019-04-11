@@ -11,8 +11,8 @@
                 <ul class="card-text">
                     <li v-for="keyword in group.keywords">{{ keyword }}</li>
                 </ul>
-                <button v-if="isUserInGroup(group.users_id, authUserData.id)" class="btn btn-outline-secondary btn-lg">Suivi</button>
-                <button v-else class="btn btn-primary btn-lg">Suivre</button>
+                <button v-if="isUserInGroup(group.users_id, authUserData.id)" class="btn btn-outline-secondary btn-lg" v-on:click="leaveOrJoinGroup(group, 'leave')">Quitter</button>
+                <button v-else class="btn btn-primary btn-lg" v-on:click="leaveOrJoinGroup(group, 'join')">Suivre</button>
                 <p class="card-footer"><small class="text-muted">{{ group.updated_at }}</small></p>
             </div>
         </div>
@@ -56,6 +56,16 @@ export default {
         isUserInGroup: function(groupUsers, userId) {
 
             return groupUsers.includes(userId);
+        },
+        leaveOrJoinGroup: function(group, action) {
+
+            let payload = {
+                param: this.$route.params.groupsListType,
+                group: group,
+                action: action
+            }
+
+            this.$store.dispatch('leaveOrJoinGroupAction', payload);
         }
     },
     created: function() {
