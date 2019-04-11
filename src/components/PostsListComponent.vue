@@ -78,7 +78,7 @@ export default {
     },
     created: function() {
 
-        let listType = (this.$route.params.groupId) ? {type:"group-posts"} : {type: this.$route.params.postsListType};
+        let listType = (this.$route.params.groupId) ? "group-posts" : this.$route.params.postsListType;
 
         console.log('initializing ' + listType.type + ' posts list');
 
@@ -97,7 +97,7 @@ export default {
             // let listType = {
             //     type: to.params.postsListType /*? to.params.postsListType : to.params.groupId*/
             // }
-            let listType = (to.params.groupId) ? {type:"group-posts"} : {type: to.params.postsListType};
+            let listType = (to.params.groupId) ? "group-posts" : to.params.postsListType;
             let groupId = (to.params.groupId) ? to.params.groupId : null;
 
             let data = {

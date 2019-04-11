@@ -1,6 +1,6 @@
 <template>
   <main class="main-container">
-    <h1>Home</h1>
+    <h1>Dashboard</h1>
     <div>
         <div v-for="post in postsFeed" v-bind:key="post._id" class="card p-3">
             <div class="card-body">
@@ -20,6 +20,9 @@
                 <ul class="card-text">
                     <li v-for="keyword in post.keywords">{{ keyword }}</li>
                 </ul>
+                <p class='card-text'>
+                  <strong>Groupe :</strong>{{post.group_name}}
+                </p>
                 <p class="card-text"><small class="text-muted">{{ post.updated_at }}</small></p>
             </div>
         </div>

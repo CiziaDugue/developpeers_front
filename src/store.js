@@ -109,27 +109,26 @@ export default new Vuex.Store({
 
             let listType = data.listType;
             let groupId = data.groupId;
-            console.log(listType.type);
 
             let req = '';
 
-            if (listType.type == 'tous-les-articles') {
+            if (listType == 'tous-les-articles') {
 
                 req = 'http://localhost/developeers/public/api/posts';
 
             }
-            else if (listType.type == 'mes-articles') {
+            else if (listType == 'mes-articles') {
 
                 req = 'http://localhost/developeers/public/api/authorposts';
 
             }
-            else if (listType.type == 'articles-suivis') {
+            else if (listType == 'articles-suivis') {
 
                 req = 'http://localhost/developeers/public/api/userposts';
 
             }
-            else if (listType.type == 'group-posts') {
-              req = 'http://localhost/developeers/public/api/posts/group/'+groupId;
+            else if (listType == 'group-posts') {
+              req = 'http://localhost/developeers/public/api/posts/group/'+ groupId;
               console.log(groupId);
             }
 
@@ -283,6 +282,7 @@ export default new Vuex.Store({
         },
 
         getPostsFeed: function({commit}) {
+
           axios.get('http://localhost/developeers/public/api/postsfeed', {headers: this.state.headerObject})
 
               .then( (response) => {
@@ -291,8 +291,27 @@ export default new Vuex.Store({
                   commit('SET_POSTS_FEED', posts);
               })
               .catch( (error) => {
-                  console.log(error);
+                  console.error(error);
               });
+        },
+
+        getSearchResult: function({commit, dispatch}, words) {
+          console.log(words);
+          if (words != "") {
+            let req = 'http://localhost/developeers/public/api/searchposts/' + words;
+            axios.get(req, {headers: this.state.headerObject})
+                .then((response) => {
+                  //console.log(response);
+                  let posts = response.data;
+                  commit('SET_POSTS_FEED', posts);
+                })
+                .catch((error) => {
+                  console.error(error);
+                })
+          } else {
+            dispatch('getPostsFeed');
+          }
+
         },
 
         logUser: function({commit, dispatch}, logData) {
