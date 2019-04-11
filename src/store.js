@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from './router'
 
 const axios = require('axios');
 
@@ -26,7 +27,7 @@ export default new Vuex.Store({
     state: {
 
         postsList: [],
-        postSingle: [],
+        postSingle: {},
         groupsList: [],
         userLogged: false,
         authUserData: {},
@@ -62,11 +63,11 @@ export default new Vuex.Store({
             state.postSingle = post;
 
         },
-        ADD_COMMENT(state, payload) {
-
-            state.postSingle.active_version.comments.push(payload.comment);
-
-        },
+        // ADD_COMMENT(state, payload) {
+        //
+        //     state.postSingle.active_version.comments.push(payload.comment);
+        //
+        // },
         SET_GROUPS(state, groups) {
 
             state.groupsList = groups;
@@ -167,14 +168,13 @@ export default new Vuex.Store({
                 });
         },
 
-        addCommentAction: function({commit}, payload) {
+        addCommentAction: function({dispatch}, payload) {
 
             axios.post('http://localhost/projets/developeers/public/api/comments/' + payload.version_id, payload.comment, { headers: this.state.headerObject})
 
                 .then(response => {
 
-                    commit('ADD_COMMENT', payload);
-                    // commit('GET_POST', payload.post_id);
+                    dispatch('changePostVersionAction', payload);
                 })
                 .catch(error => {          console.log(this.state);
                     console.log(error)
@@ -195,20 +195,6 @@ export default new Vuex.Store({
 
                     console.log(response.data);
 
-                    // if(this.$route.params.postsListType) {
-                    //     let listType = {
-                    //         type: this.$route.params.postsListType
-                    //     };
-                    //     dispatch('initPostsListAction', listType);
-                    //
-                    // }
-                    // else if(this.$route.params.postId) {
-                    //     let postId = {
-                    //         postId: this.$route.params.postId
-                    //     };
-                    //     dispatch('initSinglePostAction', postId);
-                    // }
-
                     if (payload.urlParam == 'tous-les-articles' || payload.urlParam == 'mes-articles' || payload.urlParam == 'articles-suivis') {
                         let listType = {
                             type: payload.urlParam
@@ -219,7 +205,7 @@ export default new Vuex.Store({
                         let postId = {
                             postId: payload.urlParam
                         };
-                        dispatch('initSinglePostAction', postId);
+                        dispatch('initPostSingleAction', postId);
                     }
                 })
                 .catch((error) => {

@@ -7,6 +7,7 @@
         <div class="col-10">
             <div class="row border">
                 <div class="col-md-6 col-12">
+                    <button class="fas fa-angle-left" v-on:click="goBack()"></button>
                     <h2 class="text-center">{{ postSingle.title }}</h2>
                 </div>
                 <div class="col-md-6 col-12">
@@ -82,7 +83,7 @@
             <div class="input-group">
                 <textarea class="form-control" aria-label="With textarea" v-model="commentToAdd"></textarea>
                 <div class="input-group-append">
-                    <button class="fas fa-plus" v-on:click="addComment"></button>
+                    <button class="fas fa-plus" v-on:click="addComment(version)"></button>
                 </div>
             </div>
         </div>
@@ -131,13 +132,9 @@ export default {
             if (this.commentToAdd != '') {
 
                 let comment = {
-                    author_id: 1,
                     content: this.commentToAdd,
-                    created_at: new Date().toISOString().substring(0, 19).replace('T', ' '),
-                    votePros: 0,
-                    voteCons: 0
                 }
-                // UserId temporaire
+                
                 let payload = {
                     post_id: this.$store.state.postSingle._id,
                     version_id: this.$store.state.postSingle.active_version._id,
@@ -160,6 +157,11 @@ export default {
             }
 
             this.$store.dispatch('voteAction', payload);
+        },
+
+        goBack: function() {
+
+            this.$router.go(-1);
         }
     },
     mounted: function() {
