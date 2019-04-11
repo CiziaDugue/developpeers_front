@@ -7,13 +7,14 @@
         <div class="col-10">
             <div class="row border">
                 <div class="col-md-6 col-12">
+                    <button class="fas fa-angle-left" v-on:click="goBack()"></button>
                     <h2 class="text-center">{{ postSingle.title }}</h2>
                 </div>
                 <div class="col-md-6 col-12">
-                    <button class="fas fa-angle-up"></button>
+                    <button class="fas fa-angle-up" v-on:click="voteTarget(postSingle, 'post', true)"></button>
                     <small class="badge badge-pill badge-success">{{ postSingle.votePros }}</small>
                     <small class="badge badge-pill badge-danger">{{ postSingle.voteCons }}</small>
-                    <button class="fas fa-angle-down"></button>
+                    <button class="fas fa-angle-down" v-on:click="voteTarget(postSingle, 'post', false)"></button>
                 </div>
             </div>
             <div class="row border">
@@ -29,10 +30,10 @@
                     </p>
                 </div>
                 <div class="col-md-6 col-12">
-                    <button class="fas fa-angle-up"></button>
+                    <button class="fas fa-angle-up" v-on:click="voteTarget(postSingle.active_version, 'version', true)"></button>
                     <small class="badge badge-pill badge-success">{{ postSingle.active_version.votePros }}</small>
                     <small class="badge badge-pill badge-danger">{{ postSingle.active_version.voteCons }}</small>
-                    <button class="fas fa-angle-down"></button>
+                    <button class="fas fa-angle-down" v-on:click="voteTarget(postSingle.active_version, 'version', false)"></button>
                 </div>
             </div>
             <div class="row border">
@@ -69,10 +70,10 @@
                         <td>{{ comment.author_id }}</td>
                         <td>{{ comment.content }}</td>
                         <td>
-                            <button class="fas fa-angle-up"></button>
+                            <button class="fas fa-angle-up" v-on:click="voteTarget(comment, 'comment', true)"></button>
                             <small class="badge badge-pill badge-success">{{ comment.votePros }}</small>
                             <small class="badge badge-pill badge-danger">{{ comment.voteCons }}</small>
-                            <button class="fas fa-angle-down"></button>
+                            <button class="fas fa-angle-down" v-on:click="voteTarget(comment, 'comment', false)"></button>
                         </td>
                     </tr>
                 </tbody>
@@ -82,7 +83,7 @@
             <div class="input-group">
                 <textarea class="form-control" aria-label="With textarea" v-model="commentToAdd"></textarea>
                 <div class="input-group-append">
-                    <button class="fas fa-plus" v-on:click="addComment"></button>
+                    <button class="fas fa-plus" v-on:click="addComment(version)"></button>
                 </div>
             </div>
         </div>
@@ -130,13 +131,9 @@ export default {
             if (this.commentToAdd != '') {
 
                 let comment = {
-                    author_id: 1,
                     content: this.commentToAdd,
-                    created_at: new Date().toISOString().substring(0, 19).replace('T', ' '),
-                    votePros: 0,
-                    voteCons: 0
                 }
-                // UserId temporaire
+                
                 let payload = {
                     post_id: this.$store.state.postSingle._id,
                     version_id: this.$store.state.postSingle.active_version._id,
@@ -147,6 +144,23 @@ export default {
 
                 this.commentToAdd = '';
             }
+        },
+
+        voteTarget: function(target, type, vote) {
+
+            let payload = {
+                type: type,
+                vote: vote,
+                target: target,
+                urlParam: this.$route.params.postId
+            }
+
+            this.$store.dispatch('voteAction', payload);
+        },
+
+        goBack: function() {
+
+            this.$router.go(-1);
         }
     },
     mounted: function() {

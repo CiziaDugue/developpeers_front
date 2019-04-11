@@ -11,10 +11,10 @@
                         </router-link>
                     </div>
                     <div class="col-4">
-                        <button class="fas fa-angle-up"></button>
+                        <button class="fas fa-angle-up" v-on:click="votePost(post, 'post', true)"></button>
                         <small class="badge badge-pill badge-success">{{ post.votePros }}</small>
                         <small class="badge badge-pill badge-danger">{{ post.voteCons }}</small>
-                        <button class="fas fa-angle-down"></button>
+                        <button class="fas fa-angle-down" v-on:click="votePost(post, 'post', false)"></button>
                     </div>
                 </div>
                 <ul class="card-text">
@@ -40,6 +40,7 @@ export default {
         ...mapState([
             'postsList'
         ]),
+
         title: function() {
             let title = '';
             if (this.$route.params.postsListType == 'tous-les-articles') {
@@ -57,10 +58,22 @@ export default {
         }
     },
     methods: {
-        initPostsList: function(listType, groupId) {
+        initPostsList: function(data) {
 
-            this.$store.dispatch('initPostsListAction', listType, groupId);
+            this.$store.dispatch('initPostsListAction', data);
 
+        },
+
+        votePost: function(target, type, vote) {
+
+            let payload = {
+                type: type,
+                vote: vote,
+                target: target,
+                urlParam: this.$route.params.postsListType
+            }
+
+            this.$store.dispatch('voteAction', payload);
         }
     },
     created: function() {
