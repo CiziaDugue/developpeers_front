@@ -100,7 +100,12 @@ export default {
             let listType = (to.params.groupId) ? {type:"group-posts"} : {type: to.params.postsListType};
             let groupId = (to.params.groupId) ? to.params.groupId : null;
 
-            this.initPostsList(listType, groupId);
+            let data = {
+              groupId: groupId,
+              listType: listType
+            }
+
+            this.initPostsList(data);
         }
     }
 }
