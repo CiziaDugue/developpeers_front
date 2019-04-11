@@ -52,7 +52,7 @@ export default {
             else if (this.$route.params.postsListType == 'articles-suivis') {
                 title = 'Mes Articles Suivis';
             } else if (this.$route.params.groupId) {
-              title = "Groupe";//Temporaire
+              title = "Groupe";//TMP !
             }
             return title;
         }
@@ -74,6 +74,9 @@ export default {
             }
 
             this.$store.dispatch('voteAction', payload);
+        },
+        initGroup: function(groupId) {
+          this.$store.dispatch('initGroupSingleAction', groupId);
         }
     },
     created: function() {
@@ -90,6 +93,10 @@ export default {
         }
 
         this.initPostsList(data);
+
+        // if (this.$route.params.groupId) {
+        //   this.initGroup(this.$route.params.groupId);
+        // }
     },
     watch: {
         '$route': function(to, from) {

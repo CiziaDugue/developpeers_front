@@ -29,6 +29,7 @@ export default new Vuex.Store({
         postsList: [],
         postSingle: {},
         groupsList: [],
+        groupSingle: {},
         postsFeed: [],
         userLogged: false,
         authUserData: {},
@@ -70,6 +71,10 @@ export default new Vuex.Store({
         SET_GROUPS(state, groups) {
 
             state.groupsList = groups;
+
+        },
+
+        SET_GROUP(state, group) {
 
         },
 
@@ -129,17 +134,12 @@ export default new Vuex.Store({
             }
             else if (listType == 'group-posts') {
               req = 'http://localhost/developeers/public/api/posts/group/'+ groupId;
-              console.log(groupId);
             }
 
             axios.get(req, {headers: this.state.headerObject})
 
                 .then( (response) => {
-
-                    console.log(response.data);
-
                     let posts = response.data;
-
                     commit('SET_POSTS', posts);
                 })
                 .catch(error => {
@@ -259,6 +259,10 @@ export default new Vuex.Store({
                 });
         },
 
+        initGroupSingleAction: function({commit}, groupId) {
+          //axios.get('http://localhost/developeers/public/api/groups/'+)
+          commit('SET_GROUP', group);
+        },
 
         leaveOrJoinGroupAction: function({commit, dispatch}, payload) {
 
@@ -286,7 +290,6 @@ export default new Vuex.Store({
           axios.get('http://localhost/developeers/public/api/postsfeed', {headers: this.state.headerObject})
 
               .then( (response) => {
-                  console.log(response.data);
                   let posts = response.data;
                   commit('SET_POSTS_FEED', posts);
               })
@@ -296,7 +299,6 @@ export default new Vuex.Store({
         },
 
         getSearchResult: function({commit, dispatch}, words) {
-          console.log(words);
           if (words != "") {
             let req = 'http://localhost/developeers/public/api/searchposts/' + words;
             axios.get(req, {headers: this.state.headerObject})
@@ -312,6 +314,37 @@ export default new Vuex.Store({
             dispatch('getPostsFeed');
           }
 
+        },
+
+        getGroupSearchResult: function({commit, dispatch}, searchData) {
+          if (searchData.words != "") {
+            let req = 'http://localhost/developeers/public/api/searchgroups/' + searchData.words;
+            axios.get(req, {headers: this.state.headerObject})
+                .then((response) => {
+                  let groups = response.data;
+                  commit('SET_GROUPS', groups);
+                })
+                .catch((error) => {
+                  console.error(error);
+                })
+          } else {
+            dispatch('initGroupsListAction', {type: searchData.emptySearchCallback});
+          }
+        },
+
+        createGroup: function({dispatch}, requestData) {
+          axios.post('http://localhost/developeers/public/api/groups', requestData, {headers: this.state.headerObject} )
+              . then((response) => {
+                console.log(response.data);
+                let data = {
+                  listType: "group-posts",
+                  groupId: response.data
+              }
+                dispatch('initPostsListAction', data);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
         },
 
         logUser: function({commit, dispatch}, logData) {
@@ -344,8 +377,6 @@ export default new Vuex.Store({
                       // setTimeout(function() {
                       //   window.location = "http://localhost/developpeers_front/dist";
                       // }, 500);
-
-                      return "ok";
 
                   })
                   .catch( (error) => {

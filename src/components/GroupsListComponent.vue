@@ -1,10 +1,14 @@
 <template>
 <div class="container main-block">
     <h2 class="text-center">{{ title }}</h2>
+    <form class="form_inline">
+      <input type="search" placeholder="rechercher un groupe" v-model="searchGroupBarContent">
+      <input type="button" value="Chercher" v-on:click="searchGroup">
+    </form>
     <div class="card-columns">
         <div v-for="group in groupsList" v-bind:key="group._id" class="card p-3">
             <div class="card-body">
-                <router-link :to="{ name: 'groupPostsList', params: { groupId: group._id }}">
+                <router-link :to="{ name: 'groupPostsList', params: {groupId: group._id } }">
                     <h3 class="card-title">{{ group.name }}</h3>
                 </router-link>
                 <p class="card-text">{{ group.description }}</p>
@@ -21,20 +25,19 @@
 </template>
 
 <script>
-const axios = require('axios');
-import {
-    mapState
-} from 'vuex'
+import {mapState} from 'vuex'
 
 export default {
     data: function() {
         return {
             name: 'GroupsListComponent',
+            searchGroupBarContent: ""
         }
     },
     computed: {
         ...mapState([
-            'groupsList', 'authUserData'
+            'groupsList',
+            'authUserData'
         ]),
         title: function() {
             let title = '';
@@ -66,6 +69,16 @@ export default {
             }
 
             this.$store.dispatch('leaveOrJoinGroupAction', payload);
+        },
+        searchGroup: function() {
+          let searchData = {
+            words: this.searchGroupBarContent,
+            emptySearchCallback: this.$route.params.groupsListType
+          }
+          this.$store.dispatch('getGroupSearchResult', searchData);
+        },
+        test: function(groupName) {
+          console.log(groupName);
         }
     },
     created: function() {

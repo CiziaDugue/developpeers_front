@@ -8,6 +8,7 @@ import LoginComponent from '@/components/LoginComponent.vue'
 import RegisterComponent from '@/components/RegisterComponent.vue'
 import ProfileComponent from '@/components/ProfileComponent.vue'
 import HomeComponent from '@/components/HomeComponent.vue'
+import CreateGroupComponent from '@/components/CreateGroupComponent.vue'
 
 Vue.use(Router)
 
@@ -36,11 +37,11 @@ export default new Router({
             name: 'groupPostsList',
             component: PostsListComponent
         },
-        // {
-        //     path: '/mes-groupes',
-        //     name: 'usersGroups',
-        //     component: GroupsListComponent
-        // },
+        {
+          path: '/creer-un-groupe',
+          name: 'createGroup',
+          component: CreateGroupComponent
+        },
         {
           path: '/login',
           name: 'login',
