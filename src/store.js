@@ -198,7 +198,7 @@ export default new Vuex.Store({
 
         voteAction: function({dispatch}, payload) {
 
-            let req = 'http://localhost/projets/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
+            let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
 
             let voteType = {
                 vote: payload.vote
@@ -280,6 +280,19 @@ export default new Vuex.Store({
                 .catch((error) => {
                     console.log(error);
                 });
+        },
+
+        getPostsFeed: function({commit}) {
+          axios.get('http://localhost/developeers/public/api/postsfeed', {headers: this.state.headerObject})
+
+              .then( (response) => {
+                  console.log(response.data);
+                  let posts = response.data;
+                  commit('SET_POSTS_FEED', posts);
+              })
+              .catch( (error) => {
+                  console.log(error);
+              });
         },
 
         logUser: function({commit, dispatch}, logData) {
