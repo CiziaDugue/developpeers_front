@@ -33,7 +33,11 @@ export default new Vuex.Store({
         postsFeed: [],
         userLogged: false,
         authUserData: {},
-        headerObject:{}
+        headerObject:{},
+        userGroups: []
+        // postJustCreated: {},
+        // versionJustCreated: {},
+        // groupJustCreated: {}
     },
     mutations: {
 
@@ -74,8 +78,13 @@ export default new Vuex.Store({
 
         },
 
+        SET_USER_GROUPS(state, groups) {
+          state.userGroups = groups;
+        },
+
         SET_GROUP(state, group) {
 
+          state.groupSingle = group;
         },
 
         SET_AUTH_USER_DATA_IN(state, userData) {
@@ -261,7 +270,7 @@ export default new Vuex.Store({
 
         initGroupSingleAction: function({commit}, groupId) {
           //axios.get('http://localhost/developeers/public/api/groups/'+)
-          commit('SET_GROUP', group);
+          //commit('SET_GROUP', group);
         },
 
         leaveOrJoinGroupAction: function({commit, dispatch}, payload) {
@@ -332,19 +341,52 @@ export default new Vuex.Store({
           }
         },
 
-        createGroup: function({dispatch}, requestData) {
-          axios.post('http://localhost/developeers/public/api/groups', requestData, {headers: this.state.headerObject} )
-              . then((response) => {
-                console.log(response.data);
-                let data = {
-                  listType: "group-posts",
-                  groupId: response.data
-              }
-                dispatch('initPostsListAction', data);
+        getUserGroups: function({commit}) {
+          //récupérer la list de groups de l'utilisateur (par ex pour le select dans create post)
+          axios.get('http://localhost/developeers/public/api/groups/user', {headers: this.state.headerObject})
+              .then((response)=> {
+                console.log(response);
+                commit('SET_USER_GROUPS', response.data);
               })
-              .catch((error) => {
+              .catch((error)=>{
                 console.error(error);
               });
+        },
+
+        createGroup: function({dispatch}, requestData) {
+
+          return new Promise((resolve, reject) => {
+            axios.post('http://localhost/developeers/public/api/groups', requestData, {headers: this.state.headerObject} )
+                . then((response) => {
+                  //console.log(response.data);
+                  let data = {
+                    listType: "group-posts",
+                    groupId: response.data._id
+                  };
+                  dispatch('initPostsListAction', data);
+                  //commit('SET_GROUP', response.data);
+                  resolve(response);
+                })
+                .catch((error) => {
+                  //console.error(error);
+                  reject(error);
+                });
+          });
+        },
+
+        createPost: function({dispatch}, requestData) {
+          return  new Promise((resolve, reject) => {
+            axios.post('http://localhost/developeers/public/api/posts', requestData, {headers: this.state.headerObject})
+                . then((response) => {
+                  //console.log(response.data);
+                  dispatch('initPostSingleAction', {postId: response.data._id});
+                  resolve(response);
+                })
+                .catch((error) => {
+                  //console.error(error);
+                  reject(error);
+                });
+          });
         },
 
         logUser: function({commit, dispatch}, logData) {
@@ -372,6 +414,7 @@ export default new Vuex.Store({
 
                       commit('SET_AUTH_USER_DATA_IN', userData);
                       dispatch('setHeaderObject', userData);
+                      dispatch('getUserGroups');
                       //PROBLEME : perte de connexion en cas de rechargement de la page !!
                       //regarder du côté de 'vuex-persistedstate' pour écrire l'état dans un cookie
                       // setTimeout(function() {

@@ -133,7 +133,7 @@ export default {
                 let comment = {
                     content: this.commentToAdd,
                 }
-                
+
                 let payload = {
                     post_id: this.$store.state.postSingle._id,
                     version_id: this.$store.state.postSingle.active_version._id,

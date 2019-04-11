@@ -38,7 +38,12 @@ export default {
         description: this.description,
         keywords: arKeywords
       };
-      this.$store.dispatch('createGroup', requestData);
+      this.$store.dispatch('createGroup', requestData)
+      .then((response) => {
+        this.$router.push('/groupe/'+response.data._id);
+      }, (error) => {
+        console.log(error);
+      });
     }
   }
 }

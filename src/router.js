@@ -9,6 +9,7 @@ import RegisterComponent from '@/components/RegisterComponent.vue'
 import ProfileComponent from '@/components/ProfileComponent.vue'
 import HomeComponent from '@/components/HomeComponent.vue'
 import CreateGroupComponent from '@/components/CreateGroupComponent.vue'
+import CreatePostComponent from '@/components/CreatePostComponent.vue'
 
 Vue.use(Router)
 
@@ -41,6 +42,11 @@ export default new Router({
           path: '/creer-un-groupe',
           name: 'createGroup',
           component: CreateGroupComponent
+        },
+        {
+          path: '/creer-un-article',
+          name: 'createPost',
+          component: CreatePostComponent
         },
         {
           path: '/login',
