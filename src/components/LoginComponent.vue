@@ -40,6 +40,9 @@
           "password": this.password
         };
         this.$store.dispatch('logUser', logData);
+        setTimeout( () => {
+          this.$router.push('/');
+        }, 1000);
       }
     }
   }

@@ -23,6 +23,8 @@ export default {
     methods: {
       disconnectUser: function() {
         this.$store.dispatch('disconnectUser');
+        this.$router.push('/');
+
       }
     }
 }

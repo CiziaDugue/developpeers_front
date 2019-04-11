@@ -26,7 +26,7 @@ export default new Vuex.Store({
     state: {
 
         postsList: [],
-        postSingle: [],
+        postSingle: {},
         groupsList: [],
         postsFeed: [],
         userLogged: false,
@@ -265,6 +265,13 @@ export default new Vuex.Store({
 
                       commit('SET_AUTH_USER_DATA_IN', userData);
                       dispatch('setHeaderObject', userData);
+                      //PROBLEME : perte de connexion en cas de rechargement de la page !!
+                      //regarder du côté de 'vuex-persistedstate' pour écrire l'état dans un cookie
+                      // setTimeout(function() {
+                      //   window.location = "http://localhost/developpeers_front/dist";
+                      // }, 500);
+
+                      return "ok";
 
                   })
                   .catch( (error) => {

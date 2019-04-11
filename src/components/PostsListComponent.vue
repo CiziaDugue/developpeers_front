@@ -57,9 +57,9 @@ export default {
         }
     },
     methods: {
-        initPostsList: function(listType, groupId) {
+        initPostsList: function(data) {
 
-            this.$store.dispatch('initPostsListAction', listType, groupId);
+            this.$store.dispatch('initPostsListAction', data);
 
         }
     },
