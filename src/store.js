@@ -323,7 +323,7 @@ export default new Vuex.Store({
           //commit('SET_GROUP', group);
         },
 
-        
+
         leaveOrJoinGroupFromGroupAction: function({dispatch}, payload) {
 
             let req = 'http://localhost/projets/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
@@ -344,7 +344,7 @@ export default new Vuex.Store({
 
         getPostsFeed: function({commit}) {
 
-          axios.get('http://localhost/developeers/public/api/postsfeed', {headers: this.state.headerObject})
+          axios.get('http://localhost/projets/developeers/public/api/postsfeed', {headers: this.state.headerObject})
 
               .then( (response) => {
                   let posts = response.data;
@@ -357,7 +357,7 @@ export default new Vuex.Store({
 
         getSearchResult: function({commit, dispatch}, words) {
           if (words != "") {
-            let req = 'http://localhost/developeers/public/api/searchposts/' + words;
+            let req = 'http://localhost/projets/developeers/public/api/searchposts/' + words;
             axios.get(req, {headers: this.state.headerObject})
                 .then((response) => {
                   //console.log(response);
@@ -375,7 +375,7 @@ export default new Vuex.Store({
 
         getGroupSearchResult: function({commit, dispatch}, searchData) {
           if (searchData.words != "") {
-            let req = 'http://localhost/developeers/public/api/searchgroups/' + searchData.words;
+            let req = 'http://localhost/projets/developeers/public/api/searchgroups/' + searchData.words;
             axios.get(req, {headers: this.state.headerObject})
                 .then((response) => {
                   let groups = response.data;
@@ -391,7 +391,7 @@ export default new Vuex.Store({
 
         getUserGroups: function({commit}) {
           //récupérer la list de groups de l'utilisateur (par ex pour le select dans create post)
-          axios.get('http://localhost/developeers/public/api/groups/user', {headers: this.state.headerObject})
+          axios.get('http://localhost/projets/developeers/public/api/groups/user', {headers: this.state.headerObject})
               .then((response)=> {
                 // console.log('GET USER GROUPS');
                 // console.log(response.data);
@@ -405,7 +405,7 @@ export default new Vuex.Store({
         createGroup: function({dispatch}, requestData) {
 
           return new Promise((resolve, reject) => {
-            axios.post('http://localhost/developeers/public/api/groups', requestData, {headers: this.state.headerObject} )
+            axios.post('http://localhost/projets/developeers/public/api/groups', requestData, {headers: this.state.headerObject} )
                 . then((response) => {
                   //console.log(response.data);
                   let data = {
@@ -425,7 +425,7 @@ export default new Vuex.Store({
 
         createPost: function({dispatch}, requestData) {
           return  new Promise((resolve, reject) => {
-            axios.post('http://localhost/developeers/public/api/posts', requestData, {headers: this.state.headerObject})
+            axios.post('http://localhost/projets/developeers/public/api/posts', requestData, {headers: this.state.headerObject})
                 . then((response) => {
                   //console.log(response.data);
                   dispatch('initPostSingleAction', {postId: response.data._id});
@@ -440,10 +440,10 @@ export default new Vuex.Store({
 
         logUser: function({commit, dispatch}, logData) {
 
-          axios.post('http://localhost/developeers/public/api/login', logData)
+          axios.post('http://localhost/projets/developeers/public/api/login', logData)
             .then( (response1) => {
 
-              axios.get('http://localhost/developeers/public/api/user',
+              axios.get('http://localhost/projets/developeers/public/api/user',
               {
                 headers :
                 {
@@ -477,6 +477,7 @@ export default new Vuex.Store({
             })
             .catch(function (error) {
               console.log(error);
+          })
         },
 
         registerUser: function({

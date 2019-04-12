@@ -70,7 +70,7 @@ export default {
                 action: action,
             }
 
-            this.$store.dispatch('leaveOrJoinGroupAction', payload);
+            this.$store.dispatch('leaveOrJoinGroupFromListAction', payload);
         },
         searchGroup: function() {
           let searchData = {

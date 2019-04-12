@@ -78,7 +78,7 @@ export default {
                     users = group.users_id;
                 }
             }
-            console.log('isUserInGroup = ' + users.includes(this.$store.state.authUserData.id));
+            // console.log('isUserInGroup = ' + users.includes(this.$store.state.authUserData.id));
             return users.includes(this.$store.state.authUserData.id);
         }
     },
@@ -107,8 +107,11 @@ export default {
 
             this.$store.dispatch('voteAction', payload);
         },
+
         initGroup: function(groupId) {
           this.$store.dispatch('initGroupSingleAction', groupId);
+
+        },
 
         goBack: function() {
 
