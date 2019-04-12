@@ -124,19 +124,19 @@ export default new Vuex.Store({
 
             if (listType == 'tous-les-articles') {
 
-                req = 'http://localhost/projets/developeers/public/api/posts';
+                req = 'http://localhost/developeers/public/api/posts';
 
             } else if (listType == 'mes-articles') {
 
-                req = 'http://localhost/projets/developeers/public/api/authorposts';
+                req = 'http://localhost/developeers/public/api/authorposts';
 
             } else if (listType == 'articles-suivis') {
 
-                req = 'http://localhost/projets/developeers/public/api/userposts';
+                req = 'http://localhost/developeers/public/api/userposts';
 
             } else if (listType == 'group-posts') {
 
-                req = 'http://localhost/projets/developeers/public/api/posts/group/' + groupId;
+                req = 'http://localhost/developeers/public/api/posts/group/' + groupId;
 
                 console.log(groupId);
             }
@@ -164,7 +164,7 @@ export default new Vuex.Store({
 
         initPostSingleAction: function({commit}, payload) {
 
-            axios.get('http://localhost/projets/developeers/public/api/posts/' + payload.postId, {
+            axios.get('http://localhost/developeers/public/api/posts/' + payload.postId, {
                     headers: this.state.headerObject
                 })
 
@@ -183,7 +183,7 @@ export default new Vuex.Store({
 
         changePostVersionAction: function({commit}, payload) {
 
-            axios.get('http://localhost/projets/developeers/public/api/posts/' + payload.post_id + '/' + payload.version_id, {
+            axios.get('http://localhost/developeers/public/api/posts/' + payload.post_id + '/' + payload.version_id, {
                     headers: this.state.headerObject
                 })
 
@@ -202,7 +202,7 @@ export default new Vuex.Store({
 
         addCommentAction: function({dispatch}, payload) {
 
-            axios.post('http://localhost/projets/developeers/public/api/comments/' + payload.version_id, payload.comment, {
+            axios.post('http://localhost/developeers/public/api/comments/' + payload.version_id, payload.comment, {
                     headers: this.state.headerObject
                 })
 
@@ -218,7 +218,7 @@ export default new Vuex.Store({
 
         voteAction: function({dispatch}, payload) {
 
-            let req = 'http://localhost/projets/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
+            let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
 
             let voteType = {
                 vote: payload.vote
@@ -269,11 +269,11 @@ export default new Vuex.Store({
 
             if (listType.type == 'tous-les-groupes') {
 
-                req = 'http://localhost/projets/developeers/public/api/groups';
+                req = 'http://localhost/developeers/public/api/groups';
 
             } else if (listType.type == 'mes-groupes') {
 
-                req = 'http://localhost/projets/developeers/public/api/groups/user';
+                req = 'http://localhost/developeers/public/api/groups/user';
 
             }
 
@@ -300,7 +300,7 @@ export default new Vuex.Store({
 
         leaveOrJoinGroupFromListAction: function({ dispatch }, payload) {
 
-            let req = 'http://localhost/projets/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
+            let req = 'http://localhost/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
 
             axios.put(req, {}, {
                     headers: this.state.headerObject
@@ -326,7 +326,7 @@ export default new Vuex.Store({
 
         leaveOrJoinGroupFromGroupAction: function({dispatch}, payload) {
 
-            let req = 'http://localhost/projets/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
+            let req = 'http://localhost/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
 
             axios.put(req, {}, { headers: this.state.headerObject })
 
@@ -344,7 +344,7 @@ export default new Vuex.Store({
 
         getPostsFeed: function({commit}) {
 
-          axios.get('http://localhost/projets/developeers/public/api/postsfeed', {headers: this.state.headerObject})
+          axios.get('http://localhost/developeers/public/api/postsfeed', {headers: this.state.headerObject})
 
               .then( (response) => {
                   let posts = response.data;
@@ -357,7 +357,7 @@ export default new Vuex.Store({
 
         getSearchResult: function({commit, dispatch}, words) {
           if (words != "") {
-            let req = 'http://localhost/projets/developeers/public/api/searchposts/' + words;
+            let req = 'http://localhost/developeers/public/api/searchposts/' + words;
             axios.get(req, {headers: this.state.headerObject})
                 .then((response) => {
                   //console.log(response);
@@ -375,7 +375,7 @@ export default new Vuex.Store({
 
         getGroupSearchResult: function({commit, dispatch}, searchData) {
           if (searchData.words != "") {
-            let req = 'http://localhost/projets/developeers/public/api/searchgroups/' + searchData.words;
+            let req = 'http://localhost/developeers/public/api/searchgroups/' + searchData.words;
             axios.get(req, {headers: this.state.headerObject})
                 .then((response) => {
                   let groups = response.data;
@@ -391,7 +391,7 @@ export default new Vuex.Store({
 
         getUserGroups: function({commit}) {
           //récupérer la list de groups de l'utilisateur (par ex pour le select dans create post)
-          axios.get('http://localhost/projets/developeers/public/api/groups/user', {headers: this.state.headerObject})
+          axios.get('http://localhost/developeers/public/api/groups/user', {headers: this.state.headerObject})
               .then((response)=> {
                 // console.log('GET USER GROUPS');
                 // console.log(response.data);
@@ -405,7 +405,7 @@ export default new Vuex.Store({
         createGroup: function({dispatch}, requestData) {
 
           return new Promise((resolve, reject) => {
-            axios.post('http://localhost/projets/developeers/public/api/groups', requestData, {headers: this.state.headerObject} )
+            axios.post('http://localhost/developeers/public/api/groups', requestData, {headers: this.state.headerObject} )
                 . then((response) => {
                   //console.log(response.data);
                   let data = {
@@ -425,7 +425,7 @@ export default new Vuex.Store({
 
         createPost: function({dispatch}, requestData) {
           return  new Promise((resolve, reject) => {
-            axios.post('http://localhost/projets/developeers/public/api/posts', requestData, {headers: this.state.headerObject})
+            axios.post('http://localhost/developeers/public/api/posts', requestData, {headers: this.state.headerObject})
                 . then((response) => {
                   //console.log(response.data);
                   dispatch('initPostSingleAction', {postId: response.data._id});
@@ -440,10 +440,10 @@ export default new Vuex.Store({
 
         logUser: function({commit, dispatch}, logData) {
 
-          axios.post('http://localhost/projets/developeers/public/api/login', logData)
+          axios.post('http://localhost/developeers/public/api/login', logData)
             .then( (response1) => {
 
-              axios.get('http://localhost/projets/developeers/public/api/user',
+              axios.get('http://localhost/developeers/public/api/user',
               {
                 headers :
                 {
@@ -485,12 +485,12 @@ export default new Vuex.Store({
             dispatch
         }, registerData) {
 
-            axios.post('http://localhost/projets/developeers/public/api/register', registerData)
+            axios.post('http://localhost/developeers/public/api/register', registerData)
                 .then((response1) => {
 
                     console.log(response1);
 
-                    axios.get('http://localhost/projets/developeers/public/api/user', {
+                    axios.get('http://localhost/developeers/public/api/user', {
                             headers: {
                                 'Authorization': 'Bearer ' + response1.data.token,
                                 'Content-Type': 'application/json',
