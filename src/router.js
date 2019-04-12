@@ -16,9 +16,8 @@ Vue.use(Router)
 export default new Router({
     mode: 'history',
 
-    base: process.env.BASE_URL + '/developeers_front/dist',
-    routes: [
-        {
+    base: process.env.BASE_URL + '/projets/developeers_front/dist',
+    routes: [{
             path: '/articles/:postsListType',
             name: 'postsList',
             component: PostsListComponent,
@@ -49,24 +48,24 @@ export default new Router({
           component: CreatePostComponent
         },
         {
-          path: '/login',
-          name: 'login',
-          component: LoginComponent
+            path: '/login',
+            name: 'login',
+            component: LoginComponent
         },
         {
-          path: '/register',
-          name: 'register',
-          component: RegisterComponent
+            path: '/register',
+            name: 'register',
+            component: RegisterComponent
         },
         {
-          path: '/profil',
-          name: 'profile',
-          component: ProfileComponent
+            path: '/profil',
+            name: 'profile',
+            component: ProfileComponent
         },
         {
-          path: '/',
-          name: 'home',
-          component: HomeComponent
+            path: '/',
+            name: 'home',
+            component: HomeComponent
         },
         {
             path: '/about',

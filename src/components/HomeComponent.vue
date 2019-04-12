@@ -11,10 +11,10 @@
                         </router-link>
                     </div>
                     <div class="col-4">
-                        <button class="fas fa-angle-up"></button>
+                        <button class="fas fa-angle-up" v-on:click="votePost(post, 'post', true)"></button>
                         <small class="badge badge-pill badge-success">{{ post.votePros }}</small>
                         <small class="badge badge-pill badge-danger">{{ post.voteCons }}</small>
-                        <button class="fas fa-angle-down"></button>
+                        <button class="fas fa-angle-down" v-on:click="votePost(post, 'post', false)"></button>
                     </div>
                 </div>
                 <ul class="card-text">
@@ -27,39 +27,56 @@
             </div>
         </div>
     </div>
-  </main>
+</main>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {
+    mapState
+} from 'vuex'
 
-  export default {
+export default {
     data: function() {
-      return {
+        return {
 
-      }
+        }
     },
     computed: {
-      ...mapState([
-        'postsFeed',
-        'userLogged'
-      ])
+        ...mapState([
+            'postsFeed',
+            'userLogged'
+        ])
     },
     methods: {
-      getPostsFeed: function() {
-        this.$store.dispatch('getPostsFeed');
-      }
+        getPostsFeed: function() {
+            this.$store.dispatch('getPostsFeed');
+        },
+        votePost: function(target, type, vote) {
+
+            let payload = {
+                type: type,
+                vote: vote,
+                target: target,
+                listType: null,
+                postId: null,
+                groupId: null,
+            }
+
+            console.log(payload);
+
+            this.$store.dispatch('voteAction', payload);
+        }
     },
     created: function() {
         this.getPostsFeed();
     }
-  }
+}
 </script>
 
 <style scoped>
 main {
-  position: relative;
-  left: 50px;
-  top: 8vh;
+    position: relative;
+    left: 50px;
+    top: 8vh;
 }
 </style>
