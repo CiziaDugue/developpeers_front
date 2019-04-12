@@ -35,9 +35,6 @@ export default new Vuex.Store({
         authUserData: {},
         headerObject:{},
         userGroups: []
-        // postJustCreated: {},
-        // versionJustCreated: {},
-        // groupJustCreated: {}
     },
     mutations: {
 
@@ -79,6 +76,7 @@ export default new Vuex.Store({
         },
 
         SET_USER_GROUPS(state, groups) {
+          //doublon avec celle du dessus ? essayer de fusionner
           state.userGroups = groups;
         },
 
@@ -345,8 +343,9 @@ export default new Vuex.Store({
           //récupérer la list de groups de l'utilisateur (par ex pour le select dans create post)
           axios.get('http://localhost/developeers/public/api/groups/user', {headers: this.state.headerObject})
               .then((response)=> {
-                console.log(response);
-                commit('SET_USER_GROUPS', response.data);
+                // console.log('GET USER GROUPS');
+                // console.log(response.data);
+                commit('SET_GROUPS', response.data);
               })
               .catch((error)=>{
                 console.error(error);

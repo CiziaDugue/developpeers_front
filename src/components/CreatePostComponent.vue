@@ -35,7 +35,7 @@
           <optgroup label="mes-groupes">
             Mes groupes
           </optgroup>
-          <option v-for="group in userGroups" :key="group._id" v-bind:value="group._id">{{group.name}}</option>
+          <option v-for="group in groupsList" :key="group._id" v-bind:value="group._id">{{group.name}}</option>
         </select>
       </div>
 
@@ -67,7 +67,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'userGroups'
+      'groupsList'
     ])
   },
   methods: {
@@ -79,8 +79,11 @@ export default {
       || this.selectedGroup == "") {
         this.invalidFormMsg = "Tous les champs doivent être remplis.";
       } else {
+
         this.invalidFormMsg = "";
+
         let arKeywords = this.keywords.split(" ");
+
         let requestData = {
           title: this.title,
           text_content: this.textContent,
@@ -88,9 +91,11 @@ export default {
           group_id: this.selectedGroup,
           keywords: arKeywords
         };
+
         this.codeSnippets.forEach(function(snippet) {
           requestData.code_snippets.push(snippet.content);
         });
+
         this.$store.dispatch('createPost', requestData)
         .then((response)=>{
           this.$router.push('/article/'+response.data._id);
@@ -104,6 +109,9 @@ export default {
       this.codeSnippets.push({index: this.csLength, content: ""});
       this.csLength++;
     }
+  },
+  created: function() {
+    this.$store.dispatch('getUserGroups');
   }
 }
 </script>
