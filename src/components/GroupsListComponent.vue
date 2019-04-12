@@ -53,19 +53,21 @@ export default {
             this.$store.dispatch('initGroupsListAction', listType);
 
         },
+
         isUserInGroup: function(groupUsers, userId) {
 
             return groupUsers.includes(userId);
         },
+
         leaveOrJoinGroup: function(group, action) {
 
             let payload = {
-                param: this.$route.params.groupsListType,
-                group: group,
-                action: action
+                type: this.$route.params.groupsListType,
+                groupId: group._id,
+                action: action,
             }
 
-            this.$store.dispatch('leaveOrJoinGroupAction', payload);
+            this.$store.dispatch('leaveOrJoinGroupFromListAction', payload);
         }
     },
     created: function() {
