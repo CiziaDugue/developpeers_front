@@ -87,7 +87,7 @@ export default {
             type: this.$route.params.groupsListType
         }
 
-        console.log('initializing ' + listType.type + ' groups list');
+        console.log('Initializing ' + listType.type + ' groups list');
 
         this.initGroupsList(listType);
     },

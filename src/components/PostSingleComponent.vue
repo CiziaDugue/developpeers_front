@@ -55,7 +55,7 @@
                 </div>
                 <div class="col-12">
                     <router-link :to="{ name: '', params: {} }">
-                        <button class="btn btn-outline-secondary">+</button>
+                        <button class="btn btn-outline-secondary" v-on:click="addVersion">+</button>
                     </router-link>
                 </div>
             </div>
@@ -121,11 +121,6 @@ export default {
             this.$store.dispatch('changePostVersionAction', payload)
         },
 
-        addVote: function(target) {
-
-
-        },
-
         addComment: function() {
 
             if (this.commentToAdd != '') {
@@ -161,6 +156,10 @@ export default {
         goBack: function() {
 
             this.$router.go(-1);
+        },
+
+        createVersion: function() {
+          //this.$router.push('createVersion');
         }
     },
     mounted: function() {
