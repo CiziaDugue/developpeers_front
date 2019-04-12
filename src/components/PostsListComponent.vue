@@ -1,12 +1,24 @@
 <template>
 <div class="container main-block">
     <h2 class="text-center">{{ title }}</h2>
+<<<<<<< HEAD
 
 
     <button v-if="isGroupList == true" class="fas fa-angle-left" v-on:click="goBack()"></button>
     <button v-if="isGroupList == true && isUserInGroup == true" class="btn btn-outline-secondary btn-lg" v-on:click="leaveOrJoinGroup('leave')">Quitter</button> -->
     <button v-else-if="isGroupList == true && isUserInGroup == false" class="btn btn-primary btn-lg" v-on:click="leaveOrJoinGroup('join')">Suivre</button>
 
+=======
+    <div v-if="inGroup">
+      <div>
+        Dans ce groupe on parle de :
+        <ul>
+          <li v-for="word in groupSingle.keywords">{{word}}</li>
+        </ul>
+      </div>
+      <button class="btn btn-success">Créer un article</button>
+    </div>
+>>>>>>> pierre
 
     <div class="card-columns">
         <div v-for="post in postsList" v-bind:key="post._id" class="card p-3">
@@ -43,11 +55,13 @@ export default {
     data: function() {
         return {
             name: 'PostsListComponent',
+            inGroup: false
         }
     },
     computed: {
         ...mapState([
-            'postsList', 'groupsList'
+            'postsList',
+            'groupSingle'
         ]),
 
         title: function() {
@@ -59,7 +73,7 @@ export default {
             } else if (this.$route.params.postsListType == 'articles-suivis') {
                 title = 'Mes Articles Suivis';
             } else if (this.$route.params.groupId) {
-                title = "Groupe"; //Temporaire
+              title = this.groupSingle.name;
             }
             return title;
         },
@@ -135,7 +149,7 @@ export default {
 
         let listType = (this.$route.params.groupId) ? "group-posts" : this.$route.params.postsListType;
 
-        console.log('initializing ' + listType.type + ' posts list');
+        console.log('Initializing ' + listType + ' posts list');
 
         let groupId = (this.$route.params.groupId) ? this.$route.params.groupId : null;
 
@@ -146,9 +160,10 @@ export default {
 
         this.initPostsList(data);
 
-        // if (this.$route.params.groupId) {
-        //   this.initGroup(this.$route.params.groupId);
-        // }
+        if (this.$route.params.groupId) {
+          this.initGroup(this.$route.params.groupId);
+          this.inGroup = true;
+        }
     },
     watch: {
         '$route': function(to, from) {

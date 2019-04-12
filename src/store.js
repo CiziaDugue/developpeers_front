@@ -89,11 +89,11 @@ export default new Vuex.Store({
         },
         SET_AUTH_USER_DATA_OUT(state, headerObject) {
 
-            state.authUserData = {};
-            state.headerObject = headerObject;
-            state.userLogged = false;
-            //console.log(this.state);
-            console.log(state.headerObject);
+          state.authUserData = {};
+          state.headerObject = headerObject;
+          state.userLogged = false;
+          //console.log(this.state);
+          //console.log(state.headerObject);
         },
         SET_HEADER_OBJECT(state, headerObject) {
 
@@ -170,7 +170,7 @@ export default new Vuex.Store({
 
                 .then(response => {
 
-                    console.log(response.data);
+                    //console.log(response.data);
 
                     let post = response.data;
 
@@ -188,11 +188,8 @@ export default new Vuex.Store({
                 })
 
                 .then(response => {
-
-                    console.log(response.data);
-
+                    //console.log(response.data);
                     let post = response.data;
-
                     commit('SET_POST', post);
                 })
                 .catch(error => {
@@ -211,7 +208,6 @@ export default new Vuex.Store({
                     dispatch('changePostVersionAction', payload);
                 })
                 .catch(error => {
-                    console.log(this.state);
                     console.log(error)
                 });
         },
@@ -230,7 +226,7 @@ export default new Vuex.Store({
 
                 .then((response) => {
 
-                    console.log(response.data);
+                    //console.log(response.data);
 
                     if (payload.listType == null && payload.postId == null && payload.groupId == null) {
                         dispatch('getPostsFeed');
@@ -282,9 +278,7 @@ export default new Vuex.Store({
                 axios.get(req, { headers: this.state.headerObject })
 
                     .then((response) => {
-
-                        console.log(response.data);
-
+                        //console.log(response.data);
                         let groups = response.data;
 
                         commit('SET_GROUPS', groups);
@@ -295,6 +289,16 @@ export default new Vuex.Store({
                         console.log(error);
                     });
                 });
+        },
+
+        initGroupSingleAction: function({commit}, groupId) {
+          axios.get('http://localhost/developeers/public/api/groups/'+groupId, {headers: this.state.headerObject})
+              .then((response)=>{
+                commit('SET_GROUP', response.data);
+              })
+              .catch((error)=>{
+                console.error(error);
+              });
         },
 
 
@@ -318,12 +322,6 @@ export default new Vuex.Store({
                 });
         },
 
-        initGroupSingleAction: function({commit}, groupId) {
-          //axios.get('http://localhost/developeers/public/api/groups/'+)
-          //commit('SET_GROUP', group);
-        },
-
-
         leaveOrJoinGroupFromGroupAction: function({dispatch}, payload) {
 
             let req = 'http://localhost/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
@@ -331,9 +329,7 @@ export default new Vuex.Store({
             axios.put(req, {}, { headers: this.state.headerObject })
 
                 .then((response) => {
-
                     // console.log(response.data);
-
                     dispatch('initPostsListAction', payload);
 
                 })
@@ -343,9 +339,7 @@ export default new Vuex.Store({
         },
 
         getPostsFeed: function({commit}) {
-
           axios.get('http://localhost/developeers/public/api/postsfeed', {headers: this.state.headerObject})
-
               .then( (response) => {
                   let posts = response.data;
                   commit('SET_POSTS_FEED', posts);
@@ -403,7 +397,6 @@ export default new Vuex.Store({
         },
 
         createGroup: function({dispatch}, requestData) {
-
           return new Promise((resolve, reject) => {
             axios.post('http://localhost/developeers/public/api/groups', requestData, {headers: this.state.headerObject} )
                 . then((response) => {
@@ -438,11 +431,13 @@ export default new Vuex.Store({
           });
         },
 
-        logUser: function({commit, dispatch}, logData) {
+        commitVersion: function({commit}) {
 
+        },
+
+        logUser: function({commit, dispatch}, logData) {
           axios.post('http://localhost/developeers/public/api/login', logData)
             .then( (response1) => {
-
               axios.get('http://localhost/developeers/public/api/user',
               {
                 headers :
@@ -453,7 +448,6 @@ export default new Vuex.Store({
                 }
               })
                   .then( (response2) => {
-
                       let userData = {
                         "token": "Bearer "+response1.data.token,
                         "id": response2.data.user.id,
@@ -480,24 +474,20 @@ export default new Vuex.Store({
           })
         },
 
-        registerUser: function({
-            commit,
-            dispatch
-        }, registerData) {
-
-            axios.post('http://localhost/developeers/public/api/register', registerData)
-                .then((response1) => {
-
-                    console.log(response1);
-
-                    axios.get('http://localhost/developeers/public/api/user', {
-                            headers: {
-                                'Authorization': 'Bearer ' + response1.data.token,
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json'
-                            }
-                        })
-                        .then((response2) => {
+        registerUser: function({commit, dispatch}, registerData) {
+          axios.post('http://localhost/developeers/public/api/register', registerData)
+                .then( (response1) => {
+                  //console.log(response1);
+                    axios.get('http://localhost/developeers/public/api/user',
+                    {
+                      headers :
+                      {
+                        'Authorization': 'Bearer '+ response1.data.token,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                      }
+                    })
+                        .then( (response2) => {
 
                             let userData = {
                                 "token": "bearer " + response1.data.token,
@@ -518,7 +508,7 @@ export default new Vuex.Store({
                     console.log(error);
                 });
 
-            console.log(registerData);
+          //console.log(registerData);
         },
 
         disconnectUser: function({
