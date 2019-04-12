@@ -114,7 +114,8 @@ export default new Vuex.Store({
     actions: {
 
         initPostsListAction: function({
-            commit
+            commit,
+            dispatch
         }, data) {
 
             let listType = data.listType;
@@ -138,47 +139,44 @@ export default new Vuex.Store({
 
                 req = 'http://localhost/developeers/public/api/posts/group/' + groupId;
 
+                dispatch('initGroupSingleAction', groupId);
                 console.log(groupId);
             }
 
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
 
                 axios.get(req, { headers: this.state.headerObject })
 
                     .then((response) => {
-
-                        console.log(response.data);
-
+                        //console.log(response.data);
                         let posts = response.data;
 
                         commit('SET_POSTS', posts);
 
-                        resolve();
+                        resolve(response);
 
                     })
                     .catch((error) => {
-                        console.log(error);
+                        reject(error);
                     });
                 });
         },
 
         initPostSingleAction: function({commit}, payload) {
-
-            axios.get('http://localhost/developeers/public/api/posts/' + payload.postId, {
-                    headers: this.state.headerObject
-                })
-
+          return new Promise ((resolve, reject)=>{
+            axios.get('http://localhost/developeers/public/api/posts/' + payload.postId, {headers: this.state.headerObject})
                 .then(response => {
-
                     //console.log(response.data);
-
                     let post = response.data;
 
                     commit('SET_POST', post);
+                    resolve(response);
                 })
                 .catch(error => {
                     console.log(error)
+                    reject(error);
                 });
+          });
         },
 
         changePostVersionAction: function({commit}, payload) {
@@ -202,9 +200,8 @@ export default new Vuex.Store({
             axios.post('http://localhost/developeers/public/api/comments/' + payload.version_id, payload.comment, {
                     headers: this.state.headerObject
                 })
-
                 .then(response => {
-
+                    //refresh the current version view
                     dispatch('changePostVersionAction', payload);
                 })
                 .catch(error => {
@@ -406,7 +403,6 @@ export default new Vuex.Store({
                     groupId: response.data._id
                   };
                   dispatch('initPostsListAction', data);
-                  //commit('SET_GROUP', response.data);
                   resolve(response);
                 })
                 .catch((error) => {
@@ -420,7 +416,7 @@ export default new Vuex.Store({
           return  new Promise((resolve, reject) => {
             axios.post('http://localhost/developeers/public/api/posts', requestData, {headers: this.state.headerObject})
                 . then((response) => {
-                  //console.log(response.data);
+                  console.log(response.data);
                   dispatch('initPostSingleAction', {postId: response.data._id});
                   resolve(response);
                 })

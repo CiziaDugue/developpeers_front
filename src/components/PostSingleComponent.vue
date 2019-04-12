@@ -55,7 +55,7 @@
                 </div>
                 <div class="col-12">
                     <router-link :to="{ name: '', params: {} }">
-                        <button class="btn btn-outline-secondary" v-on:click="addVersion">+</button>
+                        <button class="btn btn-outline-secondary">+</button>
                     </router-link>
                 </div>
             </div>
@@ -83,7 +83,7 @@
             <div class="input-group">
                 <textarea class="form-control" aria-label="With textarea" v-model="commentToAdd"></textarea>
                 <div class="input-group-append">
-                    <button class="fas fa-plus" v-on:click="addComment(version)"></button>
+                    <button class="fas fa-plus" v-on:click="addComment()"></button>
                 </div>
             </div>
         </div>
@@ -101,8 +101,7 @@ export default {
     data: function() {
         return {
             name: 'PostSingleComponent',
-            commentToAdd: '',
-            loading: 'true'
+            commentToAdd: ''
         }
     },
     computed: {
@@ -114,7 +113,7 @@ export default {
         changeVersion: function(version_id) {
 
             let payload = {
-                post_id: this.$store.state.postSingle._id,
+                post_id: this.postSingle._id,
                 version_id: version_id
             }
 
@@ -130,8 +129,8 @@ export default {
                 }
 
                 let payload = {
-                    post_id: this.$store.state.postSingle._id,
-                    version_id: this.$store.state.postSingle.active_version._id,
+                    post_id: this.postSingle._id,
+                    version_id: this.postSingle.active_version._id,
                     comment: comment
                 }
 
@@ -144,7 +143,6 @@ export default {
         voteTarget: function(target, type, vote) {
 
             let postId = this.$route.params.postId ? this.$route.params.postId : null;
-
             let payload = {
                 type: type,
                 vote: vote,
@@ -153,14 +151,11 @@ export default {
                 postId: postId,
                 groupId: null
             }
-
-            console.log(payload);
-
+            //console.log(payload);
             this.$store.dispatch('voteAction', payload);
         },
 
         goBack: function() {
-
             this.$router.go(-1);
         },
 
@@ -172,6 +167,13 @@ export default {
         this.$store.dispatch('initPostSingleAction', {
             postId: this.$route.params.postId
         })
+        .then((response) => {
+          console.log(response);
+          //console.log(this.postSingle);
+        }, (error) => {
+          console.error(error);
+        });
+        //console.log(this.postSingle);
 
     },
     // created: function() {
