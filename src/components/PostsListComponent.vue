@@ -13,7 +13,7 @@
           <li v-for="word in groupSingle.keywords">{{word}}</li>
         </ul>
       </div>
-      <button class="btn btn-success">Créer un article</button>
+      <button class="btn btn-success" v-on:click="createPost">Créer un article</button>
     </div>
 
     <div class="card-columns">
@@ -82,13 +82,6 @@ export default {
         },
 
         isUserInGroup: function() {
-            // let users;
-            // for (let group of this.$store.state.groupsList) {
-            //     if (group._id == this.$route.params.groupId) {
-            //         users = group.users_id;
-            //     }
-            // }
-            // console.log('isUserInGroup = ' + users.includes(this.$store.state.authUserData.id));
             return this.groupSingle.users_id.includes(this.$store.state.authUserData.id);
         }
     },
@@ -116,11 +109,6 @@ export default {
             this.$store.dispatch('voteAction', payload);
         },
 
-        initGroup: function(groupId) {
-          //this.$store.dispatch('initGroupSingleAction', groupId);
-
-        },
-
         goBack: function() {
 
             this.$router.go(-1);
@@ -137,6 +125,10 @@ export default {
             }
 
             this.$store.dispatch('leaveOrJoinGroupFromGroupAction', payload);
+        },
+
+        createPost: function() {
+          this.$router.push('/creer-un-article/'+this.groupSingle._id);
         }
     },
     created: function() {
@@ -154,10 +146,6 @@ export default {
 
         this.initPostsList(data);
 
-        // if (this.$route.params.groupId) {
-        //   this.initGroup(this.$route.params.groupId);
-        //   this.inGroup = true;
-        // }
     },
     watch: {
         '$route': function(to, from) {

@@ -16,7 +16,7 @@ Vue.use(Router)
 export default new Router({
     mode: 'history',
 
-    //base: process.env.BASE_URL + '/developeers_front/dist',
+    //base: process.env.BASE_URL + '/projets/developeers_front/dist',
     routes: [{
             path: '/articles/:postsListType',
             name: 'postsList',
@@ -45,6 +45,11 @@ export default new Router({
         {
           path: '/creer-un-article',
           name: 'createPost',
+          component: CreatePostComponent
+        },
+        {
+          path: '/creer-un-article/:groupId',
+          name: 'createPostFromGroup',
           component: CreatePostComponent
         },
         {

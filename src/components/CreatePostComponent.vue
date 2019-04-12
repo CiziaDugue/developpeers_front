@@ -7,7 +7,7 @@
       </div>
       <div class="form-group">
         <label>Titre</label>
-        <input type="text" name="name" placeholder="Nom du groupe" class="form-control" v-model="title">
+        <input type="text" name="name" placeholder="Titre de l'article" class="form-control" v-model="title">
       </div>
 
       <div class="form-group">
@@ -29,7 +29,7 @@
         <button type="button" name="button" v-on:click="addCodeSnippet">Ajouter un bloc de code</button>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" v-if="!fromGroup">
         <label>Choisissez un groupe</label>
         <select  v-model="selectedGroup">
           <optgroup label="mes-groupes">
@@ -37,6 +37,10 @@
           </optgroup>
           <option v-for="group in groupsList" :key="group._id" v-bind:value="group._id">{{group.name}}</option>
         </select>
+      </div>
+
+      <div class="from-group" v-if='fromGroup'>
+        <span>Groupe : {{groupSingle.name}}</span>
       </div>
 
       <div class="form-group">
@@ -62,12 +66,14 @@ export default {
       ],
       csLength: 1,
       selectedGroup: "",
+      fromGroup: false,
       invalidFormMsg: ""
     }
   },
   computed: {
     ...mapState([
-      'groupsList'
+      'groupsList',
+      'groupSingle'
     ])
   },
   methods: {
@@ -110,8 +116,13 @@ export default {
       this.csLength++;
     }
   },
+
   created: function() {
     this.$store.dispatch('getUserGroups');
+    if (this.$route.params.groupId) {
+      this.fromGroup = true;
+      this.selectedGroup = this.$route.params.groupId;
+    }
   }
 }
 </script>
