@@ -1,14 +1,11 @@
 <template>
 <div class="container main-block">
     <h2 class="text-center">{{ title }}</h2>
-<<<<<<< HEAD
 
+    <!-- <button v-if="isGroupList == true" class="fas fa-angle-left" v-on:click="goBack()"></button>
+    <button v-if="isGroupList == true && isUserInGroup == true" class="btn btn-outline-secondary btn-lg" v-on:click="leaveOrJoinGroup('leave')">Quitter</button>
+    <button v-else-if="isGroupList == true && isUserInGroup == false" class="btn btn-primary btn-lg" v-on:click="leaveOrJoinGroup('join')">Suivre</button> -->
 
-    <button v-if="isGroupList == true" class="fas fa-angle-left" v-on:click="goBack()"></button>
-    <button v-if="isGroupList == true && isUserInGroup == true" class="btn btn-outline-secondary btn-lg" v-on:click="leaveOrJoinGroup('leave')">Quitter</button> -->
-    <button v-else-if="isGroupList == true && isUserInGroup == false" class="btn btn-primary btn-lg" v-on:click="leaveOrJoinGroup('join')">Suivre</button>
-
-=======
     <div v-if="inGroup">
       <div>
         Dans ce groupe on parle de :
@@ -18,7 +15,6 @@
       </div>
       <button class="btn btn-success">Créer un article</button>
     </div>
->>>>>>> pierre
 
     <div class="card-columns">
         <div v-for="post in postsList" v-bind:key="post._id" class="card p-3">
@@ -80,20 +76,20 @@ export default {
 
         isGroupList: function() {
             let response = this.$route.params.groupId ? true : false;
-            console.log('isGroupList = ' + response);
+            // console.log('isGroupList = ' + response);
             return response;
             // return this.$route.params.groupId ? true : false;
         },
 
         isUserInGroup: function() {
-            let users;
-            for (let group of this.$store.state.groupsList) {
-                if (group._id == this.$route.params.groupId) {
-                    users = group.users_id;
-                }
-            }
+            // let users;
+            // for (let group of this.$store.state.groupsList) {
+            //     if (group._id == this.$route.params.groupId) {
+            //         users = group.users_id;
+            //     }
+            // }
             // console.log('isUserInGroup = ' + users.includes(this.$store.state.authUserData.id));
-            return users.includes(this.$store.state.authUserData.id);
+            return this.groupSingle.users_id.includes(this.$store.state.authUserData.id);
         }
     },
     methods: {
