@@ -452,15 +452,22 @@ export default new Vuex.Store({
           });
         },
 
-        updatePost: function({commit}, data) {
-          let postId = data.postId;
-          let requestData = data.requestData;
+        updatePost: function({dispatch}, payload) {
+
+          let postId = payload.post_id;
+          let requestData = payload.requestData;
+
           return new Promise((resolve, reject)=>{
             axios.put('http://localhost/developeers/public/api/posts/'+postId,
             requestData,
             {headers: this.state.headerObject})
             .then(response=>{
-              resolve(response);
+              dispatch('changePostVersionAction', payload)
+              .then((response)=>{
+                resolve(response);
+              }, (error)=>{
+                console.error(error);
+              });
             })
             .catch(error=>{
               reject(error);
