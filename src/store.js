@@ -475,6 +475,22 @@ export default new Vuex.Store({
           });
         },
 
+        updateVersion: function({dispatch}, payload) {
+          let versionId = payload.version_id;
+          let requestData = payload.requestData;
+          return new Promise((resolve, reject)=>{
+            axios.put('http://localhost/developeers/public/api/updateversion/'+versionId,
+            requestData, {headers: this.state.headerObject})
+            .then(response=>{
+              resolve(response);
+              console.log(response);
+            })
+            .catch(error=>{
+              reject(error);
+            });
+          });
+        },
+
         deletePost: function({commit}, postId) {
           return new Promise((resolve, reject)=>{
             axios.delete('http://localhost/developeers/public/api/posts/'+postId, {headers: this.state.headerObject})
@@ -485,10 +501,6 @@ export default new Vuex.Store({
               reject(error);
             });
           });
-        },
-
-        updateVersion: function({commit}, versionId) {
-          console.log("editing version "+versionId);
         },
 
         deleteVersion: function({commit}, versionId) {
@@ -503,8 +515,23 @@ export default new Vuex.Store({
           })
         },
 
-        updateComment: function({commit}, commentId) {
-          console.log("editing comment "+commentId);
+        updateComment: function({dispatch}, payload) {
+          let commentId = payload.commentId;
+          let requestData = payload.requestData;
+          return new Promise((resolve, reject)=>{
+            axios.put('http://localhost/developeers/public/api/updatecomment/'+commentId, requestData, {headers: this.state.headerObject})
+            .then(response=>{
+              dispatch('changePostVersionAction', payload)
+              .then((response)=>{
+                resolve(response);
+              }, (error)=>{
+                console.error(error);
+              });
+            })
+            .catch(error=>{
+              reject(error);
+            });
+          });
         },
 
         deleteComment: function({dispatch}, payload) {

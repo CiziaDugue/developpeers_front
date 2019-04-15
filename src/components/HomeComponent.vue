@@ -60,9 +60,7 @@ export default {
                 listType: null,
                 postId: null,
                 groupId: null,
-            }
-
-            console.log(payload);
+            };
 
             this.$store.dispatch('voteAction', payload);
         }

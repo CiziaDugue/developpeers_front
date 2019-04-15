@@ -8,7 +8,9 @@
             <div class="row border">
                 <div class="col-md-6 col-12">
                     <button class="fas fa-angle-left" v-on:click="goBack()"></button>
+
                     <h2 class="text-center">{{ postSingle.title }}</h2>
+
                     <div v-if="postEditMode">
                       <label>Modifier le titre : </label>
                       <input type="text"  v-model="postEditedTitle">
@@ -19,15 +21,17 @@
                       <ul>
                         <li v-for="word in this.postSingle.keywords">{{word}}</li>
                       </ul>
+
                       <div v-if="postEditMode">
                         <label>Modifier les mots-clés : </label>
                         <input type="text" v-model="postEditedKeywords">
                       </div>
-
                     </div>
+
                     <div v-if="postEditMode">
                       <button class="btn btn-sm btn-success" v-on:click="validatePostUpdate">Valider les changements</button>
                     </div>
+
                     <div v-if="userIsAuthorOfPost">
                       <button  class="btn btn-secondary btn-sm" title="Éditer cet article" v-on:click="toggleEditMode">Edit</button>
                       <button  class="btn btn-danger btn-sm" title="Supprimer cet article" v-on:click="deletePost">Suppr</button>
@@ -69,7 +73,7 @@
             <div class="row border">
                 <div class="col-12">
                     <p class="text-center">{{ postSingle.active_version.text_content }}</p>
-                    <p v-for="snippet in postSingle.active_version.code_snippets" class="border" v-on:click="">
+                    <p v-for="snippet in postSingle.active_version.code_snippets" class="border">
                         {{ snippet.content }}
                     </p>
                 </div>
@@ -96,15 +100,19 @@
                     <tr v-for="comment in postSingle.active_version.comments">
                         <th scope="row">{{ comment.created_at }}</th>
                         <td>{{ comment.author_name }}</td>
-                        <td>{{ comment.content }}</td>
+                        <td v-if="comment._id != editedCommentId || !commentEditMode">{{ comment.content }}</td>
+                        <td v-if="commentEditMode && comment._id==editedCommentId">
+                          <input type="text" v-model="commentEditedContent">
+                          <button type="button" class="btn btn-sm btn-success" v-on:click="validateCommentUpdate(comment._id)">Ok</button>
+                        </td>
                         <td>
                             <button class="fas fa-angle-up" v-on:click="voteTarget(comment, 'comment', true)"></button>
                             <small class="badge badge-pill badge-success">{{ comment.votePros }}</small>
                             <small class="badge badge-pill badge-danger">{{ comment.voteCons }}</small>
                             <button class="fas fa-angle-down" v-on:click="voteTarget(comment, 'comment', false)"></button>
                         </td>
-                        <td v-if="authUserData.id =editPost= comment.author_id">
-                          <button class="btn btn-secondary btn-sm" title="Éditer mon commentaire" v-on:click="editComment(comment._id)">Edit</button>
+                        <td v-if="authUserData.id === comment.author_id">
+                          <button class="btn btn-secondary btn-sm" title="Éditer mon commentaire" v-on:click="toggleCommentEditMode(comment._id, comment.content)">Edit</button>
                           <button class='btn btn-danger btn-sm'  title="supprimer le commentaire" v-on:click="deleteComment(comment._id)">Suppr</button>
                         </td>
                     </tr>
@@ -138,7 +146,10 @@ export default {
             userIsAuthorOfActiveVersion: false,
             postEditMode: false,
             postEditedTitle: "",
-            postEditedKeywords: ""
+            postEditedKeywords: "",
+            commentEditMode: false,
+            commentEditedContent: "",
+            editedCommentId: null
         }
     },
     computed: {
@@ -237,11 +248,13 @@ export default {
             console.error(error);
           });
         },
+
         editActiveVersion: function() {
-          //this.$router.push('/editer-une-version/'+this.postSingle.active_version._id);
+          this.$router.push('/editer-une-version/'+this.postSingle.active_version._id);
           //preparer UpdateVersionComponent.vue
           //UpdateVersionComponent.save()=>this.$store.dispatch('updateVersion', this.postSingle.active_version._id);
         },
+
         deleteActiveVersion: function() {
           this.$store.dispatch('deleteVersion', this.postSingle.active_version._id)
           .then((response)=>{
@@ -251,12 +264,31 @@ export default {
             console.error(error);
           });
         },
-        editComment: function(commentId) {
-          //afficher un formulaire d'édition sous le commentaire à éditer
-          //(rajouter une methode showCommentEditForm())
-          //la soumission du formualire appèlera cette méthode
-          //this.$store.dispatch('updateComment', commentId);
+
+        toggleCommentEditMode: function(commentId, commentContent) {
+          this.commentEditMode = true;
+          this.commentEditedContent = commentContent;
+          this.editedCommentId = commentId;
         },
+
+        validateCommentUpdate: function(commentId) {
+          this.commentEditMode = false;
+          let payload = {
+            commentId: commentId,
+            post_id: this.postSingle._id,
+            version_id: this.postSingle.active_version._id,
+            requestData: {
+              content: this.commentEditedContent
+            }
+          };
+          this.$store.dispatch('updateComment', payload)
+          .then((response)=>{
+            //console.log(response);
+          }, (error)=>{
+            console.log(error);
+          });
+        },
+
         deleteComment: function(commentId) {
           let payload = {
             postId: this.postSingle._id,

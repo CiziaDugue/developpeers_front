@@ -11,6 +11,7 @@ import HomeComponent from '@/components/HomeComponent.vue'
 import CreateGroupComponent from '@/components/CreateGroupComponent.vue'
 import CreatePostComponent from '@/components/CreatePostComponent.vue'
 import CreateVersionComponent from '@/components/CreateVersionComponent.vue'
+import EditVersionComponent from '@/components/EditVersionComponent.vue'
 
 Vue.use(Router)
 
@@ -57,6 +58,11 @@ export default new Router({
           path: '/creer-une-version',
           name: 'createVersion',
           component: CreateVersionComponent
+        },
+        {
+          path: '/editer-une-version/:versionId',
+          name: 'editVersion',
+          component: EditVersionComponent
         },
         {
             path: '/login',
