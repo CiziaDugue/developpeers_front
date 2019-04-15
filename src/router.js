@@ -10,6 +10,7 @@ import ProfileComponent from '@/components/ProfileComponent.vue'
 import HomeComponent from '@/components/HomeComponent.vue'
 import CreateGroupComponent from '@/components/CreateGroupComponent.vue'
 import CreatePostComponent from '@/components/CreatePostComponent.vue'
+import CreateVersionComponent from '@/components/CreateVersionComponent.vue'
 
 Vue.use(Router)
 
@@ -51,6 +52,11 @@ export default new Router({
           path: '/creer-un-article/:groupId',
           name: 'createPostFromGroup',
           component: CreatePostComponent
+        },
+        {
+          path: '/creer-une-version',
+          name: 'createVersion',
+          component: CreateVersionComponent
         },
         {
             path: '/login',

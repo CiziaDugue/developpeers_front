@@ -113,10 +113,7 @@ export default new Vuex.Store({
     },
     actions: {
 
-        initPostsListAction: function({
-            commit,
-            dispatch
-        }, data) {
+        initPostsListAction: function({commit, dispatch}, data) {
 
             let listType = data.listType;
             let groupId = data.groupId;
@@ -140,7 +137,7 @@ export default new Vuex.Store({
                 req = 'http://localhost/developeers/public/api/posts/group/' + groupId;
 
                 dispatch('initGroupSingleAction', groupId);
-                console.log(groupId);
+                //console.log(groupId);
             }
 
             return new Promise((resolve, reject) => {
@@ -427,8 +424,23 @@ export default new Vuex.Store({
           });
         },
 
-        commitVersion: function({commit}) {
+        commitVersion: function({dispatch}, data) {
 
+          let postId = data.postId;
+          let requestData = data.requestData;
+
+          return new Promise((resolve, reject)=>{
+            axios.post('http://localhost/developeers/public/api/commitversion/'+postId,
+            requestData,
+            {headers: this.state.headerObject})
+            .then(response=>{
+              dispatch('initPostSingleAction', {postId: postId});
+              resolve(response);
+            })
+            .catch(error=>{
+              reject(error);
+            })
+          });
         },
 
         logUser: function({commit, dispatch}, logData) {
@@ -507,9 +519,7 @@ export default new Vuex.Store({
           //console.log(registerData);
         },
 
-        disconnectUser: function({
-            commit
-        }) {
+        disconnectUser: function({commit}) {
             console.log("store.disconnect");
             let headerObject = {
                 'Content-Type': 'application/json'
@@ -517,9 +527,7 @@ export default new Vuex.Store({
             commit('SET_AUTH_USER_DATA_OUT', headerObject);
         },
 
-        setHeaderObject: function({
-            commit
-        }, userData) {
+        setHeaderObject: function({commit}, userData) {
             let headerObject = {
                 'Authorization': userData.token,
                 'Content-Type': 'application/json',

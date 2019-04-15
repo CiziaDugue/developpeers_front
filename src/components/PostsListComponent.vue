@@ -102,9 +102,7 @@ export default {
                 listType: listType,
                 postId: null,
                 groupId: groupId
-            }
-
-            console.log(payload);
+            };
 
             this.$store.dispatch('voteAction', payload);
         },

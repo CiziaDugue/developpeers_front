@@ -54,9 +54,7 @@
                     </button>
                 </div>
                 <div class="col-12">
-                    <router-link :to="{ name: '', params: {} }">
-                        <button class="btn btn-outline-secondary">+</button>
-                    </router-link>
+                  <button class="btn btn-outline-secondary" v-on:click="createVersion">+</button>
                 </div>
             </div>
         </div>
@@ -160,21 +158,18 @@ export default {
         },
 
         createVersion: function() {
-          //this.$router.push('createVersion');
+          this.$router.push('/creer-une-version');
         }
     },
-    mounted: function() {
+    created: function() {
         this.$store.dispatch('initPostSingleAction', {
             postId: this.$route.params.postId
         })
         .then((response) => {
           console.log(response);
-          //console.log(this.postSingle);
         }, (error) => {
           console.error(error);
         });
-        //console.log(this.postSingle);
-
     },
     // created: function() {
     //
