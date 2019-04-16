@@ -11,7 +11,12 @@
           <router-link to="/register">Créer mon compte</router-link>
           <router-link to='/login'>Se Connecter</router-link>
         </div>
-        <button v-if="userLogged" v-on:click="disconnectUser" class="btn btn-secondary">Logout</button>
+
+        <div v-if="userLogged">
+            <img src="" alt="">
+            <span class="navbar-text"> <strong>{{authUserData.name}}</strong></span>
+            <button v-if="userLogged" v-on:click="disconnectUser" class="btn btn-secondary">Logout</button>
+        </div>
     </div>
 </template>
 
@@ -27,7 +32,8 @@ export default {
     },
     computed: {
         ...mapState([
-            'userLogged'
+            'userLogged',
+            'authUserData'
         ])
     },
     methods: {

@@ -1,6 +1,9 @@
 <template>
   <main>
     <form v-if="this.$store.state.userLogged == false">
+        <div class="alert alert-danger" v-if="wrongLoginOrPwd">
+            Mauvais login ou mot de passe
+        </div>
       <div class="form-group">
         <h2>Login</h2>
       </div>
@@ -30,7 +33,8 @@
       return {
         name: 'LoginComponent',
         email: '',
-        password: ''
+        password: '',
+        wrongLoginOrPwd: false
       }
     },
     methods: {
@@ -39,10 +43,15 @@
           "email": this.email,
           "password": this.password
         };
-        this.$store.dispatch('logUser', logData);
-        setTimeout( () => {
-          this.$router.push('/');
-        }, 1000);
+        this.$store.dispatch('logUser', logData)
+        .then((response)=>{
+            //setTimeout( () => {
+              this.$router.push('/');
+            //}, 1000);
+        }, (error)=>{
+            console.error(error);
+            this.wrongLoginOrPwd = true;
+        });
       }
     }
   }
