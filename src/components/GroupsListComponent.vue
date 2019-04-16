@@ -2,7 +2,7 @@
 <div class="container main-block">
     <h2 class="text-center">{{ title }}</h2>
     <form class="form_inline">
-      <input type="search" placeholder="rechercher un groupe" v-model="searchGroupBarContent">
+      <input type="search" placeholder="rechercher un groupe" v-model="searchGroupBarContent" v-on:keyup.enter="searchGroup">
       <input type="button" value="Chercher" v-on:click="searchGroup">
     </form>
     <div class="card-columns">

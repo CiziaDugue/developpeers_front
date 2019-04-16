@@ -78,7 +78,8 @@ export default {
     },
     methods: {
         getPostsFeed: function() {
-            if (this.$store.userLogged) this.$store.dispatch('getPostsFeed');
+
+            if (this.userLogged) this.$store.dispatch('getPostsFeed');
             else this.$store.dispatch('getGuestFeed');
         },
         votePost: function(target, type, vote) {
@@ -90,10 +91,25 @@ export default {
             };
 
             this.$store.dispatch('voteInFeedAction', payload);
+        },
+        autoLogin: function() {
+
+            this.$store.dispatch('autoLogin')
+            .then((response)=>{
+                console.log(response);
+                this.getPostsFeed();
+            }, (error)=>{
+                console.log(error);
+                this.getPostsFeed();
+            })
         }
     },
     created: function() {
-        this.getPostsFeed();
+        if(!this.userLogged) {
+            this.autoLogin();
+        } else {
+            this.getPostsFeed();
+        }
     }
 }
 </script>

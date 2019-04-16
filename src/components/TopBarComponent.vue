@@ -4,7 +4,7 @@
             <h1 class="title">Developeers</h1>
         </router-link>
         <form class="form-inline">
-          <input type="search" placeholder="Recherche par mots clés" v-model="searchBarContent">
+          <input type="search" placeholder="Recherche par mots clés" v-model="searchBarContent" v-on:keyup.enter="getSearchResult">
           <input type="button" class="btn btn-outline-success my-2 my-sm-0" v-on:click="getSearchResult" value="Rechercher"/>
         </form>
         <div  v-if="!userLogged">
@@ -42,9 +42,22 @@ export default {
         this.$router.push('/');
       },
       getSearchResult: function() {
-        if (this.$store.userLogged) this.$store.dispatch('getSearchResult', this.searchBarContent);
-        else this.$store.dispatch('getGuestSearchResults', this.searchBarContent);
-        this.$router.push('/');
+        if (this.$store.userLogged) {
+            this.$store.dispatch('getSearchResult', this.searchBarContent)
+            .then((response)=>{
+                this.$router.push('/');
+            }, (error)=>{
+                console.error(error);
+            });
+        }
+        else {
+            this.$store.dispatch('getGuestSearchResults', this.searchBarContent)
+            .then((response)=>{
+                this.$router.push('/');
+            }, (error)=>{
+                console.error(error);
+            });
+        }
       }
     }
 }
