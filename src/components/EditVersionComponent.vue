@@ -13,12 +13,12 @@
       </div>
 
       <div class="form-group">
-        <textarea class="form-control" v-model="textContent"></textarea>
+        <textarea class="form-control" v-model="textContent" v-on:keyup.enter="validateVersionUpdate"></textarea>
       </div>
 
       <div v-for="snippet in codeSnippets">
         <div class="form-group">
-          <textarea class="form-control" v-model="codeSnippets[snippet.index].content"></textarea>
+          <textarea class="form-control" v-model="codeSnippets[snippet.index].content" v-on:keyup.enter="validateVersionUpdate"></textarea>
         </div>
       </div>
 
@@ -52,26 +52,35 @@ export default {
   },
   methods: {
     validateVersionUpdate: function() {
-      let payload = {
-        post_id: this.postSingle._id,
-        version_id: this.postSingle.active_version._id,
-        requestData: {
-          text_content: this.textContent,
-          code_snippets: []
-        }
-      };
 
-      let i=0;
-      this.codeSnippets.forEach( (cs) => {
-        payload.requestData.code_snippets[i] = cs.content;
-        i++;
-      });
-      this.$store.dispatch('updateVersion', payload)
-      .then((response)=>{
-        this.$router.push('/article/'+this.postSingle._id);
-      },(error)=>{
-        console.log(error);
-      });
+        if (this.title == ""
+        || this.textContent == ""
+        || this.codeSnippets[0].content == "") {
+
+          this.invalidFormMsg = "Tous les champs doivent être remplis.";
+
+      } else {
+          let payload = {
+            post_id: this.postSingle._id,
+            version_id: this.postSingle.active_version._id,
+            requestData: {
+              text_content: this.textContent,
+              code_snippets: []
+            }
+          };
+
+          let i=0;
+          this.codeSnippets.forEach( (cs) => {
+            payload.requestData.code_snippets[i] = cs.content;
+            i++;
+          });
+          this.$store.dispatch('updateVersion', payload)
+          .then((response)=>{
+            this.$router.push('/article/'+this.postSingle._id);
+          },(error)=>{
+            console.log(error);
+          });
+      }
     }
   },
   created: function() {

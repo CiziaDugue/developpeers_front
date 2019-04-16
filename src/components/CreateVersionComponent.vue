@@ -9,17 +9,19 @@
         <h3>{{title}}</h3>
       </div>
       <div class="form-group">
-        <label>Numéro de la nouvelle version : </label>
-        <input type="text" v-model="number" placeholder="exemple : 1.2 ou 2.0 ...">
+          <span>Édité à partir de la version {{previousVersionNb}}</span>
+          <br>
+          <label>Numéro de la nouvelle version : </label>
+          <input type="text" v-model="number" placeholder="exemple : 1.2 ou 2.0 ..." v-on:keyup.enter="validateNewVersion">
       </div>
 
       <div class="form-group">
-        <textarea class="form-control" v-model="textContent"></textarea>
+        <textarea class="form-control" v-model="textContent" v-on:keyup.enter="validateNewVersion"></textarea>
       </div>
 
       <div v-for="snippet in codeSnippets">
         <div class="form-group">
-          <textarea class="form-control" v-model="codeSnippets[snippet.index].content"></textarea>
+          <textarea class="form-control" v-model="codeSnippets[snippet.index].content" v-on:keyup.enter="validateNewVersion"></textarea>
         </div>
       </div>
 
@@ -46,7 +48,8 @@ export default {
       number: "",
       codeSnippets: [],
       csLength: 0,
-      invalidFormMsg: ""
+      invalidFormMsg: "",
+      previousVersionNb: null
     }
   },
   computed: {
@@ -57,26 +60,39 @@ export default {
   },
   methods: {
     validateNewVersion: function() {
-      let data = {
-        postId: this.postSingle._id,
-        requestData: {
-          text_content: this.textContent,
-          number: this.number,
-          code_snippets: []
-        }
-      };
+        if (this.title == ""
+        || this.textContent == ""
+        || this.codeSnippets[0].content == ""
+        || this.keywords == ""
+        || this.selectedGroup == ""
+        || this.number == "") {
 
-      let i=0;
-      this.codeSnippets.forEach(cs=>{
-        data.requestData.code_snippets[i] = cs.content;
-        i++;
-      });
-      this.$store.dispatch('commitVersion', data)
-      .then((response)=>{
-        this.$router.push('/article/'+this.postSingle._id);
-      },(error)=>{
-        console.log(error);
-      });
+          this.invalidFormMsg = "Tous les champs doivent être remplis.";
+
+      } else {
+
+          let data = {
+            postId: this.postSingle._id,
+            requestData: {
+              text_content: this.textContent,
+              number: this.number,
+              code_snippets: []
+            }
+          };
+
+          let i=0;
+          this.codeSnippets.forEach(cs=>{
+            data.requestData.code_snippets[i] = cs.content;
+            i++;
+          });
+          this.$store.dispatch('commitVersion', data)
+          .then((response)=>{
+            this.$router.push('/article/'+this.postSingle._id);
+          },(error)=>{
+            console.log(error);
+          });
+      }
+
     },
 
     addCodeSnippet: function() {
@@ -98,6 +114,7 @@ export default {
             i++;
           });
           this.csLength = i;
+          this.previousVersionNb = this.postSingle.active_version.number;
       }
   }
 }

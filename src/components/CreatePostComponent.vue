@@ -7,21 +7,21 @@
       </div>
       <div class="form-group">
         <label>Titre</label>
-        <input type="text" name="name" placeholder="Titre de l'article" class="form-control" v-model="title">
+        <input type="text" name="name" placeholder="Titre de l'article" class="form-control" v-model="title" v-on:keyup.enter="createPost">
       </div>
 
       <div class="form-group">
         <label>Mots-clés</label>
-        <input type="text" name="keywords" placeholder="Tapez des mots clés séparés par des espaces" class="form-control" v-model="keywords">
+        <input type="text" name="keywords" placeholder="Tapez des mots clés séparés par des espaces" class="form-control" v-model="keywords" v-on:keyup.enter="createPost">
       </div>
 
       <div class="form-group">
-        <textarea placeholder="Tapez votre message d'intro ici" class="form-control" v-model="textContent"></textarea>
+        <textarea placeholder="Tapez votre message d'intro ici" class="form-control" v-model="textContent" v-on:keyup.enter="createPost"></textarea>
       </div>
 
       <div v-for="snippet in codeSnippets">
         <div class="form-group">
-          <textarea placeholder="Tapez du code ici" class="form-control" v-model="codeSnippets[snippet.index].content"></textarea>
+          <textarea placeholder="Tapez du code ici" class="form-control" v-model="codeSnippets[snippet.index].content" v-on:keyup.enter="createPost"></textarea>
         </div>
       </div>
 
@@ -31,7 +31,7 @@
 
       <div class="form-group" v-if="!fromGroup">
         <label>Choisissez un groupe</label>
-        <select  v-model="selectedGroup">
+        <select  v-model="selectedGroup" v-on:keyup.enter="createPost">
           <optgroup label="mes-groupes">
             Mes groupes
           </optgroup>
@@ -84,9 +84,9 @@ export default {
       || this.codeSnippets[0].content == ""
       || this.keywords == ""
       || this.selectedGroup == "") {
+
         this.invalidFormMsg = "Tous les champs doivent être remplis.";
-      }
-      else {
+      } else {
         this.invalidFormMsg = "";
 
         let arKeywords = this.keywords.split(" ");

@@ -2,17 +2,20 @@
   <main>
     <form>
       <h2>Céer un groupe</h2>
+      <div class="alert alert-danger" v-if="invalidData">
+          Tous les champs doivent être remplis.
+      </div>
       <div class="form-group">
         <label>Nom</label>
-        <input type="text" name="name" placeholder="Nom du groupe" class="form-control" v-model="name">
+        <input type="text" name="name" placeholder="Nom du groupe" class="form-control" v-model="name" v-on:keyup.enter="createGroup">
       </div>
       <div class="form-group">
         <label>Description</label>
-        <input name="description" placeholder="Description du groupe" class="form-control" v-model="description">
+        <input name="description" placeholder="Description du groupe" class="form-control" v-model="description" v-on:keyup.enter="createGroup">
       </div>
       <div class="form-group">
         <label>Mots-clés</label>
-        <input type="text" name="keywords" placeholder="Tapez des mots clés séparés par des espaces" class="form-control" v-model="keywords">
+        <input type="text" name="keywords" placeholder="Tapez des mots clés séparés par des espaces" class="form-control" v-model="keywords" v-on:keyup.enter="createGroup">
       </div>
       <div class="form-group">
         <input type="button" value="Valider" class="btn btn-success" v-on:click="createGroup">
@@ -29,7 +32,8 @@ export default {
     return {
       name: "",
       description: "",
-      keywords: ""
+      keywords: "",
+      invalidData: false
     }
   },
   computed: {
@@ -39,18 +43,26 @@ export default {
   },
   methods: {
     createGroup: function() {
-        let arKeywords = this.keywords.split(" ");
-        let requestData = {
-        name: this.name,
-        description: this.description,
-        keywords: arKeywords
-        };
-        this.$store.dispatch('createGroup', requestData)
-            .then((response) => {
-                this.$router.push('/groupe/'+response.data._id);
-            }, (error) => {
-                console.log(error);
-            });
+
+        if(this.name == ""
+        || this.description == ""
+        || this.keywords == "") {
+
+            this.invalidData = true;
+        } else {
+            let arKeywords = this.keywords.split(" ");
+            let requestData = {
+            name: this.name,
+            description: this.description,
+            keywords: arKeywords
+            };
+            this.$store.dispatch('createGroup', requestData)
+                .then((response) => {
+                    this.$router.push('/groupe/'+response.data._id);
+                }, (error) => {
+                    console.log(error);
+                });
+            }
         }
     },
     created: function() {

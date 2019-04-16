@@ -59,7 +59,7 @@
 
                     <div v-if="userIsAuthorOfActiveVersion">
                       <button  class="btn btn-secondary btn-sm" title="Éditer cette version" v-on:click="editActiveVersion">Edit</button>
-                      <button  class="btn btn-danger btn-sm" title="supprimer cette version" v-on:click="deleteActiveVersion">Suppr</button>
+                      <button  class="btn btn-danger btn-sm" title="supprimer cette version" v-on:click="deleteActiveVersion" v-if="postSingle.active_version.number != '1.0'">Suppr</button>
                     </div>
 
                 </div>

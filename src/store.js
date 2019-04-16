@@ -224,7 +224,7 @@ export default new Vuex.Store({
                     console.log(error);
                 });
         },
-        
+
         voteInPostSingleAction: function({dispatch}, payload) {
         let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
 
@@ -382,7 +382,6 @@ export default new Vuex.Store({
           } else {
             dispatch('getPostsFeed');
           }
-
         },
 
         getGroupSearchResult: function({commit, dispatch}, searchData) {
