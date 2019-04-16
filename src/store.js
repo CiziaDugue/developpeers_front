@@ -363,13 +363,17 @@ export default new Vuex.Store({
 
         getUserGroups: function({commit}) {
           //récupérer la list de groups de l'utilisateur (par ex pour le select dans create post)
-          axios.get('http://localhost/developeers/public/api/groups/user', {headers: this.state.headerObject})
-              .then((response)=> {
-                commit('SET_GROUPS', response.data);
-              })
-              .catch((error)=>{
-                console.error(error);
-              });
+          return new Promise((resolve, reject)=>{
+              axios.get('http://localhost/developeers/public/api/groups/user', {headers: this.state.headerObject})
+                  .then((response)=> {
+                    commit('SET_GROUPS', response.data);
+                    resolve(response);
+                  })
+                  .catch((error)=>{
+                    //console.error(error);
+                    reject(error);
+                  });
+          });
         },
 
         createGroup: function({dispatch}, requestData) {
@@ -533,47 +537,9 @@ export default new Vuex.Store({
         },
 
         logUser: function({commit, dispatch}, logData) {
-          axios.post('http://localhost/developeers/public/api/login', logData)
-            .then( (response1) => {
-              axios.get('http://localhost/developeers/public/api/user',
-              {
-                headers :
-                {
-                  'Authorization': 'Bearer '+ response1.data.token,
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json'
-                }
-              })
-                  .then( (response2) => {
-                      let userData = {
-                        "token": "Bearer "+response1.data.token,
-                        "id": response2.data.user.id,
-                        "email": response2.data.user.email,
-                        "name": response2.data.user.name
-                      };
-
-                      commit('SET_AUTH_USER_DATA_IN', userData);
-                      dispatch('setHeaderObject', userData);
-                      dispatch('getUserGroups');
-                      //PROBLEME : perte de connexion en cas de rechargement de la page !!
-                      //regarder du côté de 'vuex-persistedstate' pour écrire l'état dans un cookie
-                      // setTimeout(function() {
-                      //   window.location = "http://localhost/developpeers_front/dist";
-                      // }, 500);
-
-                  })
-                  .catch( (error) => {
-                      console.log(error);
-                  });
-            })
-            .catch(function (error) {
-              console.log(error);
-          })
-        },
-
-        registerUser: function({commit, dispatch}, registerData) {
-          axios.post('http://localhost/developeers/public/api/register', registerData)
-                .then( (response1) => {
+            return new Promise((resolve, reject)=> {
+                axios.post('http://localhost/developeers/public/api/login', logData)
+                  .then( (response1) => {
                     axios.get('http://localhost/developeers/public/api/user',
                     {
                       headers :
@@ -584,25 +550,76 @@ export default new Vuex.Store({
                       }
                     })
                         .then( (response2) => {
-
                             let userData = {
-                                "token": "bearer " + response1.data.token,
-                                "id": response2.data.user.id,
-                                "email": response2.data.user.email,
-                                "name": response2.data.user.name
+                              "token": "Bearer "+response1.data.token,
+                              "id": response2.data.user.id,
+                              "email": response2.data.user.email,
+                              "name": response2.data.user.name
                             };
 
                             commit('SET_AUTH_USER_DATA_IN', userData);
                             dispatch('setHeaderObject', userData);
+                            dispatch('getUserGroups')
+                            .then((response3)=>{
+                                resolve(response3);
+                            }, (error)=>{
+                                console.error(error);
+                            });
+
+                            //PROBLEME : perte de connexion en cas de rechargement de la page !!
+                            //regarder du côté de 'vuex-persistedstate' pour écrire l'état dans un cookie
+                            // setTimeout(function() {
+                            //   window.location = "http://localhost/developpeers_front/dist";
+                            // }, 500);
 
                         })
-                        .catch((error) => {
+                        .catch( (error) => {
                             console.log(error);
                         });
-                })
-                .catch(function(error) {
+                  })
+                  .catch(function (error) {
                     console.log(error);
-                });
+                    reject(error);
+                })
+            });
+        },
+
+        registerUser: function({commit, dispatch}, registerData) {
+            return new Promise((resolve, reject)=>{
+                axios.post('http://localhost/developeers/public/api/register', registerData)
+                      .then( (response1) => {
+                          axios.get('http://localhost/developeers/public/api/user',
+                          {
+                            headers :
+                            {
+                              'Authorization': 'Bearer '+ response1.data.token,
+                              'Content-Type': 'application/json',
+                              'Accept': 'application/json'
+                            }
+                          })
+                              .then( (response2) => {
+
+                                  let userData = {
+                                      "token": "bearer " + response1.data.token,
+                                      "id": response2.data.user.id,
+                                      "email": response2.data.user.email,
+                                      "name": response2.data.user.name
+                                  };
+
+                                  commit('SET_AUTH_USER_DATA_IN', userData);
+                                  dispatch('setHeaderObject', userData);
+                                  resolve(response2);
+
+                              })
+                              .catch((error) => {
+                                  console.error(error);
+                              });
+                      })
+                      .catch(function(error) {
+                          console.error(error);
+                          reject(error);
+                      });
+            });
         },
 
         disconnectUser: function({commit}) {
