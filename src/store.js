@@ -163,9 +163,7 @@ export default new Vuex.Store({
           return new Promise ((resolve, reject)=>{
             axios.get('http://localhost/developeers/public/api/posts/' + payload.postId, {headers: this.state.headerObject})
                 .then(response => {
-                    //console.log(response.data);
                     let post = response.data;
-
                     commit('SET_POST', post);
                     resolve(response);
                 })
@@ -181,7 +179,6 @@ export default new Vuex.Store({
                     headers: this.state.headerObject
                 })
                 .then(response => {
-                    //console.log(response.data);
                     let post = response.data;
                     commit('SET_POST', post);
                     resolve(response);
@@ -211,9 +208,13 @@ export default new Vuex.Store({
 
             let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
 
-            let voteType = {vote: payload.vote};
+            let voteType = {
+                vote: payload.vote
+            };
 
-            axios.put(req, voteType, {headers: this.state.headerObject})
+            axios.put(req, voteType, {
+                    headers: this.state.headerObject
+                })
 
                 .then((response) => {
 
@@ -242,8 +243,12 @@ export default new Vuex.Store({
                         };
                         dispatch('initPostsListAction', listType);
                     }
-
-                    //groupsingle postlist
+                    else if (payload.postId != null) {
+                        let postId = {
+                            postId: payload.postId
+                        };
+                        dispatch('initPostSingleAction', postId);
+                    }
                     else if (payload.groupId != null) {
                         let groupId = {
                             listType: 'group-posts',
@@ -251,28 +256,6 @@ export default new Vuex.Store({
                         };
                         dispatch('initPostsListAction', groupId);
                     }
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        },
-
-        voteInPostSingleAction: function({dispatch}, payload) {
-
-            let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
-
-            let voteType = { vote: payload.vote };
-
-            axios.put(req, voteType, {headers: this.state.headerObject})
-
-                .then((response) => {
-
-                    let postId = {
-                        post_id: payload.postId,
-                        version_id: payload.versionId
-                    };
-                    dispatch('changePostVersionAction', postId);
-
                 })
                 .catch((error) => {
                     console.log(error);
@@ -545,7 +528,7 @@ export default new Vuex.Store({
                 console.error(error);
               });
             })
-            .catch(error=>{
+            .catch(error=>{ostSin
               reject(error);
             });
           });
@@ -631,7 +614,7 @@ export default new Vuex.Store({
                             commit('SET_AUTH_USER_DATA_IN', userData);
                             dispatch('setHeaderObject', userData);
 
-                        })
+                        })ostSin
                         .catch((error) => {
                             console.log(error);
                         });

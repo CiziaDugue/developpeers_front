@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
   data: function() {
     return {
@@ -30,22 +32,30 @@ export default {
       keywords: ""
     }
   },
+  computed: {
+      ...mapState([
+          'userLogged'
+      ])
+  },
   methods: {
     createGroup: function() {
-      let arKeywords = this.keywords.split(" ");
-      let requestData = {
+        let arKeywords = this.keywords.split(" ");
+        let requestData = {
         name: this.name,
         description: this.description,
         keywords: arKeywords
-      };
-      this.$store.dispatch('createGroup', requestData)
-      .then((response) => {
-        this.$router.push('/groupe/'+response.data._id);
-      }, (error) => {
-        console.log(error);
-      });
+        };
+        this.$store.dispatch('createGroup', requestData)
+            .then((response) => {
+                this.$router.push('/groupe/'+response.data._id);
+            }, (error) => {
+                console.log(error);
+            });
+        }
+    },
+    created: function() {
+        if (!this.userLogged) this.$router.push('/login');
     }
-  }
 }
 </script>
 

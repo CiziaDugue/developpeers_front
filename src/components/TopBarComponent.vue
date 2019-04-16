@@ -3,29 +3,32 @@
         <router-link :to="{ path: '/' }">
             <h1 class="title">Developeers</h1>
         </router-link>
-        <!-- <router-link :to="{ name: 'postSingle', params: { postId: '5ca9db30e075042c16576462' }}">
-            <h3 class="card-title">5ca9db30e075042c16576462</h3>
-        </router-link> -->
-        <!-- <button class="btn btn-light btn-inline">Log Out</button> -->
         <form class="form-inline">
           <input type="search" placeholder="Recherche par mots clés" v-model="searchBarContent">
           <input type="button" class="btn btn-outline-success my-2 my-sm-0" v-on:click="getSearchResult" value="Rechercher"/>
         </form>
-        <div  v-if="this.$store.state.userLogged == false">
+        <div  v-if="!userLogged">
           <router-link to="/register">Créer mon compte</router-link>
           <router-link to='/login'>Se Connecter</router-link>
         </div>
-        <button v-if="this.$store.state.userLogged == true" v-on:click="disconnectUser" class="btn btn-secondary">Logout</button>
+        <button v-if="userLogged" v-on:click="disconnectUser" class="btn btn-secondary">Logout</button>
     </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
     data: function() {
         return {
             name: 'TopBarComponent',
             searchBarContent: ''
         }
+    },
+    computed: {
+        ...mapState([
+            'userLogged'
+        ])
     },
     methods: {
       disconnectUser: function() {
