@@ -48,8 +48,11 @@
         <div class="col-2 border">
 
             <div class="row">
-                <div class="col-12">
-                    <button v-for="version in postSingle.versions" v-on:click="changeVersion(version._id)" class="btn btn-outline-secondary">
+                <div v-for="version in postSingle.versions" class="col-12">
+                    <button v-if="postSingle.active_version._id == version._id" class="btn btn-outline-primary" disabled>
+                        {{ version.number }}
+                    </button>
+                    <button v-else v-on:click="changeVersion(version._id)" class="btn btn-outline-secondary">
                         {{ version.number }}
                     </button>
                 </div>
