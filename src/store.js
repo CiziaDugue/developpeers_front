@@ -224,10 +224,12 @@ export default new Vuex.Store({
                 .then((response) => {
 
                     //console.log(response.data);
-
+                    //postfeed
                     if (payload.listType == null && payload.postId == null && payload.groupId == null) {
                         dispatch('getPostsFeed');
                     }
+
+                    //postList
                     else if (payload.listType != null) {
                         let listType = {
                             listType: payload.listType,
@@ -235,12 +237,17 @@ export default new Vuex.Store({
                         };
                         dispatch('initPostsListAction', listType);
                     }
+
+                    //postSingle
                     else if (payload.postId != null) {
                         let postId = {
-                            postId: payload.postId
+                            post_id: payload.postId,
+                            version_id: payload.versionId
                         };
-                        dispatch('initPostSingleAction', postId);
+                        dispatch('changePostVersionAction', postId);
                     }
+
+                    //groupsingle postlist
                     else if (payload.groupId != null) {
                         let groupId = {
                             listType: 'group-posts',
@@ -507,9 +514,7 @@ export default new Vuex.Store({
           //console.log(registerData);
         },
 
-        disconnectUser: function({
-            commit
-        }) {
+        disconnectUser: function({ commit }) {
             console.log("store.disconnect");
             let headerObject = {
                 'Content-Type': 'application/json'
@@ -517,9 +522,7 @@ export default new Vuex.Store({
             commit('SET_AUTH_USER_DATA_OUT', headerObject);
         },
 
-        setHeaderObject: function({
-            commit
-        }, userData) {
+        setHeaderObject: function({commit}, userData) {
             let headerObject = {
                 'Authorization': userData.token,
                 'Content-Type': 'application/json',
