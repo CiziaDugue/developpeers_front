@@ -33,7 +33,8 @@ export default {
         this.$router.push('/');
       },
       getSearchResult: function() {
-        this.$store.dispatch('getSearchResult', this.searchBarContent);
+        if (this.$store.userLogged) this.$store.dispatch('getSearchResult', this.searchBarContent);
+        else this.$store.dispatch('getGuestSearchResults', this.searchBarContent);
         this.$router.push('/');
       }
     }

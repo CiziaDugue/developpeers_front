@@ -64,23 +64,19 @@ export default new Vuex.Store({
             state.postSingle = post;
 
         },
-
         SET_GROUPS(state, groups) {
 
             state.groupsList = groups;
 
         },
-
         SET_USER_GROUPS(state, groups) {
           //doublon avec celle du dessus ? essayer de fusionner
           state.userGroups = groups;
         },
-
         SET_GROUP(state, group) {
 
           state.groupSingle = group;
         },
-
         SET_AUTH_USER_DATA_IN(state, userData) {
 
             state.authUserData = userData;
@@ -113,10 +109,10 @@ export default new Vuex.Store({
     },
     actions: {
 
-        initPostsListAction: function({commit, dispatch}, data) {
+        initPostsListAction: function({commit, dispatch}, payload) {
 
-            let listType = data.listType;
-            let groupId = data.groupId;
+            let listType = payload.listType;
+            let groupId = payload.groupId;
 
             let req = '';
 
@@ -137,7 +133,6 @@ export default new Vuex.Store({
                 req = 'http://localhost/developeers/public/api/posts/group/' + groupId;
 
                 dispatch('initGroupSingleAction', groupId);
-                //console.log(groupId);
             }
 
             return new Promise((resolve, reject) => {
@@ -348,7 +343,6 @@ export default new Vuex.Store({
             let req = 'http://localhost/developeers/public/api/searchposts/' + words;
             axios.get(req, {headers: this.state.headerObject})
                 .then((response) => {
-                  //console.log(response);
                   let posts = response.data;
                   commit('SET_POSTS_FEED', posts);
                 })
@@ -643,6 +637,68 @@ export default new Vuex.Store({
             };
             commit('SET_HEADER_OBJECT', headerObject);
             console.log('setting header object');
+        },
+
+        //GUEST CIRCUIT
+        getGuestFeed: function({commit}) {
+            axios.get('http://localhost/developeers/public/api/guest/postsfeed', {headers: this.state.headerObject})
+                .then( (response) => {
+                    let posts = response.data;
+                    commit('SET_POSTS_FEED', posts);
+                })
+                .catch( (error) => {
+                    console.error(error);
+                });
+        },
+
+        getGuestSearchResults: function({commit, dispatch}, words) {
+            if (words != "") {
+              let req = 'http://localhost/developeers/public/api/guest/searchposts/' + words;
+              axios.get(req, {headers: this.state.headerObject})
+                  .then((response) => {
+                    let posts = response.data;
+                    commit('SET_POSTS_FEED', posts);
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                  })
+            } else {
+              dispatch('getGuestFeed');
+            }
+        },
+
+        initGuestPostSingleAction: function({commit}, payload) {
+            return new Promise ((resolve, reject)=>{
+              axios.get('http://localhost/developeers/public/api/guest/posts/' + payload.postId, {headers: this.state.headerObject})
+                  .then((response) => {
+                      let post = response.data;
+                      commit('SET_POST', post);
+                      resolve(response);
+                  })
+                  .catch((error) => {
+                      reject(error);
+                  });
+            });
+        },
+
+        changeGuestPostVersionAction: function({commit}, payload) {
+            return new Promise ((resolve, reject)=>{
+              axios.get('http://localhost/developeers/public/api/guest/postversion/' + payload.post_id + '/' + payload.version_id, {
+                      headers: this.state.headerObject
+                  })
+                  .then(response => {
+                      let post = response.data;
+                      commit('SET_POST', post);
+                      resolve(response);
+                  })
+                  .catch(error => {
+                      reject(error);
+                  });
+            });
+        },
+
+        initGuestPostsListAction: function({commit}, payload) {
+            //si affichage d'un groupe. à voir ...
         }
     }
 })

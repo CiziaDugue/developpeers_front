@@ -12,6 +12,7 @@ import CreateGroupComponent from '@/components/CreateGroupComponent.vue'
 import CreatePostComponent from '@/components/CreatePostComponent.vue'
 import CreateVersionComponent from '@/components/CreateVersionComponent.vue'
 import EditVersionComponent from '@/components/EditVersionComponent.vue'
+import PostSingleGuestComponent from '@/components/PostSingleGuestComponent.vue'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
             path: '/article/:postId',
             name: 'postSingle',
             component: PostSingleComponent
+        },
+        {
+            path:'/guest/article/:postId',
+            name:'guestPostSingle',
+            component: PostSingleGuestComponent
         },
         {
             path: '/groupes/:groupsListType',
