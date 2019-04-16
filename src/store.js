@@ -36,6 +36,7 @@ export default new Vuex.Store({
         headerObject:{},
         userGroups: [],
         userNotifs: []
+
     },
     mutations: {
 
@@ -250,14 +251,23 @@ export default new Vuex.Store({
 
             let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
 
-            let voteType = {vote: payload.vote};
+            let voteType = {
+                vote: payload.vote
+            };
 
-            axios.put(req, voteType, {headers: this.state.headerObject})
+            axios.put(req, voteType, {
+                    headers: this.state.headerObject
+                })
 
                 .then((response) => {
 
-                    //postList
-                    if (payload.listType != null) {
+                    //console.log(response.data);
+
+                    if (payload.listType == null && payload.postId == null && payload.groupId == null) {
+                        dispatch('getPostsFeed');
+                    }
+                    else if (payload.listType != null) {
+
                         let listType = {
                             listType: payload.listType,
                             groupId: null
