@@ -9,6 +9,11 @@
 import {mapState} from 'vuex'
 
 export default {
+    computed: {
+        ...mapState([
+            'userNotifs'
+        ])
+    },
     data: function() {
         return {
             name: 'DashboardComponent',
@@ -88,7 +93,7 @@ export default {
                     title: 'Notifications',
                     icon: 'fas fa-bell',
                     badge: {
-                        // text: this.userNotif.length,
+                        text: this.userNotifs ? this.userNotifs.length : null,
                         class: 'badge badge-light'
                     }
                 },
@@ -100,11 +105,6 @@ export default {
 
             ]
         }
-    },
-    computed: {
-        ...mapState([
-            'userNotif'
-        ])
     },
 }
 </script>
