@@ -11,8 +11,10 @@
           <input type="search" placeholder="Recherche par mots clés" v-model="searchBarContent">
           <input type="button" class="btn btn-outline-success my-2 my-sm-0" v-on:click="getSearchResult" value="Rechercher"/>
         </form>
-        <router-link to="/register">Créer mon compte</router-link>
-        <router-link to='/login' v-if="this.$store.state.userLogged == false">Se Connecter</router-link>
+        <div  v-if="this.$store.state.userLogged == false">
+          <router-link to="/register">Créer mon compte</router-link>
+          <router-link to='/login'>Se Connecter</router-link>
+        </div>
         <button v-if="this.$store.state.userLogged == true" v-on:click="disconnectUser" class="btn btn-secondary">Logout</button>
     </div>
 </template>
@@ -31,7 +33,8 @@ export default {
         this.$router.push('/');
       },
       getSearchResult: function() {
-        this.$store.dispatch('getSearchResult', this.searchBarContent);
+        if (this.$store.userLogged) this.$store.dispatch('getSearchResult', this.searchBarContent);
+        else this.$store.dispatch('getGuestSearchResults', this.searchBarContent);
         this.$router.push('/');
       }
     }

@@ -10,13 +10,16 @@ import ProfileComponent from '@/components/ProfileComponent.vue'
 import HomeComponent from '@/components/HomeComponent.vue'
 import CreateGroupComponent from '@/components/CreateGroupComponent.vue'
 import CreatePostComponent from '@/components/CreatePostComponent.vue'
+import CreateVersionComponent from '@/components/CreateVersionComponent.vue'
+import EditVersionComponent from '@/components/EditVersionComponent.vue'
+import PostSingleGuestComponent from '@/components/PostSingleGuestComponent.vue'
 
 Vue.use(Router)
 
 export default new Router({
     mode: 'history',
 
-    //base: process.env.BASE_URL + '/developeers_front/dist',
+    //base: process.env.BASE_URL + '/projets/developeers_front/dist',
     routes: [{
             path: '/articles/:postsListType',
             name: 'postsList',
@@ -26,6 +29,11 @@ export default new Router({
             path: '/article/:postId',
             name: 'postSingle',
             component: PostSingleComponent
+        },
+        {
+            path:'/guest/article/:postId',
+            name:'guestPostSingle',
+            component: PostSingleGuestComponent
         },
         {
             path: '/groupes/:groupsListType',
@@ -46,6 +54,21 @@ export default new Router({
           path: '/creer-un-article',
           name: 'createPost',
           component: CreatePostComponent
+        },
+        {
+          path: '/creer-un-article/:groupId',
+          name: 'createPostFromGroup',
+          component: CreatePostComponent
+        },
+        {
+          path: '/creer-une-version',
+          name: 'createVersion',
+          component: CreateVersionComponent
+        },
+        {
+          path: '/editer-une-version/:versionId',
+          name: 'editVersion',
+          component: EditVersionComponent
         },
         {
             path: '/login',

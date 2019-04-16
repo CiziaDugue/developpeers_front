@@ -64,23 +64,19 @@ export default new Vuex.Store({
             state.postSingle = post;
 
         },
-
         SET_GROUPS(state, groups) {
 
             state.groupsList = groups;
 
         },
-
         SET_USER_GROUPS(state, groups) {
           //doublon avec celle du dessus ? essayer de fusionner
           state.userGroups = groups;
         },
-
         SET_GROUP(state, group) {
 
           state.groupSingle = group;
         },
-
         SET_AUTH_USER_DATA_IN(state, userData) {
 
             state.authUserData = userData;
@@ -113,34 +109,30 @@ export default new Vuex.Store({
     },
     actions: {
 
-        initPostsListAction: function({
-            commit,
-            dispatch
-        }, data) {
+        initPostsListAction: function({commit, dispatch}, payload) {
 
-            let listType = data.listType;
-            let groupId = data.groupId;
+            let listType = payload.listType;
+            let groupId = payload.groupId;
 
             let req = '';
 
             if (listType == 'tous-les-articles') {
 
-                req = 'http://localhost/projets/developeers/public/api/posts';
+                req = 'http://localhost/developeers/public/api/posts';
 
             } else if (listType == 'mes-articles') {
 
-                req = 'http://localhost/projets/developeers/public/api/authorposts';
+                req = 'http://localhost/developeers/public/api/authorposts';
 
             } else if (listType == 'articles-suivis') {
 
-                req = 'http://localhost/projets/developeers/public/api/userposts';
+                req = 'http://localhost/developeers/public/api/userposts';
 
             } else if (listType == 'group-posts') {
 
-                req = 'http://localhost/projets/developeers/public/api/posts/group/' + groupId;
+                req = 'http://localhost/developeers/public/api/posts/group/' + groupId;
 
                 dispatch('initGroupSingleAction', groupId);
-                console.log(groupId);
             }
 
             return new Promise((resolve, reject) => {
@@ -173,31 +165,32 @@ export default new Vuex.Store({
                     resolve(response);
                 })
                 .catch(error => {
-                    console.log(error)
                     reject(error);
                 });
           });
         },
 
         changePostVersionAction: function({commit}, payload) {
-
-            axios.get('http://localhost/projets/developeers/public/api/posts/' + payload.post_id + '/' + payload.version_id, {
+          return new Promise ((resolve, reject)=>{
+            axios.get('http://localhost/developeers/public/api/posts/' + payload.post_id + '/' + payload.version_id, {
                     headers: this.state.headerObject
                 })
-
                 .then(response => {
                     //console.log(response.data);
                     let post = response.data;
                     commit('SET_POST', post);
+                    resolve(response);
                 })
                 .catch(error => {
-                    console.log(error)
+                    reject(error);
                 });
+          });
+
         },
 
         addCommentAction: function({dispatch}, payload) {
 
-            axios.post('http://localhost/projets/developeers/public/api/comments/' + payload.version_id, payload.comment, {
+            axios.post('http://localhost/developeers/public/api/comments/' + payload.version_id, payload.comment, {
                     headers: this.state.headerObject
                 })
                 .then(response => {
@@ -211,7 +204,7 @@ export default new Vuex.Store({
 
         voteAction: function({dispatch}, payload) {
 
-            let req = 'http://localhost/projets/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
+            let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
 
             let voteType = {
                 vote: payload.vote
@@ -262,11 +255,11 @@ export default new Vuex.Store({
 
             if (listType.type == 'tous-les-groupes') {
 
-                req = 'http://localhost/projets/developeers/public/api/groups';
+                req = 'http://localhost/developeers/public/api/groups';
 
             } else if (listType.type == 'mes-groupes') {
 
-                req = 'http://localhost/projets/developeers/public/api/groups/user';
+                req = 'http://localhost/developeers/public/api/groups/user';
 
             }
 
@@ -288,7 +281,7 @@ export default new Vuex.Store({
         },
 
         initGroupSingleAction: function({commit}, groupId) {
-          axios.get('http://localhost/projets/developeers/public/api/groups/'+groupId, {headers: this.state.headerObject})
+          axios.get('http://localhost/developeers/public/api/groups/'+groupId, {headers: this.state.headerObject})
               .then((response)=>{
                 commit('SET_GROUP', response.data);
               })
@@ -297,10 +290,9 @@ export default new Vuex.Store({
               });
         },
 
-
         leaveOrJoinGroupFromListAction: function({ dispatch }, payload) {
 
-            let req = 'http://localhost/projets/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
+            let req = 'http://localhost/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
 
             axios.put(req, {}, {
                     headers: this.state.headerObject
@@ -315,7 +307,7 @@ export default new Vuex.Store({
 
         leaveOrJoinGroupFromGroupAction: function({dispatch}, payload) {
 
-            let req = 'http://localhost/projets/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
+            let req = 'http://localhost/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
 
             axios.put(req, {}, { headers: this.state.headerObject })
 
@@ -329,7 +321,7 @@ export default new Vuex.Store({
         },
 
         getPostsFeed: function({commit}) {
-          axios.get('http://localhost/projets/developeers/public/api/postsfeed', {headers: this.state.headerObject})
+          axios.get('http://localhost/developeers/public/api/postsfeed', {headers: this.state.headerObject})
               .then( (response) => {
                   let posts = response.data;
                   commit('SET_POSTS_FEED', posts);
@@ -341,7 +333,7 @@ export default new Vuex.Store({
 
         getSearchResult: function({commit, dispatch}, words) {
           if (words != "") {
-            let req = 'http://localhost/projets/developeers/public/api/searchposts/' + words;
+            let req = 'http://localhost/developeers/public/api/searchposts/' + words;
             axios.get(req, {headers: this.state.headerObject})
                 .then((response) => {
                   let posts = response.data;
@@ -358,7 +350,7 @@ export default new Vuex.Store({
 
         getGroupSearchResult: function({commit, dispatch}, searchData) {
           if (searchData.words != "") {
-            let req = 'http://localhost/projets/developeers/public/api/searchgroups/' + searchData.words;
+            let req = 'http://localhost/developeers/public/api/searchgroups/' + searchData.words;
             axios.get(req, {headers: this.state.headerObject})
                 .then((response) => {
                   let groups = response.data;
@@ -374,7 +366,7 @@ export default new Vuex.Store({
 
         getUserGroups: function({commit}) {
           //récupérer la list de groups de l'utilisateur (par ex pour le select dans create post)
-          axios.get('http://localhost/projets/developeers/public/api/groups/user', {headers: this.state.headerObject})
+          axios.get('http://localhost/developeers/public/api/groups/user', {headers: this.state.headerObject})
               .then((response)=> {
                 commit('SET_GROUPS', response.data);
               })
@@ -385,14 +377,18 @@ export default new Vuex.Store({
 
         createGroup: function({dispatch}, requestData) {
           return new Promise((resolve, reject) => {
-            axios.post('http://localhost/projets/developeers/public/api/groups', requestData, {headers: this.state.headerObject} )
+            axios.post('http://localhost/developeers/public/api/groups', requestData, {headers: this.state.headerObject} )
                 . then((response) => {
                   let data = {
                     listType: "group-posts",
                     groupId: response.data._id
                   };
-                  dispatch('initPostsListAction', data);
-                  resolve(response);
+                  dispatch('initPostsListAction', data)
+                  .then((response)=>{
+                    resolve(response);
+                  }, (error)=>{
+                    console.error(error);
+                  });
                 })
                 .catch((error) => {
                   reject(error);
@@ -402,10 +398,14 @@ export default new Vuex.Store({
 
         createPost: function({dispatch}, requestData) {
           return  new Promise((resolve, reject) => {
-            axios.post('http://localhost/projets/developeers/public/api/posts', requestData, {headers: this.state.headerObject})
+            axios.post('http://localhost/developeers/public/api/posts', requestData, {headers: this.state.headerObject})
                 . then((response) => {
-                  dispatch('initPostSingleAction', {postId: response.data._id});
-                  resolve(response);
+                  dispatch('initPostSingleAction', {postId: response.data._id})
+                  .then((response)=>{
+                    resolve(response);
+                  }, (error)=>{
+                    console.error(error);
+                  });
                 })
                 .catch((error) => {
                   reject(error);
@@ -413,14 +413,132 @@ export default new Vuex.Store({
           });
         },
 
-        commitVersion: function({commit}) {
+        commitVersion: function({dispatch}, data) {
 
+          let postId = data.postId;
+          let requestData = data.requestData;
+
+          return new Promise((resolve, reject)=>{
+            axios.post('http://localhost/developeers/public/api/commitversion/'+postId,
+            requestData,
+            {headers: this.state.headerObject})
+            .then(response=>{
+              dispatch('initPostSingleAction', {postId: postId})
+              .then((response)=>{
+                resolve(response);
+              }, (error)=>{
+                console.error(error);
+              });
+            })
+            .catch(error=>{
+              reject(error);
+            })
+          });
+        },
+
+        updatePost: function({dispatch}, payload) {
+
+          let postId = payload.post_id;
+          let requestData = payload.requestData;
+
+          return new Promise((resolve, reject)=>{
+            axios.put('http://localhost/developeers/public/api/posts/'+postId,
+            requestData,
+            {headers: this.state.headerObject})
+            .then(response=>{
+              dispatch('changePostVersionAction', payload)
+              .then((response)=>{
+                resolve(response);
+              }, (error)=>{
+                console.error(error);
+              });
+            })
+            .catch(error=>{
+              reject(error);
+            });
+          });
+        },
+
+        updateVersion: function({dispatch}, payload) {
+          let versionId = payload.version_id;
+          let requestData = payload.requestData;
+          return new Promise((resolve, reject)=>{
+            axios.put('http://localhost/developeers/public/api/updateversion/'+versionId,
+            requestData, {headers: this.state.headerObject})
+            .then(response=>{
+              resolve(response);
+              console.log(response);
+            })
+            .catch(error=>{
+              reject(error);
+            });
+          });
+        },
+
+        deletePost: function({commit}, postId) {
+          return new Promise((resolve, reject)=>{
+            axios.delete('http://localhost/developeers/public/api/posts/'+postId, {headers: this.state.headerObject})
+            .then(response=>{
+              resolve(response);
+            })
+            .catch(error=>{
+              reject(error);
+            });
+          });
+        },
+
+        deleteVersion: function({commit}, versionId) {
+          return new Promise((resolve, reject)=>{
+            axios.delete('http://localhost/developeers/public/api/deleteversion/'+versionId, {headers: this.state.headerObject})
+            .then(response=>{
+              resolve(response);
+            })
+            .catch(error=>{
+              reject(error);
+            });
+          })
+        },
+
+        updateComment: function({dispatch}, payload) {
+          let commentId = payload.commentId;
+          let requestData = payload.requestData;
+          return new Promise((resolve, reject)=>{
+            axios.put('http://localhost/developeers/public/api/updatecomment/'+commentId, requestData, {headers: this.state.headerObject})
+            .then(response=>{
+              dispatch('changePostVersionAction', payload)
+              .then((response)=>{
+                resolve(response);
+              }, (error)=>{
+                console.error(error);
+              });
+            })
+            .catch(error=>{
+              reject(error);
+            });
+          });
+        },
+
+        deleteComment: function({dispatch}, payload) {
+          return new Promise((resolve, reject)=>{
+            axios.delete('http://localhost/developeers/public/api/deletecomment/'+payload.commentId, {headers: this.state.headerObject})
+            .then((response)=>{
+              dispatch('changePostVersionAction', {post_id: payload.postId, version_id: payload.versionId})
+              .then((response)=>{
+                resolve(response);
+              }, (error)=>{
+                console.error(error);
+              });
+            })
+            .catch((error)=>{
+              reject(error);
+            });
+          });
         },
 
         logUser: function({commit, dispatch}, logData) {
-          axios.post('http://localhost/projets/developeers/public/api/login', logData)
+          axios.post('http://localhost/developeers/public/api/login', logData)
             .then( (response1) => {
-              axios.get('http://localhost/projets/developeers/public/api/user',
+              axios.get('http://localhost/developeers/public/api/user',
               {
                 headers :
                 {
@@ -443,7 +561,7 @@ export default new Vuex.Store({
                       //PROBLEME : perte de connexion en cas de rechargement de la page !!
                       //regarder du côté de 'vuex-persistedstate' pour écrire l'état dans un cookie
                       // setTimeout(function() {
-                      //   window.location = "http://localhost/projets/developpeers_front/dist";
+                      //   window.location = "http://localhost/developpeers_front/dist";
                       // }, 500);
 
                   })
@@ -457,9 +575,9 @@ export default new Vuex.Store({
         },
 
         registerUser: function({commit, dispatch}, registerData) {
-          axios.post('http://localhost/projets/developeers/public/api/register', registerData)
+          axios.post('http://localhost/developeers/public/api/register', registerData)
                 .then( (response1) => {
-                    axios.get('http://localhost/projets/developeers/public/api/user',
+                    axios.get('http://localhost/developeers/public/api/user',
                     {
                       headers :
                       {
@@ -490,9 +608,7 @@ export default new Vuex.Store({
                 });
         },
 
-        disconnectUser: function({
-            commit
-        }) {
+        disconnectUser: function({commit}) {
             console.log("store.disconnect");
             let headerObject = {
                 'Content-Type': 'application/json'
@@ -500,9 +616,7 @@ export default new Vuex.Store({
             commit('SET_AUTH_USER_DATA_OUT', headerObject);
         },
 
-        setHeaderObject: function({
-            commit
-        }, userData) {
+        setHeaderObject: function({commit}, userData) {
             let headerObject = {
                 'Authorization': userData.token,
                 'Content-Type': 'application/json',
@@ -510,6 +624,68 @@ export default new Vuex.Store({
             };
             commit('SET_HEADER_OBJECT', headerObject);
             console.log('setting header object');
+        },
+
+        //GUEST CIRCUIT
+        getGuestFeed: function({commit}) {
+            axios.get('http://localhost/developeers/public/api/guest/postsfeed', {headers: this.state.headerObject})
+                .then( (response) => {
+                    let posts = response.data;
+                    commit('SET_POSTS_FEED', posts);
+                })
+                .catch( (error) => {
+                    console.error(error);
+                });
+        },
+
+        getGuestSearchResults: function({commit, dispatch}, words) {
+            if (words != "") {
+              let req = 'http://localhost/developeers/public/api/guest/searchposts/' + words;
+              axios.get(req, {headers: this.state.headerObject})
+                  .then((response) => {
+                    let posts = response.data;
+                    commit('SET_POSTS_FEED', posts);
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                  })
+            } else {
+              dispatch('getGuestFeed');
+            }
+        },
+
+        initGuestPostSingleAction: function({commit}, payload) {
+            return new Promise ((resolve, reject)=>{
+              axios.get('http://localhost/developeers/public/api/guest/posts/' + payload.postId, {headers: this.state.headerObject})
+                  .then((response) => {
+                      let post = response.data;
+                      commit('SET_POST', post);
+                      resolve(response);
+                  })
+                  .catch((error) => {
+                      reject(error);
+                  });
+            });
+        },
+
+        changeGuestPostVersionAction: function({commit}, payload) {
+            return new Promise ((resolve, reject)=>{
+              axios.get('http://localhost/developeers/public/api/guest/postversion/' + payload.post_id + '/' + payload.version_id, {
+                      headers: this.state.headerObject
+                  })
+                  .then(response => {
+                      let post = response.data;
+                      commit('SET_POST', post);
+                      resolve(response);
+                  })
+                  .catch(error => {
+                      reject(error);
+                  });
+            });
+        },
+
+        initGuestPostsListAction: function({commit}, payload) {
+            //si affichage d'un groupe. à voir ...
         }
     }
 })
