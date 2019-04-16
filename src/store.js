@@ -35,7 +35,7 @@ export default new Vuex.Store({
         authUserData: {},
         headerObject:{},
         userGroups: [],
-        userNotif: []
+        userNotifs: []
     },
     mutations: {
 
@@ -106,6 +106,10 @@ export default new Vuex.Store({
             }
 
             state.postsFeed = posts;
+        },
+        SET_USER_NOTIFS(state, notifs) {
+
+            state.userNotifs = notifs;
         }
     },
     actions: {
@@ -348,10 +352,11 @@ export default new Vuex.Store({
                 });
         },
 
-        getPostsFeed: function({commit}) {
+        getPostsFeed: function({commit, dispatch}) {
           axios.get('http://localhost/developeers/public/api/postsfeed', {headers: this.state.headerObject})
               .then( (response) => {
                   let posts = response.data;
+                  dispatch('getNotificationsAction');
                   commit('SET_POSTS_FEED', posts);
               })
               .catch( (error) => {
@@ -652,6 +657,17 @@ export default new Vuex.Store({
             };
             commit('SET_HEADER_OBJECT', headerObject);
             console.log('setting header object');
+        },
+
+        getNotificationsAction: function({commit}) {
+            axios.get('http://localhost/developeers/public/api/notifications', {headers: this.state.headerObject})
+                .then( (response) => {
+                    let notifs = response.data;
+                    commit('SET_USER_NOTIFS', notifs);
+                })
+                .catch( (error) => {
+                    console.error(error);
+                });
         },
 
         //GUEST CIRCUIT

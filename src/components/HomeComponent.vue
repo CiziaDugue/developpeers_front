@@ -80,6 +80,7 @@ export default {
         getPostsFeed: function() {
             if (this.$store.userLogged) this.$store.dispatch('getPostsFeed');
             else this.$store.dispatch('getGuestFeed');
+            console.log(this.$store.state.headerObject);
         },
         votePost: function(target, type, vote) {
 
