@@ -17,8 +17,8 @@ import PostSingleGuestComponent from '@/components/PostSingleGuestComponent.vue'
 Vue.use(Router)
 
 export default new Router({
-    mode: 'history',
-    base: process.env.BASE_URL + '/developeers_front/dist',
+    //mode: 'history',
+    //base: process.env.BASE_URL + '/developeers_front/dist',
     routes: [{
             path: '/articles/:postsListType',
             name: 'postsList',
