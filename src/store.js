@@ -34,7 +34,8 @@ export default new Vuex.Store({
         userLogged: false,
         authUserData: {},
         headerObject:{},
-        userGroups: []
+        userGroups: [],
+        userNotif: []
     },
     mutations: {
 

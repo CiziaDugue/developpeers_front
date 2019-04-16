@@ -8,6 +8,7 @@
             <div class="row border">
                 <div class="col-md-6 col-12">
                     <button class="fas fa-angle-left" v-on:click="goBack()"></button>
+                    <!-- <button v-if="postSingle.active_version.created_at != postSingle.active_version.updated_at" class="fas fa-angle-left" v-on:click="goBack()"></button> -->
                     <h2 class="text-center">{{ postSingle.title }}</h2>
                 </div>
                 <div class="col-md-6 col-12">
@@ -96,9 +97,7 @@
 </template>
 
 <script>
-import {
-    mapState
-} from 'vuex'
+import {mapState} from 'vuex'
 
 export default {
     data: function() {

@@ -7,7 +7,7 @@
       </div>
       <div class="form-group">
         <label>Titre</label>
-        <input type="text" name="name" placeholder="Nom du groupe" class="form-control" v-model="title">
+        <input type="text" name="name" placeholder="Titre de l'article" class="form-control" v-model="title">
       </div>
 
       <div class="form-group">
@@ -78,8 +78,8 @@ export default {
       || this.keywords == ""
       || this.selectedGroup == "") {
         this.invalidFormMsg = "Tous les champs doivent être remplis.";
-      } else {
-
+      }
+      else {
         this.invalidFormMsg = "";
 
         let arKeywords = this.keywords.split(" ");
