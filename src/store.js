@@ -35,7 +35,7 @@ export default new Vuex.Store({
         authUserData: {},
         headerObject:{},
         userGroups: [],
-        userNotif: []
+        userNotifs: []
     },
     mutations: {
 
@@ -106,6 +106,10 @@ export default new Vuex.Store({
             }
 
             state.postsFeed = posts;
+        },
+        SET_USER_NOTIFS(state, notifs) {
+
+            state.userNotifs = notifs;
         }
     },
     actions: {
@@ -203,6 +207,23 @@ export default new Vuex.Store({
                 });
         },
 
+        voteInFeedAction: function({dispatch}, payload) {
+
+            let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
+
+            let voteType = {vote: payload.vote};
+
+            axios.put(req, voteType, {headers: this.state.headerObject})
+
+                .then((response) => {
+
+                    dispatch('getPostsFeed');
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+
         voteInPostListAction: function({dispatch}, payload) {
 
             let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
@@ -213,14 +234,8 @@ export default new Vuex.Store({
 
                 .then((response) => {
 
-                    //console.log(response.data);
-                    //postfeed
-                    if (payload.listType == null && payload.groupId == null) {
-                        dispatch('getPostsFeed');
-                    }
-
                     //postList
-                    else if (payload.listType != null) {
+                    if (payload.listType != null) {
                         let listType = {
                             listType: payload.listType,
                             groupId: null
@@ -337,10 +352,11 @@ export default new Vuex.Store({
                 });
         },
 
-        getPostsFeed: function({commit}) {
+        getPostsFeed: function({commit, dispatch}) {
           axios.get('http://localhost/developeers/public/api/postsfeed', {headers: this.state.headerObject})
               .then( (response) => {
                   let posts = response.data;
+                  dispatch('getNotificationsAction');
                   commit('SET_POSTS_FEED', posts);
               })
               .catch( (error) => {
@@ -641,6 +657,17 @@ export default new Vuex.Store({
             };
             commit('SET_HEADER_OBJECT', headerObject);
             console.log('setting header object');
+        },
+
+        getNotificationsAction: function({commit}) {
+            axios.get('http://localhost/developeers/public/api/notifications', {headers: this.state.headerObject})
+                .then( (response) => {
+                    let notifs = response.data;
+                    commit('SET_USER_NOTIFS', notifs);
+                })
+                .catch( (error) => {
+                    console.error(error);
+                });
         },
 
         //GUEST CIRCUIT

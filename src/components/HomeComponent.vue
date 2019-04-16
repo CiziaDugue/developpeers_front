@@ -80,19 +80,17 @@ export default {
         getPostsFeed: function() {
             if (this.$store.userLogged) this.$store.dispatch('getPostsFeed');
             else this.$store.dispatch('getGuestFeed');
+            console.log(this.$store.state.headerObject);
         },
         votePost: function(target, type, vote) {
 
             let payload = {
                 type: type,
                 vote: vote,
-                target: target,
-                listType: null,
-                postId: null,
-                groupId: null,
+                target: target
             };
 
-            this.$store.dispatch('voteAction', payload);
+            this.$store.dispatch('voteInFeedAction', payload);
         }
     },
     created: function() {
