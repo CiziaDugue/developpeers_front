@@ -86,13 +86,10 @@ export default {
             let payload = {
                 type: type,
                 vote: vote,
-                target: target,
-                listType: null,
-                postId: null,
-                groupId: null,
+                target: target
             };
 
-            this.$store.dispatch('voteAction', payload);
+            this.$store.dispatch('voteInFeedAction', payload);
         }
     },
     created: function() {

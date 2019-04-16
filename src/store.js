@@ -203,6 +203,23 @@ export default new Vuex.Store({
                 });
         },
 
+        voteInFeedAction: function({dispatch}, payload) {
+
+            let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
+
+            let voteType = {vote: payload.vote};
+
+            axios.put(req, voteType, {headers: this.state.headerObject})
+
+                .then((response) => {
+
+                    dispatch('getPostsFeed');
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+
         voteInPostListAction: function({dispatch}, payload) {
 
             let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
@@ -213,14 +230,8 @@ export default new Vuex.Store({
 
                 .then((response) => {
 
-                    //console.log(response.data);
-                    //postfeed
-                    if (payload.listType == null && payload.groupId == null) {
-                        dispatch('getPostsFeed');
-                    }
-
                     //postList
-                    else if (payload.listType != null) {
+                    if (payload.listType != null) {
                         let listType = {
                             listType: payload.listType,
                             groupId: null
