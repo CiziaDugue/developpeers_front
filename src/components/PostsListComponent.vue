@@ -100,11 +100,10 @@ export default {
                 vote: vote,
                 target: target,
                 listType: listType,
-                postId: null,
                 groupId: groupId
             };
 
-            this.$store.dispatch('voteAction', payload);
+            this.$store.dispatch('voteInPostListAction', payload);
         },
 
         goBack: function() {

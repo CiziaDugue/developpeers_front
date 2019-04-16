@@ -34,7 +34,8 @@ export default new Vuex.Store({
         userLogged: false,
         authUserData: {},
         headerObject:{},
-        userGroups: []
+        userGroups: [],
+        userNotif: []
     },
     mutations: {
 
@@ -202,25 +203,23 @@ export default new Vuex.Store({
                 });
         },
 
-        voteAction: function({dispatch}, payload) {
+        voteInPostListAction: function({dispatch}, payload) {
 
             let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
 
-            let voteType = {
-                vote: payload.vote
-            };
+            let voteType = {vote: payload.vote};
 
-            axios.put(req, voteType, {
-                    headers: this.state.headerObject
-                })
+            axios.put(req, voteType, {headers: this.state.headerObject})
 
                 .then((response) => {
 
                     //console.log(response.data);
-
-                    if (payload.listType == null && payload.postId == null && payload.groupId == null) {
+                    //postfeed
+                    if (payload.listType == null && payload.groupId == null) {
                         dispatch('getPostsFeed');
                     }
+
+                    //postList
                     else if (payload.listType != null) {
                         let listType = {
                             listType: payload.listType,
@@ -228,12 +227,8 @@ export default new Vuex.Store({
                         };
                         dispatch('initPostsListAction', listType);
                     }
-                    else if (payload.postId != null) {
-                        let postId = {
-                            postId: payload.postId
-                        };
-                        dispatch('initPostSingleAction', postId);
-                    }
+
+                    //groupsingle postlist
                     else if (payload.groupId != null) {
                         let groupId = {
                             listType: 'group-posts',
@@ -241,6 +236,28 @@ export default new Vuex.Store({
                         };
                         dispatch('initPostsListAction', groupId);
                     }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+
+        voteInPostSingleAction: function({dispatch}, payload) {
+
+            let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
+
+            let voteType = { vote: payload.vote };
+
+            axios.put(req, voteType, {headers: this.state.headerObject})
+
+                .then((response) => {
+
+                    let postId = {
+                        post_id: payload.postId,
+                        version_id: payload.versionId
+                    };
+                    dispatch('changePostVersionAction', postId);
+
                 })
                 .catch((error) => {
                     console.log(error);

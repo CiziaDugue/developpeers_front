@@ -84,8 +84,8 @@ export default {
       || this.keywords == ""
       || this.selectedGroup == "") {
         this.invalidFormMsg = "Tous les champs doivent être remplis.";
-      } else {
-
+      }
+      else {
         this.invalidFormMsg = "";
 
         let arKeywords = this.keywords.split(" ");

@@ -8,7 +8,7 @@
             <div class="row border">
                 <div class="col-md-6 col-12">
                     <button class="fas fa-angle-left" v-on:click="goBack()"></button>
-
+                    <!-- <button v-if="postSingle.active_version.created_at != postSingle.active_version.updated_at" class="fas fa-angle-left" v-on:click="goBack()"></button> -->
                     <h2 class="text-center">{{ postSingle.title }}</h2>
 
                     <div v-if="postEditMode">
@@ -39,10 +39,10 @@
 
                 </div>
                 <div class="col-md-6 col-12">
-                    <button class="fas fa-angle-up" v-on:click="voteTarget(postSingle, 'post', true)"></button>
+                    <button class="fas fa-angle-up" v-on:click="voteTarget(postSingle, 'post', true, postSingle.active_version._id)"></button>
                     <small class="badge badge-pill badge-success">{{ postSingle.votePros }}</small>
                     <small class="badge badge-pill badge-danger">{{ postSingle.voteCons }}</small>
-                    <button class="fas fa-angle-down" v-on:click="voteTarget(postSingle, 'post', false)"></button>
+                    <button class="fas fa-angle-down" v-on:click="voteTarget(postSingle, 'post', false, postSingle.active_version._id)"></button>
                 </div>
             </div>
             <div class="row border">
@@ -64,10 +64,10 @@
 
                 </div>
                 <div class="col-md-6 col-12">
-                    <button class="fas fa-angle-up" v-on:click="voteTarget(postSingle.active_version, 'version', true)"></button>
+                    <button class="fas fa-angle-up" v-on:click="voteTarget(postSingle.active_version, 'version', true, postSingle.active_version._id)"></button>
                     <small class="badge badge-pill badge-success">{{ postSingle.active_version.votePros }}</small>
                     <small class="badge badge-pill badge-danger">{{ postSingle.active_version.voteCons }}</small>
-                    <button class="fas fa-angle-down" v-on:click="voteTarget(postSingle.active_version, 'version', false)"></button>
+                    <button class="fas fa-angle-down" v-on:click="voteTarget(postSingle.active_version, 'version', false, postSingle.active_version._id)"></button>
                 </div>
             </div>
             <div class="row border">
@@ -82,8 +82,11 @@
         <div class="col-2 border">
 
             <div class="row">
-                <div class="col-12">
-                    <button v-for="version in postSingle.versions" v-on:click="changeVersion(version._id)" class="btn btn-outline-secondary">
+                <div v-for="version in postSingle.versions" class="col-12">
+                    <button v-if="postSingle.active_version._id == version._id" class="btn btn-outline-primary" disabled>
+                        {{ version.number }}
+                    </button>
+                    <button v-else v-on:click="changeVersion(version._id)" class="btn btn-outline-secondary">
                         {{ version.number }}
                     </button>
                 </div>
@@ -106,10 +109,10 @@
                           <button type="button" class="btn btn-sm btn-success" v-on:click="validateCommentUpdate(comment._id)">Ok</button>
                         </td>
                         <td>
-                            <button class="fas fa-angle-up" v-on:click="voteTarget(comment, 'comment', true)"></button>
+                            <button class="fas fa-angle-up" v-on:click="voteTarget(comment, 'comment', true, postSingle.active_version._id)"></button>
                             <small class="badge badge-pill badge-success">{{ comment.votePros }}</small>
                             <small class="badge badge-pill badge-danger">{{ comment.voteCons }}</small>
-                            <button class="fas fa-angle-down" v-on:click="voteTarget(comment, 'comment', false)"></button>
+                            <button class="fas fa-angle-down" v-on:click="voteTarget(comment, 'comment', false, postSingle.active_version._id)"></button>
                         </td>
                         <td v-if="authUserData.id === comment.author_id">
                           <button class="btn btn-secondary btn-sm" title="Éditer mon commentaire" v-on:click="toggleCommentEditMode(comment._id, comment.content)">Edit</button>
@@ -133,9 +136,7 @@
 </template>
 
 <script>
-import {
-    mapState
-} from 'vuex'
+import {mapState} from 'vuex'
 
 export default {
     data: function() {
@@ -193,19 +194,18 @@ export default {
             }
         },
 
-        voteTarget: function(target, type, vote) {
+        voteTarget: function(target, type, vote, activeVersionId) {
 
             let postId = this.$route.params.postId ? this.$route.params.postId : null;
             let payload = {
                 type: type,
                 vote: vote,
                 target: target,
-                listType: null,
                 postId: postId,
-                groupId: null
+                versionId: activeVersionId
             }
             //console.log(payload);
-            this.$store.dispatch('voteAction', payload);
+            this.$store.dispatch('voteInPostSingleAction', payload);
         },
 
         goBack: function() {

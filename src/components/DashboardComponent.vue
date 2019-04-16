@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
     data: function() {
         return {
@@ -39,10 +41,10 @@ export default {
                         {
                             href: '/groupes/mes-groupes',
                             title: 'Mes Groupes',
-                            badge: {
-                                text: '1',
-                                class: 'badge badge-light'
-                            }
+                            // badge: {
+                            //     text: '1',
+                            //     class: 'badge badge-light'
+                            // }
                         },
                         {
                             href: '/creer-un-groupe',
@@ -62,18 +64,18 @@ export default {
                         {
                             href: '/articles/mes-articles',
                             title: 'Mes Articles',
-                            badge: {
-                                text: '1',
-                                class: 'badge badge-light'
-                            }
+                            // badge: {
+                            //     text: '1',
+                            //     class: 'badge badge-light'
+                            // }
                         },
                         {
                             href: '/articles/articles-suivis',
                             title: 'Articles suivis',
-                            badge: {
-                                text: '1',
-                                class: 'badge badge-light'
-                            }
+                            // badge: {
+                            //     text: '1',
+                            //     class: 'badge badge-light'
+                            // }
                         },
                         {
                             href: '/creer-un-article',
@@ -83,6 +85,14 @@ export default {
                     ]
                 },
                 {
+                    title: 'Notifications',
+                    icon: 'fas fa-bell',
+                    badge: {
+                        // text: this.userNotif.length,
+                        class: 'badge badge-light'
+                    }
+                },
+                {
                     href: '/profil',
                     title: 'Mon Profil',
                     icon: 'fa fa-user'
@@ -90,7 +100,12 @@ export default {
 
             ]
         }
-    }
+    },
+    computed: {
+        ...mapState([
+            'userNotif'
+        ])
+    },
 }
 </script>
 
