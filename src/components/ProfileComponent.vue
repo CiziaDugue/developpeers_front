@@ -14,7 +14,7 @@
 import {mapState} from 'vuex'
 
 
-  export default {
+export default {
     data: function() {
       return {
         name: 'ProfileComponent',
@@ -23,8 +23,12 @@ import {mapState} from 'vuex'
     },
     computed: {
       ...mapState([
-        'authUserData'
+        'authUserData',
+        'userLogged'
       ])
+    },
+    created: function() {
+        if (!this.userLogged) this.$router.push('/login');
     }
   }
 </script>

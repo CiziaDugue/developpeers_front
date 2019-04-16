@@ -43,9 +43,7 @@
 </template>
 
 <script>
-import {
-    mapState
-} from 'vuex'
+import {mapState} from 'vuex'
 
 export default {
     data: function() {
@@ -57,7 +55,8 @@ export default {
     computed: {
         ...mapState([
             'postsList',
-            'groupSingle'
+            'groupSingle',
+            'userLogged'
         ]),
 
         title: function() {
@@ -129,20 +128,20 @@ export default {
         }
     },
     created: function() {
+        if (!this.userLogged) this.$router.push('/login');
+        else {
+            let listType = (this.$route.params.groupId) ? "group-posts" : this.$route.params.postsListType;
 
-        let listType = (this.$route.params.groupId) ? "group-posts" : this.$route.params.postsListType;
+            console.log('Initializing ' + listType + ' posts list');
 
-        console.log('Initializing ' + listType + ' posts list');
+            let groupId = (this.$route.params.groupId) ? this.$route.params.groupId : null;
 
-        let groupId = (this.$route.params.groupId) ? this.$route.params.groupId : null;
-
-        let data = {
-            groupId: groupId,
-            listType: listType
+            let data = {
+                groupId: groupId,
+                listType: listType
+            };
+            this.initPostsList(data);
         }
-
-        this.initPostsList(data);
-
     },
     watch: {
         '$route': function(to, from) {

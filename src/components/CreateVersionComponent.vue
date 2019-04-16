@@ -51,7 +51,8 @@ export default {
   },
   computed: {
     ...mapState([
-      'postSingle'
+      'postSingle',
+      'userLogged'
     ])
   },
   methods: {
@@ -84,17 +85,20 @@ export default {
     }
   },
   created: function() {
-    this.title = this.postSingle.title;
-    this.textContent = this.postSingle.active_version.text_content;
-    let i=0;
-    this.postSingle.active_version.code_snippets.forEach((cs)=> {
-      this.codeSnippets[i] = {
-        index: i,
-        content: cs.content
-      };
-      i++;
-    });
-    this.csLength = i;
+      if (!this.userLogged) this.$router.push('/login');
+      else {
+          this.title = this.postSingle.title;
+          this.textContent = this.postSingle.active_version.text_content;
+          let i=0;
+          this.postSingle.active_version.code_snippets.forEach((cs)=> {
+            this.codeSnippets[i] = {
+              index: i,
+              content: cs.content
+            };
+            i++;
+          });
+          this.csLength = i;
+      }
   }
 }
 </script>

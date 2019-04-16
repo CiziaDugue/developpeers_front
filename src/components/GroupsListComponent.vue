@@ -37,7 +37,8 @@ export default {
     computed: {
         ...mapState([
             'groupsList',
-            'authUserData'
+            'authUserData',
+            'userLogged'
         ]),
         title: function() {
             let title = '';
@@ -84,14 +85,14 @@ export default {
         }
     },
     created: function() {
-
-        let listType = {
-            type: this.$route.params.groupsListType
+        if (!this.userLogged) this.$router.push('/login');
+        else {
+            let listType = {
+                type: this.$route.params.groupsListType
+            }
+            console.log('Initializing ' + listType.type + ' groups list');
+            this.initGroupsList(listType);
         }
-
-        console.log('Initializing ' + listType.type + ' groups list');
-
-        this.initGroupsList(listType);
     },
     watch: {
         '$route': function(to, from) {

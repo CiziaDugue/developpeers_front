@@ -73,7 +73,8 @@ export default {
   computed: {
     ...mapState([
       'groupsList',
-      'groupSingle'
+      'groupSingle',
+      'userLogged'
     ])
   },
   methods: {
@@ -118,11 +119,14 @@ export default {
   },
 
   created: function() {
-    this.$store.dispatch('getUserGroups');
-    if (this.$route.params.groupId) {
-      this.fromGroup = true;
-      this.selectedGroup = this.$route.params.groupId;
-    }
+      if (!this.userLogged) this.$router.push('/login');
+      else {
+          this.$store.dispatch('getUserGroups');
+          if (this.$route.params.groupId) {
+              this.fromGroup = true;
+              this.selectedGroup = this.$route.params.groupId;
+          }
+      }
   }
 }
 </script>

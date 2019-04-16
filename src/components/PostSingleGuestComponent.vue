@@ -96,7 +96,8 @@ export default {
     },
     computed: {
         ...mapState([
-            'postSingle'
+            'postSingle',
+            'userLogged'
         ])
     },
     methods: {
@@ -120,19 +121,23 @@ export default {
     },
 
     created: function() {
-        this.$store.dispatch('initGuestPostSingleAction', {
-            postId: this.$route.params.postId
-        })
-        .then((response) => {
-          this.postEditedTitle = this.postSingle.title;
-          this.postEditedKeywords;
-          this.postSingle.keywords.forEach((word)=> {
-            this.postEditedKeywords += word + " ";
-          });
+        if(!this.userLogged) {
+            this.$store.dispatch('initGuestPostSingleAction', {
+                postId: this.$route.params.postId
+            })
+            .then((response) => {
+              this.postEditedTitle = this.postSingle.title;
+              this.postEditedKeywords;
+              this.postSingle.keywords.forEach((word)=> {
+                this.postEditedKeywords += word + " ";
+              });
 
-        }, (error) => {
-          console.error(error);
-        });
+            }, (error) => {
+              console.error(error);
+            });
+        } else {
+            this.$router.push('/article/'+this.postSingle._id);
+        }
     }
 }
 </script>

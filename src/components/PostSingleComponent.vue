@@ -252,8 +252,6 @@ export default {
 
         editActiveVersion: function() {
           this.$router.push('/editer-une-version/'+this.postSingle.active_version._id);
-          //preparer UpdateVersionComponent.vue
-          //UpdateVersionComponent.save()=>this.$store.dispatch('updateVersion', this.postSingle.active_version._id);
         },
 
         deleteActiveVersion: function() {
@@ -305,12 +303,11 @@ export default {
         }
     },
     created: function() {
-        console.log("USER LOGGED : "+this.userLogged);
         if (this.userLogged) {
             this.$store.dispatch('initPostSingleAction', {
                 postId: this.$route.params.postId
             })
-            .then((response) => {
+            .then( (response) => {
               this.postEditedTitle = this.postSingle.title;
               this.postEditedKeywords;
               this.postSingle.keywords.forEach((word)=> {
