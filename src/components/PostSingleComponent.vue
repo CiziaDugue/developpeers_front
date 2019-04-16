@@ -156,7 +156,8 @@ export default {
     computed: {
         ...mapState([
             'postSingle',
-            'authUserData'
+            'authUserData',
+            'userLogged'
         ])
     },
     methods: {
@@ -304,20 +305,26 @@ export default {
         }
     },
     created: function() {
-        this.$store.dispatch('initPostSingleAction', {
-            postId: this.$route.params.postId
-        })
-        .then((response) => {
-          this.postEditedTitle = this.postSingle.title;
-          this.postEditedKeywords;
-          this.postSingle.keywords.forEach((word)=> {
-            this.postEditedKeywords += word + " ";
-          });
-          this.updateUserRights();
+        console.log("USER LOGGED : "+this.userLogged);
+        if (this.userLogged) {
+            this.$store.dispatch('initPostSingleAction', {
+                postId: this.$route.params.postId
+            })
+            .then((response) => {
+              this.postEditedTitle = this.postSingle.title;
+              this.postEditedKeywords;
+              this.postSingle.keywords.forEach((word)=> {
+                this.postEditedKeywords += word + " ";
+              });
+              this.updateUserRights();
 
-        }, (error) => {
-          console.error(error);
-        });
+            }, (error) => {
+              console.error(error);
+            });
+        } else {
+            this.$router.push("/login");
+        }
+
     }
 }
 </script>
