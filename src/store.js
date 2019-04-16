@@ -224,6 +224,27 @@ export default new Vuex.Store({
                     console.log(error);
                 });
         },
+        
+        voteInPostSingleAction: function({dispatch}, payload) {
+        let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
+
+        let voteType = { vote: payload.vote };
+
+        axios.put(req, voteType, {headers: this.state.headerObject})
+
+            .then((response) => {
+
+                let postId = {
+                    post_id: payload.postId,
+                    version_id: payload.versionId
+                };
+                dispatch('changePostVersionAction', postId);
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        },
 
         voteInPostListAction: function({dispatch}, payload) {
 
