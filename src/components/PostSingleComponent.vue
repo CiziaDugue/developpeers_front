@@ -150,13 +150,11 @@ export default {
                 type: type,
                 vote: vote,
                 target: target,
-                listType: null,
                 postId: postId,
-                groupId: null,
                 versionId: activeVersionId
             }
             //console.log(payload);
-            this.$store.dispatch('voteAction', payload);
+            this.$store.dispatch('voteInPostSingleAction', payload);
         },
 
         goBack: function() {

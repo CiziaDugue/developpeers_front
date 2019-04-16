@@ -107,13 +107,12 @@ export default {
                 vote: vote,
                 target: target,
                 listType: listType,
-                postId: null,
                 groupId: groupId
             }
 
             console.log(payload);
 
-            this.$store.dispatch('voteAction', payload);
+            this.$store.dispatch('voteInPostListAction', payload);
         },
 
         initGroup: function(groupId) {

@@ -209,23 +209,19 @@ export default new Vuex.Store({
                 });
         },
 
-        voteAction: function({dispatch}, payload) {
+        voteInPostListAction: function({dispatch}, payload) {
 
             let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
 
-            let voteType = {
-                vote: payload.vote
-            };
+            let voteType = {vote: payload.vote};
 
-            axios.put(req, voteType, {
-                    headers: this.state.headerObject
-                })
+            axios.put(req, voteType, {headers: this.state.headerObject})
 
                 .then((response) => {
 
                     //console.log(response.data);
                     //postfeed
-                    if (payload.listType == null && payload.postId == null && payload.groupId == null) {
+                    if (payload.listType == null && payload.groupId == null) {
                         dispatch('getPostsFeed');
                     }
 
@@ -238,15 +234,6 @@ export default new Vuex.Store({
                         dispatch('initPostsListAction', listType);
                     }
 
-                    //postSingle
-                    else if (payload.postId != null) {
-                        let postId = {
-                            post_id: payload.postId,
-                            version_id: payload.versionId
-                        };
-                        dispatch('changePostVersionAction', postId);
-                    }
-
                     //groupsingle postlist
                     else if (payload.groupId != null) {
                         let groupId = {
@@ -255,6 +242,28 @@ export default new Vuex.Store({
                         };
                         dispatch('initPostsListAction', groupId);
                     }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+
+        voteInPostSingleAction: function({dispatch}, payload) {
+
+            let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
+
+            let voteType = { vote: payload.vote };
+
+            axios.put(req, voteType, {headers: this.state.headerObject})
+
+                .then((response) => {
+
+                    let postId = {
+                        post_id: payload.postId,
+                        version_id: payload.versionId
+                    };
+                    dispatch('changePostVersionAction', postId);
+
                 })
                 .catch((error) => {
                     console.log(error);
