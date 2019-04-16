@@ -275,7 +275,6 @@ export default new Vuex.Store({
                 axios.get(req, { headers: this.state.headerObject })
 
                     .then((response) => {
-                        //console.log(response.data);
                         let groups = response.data;
 
                         commit('SET_GROUPS', groups);
@@ -306,13 +305,8 @@ export default new Vuex.Store({
             axios.put(req, {}, {
                     headers: this.state.headerObject
                 })
-
                 .then((response) => {
-
-                    // console.log(response.data);
-
                     dispatch('initGroupsListAction', payload);
-
                 })
                 .catch((error) => {
                     console.log(error);
@@ -326,7 +320,6 @@ export default new Vuex.Store({
             axios.put(req, {}, { headers: this.state.headerObject })
 
                 .then((response) => {
-                    // console.log(response.data);
                     dispatch('initPostsListAction', payload);
 
                 })
@@ -351,7 +344,6 @@ export default new Vuex.Store({
             let req = 'http://localhost/projets/developeers/public/api/searchposts/' + words;
             axios.get(req, {headers: this.state.headerObject})
                 .then((response) => {
-                  //console.log(response);
                   let posts = response.data;
                   commit('SET_POSTS_FEED', posts);
                 })
@@ -384,8 +376,6 @@ export default new Vuex.Store({
           //récupérer la list de groups de l'utilisateur (par ex pour le select dans create post)
           axios.get('http://localhost/projets/developeers/public/api/groups/user', {headers: this.state.headerObject})
               .then((response)=> {
-                // console.log('GET USER GROUPS');
-                // console.log(response.data);
                 commit('SET_GROUPS', response.data);
               })
               .catch((error)=>{
@@ -397,7 +387,6 @@ export default new Vuex.Store({
           return new Promise((resolve, reject) => {
             axios.post('http://localhost/projets/developeers/public/api/groups', requestData, {headers: this.state.headerObject} )
                 . then((response) => {
-                  //console.log(response.data);
                   let data = {
                     listType: "group-posts",
                     groupId: response.data._id
@@ -406,7 +395,6 @@ export default new Vuex.Store({
                   resolve(response);
                 })
                 .catch((error) => {
-                  //console.error(error);
                   reject(error);
                 });
           });
@@ -416,12 +404,10 @@ export default new Vuex.Store({
           return  new Promise((resolve, reject) => {
             axios.post('http://localhost/projets/developeers/public/api/posts', requestData, {headers: this.state.headerObject})
                 . then((response) => {
-                  console.log(response.data);
                   dispatch('initPostSingleAction', {postId: response.data._id});
                   resolve(response);
                 })
                 .catch((error) => {
-                  //console.error(error);
                   reject(error);
                 });
           });
@@ -473,7 +459,6 @@ export default new Vuex.Store({
         registerUser: function({commit, dispatch}, registerData) {
           axios.post('http://localhost/projets/developeers/public/api/register', registerData)
                 .then( (response1) => {
-                  //console.log(response1);
                     axios.get('http://localhost/projets/developeers/public/api/user',
                     {
                       headers :
@@ -503,8 +488,6 @@ export default new Vuex.Store({
                 .catch(function(error) {
                     console.log(error);
                 });
-
-          //console.log(registerData);
         },
 
         disconnectUser: function({
