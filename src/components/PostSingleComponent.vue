@@ -124,7 +124,7 @@
         </div>
         <div class="col-12">
             <div class="input-group">
-                <textarea class="form-control" aria-label="With textarea" v-model="commentToAdd" v-on:keyup.enter="addComment"></textarea>
+                <textarea class="form-control" aria-label="With textarea" v-model="commentToAdd"></textarea>
                 <div class="input-group-append">
                     <button class="fas fa-plus" v-on:click="addComment"></button>
                 </div>
