@@ -80,18 +80,25 @@ export default {
           }
           this.$store.dispatch('getGroupSearchResult', searchData);
         },
-        test: function(groupName) {
-          console.log(groupName);
-        }
-    },
-    created: function() {
-        if (!this.userLogged) this.$router.push('/login');
-        else {
+        init: function() {
             let listType = {
                 type: this.$route.params.groupsListType
             }
             console.log('Initializing ' + listType.type + ' groups list');
             this.initGroupsList(listType);
+        }
+    },
+    created: function() {
+        if (!this.userLogged) {
+            this.$store.dispatch('autoLogin')
+                        .then((response)=>{
+                            this.init();
+                        }, (error)=>{
+                            console.error(error);
+                            this.$router.push('/login');
+                        });
+        } else {
+            this.init();
         }
     },
     watch: {
