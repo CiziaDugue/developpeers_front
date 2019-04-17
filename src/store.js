@@ -225,7 +225,7 @@ export default new Vuex.Store({
                     console.log(error);
                 });
         },
-        
+
         voteInPostSingleAction: function({dispatch}, payload) {
         let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
 
@@ -295,8 +295,6 @@ export default new Vuex.Store({
 
         initGroupsListAction: function({commit}, listType) {
 
-            console.log(listType.type);
-
             let req = '';
 
             if (listType.type == 'tous-les-groupes') {
@@ -317,7 +315,7 @@ export default new Vuex.Store({
                         let groups = response.data;
 
                         commit('SET_GROUPS', groups);
-                        resolve();
+                        resolve(response);
 
                     })
                     .catch((error) => {
@@ -367,6 +365,7 @@ export default new Vuex.Store({
         },
 
         getPostsFeed: function({commit, dispatch}) {
+<<<<<<< HEAD
           axios.get('http://localhost/developeers/public/api/postsfeed', {headers: this.state.headerObject})
               .then( (response) => {
                   dispatch('getNotificationsAction');
@@ -376,23 +375,46 @@ export default new Vuex.Store({
               .catch( (error) => {
                   console.error(error);
               });
+=======
+            return new Promise((resolve, reject)=>{
+                axios.get('http://localhost/developeers/public/api/postsfeed', {headers: this.state.headerObject})
+                    .then( (response) => {
+                        let posts = response.data;
+                        dispatch('getNotificationsAction');
+                        commit('SET_POSTS_FEED', posts);
+                        resolve(response);
+                    })
+                    .catch( (error) => {
+                        console.error(error);
+                        reject(error);
+                    });
+            });
+>>>>>>> handleForms
         },
 
         getSearchResult: function({commit, dispatch}, words) {
-          if (words != "") {
-            let req = 'http://localhost/developeers/public/api/searchposts/' + words;
-            axios.get(req, {headers: this.state.headerObject})
-                .then((response) => {
-                  let posts = response.data;
-                  commit('SET_POSTS_FEED', posts);
-                })
-                .catch((error) => {
-                  console.error(error);
-                })
-          } else {
-            dispatch('getPostsFeed');
-          }
-
+            return new Promise((resolve, reject)=>{
+                if (words != "") {
+                  let req = 'http://localhost/developeers/public/api/searchposts/' + words;
+                  axios.get(req, {headers: this.state.headerObject})
+                      .then((response) => {
+                        let posts = response.data;
+                        commit('SET_POSTS_FEED', posts);
+                        resolve(response);
+                      })
+                      .catch((error) => {
+                        console.error(error);
+                        reject(error);
+                      })
+                } else {
+                  dispatch('getPostsFeed')
+                  .then((response)=>{
+                      resolve(response);
+                  }, (error)=>{
+                      reject(error);
+                  });
+                }
+            });
         },
 
         getGroupSearchResult: function({commit, dispatch}, searchData) {
@@ -590,6 +612,9 @@ export default new Vuex.Store({
             return new Promise((resolve, reject)=> {
                 axios.post('http://localhost/developeers/public/api/login', logData)
                   .then( (response1) => {
+
+                    localStorage.developeersAccessToken = response1.data.token;
+
                     axios.get('http://localhost/developeers/public/api/user',
                     {
                       headers :
@@ -600,12 +625,17 @@ export default new Vuex.Store({
                       }
                     })
                         .then( (response2) => {
+
                             let userData = {
                               "token": "Bearer "+response1.data.token,
                               "id": response2.data.user.id,
                               "email": response2.data.user.email,
                               "name": response2.data.user.name
                             };
+
+                            localStorage.developeersUserId = response2.data.user.id;
+                            localStorage.developeersUserName = response2.data.user.name;
+                            localStorage.developeersUserEmail = response2.data.user.email
 
                             commit('SET_AUTH_USER_DATA_IN', userData);
                             dispatch('setHeaderObject', userData);
@@ -618,9 +648,6 @@ export default new Vuex.Store({
 
                             //PROBLEME : perte de connexion en cas de rechargement de la page !!
                             //regarder du côté de 'vuex-persistedstate' pour écrire l'état dans un cookie
-                            // setTimeout(function() {
-                            //   window.location = "http://localhost/developpeers_front/dist";
-                            // }, 500);
 
                         })
                         .catch( (error) => {
@@ -638,6 +665,9 @@ export default new Vuex.Store({
             return new Promise((resolve, reject)=>{
                 axios.post('http://localhost/developeers/public/api/register', registerData)
                       .then( (response1) => {
+
+                          localStorage.developeersAccessToken = response1.data.token;
+
                           axios.get('http://localhost/developeers/public/api/user',
                           {
                             headers :
@@ -650,11 +680,15 @@ export default new Vuex.Store({
                               .then( (response2) => {
 
                                   let userData = {
-                                      "token": "bearer " + response1.data.token,
+                                      "token": "Bearer " + response1.data.token,
                                       "id": response2.data.user.id,
                                       "email": response2.data.user.email,
                                       "name": response2.data.user.name
                                   };
+
+                                  localStorage.developeersUserId = response2.data.user.id;
+                                  localStorage.developeersUserName = response2.data.user.name;
+                                  localStorage.developeersUserEmail = response2.data.user.email
 
                                   commit('SET_AUTH_USER_DATA_IN', userData);
                                   dispatch('setHeaderObject', userData);
@@ -677,7 +711,39 @@ export default new Vuex.Store({
             let headerObject = {
                 'Content-Type': 'application/json'
             };
+
+            localStorage.removeItem('developeersAccessToken');
+            localStorage.removeItem('developeersUserId');
+            localStorage.removeItem('developeersUserName');
+            localStorage.removeItem('developeersUserEmail');
+
             commit('SET_AUTH_USER_DATA_OUT', headerObject);
+        },
+
+        autoLogin: function({commit, dispatch}) {
+
+            return new Promise ((resolve, reject) => {
+
+                if (localStorage.developeersAccessToken
+                && localStorage.developeersUserId
+                && localStorage.developeersUserName
+                && localStorage.developeersUserEmail) {
+
+                    let userData = {
+                        "token": "Bearer " + localStorage.developeersAccessToken,
+                        "id": parseInt(localStorage.developeersUserId),
+                        "email": localStorage.developeersUserEmail,
+                        "name": localStorage.developeersUserName
+                    };
+                    commit('SET_AUTH_USER_DATA_IN', userData);
+                    dispatch('setHeaderObject', userData);
+
+                    resolve("Autologin succeded !");
+
+                } else {
+                    reject("Autologin failed.");
+                }
+            });
         },
 
         setHeaderObject: function({commit}, userData) {
@@ -711,30 +777,45 @@ export default new Vuex.Store({
 
         //GUEST CIRCUIT
         getGuestFeed: function({commit}) {
-            axios.get('http://localhost/developeers/public/api/guest/postsfeed', {headers: this.state.headerObject})
-                .then( (response) => {
-                    let posts = response.data;
-                    commit('SET_POSTS_FEED', posts);
-                })
-                .catch( (error) => {
-                    console.error(error);
-                });
+            return new Promise((resolve, reject)=>{
+                axios.get('http://localhost/developeers/public/api/guest/postsfeed', {headers: this.state.headerObject})
+                    .then( (response) => {
+                        let posts = response.data;
+                        commit('SET_POSTS_FEED', posts);
+                        resolve(response);
+                    })
+                    .catch( (error) => {
+                        console.error(error);
+                        reject(error);
+                    });
+            });
         },
 
         getGuestSearchResults: function({commit, dispatch}, words) {
-            if (words != "") {
-              let req = 'http://localhost/developeers/public/api/guest/searchposts/' + words;
-              axios.get(req, {headers: this.state.headerObject})
-                  .then((response) => {
-                    let posts = response.data;
-                    commit('SET_POSTS_FEED', posts);
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                  })
-            } else {
-              dispatch('getGuestFeed');
-            }
+            return new Promise((resolve, reject)=> {
+                if (words != "") {
+                  let req = 'http://localhost/developeers/public/api/guest/searchposts/' + words;
+                  axios.get(req, {headers: this.state.headerObject})
+                      .then((response) => {
+                        let posts = response.data;
+                        commit('SET_POSTS_FEED', posts);
+                        resolve(response);
+                      })
+                      .catch((error) => {
+                        console.error(error);
+                        reject(error);
+                      })
+                } else {
+                  dispatch('getGuestFeed')
+                  .then((response)=>{
+                      resolve(response);
+                  }, (error)=>{
+                      console.error(error);
+                      reject(error);
+                  });
+                }
+            });
+
         },
 
         initGuestPostSingleAction: function({commit}, payload) {

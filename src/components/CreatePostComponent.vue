@@ -57,87 +57,120 @@ import {
 } from 'vuex'
 
 export default {
-    data: function() {
-        return {
-            title: "",
-            textContent: "",
-            keywords: "",
-            codeSnippets: [{
-                index: 0,
-                content: ""
-            }],
-            csLength: 1,
-            selectedGroup: "",
-            fromGroup: false,
-            invalidFormMsg: ""
-        }
-    },
-    computed: {
-        ...mapState([
-            'groupsList',
-            'groupSingle'
-        ])
-    },
-    methods: {
-        createPost: function() {
-            if (this.title == "" ||
-                this.textContent == "" ||
-                this.codeSnippets[0].content == "" ||
-                this.keywords == "" ||
-                this.selectedGroup == "") {
-                this.invalidFormMsg = "Tous les champs doivent être remplis.";
-            } else {
-                this.invalidFormMsg = "";
-
-                let arKeywords = this.keywords.split(" ");
-
-                let requestData = {
-                    title: this.title,
-                    text_content: this.textContent,
-                    code_snippets: [],
-                    group_id: this.selectedGroup,
-                    keywords: arKeywords
-                };
-
-                this.codeSnippets.forEach(function(snippet) {
-                    requestData.code_snippets.push(snippet.content);
-                });
-
-                this.$store.dispatch('createPost', requestData)
-                    .then((response) => {
-                        this.$router.push('/article/' + response.data._id);
-                    }, (error) => {
-                        console.log(error);
-                    });
-            }
-        },
-
-        addCodeSnippet: function() {
-            this.codeSnippets.push({
-                index: this.csLength,
-                content: ""
-            });
-            this.csLength++;
-        },
-
-        getNotifications: function() {
-            this.$store.dispatch('getNotificationsAction');
-            // console.log(this.$store.state.userNotifs);
-            // console.log(this.userNotifs);
-        }
-    },
-
-    created: function() {
-        if (!this.userLogged) this.$router.push('/login');
-        else {
-            this.$store.dispatch('getUserGroups');
-            this.getNotifications();
-            if (this.$route.params.groupId) {
-                this.fromGroup = true;
-                this.selectedGroup = this.$route.params.groupId;
-            }
-        }
+  data: function() {
+    return {
+      title: "",
+      textContent: "",
+      keywords: "",
+      codeSnippets: [
+        {index: 0,
+        content: ""}
+      ],
+      csLength: 1,
+      selectedGroup: "",
+      fromGroup: false,
+      invalidFormMsg: ""
     }
+  },
+  computed: {
+    ...mapState([
+      'groupsList',
+      'groupSingle',
+      'userLogged'
+    ])
+  },
+  methods: {
+    createPost: function() {
+      if (this.title == ""
+      || this.textContent == ""
+      || this.codeSnippets[0].content == ""
+      || this.keywords == ""
+      || this.selectedGroup == "") {
+
+        this.invalidFormMsg = "Tous les champs doivent être remplis.";
+      } else {
+        this.invalidFormMsg = "";
+
+        let arKeywords = this.keywords.split(" ");
+
+        let requestData = {
+          title: this.title,
+          text_content: this.textContent,
+          code_snippets: [],
+          group_id: this.selectedGroup,
+          keywords: arKeywords
+        };
+
+        this.codeSnippets.forEach(function(snippet) {
+          requestData.code_snippets.push(snippet.content);
+        });
+
+        this.$store.dispatch('createPost', requestData)
+                    .then((response)=>{
+                      this.$router.push('/article/'+response.data._id);
+                    }, (error) => {
+                      console.log(error);
+                    });
+      }
+    },
+
+    addCodeSnippet: function() {
+      this.codeSnippets.push({index: this.csLength, content: ""});
+      this.csLength++;
+    },
+
+    initFromGroupForm: function(groupId) {
+
+        this.fromGroup = true;
+        this.selectedGroup = groupId;
+
+        if(!this.groupSingle.name) {
+            this.$store.dispatch('initGroupSingleAction', groupId)
+                        .then((response)=>{
+                            //console.log(response);
+                        }, (error)=>{
+                            console.error(error);
+                        });
+        }
+    },
+
+    getNotifications: function() {
+        this.$store.dispatch('getNotificationsAction');
+        // console.log(this.$store.state.userNotifs);
+        // console.log(this.userNotifs);
+    },
+
+    initRegularForm: function() {
+        this.$store.dispatch('getUserGroups')
+                    .then((response)=>{
+                        //console.log(response);
+                    }, (error)=>{
+                        console.error(error);
+                    });
+    }
+  },
+
+  created: function() {
+      if (!this.userLogged) {
+          this.$store.dispatch('autoLogin')
+                      .then((response)=>{
+                          //console.log(response);
+                          if(this.$route.params.groupId) this.initFromGroupForm(this.$route.params.groupId);
+                          else this.initRegularForm();
+
+                          this.getNotifications();
+
+                      }, (error)=>{
+                          console.error(error);
+                          this.$router.push('/login');
+                      });
+     } else {
+         if(this.$route.params.groupId) this.initFromGroupForm(this.$route.params.groupId);
+         else this.initRegularForm();
+
+         this.getNotifications();
+      }
+  }
 }
 </script>
 

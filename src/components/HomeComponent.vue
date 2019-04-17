@@ -78,15 +78,9 @@ export default {
     },
     methods: {
         getPostsFeed: function() {
-            if (this.$store.userLogged) this.$store.dispatch('getPostsFeed');
-            else this.$store.dispatch('getGuestFeed');
-            // console.log(this.$store.state.headerObject);
-        },
-        getNotifications: function() {
-            if (this.$store.userLogged) {
-                this.$store.dispatch('getNotificationsAction');
-                // console.log(this.$store.state.userNotifs);
-                // console.log(this.userNotifs);
+            if(!this.$route.params.words) {
+                if (this.userLogged) this.$store.dispatch('getPostsFeed');
+                else this.$store.dispatch('getGuestFeed');
             }
         },
         votePost: function(target, type, vote) {
@@ -98,11 +92,36 @@ export default {
             };
 
             this.$store.dispatch('voteInFeedAction', payload);
+        },
+
+        getNotifications: function() {
+            if (this.$store.userLogged) {
+                this.$store.dispatch('getNotificationsAction');
+                // console.log(this.$store.state.userNotifs);
+                // console.log(this.userNotifs);
+            }
+        },
+
+        autoLogin: function() {
+
+            this.$store.dispatch('autoLogin')
+            .then((response)=>{
+                console.log(response);
+                this.getPostsFeed();
+                this.getNotifications();
+            }, (error)=>{
+                console.log(error);
+                this.getPostsFeed();
+            })
         }
     },
     created: function() {
-        this.getPostsFeed();
-        this.getNotifications();
+        if(!this.userLogged) {
+            this.autoLogin();
+        } else {
+            this.getPostsFeed();
+            this.getNotifications();
+        }
     }
 }
 </script>

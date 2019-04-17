@@ -4,16 +4,19 @@
         <div class="alert alert-danger" v-if="wrongLoginOrPwd">
             Mauvais login ou mot de passe
         </div>
+        <div class="alert alert-danger" v-if="invalidData">
+            Tous les champs doivent être remplis.
+        </div>
       <div class="form-group">
         <h2>Login</h2>
       </div>
       <div class="form-group">
         <label>Email</label>
-        <input type="email" placeholder="Votre email" name="email" class="form-control" v-model="email"/>
+        <input type="email" placeholder="Votre email" name="email" class="form-control" v-model="email" v-on:keyup.enter="logUser"/>
       </div>
       <div class="form-group">
         <label>Mot de passe</label>
-        <input type="password" placeholder="Votre mot de passe" name="password" class="form-control" v-model="password"/>
+        <input type="password" placeholder="Votre mot de passe" name="password" class="form-control" v-model="password" v-on:keyup.enter="logUser"/>
       </div>
       <div class="form-group">
         <input type="button" value="Se connecter" class="btn btn-primary" v-on:click="logUser"/>
@@ -34,24 +37,30 @@
         name: 'LoginComponent',
         email: '',
         password: '',
-        wrongLoginOrPwd: false
+        wrongLoginOrPwd: false,
+        invalidData: false
       }
     },
     methods: {
       logUser: function() {
-        let logData = {
-          "email": this.email,
-          "password": this.password
-        };
-        this.$store.dispatch('logUser', logData)
-        .then((response)=>{
-            //setTimeout( () => {
-              this.$router.push('/');
-            //}, 1000);
-        }, (error)=>{
-            console.error(error);
-            this.wrongLoginOrPwd = true;
-        });
+          if(this.email == ""
+          || this.password == "") {
+          this.invalidData = true;
+        } else {
+          let logData = {
+            "email": this.email,
+            "password": this.password
+          };
+          this.$store.dispatch('logUser', logData)
+          .then((response)=>{
+              //setTimeout( () => {
+                this.$router.push('/');
+              //}, 1000);
+          }, (error)=>{
+              console.error(error);
+              this.wrongLoginOrPwd = true;
+          });
+        }
       }
     }
   }

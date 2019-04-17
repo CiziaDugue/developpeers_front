@@ -2,8 +2,8 @@
 <div class="container main-block">
     <h2 class="text-center">{{ title }}</h2>
     <form class="form_inline">
-        <input type="search" placeholder="rechercher un groupe" v-model="searchGroupBarContent">
-        <input type="button" value="Chercher" v-on:click="searchGroup">
+      <input type="search" placeholder="rechercher un groupe" v-model="searchGroupBarContent" v-on:keyup.enter="searchGroup">
+      <input type="button" value="Chercher" v-on:click="searchGroup">
     </form>
     <div class="card-columns">
         <div v-for="group in groupsList" v-bind:key="group._id" class="card p-3">
@@ -91,16 +91,26 @@ export default {
                 // console.log(this.userNotifs);
             }
         },
-    },
-    created: function() {
-        if (!this.userLogged) this.$router.push('/login');
-        else {
+        init: function() {
             let listType = {
                 type: this.$route.params.groupsListType
             }
             console.log('Initializing ' + listType.type + ' groups list');
             this.initGroupsList(listType);
-             this.getNotifications();
+            this.getNotifications();
+        }
+    },
+    created: function() {
+        if (!this.userLogged) {
+            this.$store.dispatch('autoLogin')
+                        .then((response)=>{
+                            this.init();
+                        }, (error)=>{
+                            console.error(error);
+                            this.$router.push('/login');
+                        });
+        } else {
+            this.init();
         }
     },
     watch: {

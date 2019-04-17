@@ -1,22 +1,25 @@
 <template>
 <main>
     <form>
-        <h2>Céer un groupe</h2>
-        <div class="form-group">
-            <label>Nom</label>
-            <input type="text" name="name" placeholder="Nom du groupe" class="form-control" v-model="name">
-        </div>
-        <div class="form-group">
-            <label>Description</label>
-            <input name="description" placeholder="Description du groupe" class="form-control" v-model="description">
-        </div>
-        <div class="form-group">
-            <label>Mots-clés</label>
-            <input type="text" name="keywords" placeholder="Tapez des mots clés séparés par des espaces" class="form-control" v-model="keywords">
-        </div>
-        <div class="form-group">
-            <input type="button" value="Valider" class="btn btn-success" v-on:click="createGroup">
-        </div>
+      <h2>Céer un groupe</h2>
+      <div class="alert alert-danger" v-if="invalidData">
+          Tous les champs doivent être remplis.
+      </div>
+      <div class="form-group">
+        <label>Nom</label>
+        <input type="text" name="name" placeholder="Nom du groupe" class="form-control" v-model="name">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <input name="description" placeholder="Description du groupe" class="form-control" v-model="description">
+      </div>
+      <div class="form-group">
+        <label>Mots-clés</label>
+        <input type="text" name="keywords" placeholder="Tapez des mots clés séparés par des espaces" class="form-control" v-model="keywords">
+      </div>
+      <div class="form-group">
+        <input type="button" value="Valider" class="btn btn-success" v-on:click="createGroup">
+      </div>
     </form>
 </main>
 </template>
@@ -25,27 +28,41 @@
 import {mapState} from 'vuex'
 
 export default {
-    data: function() {
-        return {
-            name: "",
-            description: "",
-            keywords: ""
-        }
-    },
-    methods: {
-        createGroup: function() {
+  data: function() {
+    return {
+      name: "",
+      description: "",
+      keywords: "",
+      invalidData: false
+    }
+  },
+  computed: {
+      ...mapState([
+          'userLogged'
+      ])
+  },
+  methods: {
+    createGroup: function() {
+
+        if(this.name == ""
+        || this.description == ""
+        || this.keywords == "") {
+
+            this.invalidData = true;
+        } else {
             let arKeywords = this.keywords.split(" ");
             let requestData = {
-                name: this.name,
-                description: this.description,
-                keywords: arKeywords
+            name: this.name,
+            description: this.description,
+            keywords: arKeywords
             };
             this.$store.dispatch('createGroup', requestData)
                 .then((response) => {
-                    this.$router.push('/groupe/' + response.data._id);
+                    this.$router.push('/groupe/'+response.data._id);
                 }, (error) => {
                     console.log(error);
                 });
+            }
         },
 
         getNotifications: function() {
@@ -55,7 +72,16 @@ export default {
         }
     },
     created: function() {
-        this.getNotifications();
+        if (!this.userLogged) {
+            this.$store.dispatch('autoLogin')
+            .then((response)=>{
+                console.log(response);
+                this.getNotifications();
+            }, (error)=>{
+                console.error(error);
+                this.$router.push('/login');
+            });
+        }
     }
 }
 </script>

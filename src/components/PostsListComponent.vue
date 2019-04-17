@@ -131,11 +131,9 @@ export default {
           this.$store.dispatch('getNotificationsAction');
           // console.log(this.$store.state.userNotifs);
           // console.log(this.userNotifs);
-        }
-    },
-    created: function() {
-        if (!this.userLogged) this.$router.push('/login');
-        else {
+        },
+
+        init: function() {
             let listType = (this.$route.params.groupId) ? "group-posts" : this.$route.params.postsListType;
 
             console.log('Initializing ' + listType + ' posts list');
@@ -148,6 +146,19 @@ export default {
             };
             this.initPostsList(data);
             this.getNotifications();
+        }
+    },
+    created: function() {
+        if (!this.userLogged) {
+            this.$store.dispatch('autoLogin')
+                        .then((response)=>{
+                            this.init();
+                        }, (error)=>{
+                            cconsole.error(error);
+                            this.$router.push('/login');
+                        });
+        } else {
+            this.init();
         }
     },
     watch: {

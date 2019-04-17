@@ -59,7 +59,7 @@
 
                     <div v-if="userIsAuthorOfActiveVersion">
                       <button  class="btn btn-secondary btn-sm" title="Éditer cette version" v-on:click="editActiveVersion">Edit</button>
-                      <button  class="btn btn-danger btn-sm" title="supprimer cette version" v-on:click="deleteActiveVersion">Suppr</button>
+                      <button  class="btn btn-danger btn-sm" title="supprimer cette version" v-on:click="deleteActiveVersion" v-if="postSingle.active_version.number != '1.0'">Suppr</button>
                     </div>
 
                 </div>
@@ -105,7 +105,7 @@
                         <td>{{ comment.author_name }}</td>
                         <td v-if="comment._id != editedCommentId || !commentEditMode">{{ comment.content }}</td>
                         <td v-if="commentEditMode && comment._id==editedCommentId">
-                          <input type="text" v-model="commentEditedContent">
+                          <input type="text" v-model="commentEditedContent" v-on:keyup.enter="validateCommentUpdate(comment._id)">
                           <button type="button" class="btn btn-sm btn-success" v-on:click="validateCommentUpdate(comment._id)">Ok</button>
                         </td>
                         <td>
@@ -126,7 +126,7 @@
             <div class="input-group">
                 <textarea class="form-control" aria-label="With textarea" v-model="commentToAdd"></textarea>
                 <div class="input-group-append">
-                    <button class="fas fa-plus" v-on:click="addComment()"></button>
+                    <button class="fas fa-plus" v-on:click="addComment"></button>
                 </div>
             </div>
         </div>
@@ -214,7 +214,7 @@ export default {
         },
 
         createVersion: function() {
-          this.$router.push('/creer-une-version');
+          this.$router.push('/creer-une-version/'+this.postSingle._id);
         },
 
         updateUserRights: function() {
@@ -251,7 +251,7 @@ export default {
         },
 
         editActiveVersion: function() {
-          this.$router.push('/editer-une-version/'+this.postSingle.active_version._id);
+          this.$router.push('/editer-une-version/'+ this.postSingle._id +'/'+this.postSingle.active_version._id);
         },
 
         deleteActiveVersion: function() {
@@ -306,27 +306,38 @@ export default {
           this.$store.dispatch('getNotificationsAction');
           // console.log(this.$store.state.userNotifs);
           // console.log(this.userNotifs);
+        },
+
+        init: function() {
+            this.$store.dispatch('initPostSingleAction', {
+                postId: this.$route.params.postId
+            })
+                        .then( (response) => {
+                          this.postEditedTitle = this.postSingle.title;
+                          this.postEditedKeywords;
+                          this.postSingle.keywords.forEach((word)=> {
+                            this.postEditedKeywords += word + " ";
+                          });
+                          this.updateUserRights();
+
+                        }, (error) => {
+                          console.error(error);
+                        });
+                        
+            this.getNotifications();
         }
     },
     created: function() {
         if (this.userLogged) {
-        this.getNotifications();
-            this.$store.dispatch('initPostSingleAction', {
-                postId: this.$route.params.postId
-            })
-            .then( (response) => {
-              this.postEditedTitle = this.postSingle.title;
-              this.postEditedKeywords;
-              this.postSingle.keywords.forEach((word)=> {
-                this.postEditedKeywords += word + " ";
-              });
-              this.updateUserRights();
-
-            }, (error) => {
-              console.error(error);
-            });
+            this.init();
         } else {
-            this.$router.push("/login");
+            this.$store.dispatch('autoLogin')
+            .then((response)=>{
+                this.init();
+            }, (error)=>{
+                console.error(error);
+                this.$router.push("/login");
+            });
         }
 
     }

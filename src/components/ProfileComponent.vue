@@ -1,13 +1,27 @@
 <template>
-<main>
-    <h2>Mon profil</h2>
-    <div class="profile_pic">
-        <img src="@/assets/blank_profile_pic.png" />
-    </div>
-    <div>
-        <span>{{authUserData.name}}</span>
-    </div>
-</main>
+  <main>
+      <div class="card">
+          <div class="card-title">
+              <h2>Mon profil</h2>
+          </div>
+          <div class="card-body">
+              <div class="profile_pic">
+                <img src="@/assets/blank_profile_pic.png"/>
+                <button type="button" class="btn btn-sm btn-outline-primary">Changer</button>
+              </div>
+
+              <div class="list-group list-group-flush">
+                  <ul>
+                      <li class="list-group-item">Nom : {{authUserData.name}}</li>
+                      <li class="list-group-item">Email : {{ authUserData.email }}</li>
+                      <li class="list-group-item"> <a href="">Réinitialiser mon mot de passe</a></li>
+                      <li class="list-group-item"> <a href="">Supprimer mon compte</a></li>
+                  </ul>
+              </div>
+          </div>
+
+      </div>
+  </main>
 </template>
 
 <script>
@@ -30,8 +44,15 @@ export default {
       ])
     },
     created: function() {
-        if (!this.userLogged) this.$router.push('/login');
-        else this.getNotifications();
+        if (!this.userLogged) {
+            this.$store.dispatch('autoLogin')
+                        .then((response)=>{
+                            //
+                        }, (error)=>{
+                            console.error(error);
+                            this.$router.push('/login');
+                        });
+        }
     }
 }
 </script>

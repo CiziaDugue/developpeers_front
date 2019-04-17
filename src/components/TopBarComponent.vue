@@ -1,15 +1,22 @@
 <template>
-<div class="top-bar fixed-top navbar navbar-dark navbar-expand-lg">
-    <router-link :to="{ path: '/' }">
-        <h1 class="title">Developeers</h1>
-    </router-link>
-    <form class="form-inline">
-        <input type="search" placeholder="Recherche par mots clés" v-model="searchBarContent">
-        <input type="button" class="btn btn-outline-success my-2 my-sm-0" v-on:click="getSearchResult" value="Rechercher" />
-    </form>
-    <div v-if="!userLogged">
-        <router-link to="/register">Créer mon compte</router-link>
-        <router-link to='/login'>Se Connecter</router-link>
+    <div class="top-bar fixed-top navbar navbar-dark navbar-expand-lg">
+        <router-link :to="{ path: '/' }">
+            <h1 class="title">Developeers</h1>
+        </router-link>
+        <form class="form-inline">
+          <input type="search" placeholder="Recherche par mots clés" v-model="searchBarContent" v-on:keyup.enter="getSearchResult">
+          <input type="button" class="btn btn-outline-success my-2 my-sm-0" v-on:click="getSearchResult" value="Rechercher"/>
+        </form>
+        <div  v-if="!userLogged">
+          <router-link to="/register">Créer mon compte</router-link>
+          <router-link to='/login'>Se Connecter</router-link>
+        </div>
+
+        <div v-if="userLogged">
+            <img src="" alt="">
+            <span class="navbar-text"> <strong>{{authUserData.name}}</strong></span>
+            <button v-if="userLogged" v-on:click="disconnectUser" class="btn btn-secondary">Logout</button>
+        </div>
     </div>
 
     <template v-if="userLogged">
@@ -44,15 +51,32 @@ export default {
         NotificationComponent
     },
     methods: {
-        disconnectUser: function() {
-            this.$store.dispatch('disconnectUser');
-            this.$router.push('/');
-        },
-        getSearchResult: function() {
-            if (this.$store.userLogged) this.$store.dispatch('getSearchResult', this.searchBarContent);
-            else this.$store.dispatch('getGuestSearchResults', this.searchBarContent);
-            this.$router.push('/');
+      disconnectUser: function() {
+        this.$store.dispatch('disconnectUser');
+        this.$router.push('/');
+      },
+      //special route from there
+      getSearchResult: function() {
+
+        let routeParamString = this.searchBarContent.replace(" ", "+");
+
+        if (this.$store.userLogged) {
+            this.$store.dispatch('getSearchResult', this.searchBarContent)
+            .then((response)=>{
+                this.$router.push('/search/'+routeParamString);
+            }, (error)=>{
+                console.error(error);
+            });
         }
+        else {
+            this.$store.dispatch('getGuestSearchResults', this.searchBarContent)
+            .then((response)=>{
+                this.$router.push('/search/'+routeParamString);
+            }, (error)=>{
+                console.error(error);
+            });
+        }
+      }
     }
 }
 </script>

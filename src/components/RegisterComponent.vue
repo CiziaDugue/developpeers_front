@@ -9,22 +9,22 @@
       </div>
       <div class="form-group">
         <label>Nom</label>
-        <input type="text" placeholder="Votre nom" name="name" class="form-control" v-model="userName"/>
+        <input type="text" placeholder="Votre nom" name="name" class="form-control" v-model="userName" v-on:keyup.enter="registerUser"/>
       </div>
       <div class="form-group">
         <label>Email</label>
-        <input type="email" placeholder="Votre email" name="email" class="form-control" v-model="email"/>
+        <input type="email" placeholder="Votre email" name="email" class="form-control" v-model="email" v-on:keyup.enter="registerUser"/>
       </div>
       <div class="alert alert-danger" v-if="invalidEmail">
           Adresse email invalide.
       </div>
       <div class="form-group">
         <label>Mot de passe</label>
-        <input type="password" placeholder="Votre mot de passe" name="password" class="form-control" v-model="password"/>
+        <input type="password" placeholder="Votre mot de passe" name="password" class="form-control" v-model="password" v-on:keyup.enter="registerUser"/>
       </div>
       <div class="form-group">
         <label>Confirmer le mot de passe</label>
-        <input type="password" placeholder="Retapez votre mot de passe" name="password-confirm" class="form-control" v-model="passwordConfirmation"/>
+        <input type="password" placeholder="Retapez votre mot de passe" name="password-confirm" class="form-control" v-model="passwordConfirmation" v-on:keyup.enter="registerUser"/>
       </div>
       <div class="alert alert-danger" v-if="invalidPwdConfirm">
           Erreur de confirmation de mot de passe.
