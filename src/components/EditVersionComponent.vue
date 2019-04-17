@@ -81,23 +81,54 @@ export default {
             console.log(error);
           });
       }
+    },
+    initForm: function() {
+        this.title = this.postSingle.title;
+        this.textContent = this.postSingle.active_version.text_content;
+        let i=0;
+        this.postSingle.active_version.code_snippets.forEach((cs)=> {
+          this.codeSnippets[i] = {
+            index: i,
+            content: cs.content
+          };
+          i++;
+        });
+        this.csLength = i;
+        this.number = this.postSingle.active_version.number;
     }
   },
   created: function() {
-      if (!this.userLogged) this.$router.push('/login');
-      else {
-          this.title = this.postSingle.title;
-          this.textContent = this.postSingle.active_version.text_content;
-          let i=0;
-          this.postSingle.active_version.code_snippets.forEach((cs)=> {
-            this.codeSnippets[i] = {
-              index: i,
-              content: cs.content
-            };
-            i++;
-          });
-          this.csLength = i;
-          this.number = this.postSingle.active_version.number;
+      if (!this.userLogged) {
+          this.$store.dispatch('autoLogin')
+                      .then((response)=>{
+                          if(!this.postSingle.title) {
+                              let payload = {postId: this.$route.params.postId};
+                              this.$store.dispatch('initPostSingleAction', payload)
+                              .then((response)=>{
+                                  let vPayload = {
+                                      post_id: this.$route.params.postId,
+                                      version_id: this.$route.params.versionId
+                                  }
+                                  this.$store.dispatch('changePostVersionAction', vPayload)
+                                            .then((vResponse)=>{
+                                                this.initForm();
+                                            }, (vError)=>{
+                                                console.error(error);
+                                            });
+                              }, (error)=>{
+                                  console.error(error);
+                                  this.$router.push('/');//tmp
+                              });
+                          } else {
+                              this.initForm();
+                          }
+                      }, (error)=>{
+                          console.error(error);
+                          this.$router.push('/login');
+                      });
+
+      } else {
+          this.initForm();
       }
   }
 }

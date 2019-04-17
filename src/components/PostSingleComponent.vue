@@ -251,7 +251,7 @@ export default {
         },
 
         editActiveVersion: function() {
-          this.$router.push('/editer-une-version/'+this.postSingle.active_version._id);
+          this.$router.push('/editer-une-version/'+ this.postSingle._id +'/'+this.postSingle.active_version._id);
         },
 
         deleteActiveVersion: function() {

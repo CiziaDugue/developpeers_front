@@ -13,7 +13,6 @@ import CreatePostComponent from '@/components/CreatePostComponent.vue'
 import CreateVersionComponent from '@/components/CreateVersionComponent.vue'
 import EditVersionComponent from '@/components/EditVersionComponent.vue'
 import PostSingleGuestComponent from '@/components/PostSingleGuestComponent.vue'
-import UnknownErrorComponent from '@/components/UnknownErrorComponent.vue'
 
 Vue.use(Router)
 
@@ -66,7 +65,7 @@ export default new Router({
           component: CreateVersionComponent
         },
         {
-          path: '/editer-une-version/:versionId',
+          path: '/editer-une-version/:postId/:versionId',
           name: 'editVersion',
           component: EditVersionComponent
         },
@@ -94,12 +93,7 @@ export default new Router({
             path: '/search/:words',
             name: 'searchPosts',
             component: HomeComponent
-        },
-        {
-            path: '/error',
-            name:'error',
-            component: UnknownErrorComponent
-        },
+        }
         // {
         //     path: '/about',
         //     name: 'about',

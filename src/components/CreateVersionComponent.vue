@@ -101,11 +101,6 @@ export default {
     },
 
     initForm: function() {
-
-        // if(!this.postSingle.title) {
-        //     let payload = {postId: this.$route.params.postId};
-        //     this.$store.dispatch('initPostSingleAction', payload);
-        // }
         this.title = this.postSingle.title;
         this.textContent = this.postSingle.active_version.text_content;
         let i=0;
@@ -131,7 +126,7 @@ export default {
                                   this.initForm();
                               }, (error)=>{
                                   console.error(error);
-                                  this.$router.push('/error');
+                                  this.$router.push('/');//trouver mieux, affichage message erreur etc
                               });
                           } else {
                               this.initForm();
