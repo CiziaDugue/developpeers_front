@@ -383,8 +383,9 @@ export default new Vuex.Store({
         getSearchResult: function({commit, dispatch}, words) {
             return new Promise((resolve, reject)=>{
                 if (words != "") {
-                  let req = 'http://localhost/developeers/public/api/searchposts/' + words;
-                  axios.get(req, {headers: this.state.headerObject})
+                    let reqWords = words.replace(" ", "-");
+                    let req = 'http://localhost/developeers/public/api/searchposts/' + reqWords;
+                    axios.get(req, {headers: this.state.headerObject})
                       .then((response) => {
                         let posts = response.data;
                         commit('SET_POSTS_FEED', posts);
@@ -407,7 +408,8 @@ export default new Vuex.Store({
 
         getGroupSearchResult: function({commit, dispatch}, searchData) {
           if (searchData.words != "") {
-            let req = 'http://localhost/developeers/public/api/searchgroups/' + searchData.words;
+              let reqWords = searchData.words.replace(" ", "-");
+            let req = 'http://localhost/developeers/public/api/searchgroups/' + reqWords;
             axios.get(req, {headers: this.state.headerObject})
                 .then((response) => {
                   let groups = response.data;
@@ -782,8 +784,9 @@ export default new Vuex.Store({
         getGuestSearchResults: function({commit, dispatch}, words) {
             return new Promise((resolve, reject)=> {
                 if (words != "") {
-                  let req = 'http://localhost/developeers/public/api/guest/searchposts/' + words;
-                  axios.get(req, {headers: this.state.headerObject})
+                    let reqWords = words.replace(" ", "-");
+                    let req = 'http://localhost/developeers/public/api/guest/searchposts/' + reqWords;
+                    axios.get(req, {headers: this.state.headerObject})
                       .then((response) => {
                         let posts = response.data;
                         commit('SET_POSTS_FEED', posts);
