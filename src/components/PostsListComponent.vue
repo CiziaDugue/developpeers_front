@@ -1,5 +1,5 @@
 <template>
-<div class="container main-block">
+<div class="main-block">
     <h2 class="text-center">{{ title }}</h2>
 
     <button v-if="isGroupList == true" class="fas fa-angle-left" v-on:click="goBack()"></button>
@@ -16,7 +16,7 @@
       <button class="btn btn-success" v-on:click="createPost">Créer un article</button>
     </div>
 
-    <div class="card-columns">
+    <div>
         <div v-for="post in postsList" v-bind:key="post._id" class="card p-3">
             <div class="card-body">
                 <div class="row">
@@ -181,8 +181,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .main-block {
-    position: relative;
+    /* position: relative;
     right: 0;
-    top: 8vh;
+    top: 8vh; */
 }
 </style>

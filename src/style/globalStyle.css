@@ -1,0 +1,47 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    background-color: #eee;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+}
+
+#topBarCtnr {
+    width: 100%;
+    flex: 1;
+}
+
+#dashboardCptCtnr {
+    width: 100%;
+    position: relative;
+}
+
+#dashboard-container {
+    display: flex;
+    width: 100%;
+    margin: 0 auto;
+    /*à surveiller*/
+    height: 90vh;
+    /* overflow: auto;
+    scrollbar-width: thin; */
+}
+
+#sideBarCtnr {
+}
+
+#routerViewCtnr {
+    position: relative;
+    background-color: #fff;
+    top: 10vh;
+    max-width: 1300px;
+    min-width: 70%;
+    margin: 0 auto;
+    padding: 10px 5%;
+    overflow: auto;
+    scrollbar-width: thin;
+
+}

@@ -89,11 +89,11 @@ export default {
 <style lang="css" scoped>
 
 main {
-    position: relative;
+    /* position: relative;
     right: 0;
     top: 140px;
     width: 1000px;
-    margin: 0 auto;
+    margin: 0 auto; */
 }
 
 form {

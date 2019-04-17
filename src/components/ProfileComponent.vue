@@ -59,11 +59,11 @@ export default {
 
 <style scoped>
 main {
-    position: relative;
+    /* position: relative;
     left: 50px;
     top: 100px;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0 auto; */
     border: 1px solid #eee;
 }
 

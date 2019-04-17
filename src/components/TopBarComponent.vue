@@ -74,12 +74,9 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .top-bar {
-    width: 100vw;
-    height: 8vh;
-    margin: 0;
+    height: 10vh;
     padding: 5px 0;
     background-color: #2a2a2e;
 }

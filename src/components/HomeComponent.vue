@@ -128,8 +128,8 @@ export default {
 
 <style scoped>
 main {
-    position: relative;
+    /* position: relative;
     left: 50px;
-    top: 8vh;
+    top: 8vh; */
 }
 </style>

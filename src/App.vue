@@ -1,7 +1,12 @@
 <template>
-    <div class="container-fluid p-0">
-        <top-bar-component></top-bar-component>
-        <dashboard-component></dashboard-component>
+    <div id="app">
+        <div id="topBarCtnr">
+            <top-bar-component></top-bar-component>
+        </div>
+        <div id="dashboardCptCtnr">
+            <dashboard-component></dashboard-component>
+        </div>
+
     </div>
 </template>
 
