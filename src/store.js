@@ -176,7 +176,7 @@ export default new Vuex.Store({
 
         changePostVersionAction: function({commit}, payload) {
           return new Promise ((resolve, reject)=>{
-            axios.get('http://localhost/developeers/public/api/posts/' + payload.post_id + '/' + payload.version_id, {
+            axios.get('http://localhost/developeers/public/api/posts/' + payload.postId + '/' + payload.versionId, {
                     headers: this.state.headerObject
                 })
                 .then(response => {
@@ -193,7 +193,7 @@ export default new Vuex.Store({
 
         addCommentAction: function({dispatch}, payload) {
 
-            axios.post('http://localhost/developeers/public/api/comments/' + payload.version_id, payload.comment, {
+            axios.post('http://localhost/developeers/public/api/comments/' + payload.versionId, payload.comment, {
                     headers: this.state.headerObject
                 })
                 .then(response => {
@@ -235,11 +235,11 @@ export default new Vuex.Store({
 
             .then((response) => {
 
-                let postId = {
-                    post_id: payload.postId,
-                    version_id: payload.versionId
+                let postIds = {
+                    postId: payload.postId,
+                    versionId: payload.versionId
                 };
-                dispatch('changePostVersionAction', postId);
+                dispatch('changePostVersionAction', postIds);
 
             })
             .catch((error) => {

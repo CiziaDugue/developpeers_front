@@ -161,11 +161,11 @@ export default {
         ])
     },
     methods: {
-        changeVersion: function(version_id) {
+        changeVersion: function(versionId) {
 
             let payload = {
-                post_id: this.postSingle._id,
-                version_id: version_id
+                postId: this.postSingle._id,
+                versionId: versionId
             };
             this.$store.dispatch('changePostVersionAction', payload)
             .then((response)=>{
@@ -184,8 +184,8 @@ export default {
                 }
 
                 let payload = {
-                    post_id: this.postSingle._id,
-                    version_id: this.postSingle.active_version._id,
+                    postId: this.postSingle._id,
+                    versionId: this.postSingle.active_version._id,
                     comment: comment
                 }
 
@@ -308,38 +308,70 @@ export default {
           // console.log(this.userNotifs);
         },
 
-        init: function() {
-            this.$store.dispatch('initPostSingleAction', {
-                postId: this.$route.params.postId
-            })
-                        .then( (response) => {
-                          this.postEditedTitle = this.postSingle.title;
-                          this.postEditedKeywords;
-                          this.postSingle.keywords.forEach((word)=> {
-                            this.postEditedKeywords += word + " ";
-                          });
-                          this.updateUserRights();
+        init: function(data) {
+            if (data.versionId != null) {
+                this.$store.dispatch('changePostVersionAction', data)
+                .then((response)=>{
+                  this.updateUserRights();
+                }, (error)=>{
+                  console.error(error);
+                });
+            }
+            else {
+                this.$store.dispatch('initPostSingleAction', data)
+                            .then( (response) => {
+                              this.postEditedTitle = this.postSingle.title;
+                              this.postEditedKeywords;
+                              this.postSingle.keywords.forEach((word)=> {
+                                this.postEditedKeywords += word + " ";
+                              });
+                              this.updateUserRights();
 
-                        }, (error) => {
-                          console.error(error);
-                        });
-                        
+                            }, (error) => {
+                              console.error(error);
+                            });
+            }
             this.getNotifications();
         }
     },
     created: function() {
+
+        let postId = this.$route.params.postId;
+        // let postId = (this.$route.params.postId) ? this.$route.params.postId : null;
+        let versionId = (this.$route.params.versionId) ? this.$route.params.versionId : null;
+
+        let data = {
+            versionId: versionId,
+            postId: postId
+        }
+
         if (this.userLogged) {
-            this.init();
+            this.init(data);
         } else {
             this.$store.dispatch('autoLogin')
             .then((response)=>{
-                this.init();
+                this.init(data);
             }, (error)=>{
                 console.error(error);
                 this.$router.push("/login");
             });
         }
 
+    },
+    watch: {
+        '$route': function(to, from) {
+
+            let postId = to.params.postId;
+            // let postId = (to.params.postId) ? to.params.postId : null;
+            let versionId = (to.params.versionId) ? to.params.versionId : null;
+
+            let data = {
+                versionId: versionId,
+                postId: postId
+            }
+
+            this.init(data);
+        }
     }
 }
 </script>
