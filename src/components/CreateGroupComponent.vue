@@ -7,15 +7,15 @@
       </div>
       <div class="form-group">
         <label>Nom</label>
-        <input type="text" name="name" placeholder="Nom du groupe" class="form-control" v-model="name" v-on:keyup.enter="createGroup">
+        <input type="text" name="name" placeholder="Nom du groupe" class="form-control" v-model="name">
       </div>
       <div class="form-group">
         <label>Description</label>
-        <input name="description" placeholder="Description du groupe" class="form-control" v-model="description" v-on:keyup.enter="createGroup">
+        <input name="description" placeholder="Description du groupe" class="form-control" v-model="description">
       </div>
       <div class="form-group">
         <label>Mots-clés</label>
-        <input type="text" name="keywords" placeholder="Tapez des mots clés séparés par des espaces" class="form-control" v-model="keywords" v-on:keyup.enter="createGroup">
+        <input type="text" name="keywords" placeholder="Tapez des mots clés séparés par des espaces" class="form-control" v-model="keywords">
       </div>
       <div class="form-group">
         <input type="button" value="Valider" class="btn btn-success" v-on:click="createGroup">

@@ -12,7 +12,7 @@
           <span>Édité à partir de la version {{previousVersionNb}}</span>
           <br>
           <label>Numéro de la nouvelle version : </label>
-          <input type="text" v-model="number" placeholder="exemple : 1.2 ou 2.0 ..." v-on:keyup.enter="validateNewVersion">
+          <input type="text" v-model="number" placeholder="exemple : 1.2 ou 2.0 ...">
       </div>
 
       <div class="form-group">
@@ -21,7 +21,7 @@
 
       <div v-for="snippet in codeSnippets">
         <div class="form-group">
-          <textarea class="form-control" v-model="codeSnippets[snippet.index].content" v-on:keyup.enter="validateNewVersion"></textarea>
+          <textarea class="form-control" v-model="codeSnippets[snippet.index].content"></textarea>
         </div>
       </div>
 
