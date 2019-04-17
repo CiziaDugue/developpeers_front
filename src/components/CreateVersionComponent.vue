@@ -1,23 +1,19 @@
 <template>
 <main>
     <form>
-      <h2>Créer une nouvelle version</h2>
-      <div class="alert alert-danger" v-if="invalidFormMsg != ''">
+        <h2>Créer une nouvelle version</h2>
+        <div class="alert alert-danger" v-if="invalidFormMsg != ''">
         {{invalidFormMsg}}
-      </div>
-      <div class="form-group">
+        </div>
+        <div class="form-group">
         <h3>{{title}}</h3>
-      </div>
-      <div class="form-group">
+        </div>
+        <div class="form-group">
           <span>Édité à partir de la version {{previousVersionNb}}</span>
           <br>
           <label>Numéro de la nouvelle version : </label>
           <input type="text" v-model="number" placeholder="exemple : 1.2 ou 2.0 ...">
-      </div>
-
-      <div class="form-group">
-        <textarea class="form-control" v-model="textContent"></textarea>
-      </div>
+        </div>
 
         <div class="form-group">
             <textarea class="form-control" v-model="textContent"></textarea>
