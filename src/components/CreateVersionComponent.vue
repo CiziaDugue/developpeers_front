@@ -15,10 +15,6 @@
           <input type="text" v-model="number" placeholder="exemple : 1.2 ou 2.0 ...">
       </div>
 
-      <div class="form-group">
-        <textarea class="form-control" v-model="textContent"></textarea>
-      </div>
-
         <div class="form-group">
             <textarea class="form-control" v-model="textContent"></textarea>
         </div>

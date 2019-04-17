@@ -12,12 +12,6 @@
           <router-link to='/login'>Se Connecter</router-link>
         </div>
 
-        <div v-if="userLogged">
-            <img src="" alt="">
-            <span class="navbar-text"> <strong>{{authUserData.name}}</strong></span>
-            <button v-if="userLogged" v-on:click="disconnectUser" class="btn btn-secondary">Logout</button>
-        </div>
-
         <template v-if="userLogged">
             <img src="" alt="">
             <span class="navbar-text"> <strong>{{authUserData.name}}</strong></span>
