@@ -279,8 +279,8 @@ export default {
             this.commentEditMode = false;
             let payload = {
                 commentId: commentId,
-                post_id: this.postSingle._id,
-                version_id: this.postSingle.active_version._id,
+                postId: this.postSingle._id,
+                versionId: this.postSingle.active_version._id,
                 requestData: {
                     content: this.commentEditedContent
                 }
