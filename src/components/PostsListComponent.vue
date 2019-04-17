@@ -125,6 +125,12 @@ export default {
 
         createPost: function() {
           this.$router.push('/creer-un-article/'+this.groupSingle._id);
+        },
+
+        getNotifications: function() {
+          this.$store.dispatch('getNotificationsAction');
+          // console.log(this.$store.state.userNotifs);
+          // console.log(this.userNotifs);
         }
     },
     created: function() {
@@ -141,6 +147,7 @@ export default {
                 listType: listType
             };
             this.initPostsList(data);
+            this.getNotifications();
         }
     },
     watch: {

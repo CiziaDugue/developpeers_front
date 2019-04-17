@@ -300,10 +300,17 @@ export default {
           }, (error)=>{
             console.error(error);
           });
+        },
+
+        getNotifications: function() {
+          this.$store.dispatch('getNotificationsAction');
+          // console.log(this.$store.state.userNotifs);
+          // console.log(this.userNotifs);
         }
     },
     created: function() {
         if (this.userLogged) {
+        this.getNotifications();
             this.$store.dispatch('initPostSingleAction', {
                 postId: this.$route.params.postId
             })

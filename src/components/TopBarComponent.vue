@@ -7,6 +7,7 @@
           <input type="search" placeholder="Recherche par mots clés" v-model="searchBarContent">
           <input type="button" class="btn btn-outline-success my-2 my-sm-0" v-on:click="getSearchResult" value="Rechercher"/>
         </form>
+        <notification-component v-if="this.$store.state.userLogged == true"></notification-component>
         <div  v-if="!userLogged">
           <router-link to="/register">Créer mon compte</router-link>
           <router-link to='/login'>Se Connecter</router-link>
@@ -15,13 +16,14 @@
         <div v-if="userLogged">
             <img src="" alt="">
             <span class="navbar-text"> <strong>{{authUserData.name}}</strong></span>
-            <button v-if="userLogged" v-on:click="disconnectUser" class="btn btn-secondary">Logout</button>
-        </div>
     </div>
+    <button v-if="this.$store.state.userLogged == true" v-on:click="disconnectUser" class="btn btn-secondary">Logout</button>
+</div>
 </template>
 
 <script>
 import {mapState} from 'vuex'
+import NotificationComponent from '@/components/NotificationComponent.vue'
 
 export default {
     data: function() {
@@ -35,17 +37,20 @@ export default {
             'userLogged',
             'authUserData'
         ])
+	},
+    components: {
+        NotificationComponent
     },
     methods: {
-      disconnectUser: function() {
-        this.$store.dispatch('disconnectUser');
-        this.$router.push('/');
-      },
-      getSearchResult: function() {
-        if (this.$store.userLogged) this.$store.dispatch('getSearchResult', this.searchBarContent);
-        else this.$store.dispatch('getGuestSearchResults', this.searchBarContent);
-        this.$router.push('/');
-      }
+        disconnectUser: function() {
+            this.$store.dispatch('disconnectUser');
+            this.$router.push('/');
+        },
+        getSearchResult: function() {
+            if (this.$store.userLogged) this.$store.dispatch('getSearchResult', this.searchBarContent);
+            else this.$store.dispatch('getGuestSearchResults', this.searchBarContent);
+            this.$router.push('/');
+        }
     }
 }
 </script>
@@ -59,6 +64,7 @@ export default {
     padding: 5px 0;
     background-color: #2a2a2e;
 }
+
 .title {
     font-family: monospace;
 }

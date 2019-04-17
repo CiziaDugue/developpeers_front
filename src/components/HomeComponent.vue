@@ -1,5 +1,5 @@
 <template>
-  <main class="main-container">
+<main class="main-container">
     <h1>Dashboard</h1>
 
     <!-- Authenticated user posts feed : -->
@@ -23,7 +23,7 @@
                     <li v-for="keyword in post.keywords">{{ keyword }}</li>
                 </ul>
                 <p class='card-text'>
-                  <strong>Groupe :</strong>{{post.group_name}}
+                    <strong>Groupe :</strong>{{post.group_name}}
                 </p>
                 <p class="card-text"><small class="text-muted">{{ post.updated_at }}</small></p>
             </div>
@@ -49,7 +49,7 @@
                     <li v-for="keyword in post.keywords">{{ keyword }}</li>
                 </ul>
                 <p class='card-text'>
-                  <strong>Groupe :</strong>{{post.group_name}}
+                    <strong>Groupe :</strong>{{post.group_name}}
                 </p>
                 <p class="card-text"><small class="text-muted">{{ post.created_at }}</small></p>
             </div>
@@ -80,7 +80,14 @@ export default {
         getPostsFeed: function() {
             if (this.$store.userLogged) this.$store.dispatch('getPostsFeed');
             else this.$store.dispatch('getGuestFeed');
-            console.log(this.$store.state.headerObject);
+            // console.log(this.$store.state.headerObject);
+        },
+        getNotifications: function() {
+            if (this.$store.userLogged) {
+                this.$store.dispatch('getNotificationsAction');
+                // console.log(this.$store.state.userNotifs);
+                // console.log(this.userNotifs);
+            }
         },
         votePost: function(target, type, vote) {
 
@@ -95,6 +102,7 @@ export default {
     },
     created: function() {
         this.getPostsFeed();
+        this.getNotifications();
     }
 }
 </script>

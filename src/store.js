@@ -369,8 +369,8 @@ export default new Vuex.Store({
         getPostsFeed: function({commit, dispatch}) {
           axios.get('http://localhost/developeers/public/api/postsfeed', {headers: this.state.headerObject})
               .then( (response) => {
-                  let posts = response.data;
                   dispatch('getNotificationsAction');
+                  let posts = response.data;
                   commit('SET_POSTS_FEED', posts);
               })
               .catch( (error) => {
@@ -691,13 +691,21 @@ export default new Vuex.Store({
         },
 
         getNotificationsAction: function({commit}) {
-            axios.get('http://localhost/developeers/public/api/notifications', {headers: this.state.headerObject})
+            let req = 'http://localhost/developeers/public/api/notifications';
+
+            return new Promise((resolve) => {
+
+                axios.get(req, { headers: this.state.headerObject })
+
                 .then( (response) => {
                     let notifs = response.data;
                     commit('SET_USER_NOTIFS', notifs);
-                })
-                .catch( (error) => {
-                    console.error(error);
+                    resolve();
+
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
                 });
         },
 

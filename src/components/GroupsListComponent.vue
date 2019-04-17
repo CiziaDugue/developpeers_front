@@ -2,8 +2,8 @@
 <div class="container main-block">
     <h2 class="text-center">{{ title }}</h2>
     <form class="form_inline">
-      <input type="search" placeholder="rechercher un groupe" v-model="searchGroupBarContent">
-      <input type="button" value="Chercher" v-on:click="searchGroup">
+        <input type="search" placeholder="rechercher un groupe" v-model="searchGroupBarContent">
+        <input type="button" value="Chercher" v-on:click="searchGroup">
     </form>
     <div class="card-columns">
         <div v-for="group in groupsList" v-bind:key="group._id" class="card p-3">
@@ -25,7 +25,9 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {
+    mapState
+} from 'vuex'
 
 export default {
     data: function() {
@@ -44,8 +46,7 @@ export default {
             let title = '';
             if (this.$route.params.groupsListType == 'tous-les-groupes') {
                 title = 'Tous les Groupes';
-            }
-            else if (this.$route.params.groupsListType == 'mes-groupes') {
+            } else if (this.$route.params.groupsListType == 'mes-groupes') {
                 title = 'Mes Groupes';
             }
             return title;
@@ -74,15 +75,22 @@ export default {
             this.$store.dispatch('leaveOrJoinGroupFromListAction', payload);
         },
         searchGroup: function() {
-          let searchData = {
-            words: this.searchGroupBarContent,
-            emptySearchCallback: this.$route.params.groupsListType
-          }
-          this.$store.dispatch('getGroupSearchResult', searchData);
+            let searchData = {
+                words: this.searchGroupBarContent,
+                emptySearchCallback: this.$route.params.groupsListType
+            }
+            this.$store.dispatch('getGroupSearchResult', searchData);
         },
-        test: function(groupName) {
-          console.log(groupName);
-        }
+        // test: function(groupName) {
+        //   console.log(groupName);
+        // },
+        getNotifications: function() {
+            if (this.$store.userLogged) {
+                this.$store.dispatch('getNotificationsAction');
+                // console.log(this.$store.state.userNotifs);
+                // console.log(this.userNotifs);
+            }
+        },
     },
     created: function() {
         if (!this.userLogged) this.$router.push('/login');
@@ -92,6 +100,7 @@ export default {
             }
             console.log('Initializing ' + listType.type + ' groups list');
             this.initGroupsList(listType);
+             this.getNotifications();
         }
     },
     watch: {

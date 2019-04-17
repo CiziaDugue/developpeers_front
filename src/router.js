@@ -30,6 +30,11 @@ export default new Router({
             component: PostSingleComponent
         },
         {
+            path: '/article/:postId/:versionId',
+            name: 'notificatedPost',
+            component: PostSingleComponent
+        },
+        {
             path:'/guest/article/:postId',
             name:'guestPostSingle',
             component: PostSingleGuestComponent

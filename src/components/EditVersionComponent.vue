@@ -1,16 +1,26 @@
 <template>
-  <main>
+<main>
     <form>
-      <h2>Éditer une nouvelle version</h2>
-      <div class="alert alert-danger" v-if="invalidFormMsg != ''">
-        {{invalidFormMsg}}
-      </div>
-      <div class="form-group">
-        <h3>{{title}}</h3>
-      </div>
-      <div class="form-group">
-        <p>Version : {{number}}</p>
-      </div>
+        <h2>Éditer une nouvelle version</h2>
+        <div class="alert alert-danger" v-if="invalidFormMsg != ''">
+            {{invalidFormMsg}}
+        </div>
+        <div class="form-group">
+            <h3>{{title}}</h3>
+        </div>
+        <div class="form-group">
+            <p>Version : {{number}}</p>
+        </div>
+
+        <div class="form-group">
+            <textarea class="form-control" v-model="textContent"></textarea>
+        </div>
+
+        <div v-for="snippet in codeSnippets">
+            <div class="form-group">
+                <textarea class="form-control" v-model="codeSnippets[snippet.index].content"></textarea>
+            </div>
+        </div>
 
       <div class="form-group">
         <textarea class="form-control" v-model="textContent"></textarea>
@@ -27,13 +37,16 @@
       </div>
 
     </form>
-  </main>
+</main>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {
+    mapState
+} from 'vuex'
 
 export default {
+<<<<<<< HEAD
   data: function() {
     return {
       title: "",
@@ -72,11 +85,15 @@ export default {
       },(error)=>{
         console.log(error);
       });
-    }
+    },
+    getNotifications: function() {
+          this.$store.dispatch('getNotificationsAction');
+        }
   },
   created: function() {
       if (!this.userLogged) this.$router.push('/login');
       else {
+      this.getNotifications();
           this.title = this.postSingle.title;
           this.textContent = this.postSingle.active_version.text_content;
           let i=0;
@@ -91,6 +108,7 @@ export default {
           this.number = this.postSingle.active_version.number;
       }
   }
+
 }
 </script>
 
