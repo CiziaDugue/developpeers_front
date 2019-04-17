@@ -6,28 +6,33 @@
             {{invalidFormMsg}}
         </div>
         <div class="form-group">
-            <label>Titre</label>
+            <label>Titre :</label>
             <input type="text" name="name" placeholder="Titre de l'article" class="form-control" v-model="title">
         </div>
 
         <div class="form-group">
-            <label>Mots-clés</label>
+            <label>Mots-clés :</label>
             <input type="text" name="keywords" placeholder="Tapez des mots clés séparés par des espaces" class="form-control" v-model="keywords">
         </div>
 
         <div class="form-group">
+            <label>Contenu texte :</label>
             <textarea placeholder="Tapez votre message d'intro ici" class="form-control" v-model="textContent"></textarea>
         </div>
 
-        <div v-for="snippet in codeSnippets">
+        <div class="form-group">
+            <label>Contenu code :</label>
+            <div v-for="snippet in codeSnippets">
+                <div class="form-group">
+                    <textarea placeholder="Tapez du code ici" class="form-control" v-model="codeSnippets[snippet.index].content"></textarea>
+                </div>
+            </div>
+
             <div class="form-group">
-                <textarea placeholder="Tapez du code ici" class="form-control" v-model="codeSnippets[snippet.index].content"></textarea>
+                <button type="button" name="button" v-on:click="addCodeSnippet">Ajouter un bloc de code</button>
             </div>
         </div>
 
-        <div class="form-group">
-            <button type="button" name="button" v-on:click="addCodeSnippet">Ajouter un bloc de code</button>
-        </div>
 
         <div class="form-group" v-if="!fromGroup">
             <label>Choisissez un groupe</label>

@@ -258,11 +258,7 @@ export default new Vuex.Store({
             axios.put(req, voteType, {
                     headers: this.state.headerObject
                 })
-
                 .then((response) => {
-
-                    //console.log(response.data);
-
                     if (payload.listType == null && payload.postId == null && payload.groupId == null) {
                         dispatch('getPostsFeed');
                     }
@@ -585,7 +581,7 @@ export default new Vuex.Store({
           return new Promise((resolve, reject)=>{
             axios.delete('http://localhost/developeers/public/api/deletecomment/'+payload.commentId, {headers: this.state.headerObject})
             .then((response)=>{
-              dispatch('changePostVersionAction', {post_id: payload.postId, version_id: payload.versionId})
+              dispatch('changePostVersionAction', {postId: payload.postId, versionId: payload.versionId})
               .then((response)=>{
                 resolve(response);
               }, (error)=>{
@@ -747,20 +743,20 @@ export default new Vuex.Store({
         },
 
         getNotificationsAction: function({commit}) {
+
             let req = 'http://localhost/developeers/public/api/notifications';
 
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
 
                 axios.get(req, { headers: this.state.headerObject })
-
-                .then( (response) => {
-                    let notifs = response.data;
-                    commit('SET_USER_NOTIFS', notifs);
-                    resolve();
-
+                    .then( (response) => {
+                        let notifs = response.data;
+                        commit('SET_USER_NOTIFS', notifs);
+                        resolve(response);
                     })
                     .catch((error) => {
                         console.log(error);
+                        reject(error);
                     });
                 });
         },

@@ -31,7 +31,7 @@ export default {
             'userNotifs'
         ]),
         notifCount: function() {
-            return this.$store.state.userNotifs.length;
+            return this.userNotifs.length;
         }
     },
     methods: {

@@ -313,6 +313,7 @@ export default {
                 this.$store.dispatch('changePostVersionAction', data)
                 .then((response)=>{
                   this.updateUserRights();
+                  this.getNotifications();
                 }, (error)=>{
                   console.error(error);
                 });
@@ -326,18 +327,17 @@ export default {
                                 this.postEditedKeywords += word + " ";
                               });
                               this.updateUserRights();
-
+                              this.getNotifications();
                             }, (error) => {
                               console.error(error);
                             });
             }
-            this.getNotifications();
+
         }
     },
     created: function() {
 
         let postId = this.$route.params.postId;
-        // let postId = (this.$route.params.postId) ? this.$route.params.postId : null;
         let versionId = (this.$route.params.versionId) ? this.$route.params.versionId : null;
 
         let data = {
@@ -349,14 +349,13 @@ export default {
             this.init(data);
         } else {
             this.$store.dispatch('autoLogin')
-            .then((response)=>{
-                this.init(data);
-            }, (error)=>{
-                console.error(error);
-                this.$router.push("/login");
-            });
+                        .then((response)=>{
+                            this.init(data);
+                        }, (error)=>{
+                            console.error(error);
+                            this.$router.push("/login");
+                        });
         }
-
     },
     watch: {
         '$route': function(to, from) {
