@@ -12,7 +12,7 @@
       </div>
       <div class="form-group">
         <label>Email</label>
-        <input type="email" placeholder="Votre email" name="email" class="form-control" v-model="email" v-on:keyup.enter="logUser"/>
+        <input type="email" placeholder="Votre email" name="email" class="form-control" v-model="email"/>
       </div>
       <div class="form-group">
         <label>Mot de passe</label>
