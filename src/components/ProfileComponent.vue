@@ -1,32 +1,44 @@
 <template>
-  <main>
-      <h2>Mon profil</h2>
-      <div class="profile_pic">
-        <img src="@/assets/blank_profile_pic.png"/>
-      </div>
-      <div>
+<main>
+    <h2>Mon profil</h2>
+    <div class="profile_pic">
+        <img src="@/assets/blank_profile_pic.png" />
+    </div>
+    <div>
         <span>{{authUserData.name}}</span>
-      </div>
-  </main>
+    </div>
+</main>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {
+    mapState
+} from 'vuex'
 
 
-  export default {
+export default {
     data: function() {
-      return {
-        name: 'ProfileComponent',
-        user: {}
-      }
+        return {
+            name: 'ProfileComponent',
+            user: {}
+        }
     },
     computed: {
-      ...mapState([
-        'authUserData'
-      ])
+        ...mapState([
+            'authUserData'
+        ])
+    },
+    methods: {
+        getNotifications: function() {
+          this.$store.dispatch('getNotificationsAction');
+          // console.log(this.$store.state.userNotifs);
+          // console.log(this.userNotifs);
+        }
+    },
+    created: function() {
+        this.getNotifications();
     }
-  }
+}
 </script>
 
 <style scoped>
@@ -40,10 +52,11 @@ main {
 }
 
 .profile_pic {
-  width: 100px;
+    width: 100px;
 
 }
+
 .profile_pic img {
-  width: 100%;
+    width: 100%;
 }
 </style>

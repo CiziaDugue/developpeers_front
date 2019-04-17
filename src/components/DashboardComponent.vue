@@ -6,14 +6,9 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+// import {mapState} from 'vuex'
 
 export default {
-    computed: {
-        ...mapState([
-            'userNotifs'
-        ])
-    },
     data: function() {
         return {
             name: 'DashboardComponent',
@@ -89,14 +84,14 @@ export default {
 
                     ]
                 },
-                {
-                    title: 'Notifications',
-                    icon: 'fas fa-bell',
-                    badge: {
-                        text: this.userNotifs ? this.userNotifs.length : null,
-                        class: 'badge badge-light'
-                    }
-                },
+                // {
+                //     title: 'Notifications',
+                //     icon: 'fas fa-bell',
+                //     badge: {
+                //         text: 1,
+                //         class: 'badge badge-light'
+                //     }
+                // },
                 {
                     href: '/profil',
                     title: 'Mon Profil',
@@ -106,6 +101,15 @@ export default {
             ]
         }
     },
+    methods: {
+        getNotifications: function() {
+            if (this.$store.userLogged) this.$store.dispatch('getNotificationsAction');
+            //console.log(this.$store.state.headerObject);
+        },
+    },
+    created: function() {
+        this.getNotifications();
+    }
 }
 </script>
 
