@@ -41,11 +41,15 @@ export default {
         this.$store.dispatch('disconnectUser');
         this.$router.push('/');
       },
+      //special route from there
       getSearchResult: function() {
+
+        let routeParamString = this.searchBarContent.replace(" ", "+");
+
         if (this.$store.userLogged) {
             this.$store.dispatch('getSearchResult', this.searchBarContent)
             .then((response)=>{
-                this.$router.push('/');
+                this.$router.push('/search/'+routeParamString);
             }, (error)=>{
                 console.error(error);
             });
@@ -53,7 +57,7 @@ export default {
         else {
             this.$store.dispatch('getGuestSearchResults', this.searchBarContent)
             .then((response)=>{
-                this.$router.push('/');
+                this.$router.push('/search/'+routeParamString);
             }, (error)=>{
                 console.error(error);
             });

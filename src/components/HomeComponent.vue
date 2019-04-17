@@ -78,9 +78,10 @@ export default {
     },
     methods: {
         getPostsFeed: function() {
-
-            if (this.userLogged) this.$store.dispatch('getPostsFeed');
-            else this.$store.dispatch('getGuestFeed');
+            if(!this.$route.params.words) {
+                if (this.userLogged) this.$store.dispatch('getPostsFeed');
+                else this.$store.dispatch('getGuestFeed');
+            }
         },
         votePost: function(target, type, vote) {
 

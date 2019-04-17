@@ -66,7 +66,15 @@ export default {
         }
     },
     created: function() {
-        if (!this.userLogged) this.$router.push('/login');
+        if (!this.userLogged) {
+            this.$store.dispatch('autoLogin')
+            .then((response)=>{
+                console.log(response);
+            }, (error)=>{
+                console.error(error);
+                this.$router.push('/login');
+            });
+        }
     }
 }
 </script>

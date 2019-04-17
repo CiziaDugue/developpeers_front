@@ -104,28 +104,59 @@ export default {
         });
 
         this.$store.dispatch('createPost', requestData)
-        .then((response)=>{
-          this.$router.push('/article/'+response.data._id);
-        }, (error) => {
-          console.log(error);
-        });
+                    .then((response)=>{
+                      this.$router.push('/article/'+response.data._id);
+                    }, (error) => {
+                      console.log(error);
+                    });
       }
     },
 
     addCodeSnippet: function() {
       this.codeSnippets.push({index: this.csLength, content: ""});
       this.csLength++;
+    },
+
+    initFromGroupForm: function(groupId) {
+
+        this.fromGroup = true;
+        this.selectedGroup = groupId;
+
+        if(!this.groupSingle.name) {
+            this.$store.dispatch('initGroupSingleAction', groupId)
+                        .then((response)=>{
+                            //console.log(response);
+                        }, (error)=>{
+                            console.error(error);
+                        });
+        }
+    },
+
+    initRegularForm: function() {
+        this.$store.dispatch('getUserGroups')
+                    .then((response)=>{
+                        //console.log(response);
+                    }, (error)=>{
+                        console.error(error);
+                    });
     }
   },
 
   created: function() {
-      if (!this.userLogged) this.$router.push('/login');
-      else {
-          this.$store.dispatch('getUserGroups');
-          if (this.$route.params.groupId) {
-              this.fromGroup = true;
-              this.selectedGroup = this.$route.params.groupId;
-          }
+      if (!this.userLogged) {
+          this.$store.dispatch('autoLogin')
+                      .then((response)=>{
+                          //console.log(response);
+                          if(this.$route.params.groupId) this.initFromGroupForm(this.$route.params.groupId);
+                          else this.initRegularForm();
+
+                      }, (error)=>{
+                          console.error(error);
+                          this.$router.push('/login');
+                      });
+     } else {
+         if(this.$route.params.groupId) this.initFromGroupForm(this.$route.params.groupId);
+         else this.initRegularForm();
       }
   }
 }

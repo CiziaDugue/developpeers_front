@@ -214,7 +214,7 @@ export default {
         },
 
         createVersion: function() {
-          this.$router.push('/creer-une-version');
+          this.$router.push('/creer-une-version/'+this.postSingle._id);
         },
 
         updateUserRights: function() {

@@ -13,6 +13,7 @@ import CreatePostComponent from '@/components/CreatePostComponent.vue'
 import CreateVersionComponent from '@/components/CreateVersionComponent.vue'
 import EditVersionComponent from '@/components/EditVersionComponent.vue'
 import PostSingleGuestComponent from '@/components/PostSingleGuestComponent.vue'
+import UnknownErrorComponent from '@/components/UnknownErrorComponent.vue'
 
 Vue.use(Router)
 
@@ -60,7 +61,7 @@ export default new Router({
           component: CreatePostComponent
         },
         {
-          path: '/creer-une-version',
+          path: '/creer-une-version/:postId',
           name: 'createVersion',
           component: CreateVersionComponent
         },
@@ -90,12 +91,22 @@ export default new Router({
             component: HomeComponent
         },
         {
-            path: '/about',
-            name: 'about',
-            // route level code-splitting
-            // this generates a separate chunk (about.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
-            component: () => import( /* webpackChunkName: "about" */ './views/About.vue')
-        }
+            path: '/search/:words',
+            name: 'searchPosts',
+            component: HomeComponent
+        },
+        {
+            path: '/error',
+            name:'error',
+            component: UnknownErrorComponent
+        },
+        // {
+        //     path: '/about',
+        //     name: 'about',
+        //     // route level code-splitting
+        //     // this generates a separate chunk (about.[hash].js) for this route
+        //     // which is lazy-loaded when the route is visited.
+        //     component: () => import( /* webpackChunkName: "about" */ './views/About.vue')
+        // }
     ]
 })

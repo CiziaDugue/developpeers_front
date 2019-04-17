@@ -285,8 +285,6 @@ export default new Vuex.Store({
 
         initGroupsListAction: function({commit}, listType) {
 
-            console.log(listType.type);
-
             let req = '';
 
             if (listType.type == 'tous-les-groupes') {
