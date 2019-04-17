@@ -20,7 +20,7 @@
                     <i class="fas fa-bell"></i>
                     <span class="badge badge-light ml-1" v-if="unreadNotifCount > 0">{{ unreadNotifCount }}</span>
                 </button>
-                <div class="dropdown-menu notifMenu">
+                <div class="dropdown-menu dropdown-menu-right">
                     <!-- <div class="unreadNotif dropdown-item" v-for="notif in this.unreadUserNotifs"> -->
                         <router-link
                                     v-for="notif in this.unreadUserNotifs"
@@ -127,12 +127,10 @@ export default {
     color: #888;
 }
 
-.notifMenu {
+.dropdown-menu {
     max-height: 500px;
     overflow: auto;
     scrollbar-width: thin;
     box-shadow: 2px 2px 5px #0003;
-    position: relative;
-    right: 300px;
 }
 </style>
