@@ -300,26 +300,50 @@ export default {
           }, (error)=>{
             console.error(error);
           });
+        },
+
+        init: function() {
+            this.$store.dispatch('initPostSingleAction', {
+                postId: this.$route.params.postId
+            })
+                        .then( (response) => {
+                          this.postEditedTitle = this.postSingle.title;
+                          this.postEditedKeywords;
+                          this.postSingle.keywords.forEach((word)=> {
+                            this.postEditedKeywords += word + " ";
+                          });
+                          this.updateUserRights();
+
+                        }, (error) => {
+                          console.error(error);
+                        });
         }
     },
     created: function() {
         if (this.userLogged) {
-            this.$store.dispatch('initPostSingleAction', {
-                postId: this.$route.params.postId
-            })
-            .then( (response) => {
-              this.postEditedTitle = this.postSingle.title;
-              this.postEditedKeywords;
-              this.postSingle.keywords.forEach((word)=> {
-                this.postEditedKeywords += word + " ";
-              });
-              this.updateUserRights();
-
-            }, (error) => {
-              console.error(error);
-            });
+            // this.$store.dispatch('initPostSingleAction', {
+            //     postId: this.$route.params.postId
+            // })
+            //             .then( (response) => {
+            //               this.postEditedTitle = this.postSingle.title;
+            //               this.postEditedKeywords;
+            //               this.postSingle.keywords.forEach((word)=> {
+            //                 this.postEditedKeywords += word + " ";
+            //               });
+            //               this.updateUserRights();
+            //
+            //             }, (error) => {
+            //               console.error(error);
+            //             });
+            this.init();
         } else {
-            this.$router.push("/login");
+            this.$store.dispatch('autoLogin')
+            .then((response)=>{
+                this.init();
+            }, (error)=>{
+                console.error(error);
+                this.$router.push("/login");
+            });
         }
 
     }
