@@ -46,7 +46,6 @@ import {
 } from 'vuex'
 
 export default {
-<<<<<<< HEAD
   data: function() {
     return {
       title: "",

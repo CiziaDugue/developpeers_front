@@ -24,7 +24,6 @@ export default {
         }
     },
     computed: {
-<<<<<<< HEAD
       ...mapState([
         'authUserData',
         'userLogged'

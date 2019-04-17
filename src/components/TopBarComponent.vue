@@ -1,28 +1,30 @@
 <template>
-    <div class="top-bar fixed-top navbar navbar-dark navbar-expand-lg">
-        <router-link :to="{ path: '/' }">
-            <h1 class="title">Developeers</h1>
-        </router-link>
-        <form class="form-inline">
-          <input type="search" placeholder="Recherche par mots clés" v-model="searchBarContent">
-          <input type="button" class="btn btn-outline-success my-2 my-sm-0" v-on:click="getSearchResult" value="Rechercher"/>
-        </form>
-        <notification-component v-if="this.$store.state.userLogged == true"></notification-component>
-        <div  v-if="!userLogged">
-          <router-link to="/register">Créer mon compte</router-link>
-          <router-link to='/login'>Se Connecter</router-link>
-        </div>
-
-        <div v-if="userLogged">
-            <img src="" alt="">
-            <span class="navbar-text"> <strong>{{authUserData.name}}</strong></span>
+<div class="top-bar fixed-top navbar navbar-dark navbar-expand-lg">
+    <router-link :to="{ path: '/' }">
+        <h1 class="title">Developeers</h1>
+    </router-link>
+    <form class="form-inline">
+        <input type="search" placeholder="Recherche par mots clés" v-model="searchBarContent">
+        <input type="button" class="btn btn-outline-success my-2 my-sm-0" v-on:click="getSearchResult" value="Rechercher" />
+    </form>
+    <div v-if="!userLogged">
+        <router-link to="/register">Créer mon compte</router-link>
+        <router-link to='/login'>Se Connecter</router-link>
     </div>
+
+    <template v-if="userLogged">
+        <img src="" alt="">
+        <span class="navbar-text"> <strong>{{authUserData.name}}</strong></span>
+        <notification-component></notification-component>
+    </template>
     <button v-if="this.$store.state.userLogged == true" v-on:click="disconnectUser" class="btn btn-secondary">Logout</button>
 </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {
+    mapState
+} from 'vuex'
 import NotificationComponent from '@/components/NotificationComponent.vue'
 
 export default {
@@ -37,7 +39,7 @@ export default {
             'userLogged',
             'authUserData'
         ])
-	},
+    },
     components: {
         NotificationComponent
     },

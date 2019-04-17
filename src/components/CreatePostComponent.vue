@@ -121,34 +121,23 @@ export default {
         },
 
         getNotifications: function() {
-          this.$store.dispatch('getNotificationsAction');
-          // console.log(this.$store.state.userNotifs);
-          // console.log(this.userNotifs);
+            this.$store.dispatch('getNotificationsAction');
+            // console.log(this.$store.state.userNotifs);
+            // console.log(this.userNotifs);
         }
     },
 
     created: function() {
-        this.getNotifications();
-
-      }
-    },
-
-    addCodeSnippet: function() {
-      this.codeSnippets.push({index: this.csLength, content: ""});
-      this.csLength++;
+        if (!this.userLogged) this.$router.push('/login');
+        else {
+            this.$store.dispatch('getUserGroups');
+            this.getNotifications();
+            if (this.$route.params.groupId) {
+                this.fromGroup = true;
+                this.selectedGroup = this.$route.params.groupId;
+            }
+        }
     }
-  },
-
-  created: function() {
-      if (!this.userLogged) this.$router.push('/login');
-      else {
-          this.$store.dispatch('getUserGroups');
-          if (this.$route.params.groupId) {
-              this.fromGroup = true;
-              this.selectedGroup = this.$route.params.groupId;
-          }
-      }
-  }
 }
 </script>
 
