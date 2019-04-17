@@ -365,17 +365,6 @@ export default new Vuex.Store({
         },
 
         getPostsFeed: function({commit, dispatch}) {
-<<<<<<< HEAD
-          axios.get('http://localhost/developeers/public/api/postsfeed', {headers: this.state.headerObject})
-              .then( (response) => {
-                  dispatch('getNotificationsAction');
-                  let posts = response.data;
-                  commit('SET_POSTS_FEED', posts);
-              })
-              .catch( (error) => {
-                  console.error(error);
-              });
-=======
             return new Promise((resolve, reject)=>{
                 axios.get('http://localhost/developeers/public/api/postsfeed', {headers: this.state.headerObject})
                     .then( (response) => {
@@ -389,7 +378,6 @@ export default new Vuex.Store({
                         reject(error);
                     });
             });
->>>>>>> handleForms
         },
 
         getSearchResult: function({commit, dispatch}, words) {

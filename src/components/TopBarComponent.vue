@@ -17,15 +17,14 @@
             <span class="navbar-text"> <strong>{{authUserData.name}}</strong></span>
             <button v-if="userLogged" v-on:click="disconnectUser" class="btn btn-secondary">Logout</button>
         </div>
-    </div>
 
-    <template v-if="userLogged">
-        <img src="" alt="">
-        <span class="navbar-text"> <strong>{{authUserData.name}}</strong></span>
-        <notification-component></notification-component>
-    </template>
-    <button v-if="this.$store.state.userLogged == true" v-on:click="disconnectUser" class="btn btn-secondary">Logout</button>
-</div>
+        <template v-if="userLogged">
+            <img src="" alt="">
+            <span class="navbar-text"> <strong>{{authUserData.name}}</strong></span>
+            <notification-component></notification-component>
+        </template>
+        <button v-if="this.$store.state.userLogged == true" v-on:click="disconnectUser" class="btn btn-secondary">Logout</button>
+    </div>
 </template>
 
 <script>
