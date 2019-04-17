@@ -526,7 +526,6 @@ export default new Vuex.Store({
             requestData, {headers: this.state.headerObject})
             .then(response=>{
               resolve(response);
-              console.log(response);
             })
             .catch(error=>{
               reject(error);

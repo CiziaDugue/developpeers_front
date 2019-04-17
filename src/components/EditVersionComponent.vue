@@ -23,17 +23,7 @@
         </div>
 
       <div class="form-group">
-        <textarea class="form-control" v-model="textContent"></textarea>
-      </div>
-
-      <div v-for="snippet in codeSnippets">
-        <div class="form-group">
-          <textarea class="form-control" v-model="codeSnippets[snippet.index].content" ></textarea>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <input type="button" value="Valider les changements" class="btn btn-success">
+        <input type="button" value="Valider les changements" class="btn btn-success" v-on:click="validateVersionUpdate">
       </div>
 
     </form>
