@@ -316,32 +316,33 @@ export default {
         init: function(data) {
             if (data.versionId != null) {
                 this.$store.dispatch('changePostVersionAction', data)
-                    .then((response) => {
-                        this.updateUserRights();
-                    }, (error) => {
-                        console.error(error);
-                    });
-            } else {
-                this.$store.dispatch('initPostSingleAction', data)
-                    .then((response) => {
-                        this.postEditedTitle = this.postSingle.title;
-                        this.postEditedKeywords;
-                        this.postSingle.keywords.forEach((word) => {
-                            this.postEditedKeywords += word + " ";
-                        });
-                        this.updateUserRights();
-
-                    }, (error) => {
-                        console.error(error);
-                    });
+                .then((response)=>{
+                  this.updateUserRights();
+                  this.getNotifications();
+                }, (error)=>{
+                  console.error(error);
+                });
             }
-            this.getNotifications();
+            else {
+                this.$store.dispatch('initPostSingleAction', data)
+                            .then( (response) => {
+                              this.postEditedTitle = this.postSingle.title;
+                              this.postEditedKeywords;
+                              this.postSingle.keywords.forEach((word)=> {
+                                this.postEditedKeywords += word + " ";
+                              });
+                              this.updateUserRights();
+                              this.getNotifications();
+                            }, (error) => {
+                              console.error(error);
+                            });
+            }
+
         }
     },
     created: function() {
 
         let postId = this.$route.params.postId;
-        // let postId = (this.$route.params.postId) ? this.$route.params.postId : null;
         let versionId = (this.$route.params.versionId) ? this.$route.params.versionId : null;
 
         let data = {
@@ -353,14 +354,13 @@ export default {
             this.init(data);
         } else {
             this.$store.dispatch('autoLogin')
-                .then((response) => {
-                    this.init(data);
-                }, (error) => {
-                    console.error(error);
-                    this.$router.push("/login");
-                });
+                        .then((response)=>{
+                            this.init(data);
+                        }, (error)=>{
+                            console.error(error);
+                            this.$router.push("/login");
+                        });
         }
-
     },
     watch: {
         '$route': function(to, from) {
@@ -383,8 +383,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .main-block {
-    position: relative;
+    /* position: relative;
     right: 0;
-    top: 8vh;
+    top: 8vh; */
 }
 </style>

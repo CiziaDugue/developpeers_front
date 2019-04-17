@@ -8,6 +8,8 @@ import 'bootstrap/dist/css/bootstrap.css'
 
 import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
+import '@/style/globalStyle.css'
+
 Vue.use(VueSidebarMenu)
 
 import hljs from 'highlight.js'

@@ -1,7 +1,11 @@
 <template>
-<div class="dashboard-container">
-    <sidebar-menu :menu="menu" :collapsed="true" v-if="this.$store.state.userLogged == true"/>
-    <router-view></router-view>
+<div id="dashboard-container">
+    <div id="sideBarCtnr">
+        <sidebar-menu :menu="menu" :collapsed="false" v-if="this.$store.state.userLogged == true"/>
+    </div>
+    <div id="routerViewCtnr">
+        <router-view></router-view>
+    </div>
 </div>
 </template>
 
@@ -117,14 +121,14 @@ export default {
 <style scoped>
 .v-sidebar-menu {
     height: 92vh;
-    /* position: fixed; */
-    bottom: 0;
-    top: 8vh;
+    /* top: 10vh; */
+    /* bottom: 0; */
+    position: relative;
 }
 
 @media (min-width: 640px) {
     .v-sidebar-menu {
-        max-width: 20vw;
+        max-width: 15vw;
     }
 }
 

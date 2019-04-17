@@ -152,8 +152,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .main-block {
-    position: relative;
+    /* position: relative;
     right: 0;
-    top: 8vh;
+    top: 8vh; */
 }
 </style>

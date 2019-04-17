@@ -4,15 +4,41 @@
             <i class="fas fa-bell"></i>
         </button>
         <div v-else class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <!-- <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell"></i>
-                <span class="badge badge-light ml-1">{{ notifCount }}</span>
+                <span class="badge badge-light ml-1" v-if="unreadNotifCount > 0">{{ unreadNotifCount }}</span>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                 <button v-for="notif in this.userNotifs" class="dropdown-item" type="button">
-                     <router-link class="dropdown-item" :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">{{ notif.message }}</router-link>
+                 <button v-for="notif in this.unreadUserNotifs" class="dropdown-item" type="button">
+                     <router-link class="dropdown-item" :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
+                         {{ notif.message }}
+                     </router-link>
                  </button>
-            </div>
+            </div> -->
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge badge-light ml-1" v-if="unreadNotifCount > 0">{{ unreadNotifCount }}</span>
+                </button>
+                <div class="dropdown-menu notifMenu">
+                    <!-- <div class="unreadNotif dropdown-item" v-for="notif in this.unreadUserNotifs"> -->
+                        <router-link
+                                    v-for="notif in this.unreadUserNotifs"
+                                    class="unreadNotif notif dropdown-item"
+                                    :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
+                            {{ notif.message }}
+                        </router-link>
+                    <!-- </div> -->
+                    <!-- <div class="oldNotif notif dropdown-item" v-for="notif in this.oldUserNotifs"> -->
+                        <router-link
+                                    v-for="notif in this.oldUserNotifs"
+                                    class="oldNotif notif dropdown-item"
+                                    :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
+                            {{ notif.message }}
+                        </router-link>
+                    <!-- </div> -->
+                </div>
+           </div>
         </div>
     </div>
 </template>
@@ -28,10 +54,39 @@ export default {
     },
     computed: {
         ...mapState([
-            'userNotifs'
+            'userNotifs',
         ]),
+
         notifCount: function() {
-            return this.$store.state.userNotifs.length;
+            return this.userNotifs.length;
+        },
+
+        unreadUserNotifs: function() {
+            let notifs = [];
+            this.userNotifs.forEach(function(notif) {
+                if (notif.unread) {
+                    notifs.push(notif);
+                }
+            });
+            return notifs.reverse();
+        },
+
+        oldUserNotifs: function() {
+            let notifs = [];
+            this.userNotifs.forEach(function(notif) {
+                if (!notif.unread) {
+                    notifs.push(notif);
+                }
+            });
+            return notifs.reverse();
+        },
+
+        unreadNotifCount: function() {
+            let count = 0;
+            this.userNotifs.forEach(function(notif) {
+                if (notif.unread) count ++;
+            });
+            return count;
         }
     },
     methods: {
@@ -53,17 +108,31 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.top-bar {
-    width: 100vw;
-    height: 8vh;
-    margin: 0;
-    padding: 5px 0;
-    background-color: #2a2a2e;
+
+.notif {
+    padding: 16px 21px;
 }
 
-.title {
-    font-family: monospace;
+.unreadNotif {
+    background-color: #7bc3;
+    color: #444;
+    font-weight: bold;
+}
+.unreadNotif:hover {
+    background-color: #7bc9;
+}
+
+.oldNotif {
+    color: #888;
+}
+
+.notifMenu {
+    max-height: 500px;
+    overflow: auto;
+    scrollbar-width: thin;
+    box-shadow: 2px 2px 5px #0003;
+    position: relative;
+    right: 300px;
 }
 </style>
