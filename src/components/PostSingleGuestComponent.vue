@@ -14,10 +14,10 @@
                     <h2 class="text-center">{{ postSingle.title }}</h2>
 
                     <div>
-                      <span>Mot clés :</span>
-                      <ul>
-                        <li v-for="word in this.postSingle.keywords">{{word}}</li>
-                      </ul>
+                        <span>Mot clés :</span>
+                        <ul>
+                            <li v-for="word in this.postSingle.keywords">{{word}}</li>
+                        </ul>
                     </div>
 
                 </div>
@@ -46,24 +46,28 @@
             </div>
             <div class="row border">
                 <div class="col-12">
-                    <p class="text-center">{{ postSingle.active_version.text_content }}</p>
-                    <p v-for="snippet in postSingle.active_version.code_snippets" class="border">
-                        {{ snippet.content }}
-                    </p>
+                    <p>{{ postSingle.active_version.text_content }}</p>
+                    <div v-for="snippet in postSingle.active_version.code_snippets" class="border">
+                        <pre v-highlightjs="snippet.content"><code></code></pre>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-2 border">
 
             <div class="row">
-                <div class="col-12">
-                    <button v-for="version in postSingle.versions" v-on:click="changeVersion(version._id)" class="btn btn-outline-secondary">
+                <div v-for="version in postSingle.versions" class="col-12">
+                    <button v-if="postSingle.active_version._id == version._id" class="btn btn-outline-primary" disabled>
+                        {{ version.number }}
+                    </button>
+                    <button v-else v-on:click="changeVersion(version._id)" class="btn btn-outline-secondary">
                         {{ version.number }}
                     </button>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-12">
             <table class="table table-hover table-dark">
@@ -86,7 +90,10 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {
+    mapState
+} from 'vuex'
+import VueHighlightJS from 'vue-highlightjs'
 
 export default {
     data: function() {
@@ -108,11 +115,11 @@ export default {
                 version_id: version_id
             };
             this.$store.dispatch('changeGuestPostVersionAction', payload)
-            .then((response)=>{
-              //
-            }, (error)=>{
-              console.error(error);
-            });
+                .then((response) => {
+                    //
+                }, (error) => {
+                    console.error(error);
+                });
         },
 
         goBack: function() {
@@ -121,22 +128,22 @@ export default {
     },
 
     created: function() {
-        if(!this.userLogged) {
+        if (!this.userLogged) {
             this.$store.dispatch('initGuestPostSingleAction', {
-                postId: this.$route.params.postId
-            })
-            .then((response) => {
-              this.postEditedTitle = this.postSingle.title;
-              this.postEditedKeywords;
-              this.postSingle.keywords.forEach((word)=> {
-                this.postEditedKeywords += word + " ";
-              });
+                    postId: this.$route.params.postId
+                })
+                .then((response) => {
+                    this.postEditedTitle = this.postSingle.title;
+                    this.postEditedKeywords;
+                    this.postSingle.keywords.forEach((word) => {
+                        this.postEditedKeywords += word + " ";
+                    });
 
-            }, (error) => {
-              console.error(error);
-            });
+                }, (error) => {
+                    console.error(error);
+                });
         } else {
-            this.$router.push('/article/'+this.postSingle._id);
+            this.$router.push('/article/' + this.postSingle._id);
         }
     }
 }

@@ -12,29 +12,29 @@
                     <h2 class="text-center">{{ postSingle.title }}</h2>
 
                     <div v-if="postEditMode">
-                      <label>Modifier le titre : </label>
-                      <input type="text"  v-model="postEditedTitle">
+                        <label>Modifier le titre : </label>
+                        <input type="text" v-model="postEditedTitle">
                     </div>
 
                     <div>
-                      <span>Mot clés :</span>
-                      <ul>
-                        <li v-for="word in this.postSingle.keywords">{{word}}</li>
-                      </ul>
+                        <span>Mot clés :</span>
+                        <ul>
+                            <li v-for="word in this.postSingle.keywords">{{word}}</li>
+                        </ul>
 
-                      <div v-if="postEditMode">
-                        <label>Modifier les mots-clés : </label>
-                        <input type="text" v-model="postEditedKeywords">
-                      </div>
+                        <div v-if="postEditMode">
+                            <label>Modifier les mots-clés : </label>
+                            <input type="text" v-model="postEditedKeywords">
+                        </div>
                     </div>
 
                     <div v-if="postEditMode">
-                      <button class="btn btn-sm btn-success" v-on:click="validatePostUpdate">Valider les changements</button>
+                        <button class="btn btn-sm btn-success" v-on:click="validatePostUpdate">Valider les changements</button>
                     </div>
 
                     <div v-if="userIsAuthorOfPost">
-                      <button  class="btn btn-secondary btn-sm" title="Éditer cet article" v-on:click="toggleEditMode">Edit</button>
-                      <button  class="btn btn-danger btn-sm" title="Supprimer cet article" v-on:click="deletePost">Suppr</button>
+                        <button class="btn btn-secondary btn-sm" title="Éditer cet article" v-on:click="toggleEditMode">Edit</button>
+                        <button class="btn btn-danger btn-sm" title="Supprimer cet article" v-on:click="deletePost">Suppr</button>
                     </div>
 
                 </div>
@@ -58,8 +58,8 @@
                     </p>
 
                     <div v-if="userIsAuthorOfActiveVersion">
-                      <button  class="btn btn-secondary btn-sm" title="Éditer cette version" v-on:click="editActiveVersion">Edit</button>
-                      <button  class="btn btn-danger btn-sm" title="supprimer cette version" v-on:click="deleteActiveVersion" v-if="postSingle.active_version.number != '1.0'">Suppr</button>
+                        <button class="btn btn-secondary btn-sm" title="Éditer cette version" v-on:click="editActiveVersion">Edit</button>
+                        <button class="btn btn-danger btn-sm" title="supprimer cette version" v-on:click="deleteActiveVersion" v-if="postSingle.active_version.number != '1.0'">Suppr</button>
                     </div>
 
                 </div>
@@ -73,9 +73,9 @@
             <div class="row border">
                 <div class="col-12">
                     <p class="text-center">{{ postSingle.active_version.text_content }}</p>
-                    <p v-for="snippet in postSingle.active_version.code_snippets" class="border">
-                        {{ snippet.content }}
-                    </p>
+                    <div v-for="snippet in postSingle.active_version.code_snippets" class="border">
+                        <pre v-highlightjs="snippet.content"><code></code></pre>
+                    </div>
                 </div>
             </div>
         </div>
@@ -91,7 +91,7 @@
                     </button>
                 </div>
                 <div class="col-12">
-                  <button class="btn btn-outline-secondary" v-on:click="createVersion">+</button>
+                    <button class="btn btn-outline-secondary" v-on:click="createVersion">+</button>
                 </div>
             </div>
         </div>
@@ -105,8 +105,8 @@
                         <td>{{ comment.author_name }}</td>
                         <td v-if="comment._id != editedCommentId || !commentEditMode">{{ comment.content }}</td>
                         <td v-if="commentEditMode && comment._id==editedCommentId">
-                          <input type="text" v-model="commentEditedContent" v-on:keyup.enter="validateCommentUpdate(comment._id)">
-                          <button type="button" class="btn btn-sm btn-success" v-on:click="validateCommentUpdate(comment._id)">Ok</button>
+                            <input type="text" v-model="commentEditedContent" v-on:keyup.enter="validateCommentUpdate(comment._id)">
+                            <button type="button" class="btn btn-sm btn-success" v-on:click="validateCommentUpdate(comment._id)">Ok</button>
                         </td>
                         <td>
                             <button class="fas fa-angle-up" v-on:click="voteTarget(comment, 'comment', true, postSingle.active_version._id)"></button>
@@ -115,8 +115,8 @@
                             <button class="fas fa-angle-down" v-on:click="voteTarget(comment, 'comment', false, postSingle.active_version._id)"></button>
                         </td>
                         <td v-if="authUserData.id === comment.author_id">
-                          <button class="btn btn-secondary btn-sm" title="Éditer mon commentaire" v-on:click="toggleCommentEditMode(comment._id, comment.content)">Edit</button>
-                          <button class='btn btn-danger btn-sm'  title="supprimer le commentaire" v-on:click="deleteComment(comment._id)">Suppr</button>
+                            <button class="btn btn-secondary btn-sm" title="Éditer mon commentaire" v-on:click="toggleCommentEditMode(comment._id, comment.content)">Edit</button>
+                            <button class='btn btn-danger btn-sm' title="supprimer le commentaire" v-on:click="deleteComment(comment._id)">Suppr</button>
                         </td>
                     </tr>
                 </tbody>
@@ -136,7 +136,10 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {
+    mapState
+} from 'vuex'
+import VueHighlightJS from 'vue-highlightjs'
 
 export default {
     data: function() {
@@ -168,11 +171,11 @@ export default {
                 versionId: versionId
             };
             this.$store.dispatch('changePostVersionAction', payload)
-            .then((response)=>{
-              this.updateUserRights();
-            }, (error)=>{
-              console.error(error);
-            });
+                .then((response) => {
+                    this.updateUserRights();
+                }, (error) => {
+                    console.error(error);
+                });
         },
 
         addComment: function() {
@@ -214,122 +217,123 @@ export default {
         },
 
         createVersion: function() {
-          this.$router.push('/creer-une-version/'+this.postSingle._id);
+            this.$router.push('/creer-une-version/' + this.postSingle._id);
         },
 
         updateUserRights: function() {
-          this.userIsAuthorOfPost = (this.authUserData.id === this.postSingle.author_id) ? true : false;
-          this.userIsAuthorOfActiveVersion = (this.authUserData.id === this.postSingle.active_version.author_id) ? true : false;
+            this.userIsAuthorOfPost = (this.authUserData.id === this.postSingle.author_id) ? true : false;
+            this.userIsAuthorOfActiveVersion = (this.authUserData.id === this.postSingle.active_version.author_id) ? true : false;
         },
 
         toggleEditMode: function() {
-          this.postEditMode = true;
+            this.postEditMode = true;
         },
 
         validatePostUpdate: function() {
-          let arKeywords = this.postEditedKeywords.split(" ");
-          let payload = {
-            post_id: this.postSingle._id,
-            version_id: this.postSingle.active_version._id,
-            requestData: {
-              title: this.postEditedTitle,
-              keywords: arKeywords
-            }
-          };
-          this.$store.dispatch('updatePost', payload);
-          this.postEditMode = false;//pas la peine ?
+            let arKeywords = this.postEditedKeywords.split(" ");
+            let payload = {
+                post_id: this.postSingle._id,
+                version_id: this.postSingle.active_version._id,
+                requestData: {
+                    title: this.postEditedTitle,
+                    keywords: arKeywords
+                }
+            };
+            this.$store.dispatch('updatePost', payload);
+            this.postEditMode = false; //pas la peine ?
         },
 
         deletePost: function() {
-          this.$store.dispatch('deletePost', this.postSingle._id)
-          .then((response)=>{
-            console.log(response);
-            this.$router.push('/groupe/'+this.postSingle.group_id);
-          },(error)=>{
-            console.error(error);
-          });
+            this.$store.dispatch('deletePost', this.postSingle._id)
+                .then((response) => {
+                    console.log(response);
+                    this.$router.push('/groupe/' + this.postSingle.group_id);
+                }, (error) => {
+                    console.error(error);
+                });
         },
 
         editActiveVersion: function() {
-          this.$router.push('/editer-une-version/'+ this.postSingle._id +'/'+this.postSingle.active_version._id);
+            this.$router.push('/editer-une-version/' + this.postSingle._id + '/' + this.postSingle.active_version._id);
         },
 
         deleteActiveVersion: function() {
-          this.$store.dispatch('deleteVersion', this.postSingle.active_version._id)
-          .then((response)=>{
-            this.$store.dispatch('initPostSingleAction', {postId:this.postSingle._id});//reload post with updated versions list
-            this.$router.push('/article/'+this.postSingle._id);
-          }, (error)=>{
-            console.error(error);
-          });
+            this.$store.dispatch('deleteVersion', this.postSingle.active_version._id)
+                .then((response) => {
+                    this.$store.dispatch('initPostSingleAction', {
+                        postId: this.postSingle._id
+                    }); //reload post with updated versions list
+                    this.$router.push('/article/' + this.postSingle._id);
+                }, (error) => {
+                    console.error(error);
+                });
         },
 
         toggleCommentEditMode: function(commentId, commentContent) {
-          this.commentEditMode = true;
-          this.commentEditedContent = commentContent;
-          this.editedCommentId = commentId;
+            this.commentEditMode = true;
+            this.commentEditedContent = commentContent;
+            this.editedCommentId = commentId;
         },
 
         validateCommentUpdate: function(commentId) {
-          this.commentEditMode = false;
-          let payload = {
-            commentId: commentId,
-            post_id: this.postSingle._id,
-            version_id: this.postSingle.active_version._id,
-            requestData: {
-              content: this.commentEditedContent
-            }
-          };
-          this.$store.dispatch('updateComment', payload)
-          .then((response)=>{
-            //console.log(response);
-          }, (error)=>{
-            console.log(error);
-          });
+            this.commentEditMode = false;
+            let payload = {
+                commentId: commentId,
+                post_id: this.postSingle._id,
+                version_id: this.postSingle.active_version._id,
+                requestData: {
+                    content: this.commentEditedContent
+                }
+            };
+            this.$store.dispatch('updateComment', payload)
+                .then((response) => {
+                    //console.log(response);
+                }, (error) => {
+                    console.log(error);
+                });
         },
 
         deleteComment: function(commentId) {
-          let payload = {
-            postId: this.postSingle._id,
-            versionId: this.postSingle.active_version._id,
-            commentId: commentId
-          };
-          this.$store.dispatch('deleteComment', payload)
-          .then((response)=>{
-            //
-          }, (error)=>{
-            console.error(error);
-          });
+            let payload = {
+                postId: this.postSingle._id,
+                versionId: this.postSingle.active_version._id,
+                commentId: commentId
+            };
+            this.$store.dispatch('deleteComment', payload)
+                .then((response) => {
+                    //
+                }, (error) => {
+                    console.error(error);
+                });
         },
 
         getNotifications: function() {
-          this.$store.dispatch('getNotificationsAction');
-          // console.log(this.$store.state.userNotifs);
-          // console.log(this.userNotifs);
+            this.$store.dispatch('getNotificationsAction');
+            // console.log(this.$store.state.userNotifs);
+            // console.log(this.userNotifs);
         },
 
         init: function(data) {
             if (data.versionId != null) {
                 this.$store.dispatch('changePostVersionAction', data)
-                .then((response)=>{
-                  this.updateUserRights();
-                }, (error)=>{
-                  console.error(error);
-                });
-            }
-            else {
+                    .then((response) => {
+                        this.updateUserRights();
+                    }, (error) => {
+                        console.error(error);
+                    });
+            } else {
                 this.$store.dispatch('initPostSingleAction', data)
-                            .then( (response) => {
-                              this.postEditedTitle = this.postSingle.title;
-                              this.postEditedKeywords;
-                              this.postSingle.keywords.forEach((word)=> {
-                                this.postEditedKeywords += word + " ";
-                              });
-                              this.updateUserRights();
+                    .then((response) => {
+                        this.postEditedTitle = this.postSingle.title;
+                        this.postEditedKeywords;
+                        this.postSingle.keywords.forEach((word) => {
+                            this.postEditedKeywords += word + " ";
+                        });
+                        this.updateUserRights();
 
-                            }, (error) => {
-                              console.error(error);
-                            });
+                    }, (error) => {
+                        console.error(error);
+                    });
             }
             this.getNotifications();
         }
@@ -349,12 +353,12 @@ export default {
             this.init(data);
         } else {
             this.$store.dispatch('autoLogin')
-            .then((response)=>{
-                this.init(data);
-            }, (error)=>{
-                console.error(error);
-                this.$router.push("/login");
-            });
+                .then((response) => {
+                    this.init(data);
+                }, (error) => {
+                    console.error(error);
+                    this.$router.push("/login");
+                });
         }
 
     },
