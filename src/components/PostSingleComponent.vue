@@ -322,8 +322,7 @@ export default {
                 }, (error)=>{
                   console.error(error);
                 });
-            }
-            else {
+            } else {
                 this.$store.dispatch('initPostSingleAction', data)
                             .then( (response) => {
                               this.postEditedTitle = this.postSingle.title;

@@ -122,8 +122,8 @@ export default {
 
 <style scoped>
 .topBarCtnr {
-    /* height: 10vh; */
-    padding: 5px 0;
+    height: 5em;
+    padding: 5px 30px;
     background-color: #2a2a2e;
 }
 

@@ -8,7 +8,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-8">
-                        <router-link :to="{ name: 'postSingle', params: { postId: post._id }}">
+                        <router-link :to="{ name: 'postSingle', params: { postId: post._id}}">
                             <h3 class="card-title">{{ post.title }}</h3>
                         </router-link>
                     </div>

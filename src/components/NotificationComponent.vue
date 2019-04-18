@@ -4,42 +4,31 @@
             <i class="fas fa-bell"></i>
         </button>
         <div v-else class="dropdown">
-            <!-- <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell"></i>
-                <span class="badge badge-light ml-1" v-if="unreadNotifCount > 0">{{ unreadNotifCount }}</span>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                 <button v-for="notif in this.unreadUserNotifs" class="dropdown-item" type="button">
-                     <router-link class="dropdown-item" :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
-                         {{ notif.message }}
-                     </router-link>
-                 </button>
-            </div> -->
             <div class="btn-group">
+
                 <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-bell"></i>
                     <span class="badge badge-light ml-1" v-if="unreadNotifCount > 0">{{ unreadNotifCount }}</span>
                 </button>
+
                 <div class="dropdown-menu dropdown-menu-right">
-                    <!-- <div class="unreadNotif dropdown-item" v-for="notif in this.unreadUserNotifs"> -->
-                        <router-link
-                                    v-for="notif in this.unreadUserNotifs"
-                                    :key="notif._id"
-                                    class="unreadNotif notif dropdown-item"
-                                    :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
-                            {{ notif.message }}
-                        </router-link>
-                    <!-- </div> -->
-                    <!-- <div class="oldNotif notif dropdown-item" v-for="notif in this.oldUserNotifs"> -->
-                        <router-link
-                                    v-for="notif in this.oldUserNotifs"
-                                    :key="notif._id"
-                                    class="oldNotif notif dropdown-item"
-                                    :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
-                            {{ notif.message }}
-                        </router-link>
-                    <!-- </div> -->
+                    <router-link
+                                v-for="notif in this.unreadUserNotifs"
+                                :key="notif._id"
+                                class="unreadNotif notif dropdown-item"
+                                :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
+                        {{ notif.message }}
+                    </router-link>
+
+                    <router-link
+                                v-for="notif in this.oldUserNotifs"
+                                :key="notif._id"
+                                class="oldNotif notif dropdown-item"
+                                :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
+                        {{ notif.message }}
+                    </router-link>
                 </div>
+
            </div>
         </div>
     </div>

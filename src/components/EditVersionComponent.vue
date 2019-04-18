@@ -78,7 +78,7 @@ export default {
           });
           this.$store.dispatch('updateVersion', payload)
           .then((response)=>{
-            this.$router.push('/article/'+this.postSingle._id);
+            this.$router.push('/article/'+this.postSingle._id+'/'+this.postSingle.active_version._id);
           },(error)=>{
             console.log(error);
           });
