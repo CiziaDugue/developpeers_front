@@ -1,4 +1,6 @@
 <template>
+<div class="topBarCtnr">
+    <div class="topBarContentBlock">
 
         <div class="rootLogoBlock">
             <router-link :to="{ path: '/' }">
@@ -8,46 +10,30 @@
 
         <div class="searchBlock">
             <form>
-                <div class="input-group">
-                    <input type="search" class="form-control searchBar" placeholder="Recherche par mots clés" v-model="searchBarContent" v-on:keyup.enter="getSearchResult">
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-outline-primary my-2 my-sm-0 searchBtn" v-on:click="getSearchResult"><i class="fa fa-search"></i></button>
-                    </div>
-                </div>
-                <!-- <input type="search" class="searchBar" placeholder="Recherche par mots clés" v-model="searchBarContent" v-on:keyup.enter="getSearchResult">
-                <button type="button" class="btn btn-outline-success my-2 my-sm-0 searchBtn" v-on:click="getSearchResult"><i class="fa fa-search"></i></button> -->
+                <<input type="search" class="searchBar" placeholder="Recherche par mots clés" v-model="searchBarContent" v-on:keyup.enter="getSearchResult">
+                <button type="button" class="btn btn-outline-success my-2 my-sm-0 searchBtn" v-on:click="getSearchResult"><i class="fa fa-search"></i></button>
+                <!-- <input type="search" class="form-control searchBar w-75" placeholder="Recherche par mots clés" v-model="searchBarContent" v-on:keyup.enter="getSearchResult"> -->
+                <!-- <div class="input-group-append"> -->
+                    <!-- <button type="button" class="btn btn-outline-primary my-2 my-sm-0 searchBtn" v-on:click="getSearchResult"><i class="fa fa-search"></i></button> -->
+                <!-- </div> -->
             </form>
         </div>
 
-            <div class="userBlock" v-if="!userLogged">
-                <div class="userSubBlock">
-                    <router-link to='/login'>Se Connecter</router-link>
-                </div>
-                <div class="userSubBlock">
-                    <router-link to="/register">S'inscrire</router-link>
-                </div>
+        <div class="userBlock" v-if="!userLogged">
+            <div class="userSubBlock">
+                <router-link to='/login'>Se Connecter</router-link>
             </div>
-
-            <div class="userBlock" v-if="userLogged">
-                <div class="userSubBlock">
-                    <div class="profilePicCtnr">
-                        <!-- <img src="@/assets/blank_profile_pic.png" alt=""> -->
-                        <img :src="profilePicUrl">
-                    </div>
-                    <router-link to="/profil"><strong>{{authUserData.name}}</strong></router-link>
-                </div>
-                <div class="userSubBlock">
-                    <notification-component></notification-component>
-                </div>
-                <div class="userSubBlock">
-                    <button v-on:click="disconnectUser" class="btn btn-secondary" title="Se déconnecter"> <i class="fas fa-power-off"></i> </button>
-                </div>
+            <div class="userSubBlock">
+                <router-link to="/register">S'inscrire</router-link>
             </div>
         </div>
 
         <div class="userBlock" v-if="userLogged">
             <div class="userSubBlock">
-                <img src="@/assets/blank_profile_pic.png" alt="">
+                <div class="profilePicCtnr">
+                    <!-- <img src="@/assets/blank_profile_pic.png" alt=""> -->
+                    <img :src="profilePicUrl">
+                </div>
                 <router-link to="/profil"><strong>{{authUserData.name}}</strong></router-link>
             </div>
             <div class="userSubBlock">
@@ -111,28 +97,15 @@ export default {
                     });
             }
         }
-            }, (error)=>{
+    },
+    mounted: function() {
+        this.$store.dispatch("getUserProfilePic")
+            .then((response) => {
+                //console.log(response);
+            }, (error) => {
                 console.error(error);
             });
-        }
-        else {
-            this.$store.dispatch('getGuestSearchResults', this.searchBarContent)
-            .then((response)=>{
-                this.$router.push('/search/'+routeParamString);
-            }, (error)=>{
-                console.error(error);
-            });
-        }
-      }
-  },
-  mounted: function() {
-      this.$store.dispatch("getUserProfilePic")
-      .then((response)=>{
-          //console.log(response);
-      }, (error)=>{
-          console.error(error);
-      });
-  }
+    }
 }
 </script>
 
@@ -173,7 +146,7 @@ export default {
 .searchBtn {}
 
 .userSubBlock {
-    flex:auto;
+    flex: auto;
     border-left: 1px solid #fff2;
     display: flex;
     justify-content: center;
@@ -183,6 +156,7 @@ export default {
 .userSubBlock:last-child {
     border-right: 1px solid #fff2;
 }
+
 .profilePicCtnr {
     width: 50px;
     height: 50px;
@@ -192,6 +166,7 @@ export default {
     display: flex;
     justify-content: center;
 }
+
 .profilePicCtnr img {
     height: 100%;
 }

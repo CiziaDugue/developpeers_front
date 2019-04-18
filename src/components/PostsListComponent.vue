@@ -65,7 +65,7 @@
                         </div>
                         <div class="col-12">
                             <!-- <p>{{ contentExcerpt(post.versions[0].text_content) }}</p> -->
-                            <p>{{ numberOfVersions(post) }}</p>
+                            <p>{{ numberOfVersions(post) }} versions</p>
                         </div>
                     </div>
                 </div>
@@ -162,11 +162,11 @@ export default {
         contentExcerpt: function(content) {
             if (content != null) {
                 let result = '';
-                if(content.length < 50) {
+                if(content.length < 100) {
                     result = content;
                 }
                 else {
-                    result = content.substring(0, 49) + ' [...]';
+                    result = content.substring(0, 99) + ' [...]';
                 }
                 return result;
             }
