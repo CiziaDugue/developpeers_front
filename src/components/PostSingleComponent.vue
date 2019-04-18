@@ -72,7 +72,8 @@
             </div>
             <div class="row border">
                 <div class="col-12">
-                    <p class="text-center">{{ postSingle.active_version.text_content }}</p>
+                    <!-- <p class="text-center">{{ postSingle.active_version.text_content }}</p> -->
+                    <p v-html="'<pre>'+postSingle.active_version.text_content +'</pre>'"></p>
                     <div v-for="snippet in postSingle.active_version.code_snippets" class="border">
                         <pre v-highlightjs="snippet.content"><code></code></pre>
                     </div>
@@ -378,7 +379,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .main-block {
     /* position: relative;
