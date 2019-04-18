@@ -35,7 +35,8 @@ export default new Vuex.Store({
         authUserData: {},
         headerObject:{},
         userGroups: [],
-        userNotifs: []
+        userNotifs: [],
+        profilePicUrl: ""
 
     },
     mutations: {
@@ -111,6 +112,15 @@ export default new Vuex.Store({
         SET_USER_NOTIFS(state, notifs) {
 
             state.userNotifs = notifs;
+        },
+
+        SET_USER_PROFILE_PIC(state, path) {
+            if (!path) {
+                 state.profilePicUrl = "http://localhost/developeers/public/blank_profile_pic.png";
+            } else {
+                state.profilePicUrl = "http://localhost/developeers/storage/app/public/"+path;
+            }
+
         }
     },
     actions: {
@@ -810,15 +820,46 @@ export default new Vuex.Store({
                 } catch(error) {
                     reject(error);
                 }
+            });
+        },
 
-                // axios.put('http://localhost/developeers/public/api/notifications/'+notifId,
-                // { headers: this.state.headerObject })
-                // .then((response)=>{
-                //     resolve(response);
-                // })
-                // .catch((error)=>{
-                //     reject(error);
-                // });
+        uploadProfilePic: function({dispatch}, formData) {
+
+            return new Promise((resolve, reject) => {
+                axios.post( 'http://localhost/developeers/public/api/user/uploadpic', formData,
+                  {headers: {//special header for file upload
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': this.state.headerObject.Authorization
+                    }})
+                    .then((response1) =>{
+                        //console.log(response.data)
+                        dispatch('getUserProfilePic')
+                        .then((response2)=>{
+                            resolve(response2);
+                        }, (error1)=>{
+                            console.error(error1);
+                        });
+                    })
+                    .catch(function(error2) {
+                        console.error(error2);
+                        reject(error2);
+                    });
+            });
+
+        },
+
+        getUserProfilePic({commit}) {
+            return new Promise((resolve, reject) => {
+                axios.get('http://localhost/developeers/public/api/user/profilepic',
+                { headers: this.state.headerObject })
+                    .then((response)=> {
+                        commit('SET_USER_PROFILE_PIC', response.data);
+                        resolve(response);
+                    })
+                    .catch((error)=>{
+                        commit('SET_USER_PROFILE_PIC', null);
+                        reject("no profile pic");
+                    })
             });
         },
 

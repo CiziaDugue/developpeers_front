@@ -27,7 +27,8 @@
             <div class="userBlock" v-if="userLogged">
                 <div class="userSubBlock">
                     <div class="profilePicCtnr">
-                        <img src="@/assets/blank_profile_pic.png" alt="">
+                        <!-- <img src="@/assets/blank_profile_pic.png" alt=""> -->
+                        <img :src="profilePicUrl">
                     </div>
                     <router-link to="/profil"><strong>{{authUserData.name}}</strong></router-link>
                 </div>
@@ -59,7 +60,8 @@ export default {
     computed: {
         ...mapState([
             'userLogged',
-            'authUserData'
+            'authUserData',
+            'profilePicUrl'
         ])
     },
     components: {
@@ -92,7 +94,15 @@ export default {
             });
         }
       }
-    }
+  },
+  mounted: function() {
+      this.$store.dispatch("getUserProfilePic")
+      .then((response)=>{
+          //console.log(response);
+      }, (error)=>{
+          console.error(error);
+      });
+  }
 }
 </script>
 
@@ -143,9 +153,10 @@ export default {
     margin: 0 5px;
     overflow: hidden;
     border-radius: 3px;
+    display: flex;
+    justify-content: center;
 }
 .profilePicCtnr img {
-    width: 100%;
     height: 100%;
 }
 
