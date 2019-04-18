@@ -1,49 +1,93 @@
 <template>
 <div class="main-block">
-    <h2 class="text-center">{{ title }}</h2>
-
-    <button v-if="isGroupList == true" class="fas fa-angle-left" v-on:click="goBack()"></button>
-    <button v-if="isGroupList == true && isUserInGroup == true" class="btn btn-outline-secondary btn-lg" v-on:click="leaveOrJoinGroup('leave')">Quitter</button>
-    <button v-else-if="isGroupList == true && isUserInGroup == false" class="btn btn-primary btn-lg" v-on:click="leaveOrJoinGroup('join')">Suivre</button>
-
-    <div v-if="isGroupList">
-      <div>
-        Dans ce groupe on parle de :
-        <ul>
-          <li v-for="word in groupSingle.keywords">{{word}}</li>
-        </ul>
-      </div>
-      <button class="btn btn-success" v-on:click="createPost">Créer un article</button>
-    </div>
-
-    <div>
-        <div v-for="post in postsList" v-bind:key="post._id" class="card p-3">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-8">
-                        <router-link :to="{ name: 'postSingle', params: { postId: post._id }}">
-                            <h3 class="card-title">{{ post.title }}</h3>
-                        </router-link>
-                    </div>
-                    <div class="col-4">
-                        <button class="fas fa-angle-up" v-on:click="votePost(post, 'post', true)"></button>
-                        <small class="badge badge-pill badge-success">{{ post.votePros }}</small>
-                        <small class="badge badge-pill badge-danger">{{ post.voteCons }}</small>
-                        <button class="fas fa-angle-down" v-on:click="votePost(post, 'post', false)"></button>
-                    </div>
+    <div class="row align-items-center justify-content-center border-bottom mb-2 pb-2 pt-2">
+        <div class="col-1 align-self-stretch">
+            <button v-if="isGroupList == true" class="fas fa-angle-left" v-on:click="goBack()"></button>
+        </div>
+        <div class="col-5">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <h2 class="text-center">{{ title }}</h2>
                 </div>
-                <ul class="card-text">
-                    <li v-for="keyword in post.keywords">{{ keyword }}</li>
+                <div v-if="isGroupList == true" class="col-12">
+                    <p class="text-center">{{ numberOfMembers }} membres - {{ numberOfPosts }} articles</p>
+                </div>
+                <div v-else-if="isGroupList == false" class="col-12">
+                    <p class="text-center">{{ numberOfPosts }} articles</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4" v-if="isGroupList">
+            <div>
+                <!-- Dans ce groupe on parle de : -->
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item font-weight-light font-italic border-0" v-for="word in groupSingle.keywords">{{word}}</li>
                 </ul>
-                <p class="card-text"><small class="text-muted">{{ post.updated_at }}</small></p>
+                <!-- <ul>
+                    <li v-for="word in groupSingle.keywords">{{word}}</li>
+                </ul> -->
+            </div>
+
+        </div>
+        <div class="col-2" v-if="isGroupList == true">
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-primary btn-lg mb-2" v-on:click="createPost">Créer un article</button>
+                </div>
+                <div class="col-12">
+                    <button v-if="isGroupList == true && isUserInGroup == true" class="btn btn-outline-secondary btn-lg" v-on:click="leaveOrJoinGroup('leave')">Quitter le groupe</button>
+                    <button v-else-if="isGroupList == true && isUserInGroup == false" class="btn btn-secondary btn-lg" v-on:click="leaveOrJoinGroup('join')">Suivre le groupe</button>
+                </div>
             </div>
         </div>
     </div>
+
+
+    <div v-for="post in postsList" v-bind:key="post._id" class="card p-2 mb-2 bg-light">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-2">
+                    <!-- <button class="fas fa-angle-up" v-on:click="votePost(post, 'post', true)"></button> -->
+                    <small class="cursor badge badge-pill badge-success" v-on:click="votePost(post, 'post', true)">+ {{ post.votePros }}</small>
+                    <small class="cursor badge badge-pill badge-warning" v-on:click="votePost(post, 'post', false)">- {{ post.voteCons }}</small>
+                    <!-- <button class="fas fa-angle-down" v-on:click="votePost(post, 'post', false)"></button> -->
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-12">
+                            <router-link :to="{ name: 'postSingle', params: { postId: post._id }}">
+                                <h3 class="card-title">{{ post.title }}</h3>
+                            </router-link>
+                        </div>
+                        <div class="col-12">
+                            <p>{{ contentExcerpt(post.versions[0].text_content) }}</p>
+                            <!-- <p>{{ post.versions[0].text_content }}</p> -->
+                        </div>
+                        <div class="col-12">
+                            <!-- <p>{{ contentExcerpt(post.versions[0].text_content) }}</p> -->
+                            <p>{{ numberOfVersions(post) }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <ul class="card-text list-group list-group-flush">
+                        <li class="list-group-item font-weight-light font-italic border-0" v-for="keyword in post.keywords">{{ keyword }}</li>
+                    </ul>
+                </div>
+                <div class="col-12">
+                    <p class="card-text text-center"><small class="text-muted">Créé le {{ post.created_at }} par {{ post.author_name }}</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {
+    mapState
+} from 'vuex'
 
 export default {
     data: function() {
@@ -68,7 +112,7 @@ export default {
             } else if (this.$route.params.postsListType == 'articles-suivis') {
                 title = 'Mes Articles Suivis';
             } else if (this.$route.params.groupId) {
-              title = this.groupSingle.name;
+                title = this.groupSingle.name;
             }
             return title;
         },
@@ -82,13 +126,19 @@ export default {
 
         isUserInGroup: function() {
             return this.groupSingle.users_id.includes(this.$store.state.authUserData.id);
+        },
+
+        numberOfMembers: function() {
+            if (this.isGroupList) {
+                return this.groupSingle.users.length;
+            }
+        },
+
+        numberOfPosts: function() {
+            return this.postsList.length;
         }
     },
     methods: {
-        initPostsList: function(data) {
-            this.$store.dispatch('initPostsListAction', data);
-        },
-
         votePost: function(target, type, vote) {
 
             let listType = this.$route.params.postsListType ? this.$route.params.postsListType : null;
@@ -105,6 +155,23 @@ export default {
             this.$store.dispatch('voteInPostListAction', payload);
         },
 
+        numberOfVersions: function(post) {
+            return post.versions.length;
+        },
+
+        contentExcerpt: function(content) {
+            if (content != null) {
+                let result = '';
+                if(content.length < 50) {
+                    result = content;
+                }
+                else {
+                    result = content.substring(0, 49) + ' [...]';
+                }
+                return result;
+            }
+        },
+
         goBack: function() {
 
             this.$router.go(-1);
@@ -112,7 +179,7 @@ export default {
 
         leaveOrJoinGroup: function(action) {
 
-            console.log('leaveMeth = '+this.$route.params.groupId);
+            console.log('leaveMeth = ' + this.$route.params.groupId);
 
             let payload = {
                 listType: 'group-posts',
@@ -124,13 +191,16 @@ export default {
         },
 
         createPost: function() {
-          this.$router.push('/creer-un-article/'+this.groupSingle._id);
+            this.$router.push('/creer-un-article/' + this.groupSingle._id);
         },
 
         getNotifications: function() {
-          this.$store.dispatch('getNotificationsAction');
-          // console.log(this.$store.state.userNotifs);
-          // console.log(this.userNotifs);
+            this.$store.dispatch('getNotificationsAction');
+        },
+
+        initPostsList: function(data) {
+            // if (data.)
+            this.$store.dispatch('initPostsListAction', data);
         },
 
         init: function() {
@@ -151,12 +221,12 @@ export default {
     created: function() {
         if (!this.userLogged) {
             this.$store.dispatch('autoLogin')
-                        .then((response)=>{
-                            this.init();
-                        }, (error)=>{
-                            cconsole.error(error);
-                            this.$router.push('/login');
-                        });
+                .then((response) => {
+                    this.init();
+                }, (error) => {
+                    cconsole.error(error);
+                    this.$router.push('/login');
+                });
         } else {
             this.init();
         }
@@ -164,7 +234,8 @@ export default {
     watch: {
         '$route': function(to, from) {
 
-            let listType = (to.params.groupId) ? "group-posts" : to.params.postsListType;
+            let listType = (to.params.groupId == null) ? to.params.postsListType : "group-posts";
+
             let groupId = (to.params.groupId) ? to.params.groupId : null;
 
             let data = {
@@ -184,5 +255,9 @@ export default {
     /* position: relative;
     right: 0;
     top: 8vh; */
+}
+.cursor:hover {
+    cursor: pointer;
+    transform: scale(1.1);
 }
 </style>

@@ -53,12 +53,6 @@ export default {
         }
     },
     methods: {
-        initGroupsList: function(listType) {
-
-            this.$store.dispatch('initGroupsListAction', listType);
-
-        },
-
         isUserInGroup: function(groupUsers, userId) {
 
             return groupUsers.includes(userId);
@@ -81,15 +75,13 @@ export default {
             }
             this.$store.dispatch('getGroupSearchResult', searchData);
         },
-        // test: function(groupName) {
-        //   console.log(groupName);
-        // },
         getNotifications: function() {
             if (this.$store.userLogged) {
                 this.$store.dispatch('getNotificationsAction');
-                // console.log(this.$store.state.userNotifs);
-                // console.log(this.userNotifs);
             }
+        },
+        initGroupsList: function(listType) {
+            this.$store.dispatch('initGroupsListAction', listType);
         },
         init: function() {
             let listType = {
