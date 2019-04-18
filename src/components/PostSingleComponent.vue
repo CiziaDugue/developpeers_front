@@ -331,6 +331,8 @@ export default {
                               this.postSingle.keywords.forEach((word)=> {
                                 this.postEditedKeywords += word + " ";
                               });
+                              //remove final white space
+                              this.postEditedKeywords = this.postEditedKeywords.substring(0, this.postEditedKeywords.length - 1);
                               this.updateUserRights();
                               this.getNotifications();
                             }, (error) => {
