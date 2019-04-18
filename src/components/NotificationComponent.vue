@@ -24,6 +24,7 @@
                     <!-- <div class="unreadNotif dropdown-item" v-for="notif in this.unreadUserNotifs"> -->
                         <router-link
                                     v-for="notif in this.unreadUserNotifs"
+                                    :key="notif._id"
                                     class="unreadNotif notif dropdown-item"
                                     :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
                             {{ notif.message }}
@@ -32,6 +33,7 @@
                     <!-- <div class="oldNotif notif dropdown-item" v-for="notif in this.oldUserNotifs"> -->
                         <router-link
                                     v-for="notif in this.oldUserNotifs"
+                                    :key="notif._id"
                                     class="oldNotif notif dropdown-item"
                                     :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
                             {{ notif.message }}

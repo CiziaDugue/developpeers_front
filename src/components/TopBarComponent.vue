@@ -50,7 +50,9 @@
 
             <div class="userBlock" v-if="userLogged">
                 <div class="userSubBlock">
-                    <img src="@/assets/blank_profile_pic.png" alt="">
+                    <div class="profilePicCtnr">
+                        <img src="@/assets/blank_profile_pic.png" alt="">
+                    </div>
                     <router-link to="/profil"><strong>{{authUserData.name}}</strong></router-link>
                 </div>
                 <div class="userSubBlock">
@@ -154,14 +156,21 @@ export default {
     border-left: 1px solid #fff2;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 .userSubBlock:last-child {
     border-right: 1px solid #fff2;
 }
-.userSubBlock>img {
+.profilePicCtnr {
     width: 50px;
     height: 50px;
     margin: 0 5px;
+    overflow: hidden;
+    border-radius: 3px;
+}
+.profilePicCtnr img {
+    width: 100%;
+    height: 100%;
 }
 
 .title {

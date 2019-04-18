@@ -232,8 +232,8 @@ export default {
         validatePostUpdate: function() {
             let arKeywords = this.postEditedKeywords.split(" ");
             let payload = {
-                post_id: this.postSingle._id,
-                version_id: this.postSingle.active_version._id,
+                postId: this.postSingle._id,
+                versionId: this.postSingle.active_version._id,
                 requestData: {
                     title: this.postEditedTitle,
                     keywords: arKeywords

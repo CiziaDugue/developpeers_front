@@ -497,7 +497,7 @@ export default new Vuex.Store({
 
         updatePost: function({dispatch}, payload) {
 
-          let postId = payload.post_id;
+          let postId = payload.postId;
           let requestData = payload.requestData;
 
           return new Promise((resolve, reject)=>{
