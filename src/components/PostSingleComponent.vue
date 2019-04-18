@@ -104,9 +104,10 @@
                     <tr v-for="comment in postSingle.active_version.comments">
                         <th scope="row">{{ comment.created_at }}</th>
                         <td>{{ comment.author_name }}</td>
-                        <td v-if="comment._id != editedCommentId || !commentEditMode">{{ comment.content }}</td>
+                        <td v-if="comment._id != editedCommentId || !commentEditMode" class="commentContent" v-html="'<pre>'+comment.content+'</pre>'"></td>
                         <td v-if="commentEditMode && comment._id==editedCommentId">
-                            <input type="text" v-model="commentEditedContent" v-on:keyup.enter="validateCommentUpdate(comment._id)">
+                            <!-- <input type="text" v-model="commentEditedContent"> -->
+                            <textarea v-model="commentEditedContent"></textarea>
                             <button type="button" class="btn btn-sm btn-success" v-on:click="validateCommentUpdate(comment._id)">Ok</button>
                         </td>
                         <td>
@@ -385,4 +386,5 @@ export default {
     right: 0;
     top: 8vh; */
 }
+
 </style>

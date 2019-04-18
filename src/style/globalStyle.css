@@ -45,3 +45,12 @@ body {
     scrollbar-width: thin;
 
 }
+
+pre {
+    font-family: arial, sans-serif;
+    font-size: 1em;
+}
+
+.commentContent>pre {
+    color: #fff;
+}
