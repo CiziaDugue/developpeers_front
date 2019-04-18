@@ -1,28 +1,4 @@
 <template>
-    <!-- <div class="top-bar fixed-top navbar navbar-dark navbar-expand-lg">
-
-        <router-link :to="{ path: '/' }">
-            <h1 class="title">Developeers</h1>
-        </router-link>
-
-        <form class="form-inline">
-          <input type="search" placeholder="Recherche par mots clés" v-model="searchBarContent" v-on:keyup.enter="getSearchResult">
-          <input type="button" class="btn btn-outline-success my-2 my-sm-0" v-on:click="getSearchResult" value="Rechercher"/>
-        </form>
-
-        <div  v-if="!userLogged">
-          <router-link to="/register">S'inscrire</router-link>
-          <router-link to='/login'>Se Connecter</router-link>
-        </div>
-
-        <template v-if="userLogged">
-            <img src="" alt="">
-            <span class="navbar-text"> <strong>{{authUserData.name}}</strong></span>
-            <notification-component></notification-component>
-            <button v-on:click="disconnectUser" class="btn btn-secondary">Logout</button>
-        </template>
-
-    </div> -->
     <div class="topBarCtnr">
         <div class="topBarContentBlock">
 
@@ -152,7 +128,7 @@ export default {
 .searchBtn {
 }
 .userSubBlock {
-    flex:1;
+    flex:auto;
     border-left: 1px solid #fff2;
     display: flex;
     justify-content: center;

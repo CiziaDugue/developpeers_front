@@ -760,6 +760,68 @@ export default new Vuex.Store({
                 });
         },
 
+        testNotificationLink: function({commit}, payload) {
+            return new Promise((resolve, reject)=> {
+                axios.get('http://localhost/developeers/public/api/posts/'+payload.postId+'/'+payload.versionId,
+                { headers: this.state.headerObject })
+                    .then((response)=>{
+                        resolve("ok");
+                    })
+                    .catch((error)=>{
+                        reject(error);
+                    });
+            });
+        },
+
+        deleteObsoleteNotification: function({commit}, notifId) {
+            return new Promise((resolve, reject) => {
+                axios.delete('http://localhost/developeers/public/api/notifications/'+notifId,
+                { headers: this.state.headerObject })
+                    .then((response)=> {
+                        resolve(response);
+                    })
+                    .catch((error)=> {
+                        reject(error);
+                    });
+            });
+        },
+
+        markAllNotificationsRead: function({dispatch}, payload) {
+            return new Promise((resolve, reject)=>{
+                try {
+                    payload.notifs.forEach((notif) => {
+                        axios.put('http://localhost/developeers/public/api/notifications/'+notif.id, {},
+                        { headers: this.state.headerObject })
+                            .then((response)=>{
+                                dispatch('getNotificationsAction')
+                                    .then((response)=>{
+                                        //
+                                    }, (error)=>{
+                                        console.error(error);
+                                    })
+                            })
+                            .catch((error)=>{
+                                console.error(error);
+                            });
+                    });
+
+                    resolve("Notifications cleared");
+
+                } catch(error) {
+                    reject(error);
+                }
+
+                // axios.put('http://localhost/developeers/public/api/notifications/'+notifId,
+                // { headers: this.state.headerObject })
+                // .then((response)=>{
+                //     resolve(response);
+                // })
+                // .catch((error)=>{
+                //     reject(error);
+                // });
+            });
+        },
+
         //GUEST CIRCUIT
         getGuestFeed: function({commit}) {
             return new Promise((resolve, reject)=>{
