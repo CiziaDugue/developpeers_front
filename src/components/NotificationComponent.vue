@@ -17,7 +17,7 @@
                         v-for="notif in this.unreadUserNotifs"
                         :key="notif._id"
                         class="unreadNotif notif dropdown-item"
-                        v-on:click="validateNotification(notif._id, notif.post_id, notif.version_id)">
+                        v-on:click="validateNotification(notif._id, notif.post_id, notif.version.id)">
                         {{ notif.message }}
                         <div class="notifDate">
                             <small>Le {{ notif.created_at }}</small>
@@ -96,6 +96,7 @@ export default {
         },
 
         validateNotification: function(notificationId, postId, versionId) {
+            console.log(versionId);
             let payload = {
                 notificationId: notificationId,
                 postId: postId,

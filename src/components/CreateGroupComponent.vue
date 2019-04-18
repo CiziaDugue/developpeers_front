@@ -11,7 +11,8 @@
       </div>
       <div class="form-group">
         <label>Description</label>
-        <input name="description" placeholder="Description du groupe" class="form-control" v-model="description">
+        <!-- <input name="description" placeholder="Description du groupe" class="form-control" v-model="description"> -->
+        <textarea-autosize name="description" placeholder="Description du groupe" class="form-control" v-model="description"></textarea-autosize>
       </div>
       <div class="form-group">
         <label>Mots-clés</label>

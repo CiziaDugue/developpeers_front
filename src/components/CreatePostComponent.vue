@@ -17,14 +17,14 @@
 
         <div class="form-group">
             <label>Contenu texte :</label>
-            <textarea placeholder="Tapez votre message d'intro ici" class="form-control" v-model="textContent"></textarea>
+            <textarea-autosize placeholder="Tapez votre message d'intro ici" class="form-control" v-model="textContent"></textarea-autosize>
         </div>
 
         <div class="form-group">
             <label>Contenu code :</label>
             <div v-for="snippet in codeSnippets">
                 <div class="form-group">
-                    <textarea placeholder="Tapez du code ici" class="form-control" v-model="codeSnippets[snippet.index].content"></textarea>
+                    <textarea-autosize placeholder="Tapez du code ici" class="form-control" v-model="codeSnippets[snippet.index].content"></textarea-autosize>
                 </div>
             </div>
 

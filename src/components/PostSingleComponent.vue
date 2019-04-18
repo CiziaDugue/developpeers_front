@@ -107,7 +107,7 @@
                         <td v-if="comment._id != editedCommentId || !commentEditMode" class="commentContent" v-html="'<pre>'+comment.content+'</pre>'"></td>
                         <td v-if="commentEditMode && comment._id==editedCommentId">
                             <!-- <input type="text" v-model="commentEditedContent"> -->
-                            <textarea v-model="commentEditedContent"></textarea>
+                            <textarea-autosize v-model="commentEditedContent"></textarea-autosize>
                             <button type="button" class="btn btn-sm btn-success" v-on:click="validateCommentUpdate(comment._id)">Ok</button>
                         </td>
                         <td>
@@ -126,7 +126,7 @@
         </div>
         <div class="col-12">
             <div class="input-group">
-                <textarea class="form-control" aria-label="With textarea" v-model="commentToAdd"></textarea>
+                <textarea-autosize class="form-control" aria-label="With textarea" v-model="commentToAdd"></textarea-autosize>
                 <div class="input-group-append">
                     <button class="fas fa-plus" v-on:click="addComment"></button>
                 </div>

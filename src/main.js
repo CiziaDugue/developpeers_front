@@ -18,6 +18,9 @@ import VueHighlightJS from 'vue-highlightjs'
 Vue.use(VueHighlightJS)
 import 'highlight.js/styles/an-old-hope.css'
 
+import VueTextareaAutosize from 'vue-textarea-autosize'
+Vue.use(VueTextareaAutosize)
+
 Vue.config.productionTip = false
 
 new Vue({
