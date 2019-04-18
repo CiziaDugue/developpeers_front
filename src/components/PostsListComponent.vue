@@ -60,12 +60,14 @@
                             </router-link>
                         </div>
                         <div class="col-12">
-                            <p>{{ contentExcerpt(post.versions[0].text_content) }}</p>
+                            <!-- <p>{{ contentExcerpt(post.versions[0].text_content) }}</p> -->
+
                             <!-- <p>{{ post.versions[0].text_content }}</p> -->
                         </div>
                         <div class="col-12">
                             <!-- <p>{{ contentExcerpt(post.versions[0].text_content) }}</p> -->
-                            <p>{{ numberOfVersions(post) }} versions</p>
+
+                            <!-- <p>{{ numberOfVersions(post) }} versions</p> -->
                         </div>
                     </div>
                 </div>
