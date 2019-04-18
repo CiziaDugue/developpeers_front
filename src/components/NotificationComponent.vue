@@ -110,7 +110,7 @@ export default {
                 .then((response)=>{
                     this.getNotifications()
                     .then((response)=>{
-                        this.$router.push('/');//router push '/' or errorCpt
+                        this.$router.push('/oups');//router push '/' or errorCpt
                     }, (error)=>{
                         console.error(error);
                     });

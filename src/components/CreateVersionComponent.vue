@@ -140,7 +140,7 @@ export default {
                                 this.getNotifications();
                             }, (error) => {
                                 console.error(error);
-                                this.$router.push('/'); //trouver mieux, affichage message erreur etc
+                                this.$router.push('/oups');
                             });
                     } else {
                         this.initForm();

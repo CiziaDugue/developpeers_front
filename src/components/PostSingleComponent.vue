@@ -246,7 +246,6 @@ export default {
         deletePost: function() {
             this.$store.dispatch('deletePost', this.postSingle._id)
                 .then((response) => {
-                    console.log(response);
                     this.$router.push('/groupe/' + this.postSingle.group_id);
                 }, (error) => {
                     console.error(error);
