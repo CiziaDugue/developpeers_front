@@ -19,13 +19,9 @@
         </div>
         <div class="col-4" v-if="isGroupList">
             <div>
-                <!-- Dans ce groupe on parle de : -->
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item font-weight-light font-italic border-0" v-for="word in groupSingle.keywords">{{word}}</li>
                 </ul>
-                <!-- <ul>
-                    <li v-for="word in groupSingle.keywords">{{word}}</li>
-                </ul> -->
             </div>
 
         </div>
