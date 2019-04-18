@@ -60,14 +60,12 @@
                             </router-link>
                         </div>
                         <div class="col-12">
-                            <!-- <p>{{ contentExcerpt(post.versions[0].text_content) }}</p> -->
+                            <p>{{post.excerpt}}</p>
 
-                            <!-- <p>{{ post.versions[0].text_content }}</p> -->
                         </div>
                         <div class="col-12">
-                            <!-- <p>{{ contentExcerpt(post.versions[0].text_content) }}</p> -->
+                            <p>{{post.number_of_versions}}</p>
 
-                            <!-- <p>{{ numberOfVersions(post) }} versions</p> -->
                         </div>
                     </div>
                 </div>
@@ -157,22 +155,22 @@ export default {
             this.$store.dispatch('voteInPostListAction', payload);
         },
 
-        numberOfVersions: function(post) {
-            return post.versions.length;
-        },
+        // numberOfVersions: function(post) {
+        //     return post.versions.length;
+        // },
 
-        contentExcerpt: function(content) {
-            if (content != null) {
-                let result = '';
-                if(content.length < 100) {
-                    result = content;
-                }
-                else {
-                    result = content.substring(0, 99) + ' [...]';
-                }
-                return result;
-            }
-        },
+        // contentExcerpt: function(content) {
+        //     if (content != null) {
+        //         let result = '';
+        //         if(content.length < 100) {
+        //             result = content;
+        //         }
+        //         else {
+        //             result = content.substring(0, 99) + ' [...]';
+        //         }
+        //         return result;
+        //     }
+        // },
 
         goBack: function() {
 
