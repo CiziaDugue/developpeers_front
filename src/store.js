@@ -634,6 +634,7 @@ export default new Vuex.Store({
 
                             commit('SET_AUTH_USER_DATA_IN', userData);
                             dispatch('setHeaderObject', userData);
+                            dispatch('getUserProfilePic');
                             dispatch('getUserGroups')
                             .then((response3)=>{
                                 resolve(response3);
@@ -732,7 +733,7 @@ export default new Vuex.Store({
                     };
                     commit('SET_AUTH_USER_DATA_IN', userData);
                     dispatch('setHeaderObject', userData);
-
+                    dispatch('getUserProfilePic');
                     resolve("Autologin succeded !");
 
                 } else {
