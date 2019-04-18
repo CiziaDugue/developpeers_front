@@ -4,40 +4,39 @@
             <i class="fas fa-bell"></i>
         </button>
         <div v-else class="dropdown">
-            <!-- <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell"></i>
-                <span class="badge badge-light ml-1" v-if="unreadNotifCount > 0">{{ unreadNotifCount }}</span>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                 <button v-for="notif in this.unreadUserNotifs" class="dropdown-item" type="button">
-                     <router-link class="dropdown-item" :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
-                         {{ notif.message }}
-                     </router-link>
-                 </button>
-            </div> -->
             <div class="btn-group">
+
                 <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-bell"></i>
                     <span class="badge badge-light ml-1" v-if="unreadNotifCount > 0">{{ unreadNotifCount }}</span>
                 </button>
-                <div class="dropdown-menu notifMenu">
-                    <!-- <div class="unreadNotif dropdown-item" v-for="notif in this.unreadUserNotifs"> -->
-                        <router-link
-                                    v-for="notif in this.unreadUserNotifs"
-                                    class="unreadNotif notif dropdown-item"
-                                    :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
-                            {{ notif.message }}
-                        </router-link>
-                    <!-- </div> -->
-                    <!-- <div class="oldNotif notif dropdown-item" v-for="notif in this.oldUserNotifs"> -->
-                        <router-link
-                                    v-for="notif in this.oldUserNotifs"
-                                    class="oldNotif notif dropdown-item"
-                                    :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
-                            {{ notif.message }}
-                        </router-link>
-                    <!-- </div> -->
+
+                <div class="dropdown-menu dropdown-menu-right">
+                    <div class="clearNotifsLink" v-on:click="clearNotifs">Tout marquer comme lu</div>
+                    <div
+                        v-for="notif in this.unreadUserNotifs"
+                        :key="notif._id"
+                        class="unreadNotif notif dropdown-item"
+                        v-on:click="validateNotification(notif._id, notif.post_id, notif.version.id)">
+                        {{ notif.message }}
+                        <div class="notifDate">
+                            <small>Le {{ notif.created_at }}</small>
+
+                        </div>
+                    </div>
+
+                    <router-link
+                                v-for="notif in this.oldUserNotifs"
+                                :key="notif._id"
+                                class="oldNotif notif dropdown-item"
+                                :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
+                        {{ notif.message }}
+                        <div class="notifDate">
+                            <small> Le {{ notif.created_at }}</small>
+                        </div>
+                    </router-link>
                 </div>
+
            </div>
         </div>
     </div>
@@ -94,6 +93,48 @@ export default {
             this.$store.dispatch('getNotificationsAction');
             // console.log(this.$store.state.userNotifs);
             // console.log(this.userNotifs);
+        },
+
+        validateNotification: function(notificationId, postId, versionId) {
+            console.log(versionId);
+            let payload = {
+                notificationId: notificationId,
+                postId: postId,
+                versionId: versionId
+            }
+            this.$store.dispatch('testNotificationLink', payload)
+            .then((response)=>{
+                this.$router.push('/article/'+postId+'/'+versionId);
+            }, (error) => {
+                //console.error(error);//404
+                this.$store.dispatch('deleteObsoleteNotification', notificationId)
+                .then((response)=>{
+                    this.getNotifications()
+                    .then((response)=>{
+                        this.$router.push('/oups');//router push '/' or errorCpt
+                    }, (error)=>{
+                        console.error(error);
+                    });
+                }, (error)=>{
+                    console.error(error);
+                });
+
+            });
+        },
+
+        clearNotifs: function() {
+            let payload = {
+                notifs: []
+            };
+            this.unreadUserNotifs.forEach(function(notif) {
+                payload.notifs.push({id: notif._id});
+            });
+            this.$store.dispatch('markAllNotificationsRead', payload)
+            .then((response)=>{
+                //console.log(response);
+            }, (error)=>{
+                console.error(error);
+            });
         }
     },
     created: function() {
@@ -118,6 +159,7 @@ export default {
     background-color: #7bc3;
     color: #444;
     font-weight: bold;
+    cursor: pointer;
 }
 .unreadNotif:hover {
     background-color: #7bc9;
@@ -127,12 +169,26 @@ export default {
     color: #888;
 }
 
-.notifMenu {
+.dropdown-menu {
     max-height: 500px;
     overflow: auto;
     scrollbar-width: thin;
     box-shadow: 2px 2px 5px #0003;
-    position: relative;
-    right: 300px;
+}
+
+.clearNotifsLink {
+    color: #7bc;
+    text-align: right;
+    padding: 0 20px;
+    cursor: pointer;
+}
+
+.clearNotifsLink:hover {
+    text-decoration: underline;
+    color: #5bf;
+}
+
+.notifDate {
+    color: #a97;
 }
 </style>

@@ -72,7 +72,8 @@
             </div>
             <div class="row border">
                 <div class="col-12">
-                    <p class="text-center">{{ postSingle.active_version.text_content }}</p>
+                    <!-- <p class="text-center">{{ postSingle.active_version.text_content }}</p> -->
+                    <p v-html="'<pre>'+postSingle.active_version.text_content +'</pre>'"></p>
                     <div v-for="snippet in postSingle.active_version.code_snippets" class="border">
                         <pre v-highlightjs="snippet.content"><code></code></pre>
                     </div>
@@ -103,9 +104,10 @@
                     <tr v-for="comment in postSingle.active_version.comments">
                         <th scope="row">{{ comment.created_at }}</th>
                         <td>{{ comment.author_name }}</td>
-                        <td v-if="comment._id != editedCommentId || !commentEditMode">{{ comment.content }}</td>
+                        <td v-if="comment._id != editedCommentId || !commentEditMode" class="commentContent" v-html="'<pre>'+comment.content+'</pre>'"></td>
                         <td v-if="commentEditMode && comment._id==editedCommentId">
-                            <input type="text" v-model="commentEditedContent" v-on:keyup.enter="validateCommentUpdate(comment._id)">
+                            <!-- <input type="text" v-model="commentEditedContent"> -->
+                            <textarea-autosize v-model="commentEditedContent"></textarea-autosize>
                             <button type="button" class="btn btn-sm btn-success" v-on:click="validateCommentUpdate(comment._id)">Ok</button>
                         </td>
                         <td>
@@ -124,7 +126,7 @@
         </div>
         <div class="col-12">
             <div class="input-group">
-                <textarea class="form-control" aria-label="With textarea" v-model="commentToAdd"></textarea>
+                <textarea-autosize class="form-control" aria-label="With textarea" v-model="commentToAdd"></textarea-autosize>
                 <div class="input-group-append">
                     <button class="fas fa-plus" v-on:click="addComment"></button>
                 </div>
@@ -232,8 +234,8 @@ export default {
         validatePostUpdate: function() {
             let arKeywords = this.postEditedKeywords.split(" ");
             let payload = {
-                post_id: this.postSingle._id,
-                version_id: this.postSingle.active_version._id,
+                postId: this.postSingle._id,
+                versionId: this.postSingle.active_version._id,
                 requestData: {
                     title: this.postEditedTitle,
                     keywords: arKeywords
@@ -246,7 +248,6 @@ export default {
         deletePost: function() {
             this.$store.dispatch('deletePost', this.postSingle._id)
                 .then((response) => {
-                    console.log(response);
                     this.$router.push('/groupe/' + this.postSingle.group_id);
                 }, (error) => {
                     console.error(error);
@@ -322,8 +323,7 @@ export default {
                 }, (error)=>{
                   console.error(error);
                 });
-            }
-            else {
+            } else {
                 this.$store.dispatch('initPostSingleAction', data)
                             .then( (response) => {
                               this.postEditedTitle = this.postSingle.title;
@@ -331,6 +331,8 @@ export default {
                               this.postSingle.keywords.forEach((word)=> {
                                 this.postEditedKeywords += word + " ";
                               });
+                              //remove final white space
+                              this.postEditedKeywords = this.postEditedKeywords.substring(0, this.postEditedKeywords.length - 1);
                               this.updateUserRights();
                               this.getNotifications();
                             }, (error) => {
@@ -380,11 +382,11 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .main-block {
     /* position: relative;
     right: 0;
     top: 8vh; */
 }
+
 </style>

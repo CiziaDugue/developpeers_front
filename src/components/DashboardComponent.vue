@@ -117,12 +117,9 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .v-sidebar-menu {
-    height: 92vh;
-    /* top: 10vh; */
-    /* bottom: 0; */
+    height: calc(100vh - 5em);
     position: relative;
 }
 

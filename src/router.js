@@ -13,6 +13,7 @@ import CreatePostComponent from '@/components/CreatePostComponent.vue'
 import CreateVersionComponent from '@/components/CreateVersionComponent.vue'
 import EditVersionComponent from '@/components/EditVersionComponent.vue'
 import PostSingleGuestComponent from '@/components/PostSingleGuestComponent.vue'
+import OupsComponent from '@/components/OupsComponent.vue'
 
 Vue.use(Router)
 
@@ -98,6 +99,11 @@ export default new Router({
             path: '/search/:words',
             name: 'searchPosts',
             component: HomeComponent
+        },
+        {
+            path: '/oups',
+            name: 'oups',
+            component: OupsComponent
         }
         // {
         //     path: '/about',

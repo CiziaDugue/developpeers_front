@@ -13,12 +13,12 @@
         </div>
 
         <div class="form-group">
-            <textarea class="form-control" v-model="textContent"></textarea>
+            <textarea-autosize class="form-control" v-model="textContent"></textarea-autosize>
         </div>
 
         <div v-for="snippet in codeSnippets">
             <div class="form-group">
-                <textarea class="form-control" v-model="codeSnippets[snippet.index].content"></textarea>
+                <textarea-autosize class="form-control" v-model="codeSnippets[snippet.index].content"></textarea-autosize>
             </div>
         </div>
 
@@ -78,7 +78,7 @@ export default {
           });
           this.$store.dispatch('updateVersion', payload)
           .then((response)=>{
-            this.$router.push('/article/'+this.postSingle._id);
+            this.$router.push('/article/'+this.postSingle._id+'/'+this.postSingle.active_version._id);
           },(error)=>{
             console.log(error);
           });
@@ -119,7 +119,7 @@ export default {
                                             });
                               }, (error)=>{
                                   console.error(error);
-                                  this.$router.push('/');//tmp
+                                  this.$router.push('/oups');
                               });
                           } else {
                               this.initForm();

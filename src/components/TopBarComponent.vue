@@ -1,30 +1,4 @@
 <template>
-<!-- <div class="top-bar fixed-top navbar navbar-dark navbar-expand-lg">
-
-        <router-link :to="{ path: '/' }">
-            <h1 class="title">Developeers</h1>
-        </router-link>
-
-        <form class="form-inline">
-          <input type="search" placeholder="Recherche par mots clés" v-model="searchBarContent" v-on:keyup.enter="getSearchResult">
-          <input type="button" class="btn btn-outline-success my-2 my-sm-0" v-on:click="getSearchResult" value="Rechercher"/>
-        </form>
-
-        <div  v-if="!userLogged">
-          <router-link to="/register">S'inscrire</router-link>
-          <router-link to='/login'>Se Connecter</router-link>
-        </div>
-
-        <template v-if="userLogged">
-            <img src="" alt="">
-            <span class="navbar-text"> <strong>{{authUserData.name}}</strong></span>
-            <notification-component></notification-component>
-            <button v-on:click="disconnectUser" class="btn btn-secondary">Logout</button>
-        </template>
-
-    </div> -->
-<div class="topBarCtnr">
-    <div class="topBarContentBlock">
 
         <div class="rootLogoBlock">
             <router-link :to="{ path: '/' }">
@@ -45,12 +19,29 @@
             </form>
         </div>
 
-        <div class="userBlock" v-if="!userLogged">
-            <div class="userSubBlock">
-                <router-link to='/login'>Se Connecter</router-link>
+            <div class="userBlock" v-if="!userLogged">
+                <div class="userSubBlock">
+                    <router-link to='/login'>Se Connecter</router-link>
+                </div>
+                <div class="userSubBlock">
+                    <router-link to="/register">S'inscrire</router-link>
+                </div>
             </div>
-            <div class="userSubBlock">
-                <router-link to="/register">S'inscrire</router-link>
+
+            <div class="userBlock" v-if="userLogged">
+                <div class="userSubBlock">
+                    <div class="profilePicCtnr">
+                        <!-- <img src="@/assets/blank_profile_pic.png" alt=""> -->
+                        <img :src="profilePicUrl">
+                    </div>
+                    <router-link to="/profil"><strong>{{authUserData.name}}</strong></router-link>
+                </div>
+                <div class="userSubBlock">
+                    <notification-component></notification-component>
+                </div>
+                <div class="userSubBlock">
+                    <button v-on:click="disconnectUser" class="btn btn-secondary" title="Se déconnecter"> <i class="fas fa-power-off"></i> </button>
+                </div>
             </div>
         </div>
 
@@ -87,7 +78,8 @@ export default {
     computed: {
         ...mapState([
             'userLogged',
-            'authUserData'
+            'authUserData',
+            'profilePicUrl'
         ])
     },
     components: {
@@ -119,14 +111,35 @@ export default {
                     });
             }
         }
-    }
+            }, (error)=>{
+                console.error(error);
+            });
+        }
+        else {
+            this.$store.dispatch('getGuestSearchResults', this.searchBarContent)
+            .then((response)=>{
+                this.$router.push('/search/'+routeParamString);
+            }, (error)=>{
+                console.error(error);
+            });
+        }
+      }
+  },
+  mounted: function() {
+      this.$store.dispatch("getUserProfilePic")
+      .then((response)=>{
+          //console.log(response);
+      }, (error)=>{
+          console.error(error);
+      });
+  }
 }
 </script>
 
 <style scoped>
 .topBarCtnr {
-    /* height: 10vh; */
-    padding: 5px 0;
+    height: 5em;
+    padding: 5px 30px;
     background-color: #2a2a2e;
 }
 
@@ -160,20 +173,27 @@ export default {
 .searchBtn {}
 
 .userSubBlock {
-    flex: 1;
+    flex:auto;
     border-left: 1px solid #fff2;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .userSubBlock:last-child {
     border-right: 1px solid #fff2;
 }
-
-.userSubBlock>img {
+.profilePicCtnr {
     width: 50px;
     height: 50px;
     margin: 0 5px;
+    overflow: hidden;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+}
+.profilePicCtnr img {
+    height: 100%;
 }
 
 .title {

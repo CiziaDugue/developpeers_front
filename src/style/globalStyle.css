@@ -30,8 +30,8 @@ body {
     scrollbar-width: thin; */
 }
 
-#sideBarCtnr {
-}
+/* #sideBarCtnr {
+} */
 
 #routerViewCtnr {
     position: relative;
@@ -44,4 +44,13 @@ body {
     overflow: auto;
     scrollbar-width: thin;
 
+}
+
+pre {
+    font-family: arial, sans-serif;
+    font-size: 1em;
+}
+
+.commentContent>pre {
+    color: #fff;
 }

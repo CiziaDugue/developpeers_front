@@ -16,12 +16,12 @@
         </div>
 
         <div class="form-group">
-            <textarea class="form-control" v-model="textContent"></textarea>
+            <textarea-autosize class="form-control" v-model="textContent"></textarea-autosize>
         </div>
 
         <div v-for="snippet in codeSnippets">
             <div class="form-group">
-                <textarea class="form-control" v-model="codeSnippets[snippet.index].content"></textarea>
+                <textarea-autosize class="form-control" v-model="codeSnippets[snippet.index].content"></textarea-autosize>
             </div>
         </div>
 
@@ -140,7 +140,7 @@ export default {
                                 this.getNotifications();
                             }, (error) => {
                                 console.error(error);
-                                this.$router.push('/'); //trouver mieux, affichage message erreur etc
+                                this.$router.push('/oups');
                             });
                     } else {
                         this.initForm();
