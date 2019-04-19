@@ -404,7 +404,7 @@ export default new Vuex.Store({
                 } else {
                   dispatch('getPostsFeed')
                   .then((response)=>{
-                      resolve(response);
+                      resolve("feed");
                   }, (error)=>{
                       reject(error);
                   });
@@ -994,7 +994,7 @@ export default new Vuex.Store({
                 } else {
                   dispatch('getGuestFeed')
                   .then((response)=>{
-                      resolve(response);
+                      resolve("feed");
                   }, (error)=>{
                       console.error(error);
                       reject(error);
