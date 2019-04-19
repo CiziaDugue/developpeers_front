@@ -1,17 +1,15 @@
 <template>
     <div>
-        <button v-if="notifCount == 0" class="btn btn-secondary dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false" disabled>
+        <button v-if="notifCount == 0" class="btn btn-secondary dropdown-toggle rounded-0" type="button" aria-haspopup="true" aria-expanded="false" disabled>
             <i class="fas fa-bell"></i>
         </button>
         <div v-else class="dropdown">
             <div class="btn-group">
-
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn btn-secondary dropdown-toggle rounded-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-bell"></i>
                     <span class="badge badge-light ml-1" v-if="unreadNotifCount > 0">{{ unreadNotifCount }}</span>
                 </button>
-
-                <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-right rounded-0">
                     <div class="clearNotifsLink" v-on:click="clearNotifs">Tout marquer comme lu</div>
                     <div
                         v-for="notif in this.unreadUserNotifs"
@@ -21,10 +19,8 @@
                         {{ notif.message }}
                         <div class="notifDate">
                             <small>Le {{ notif.created_at }}</small>
-
                         </div>
                     </div>
-
                     <router-link
                                 v-for="notif in this.oldUserNotifs"
                                 :key="notif._id"

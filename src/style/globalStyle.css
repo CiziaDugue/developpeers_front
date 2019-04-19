@@ -1,9 +1,21 @@
+@font-face {
+    font-family: OcrA;
+    src: url("../assets/OCRAStd.otf") format("opentype");
+}
+
 * {
     box-sizing: border-box;
 }
 body {
     background-color: #eee;
 }
+p, li, span, a {
+    font-family: helvetica, sans-serif;
+}
+h1, h2, h3 {
+    font-family: OcrA;
+}
+
 
 #app {
     display: flex;

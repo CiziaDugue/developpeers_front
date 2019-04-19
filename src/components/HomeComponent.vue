@@ -1,6 +1,6 @@
 <template>
 <main class="main-container">
-    <div class="row align-items-center justify-content-center border-bottom mb-2 pb-2 pt-2">
+    <div class="row align-items-center justify-content-center p-2">
         <div class="col-12">
             <h2 class="text-center">Dashboard</h2>
         </div>
@@ -8,14 +8,14 @@
 
     <!-- Authenticated user posts feed : -->
     <div v-if="userLogged">
-        <div v-for="post in postsFeed" v-bind:key="post._id" class="card p-2 mb-2 bg-light shadow-sm">
+        <div v-for="post in postsFeed" v-bind:key="post._id" class="card p-2 bg-light rounded-0">
             <div class="card-body">
                 <div class="row">
                     <div class="col-2">
-                        <small class="cursor badge badge-pill badge-success" v-on:click="votePost(post, 'post', true)">+ {{ post.votePros }}</small>
-                        <small class="cursor badge badge-pill badge-warning" v-on:click="votePost(post, 'post', false)">- {{ post.voteCons }}</small>
+                        <small class="cursor badge rounded-0 badge-success" v-on:click="votePost(post, 'post', true)">+ {{ post.votePros }}</small>
+                        <small class="cursor badge rounded-0 badge-warning" v-on:click="votePost(post, 'post', false)">- {{ post.voteCons }}</small>
                     </div>
-                    <div class="col-6">
+                    <div class="col-8">
                         <div class="row">
                             <div class="col-12">
                                 <router-link :to="{ name: 'postSingle', params: { postId: post._id }}">
@@ -26,24 +26,17 @@
                                 <p>{{ post.excerpt }}</p>
                             </div>
                             <div class="col-12">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <p>Groupe <router-link :to="{ name: 'groupPostsList', params: { groupId: post.group_id } }">{{ post.group_name }}</router-link></p>
-                                    </div>
-                                    <div class="col-6">
-                                        <p class="text-right">{{ post.number_of_versions }} versions</p>
-                                    </div>
-                                </div>
+                                <p>{{ post.number_of_versions }} versions - groupe <router-link :to="{ name: 'groupPostsList', params: { groupId: post.group_id } }">{{ post.group_name }}</router-link></p>
+                            </div>
+                            <div class="col-12">
+                                <p class="card-text"><small class="text-muted">Créé le {{ post.created_at }} par {{ post.author_name }}</small></p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-2">
                         <ul class="card-text list-group list-group-flush">
                             <li class="list-group-item font-weight-light font-italic border-0" v-for="keyword in post.keywords">{{ keyword }}</li>
                         </ul>
-                    </div>
-                    <div class="col-12">
-                        <p class="card-text text-center"><small class="text-muted">Créé le {{ post.created_at }} par {{ post.author_name }}</small></p>
                     </div>
                 </div>
             </div>
@@ -52,12 +45,12 @@
 
     <!-- Guest user posts feed : -->
     <div v-if="!userLogged">
-        <div v-for="post in postsFeed" v-bind:key="post._id" class="card p-2 mb-2 bg-light shadow-sm">
+        <div v-for="post in postsFeed" v-bind:key="post._id" class="card p-2 bg-light rounded-0">
             <div class="card-body">
                 <div class="row">
                     <div class="col-2">
-                        <small class="badge badge-pill badge-success">+ {{ post.votePros }}</small>
-                        <small class="badge badge-pill badge-warning">- {{ post.voteCons }}</small>
+                        <small class="badge rounded-0 badge-success">+ {{ post.votePros }}</small>
+                        <small class="badge rounded-0 badge-warning">- {{ post.voteCons }}</small>
                     </div>
                     <div class="col-6">
                         <div class="row">
@@ -70,14 +63,7 @@
                                 <p>{{ post.excerpt }}</p>
                             </div>
                             <div class="col-12">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <p>Groupe {{ post.group_name }}</p>
-                                    </div>
-                                    <div class="col-6">
-                                        <p class="text-right">{{ post.number_of_versions }} versions</p>
-                                    </div>
-                                </div>
+                                <p>{{ post.number_of_versions }} versions - groupe {{ post.group_name }}</p>
                             </div>
                         </div>
                     </div>

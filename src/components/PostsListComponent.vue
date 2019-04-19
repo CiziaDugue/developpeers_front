@@ -2,7 +2,7 @@
 <div class="main-block">
 
 
-    <div v-if="isGroupList == false" class="row align-items-center justify-content-center border-bottom mb-2 pb-2 pt-2">
+    <div v-if="isGroupList == false" class="row align-items-center justify-content-center p-2">
         <div class="col-12">
             <h2 class="text-center">{{ title }}</h2>
         </div>
@@ -11,11 +11,11 @@
         </div>
     </div>
 
-    <div v-if="isGroupList == true" class="row align-items-center justify-content-center border-bottom mb-2 pb-2 pt-2">
+    <div v-if="isGroupList == true" class="row align-items-center justify-content-center p-2">
         <div class="col-1 align-self-stretch">
-            <small class="cursor badge badge-pill badge-secondary" v-on:click="goBack()"><i class="fas fa-angle-left"></i></small>
+            <small class="cursor badge badge-secondary rounded-0" v-on:click="goBack()"><i class="fas fa-angle-left"></i></small>
         </div>
-        <div class="col-5">
+        <div class="col-8">
             <div class="row align-items-center">
                 <div class="col-12">
                     <h2 class="text-center">{{ title }}</h2>
@@ -25,35 +25,35 @@
                 </div>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-2">
             <div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item font-weight-light font-italic border-0" v-for="word in groupSingle.keywords">{{word}}</li>
                 </ul>
             </div>
         </div>
-        <div class="col-2">
+        <div class="col-1">
             <div class="row">
                 <div class="col-12">
-                    <button class="btn btn-primary btn-lg mb-2" v-on:click="createPost">Créer un article</button>
+                    <button class="btn btn-primary mb-2 rounded-0" v-on:click="createPost"><i class="far fa-edit"></i></button>
                 </div>
                 <div class="col-12">
-                    <button v-if="isUserInGroup == true" class="btn btn-outline-secondary btn-lg" v-on:click="leaveOrJoinGroup('leave')">Quitter le groupe</button>
-                    <button v-else-if="isUserInGroup == false" class="btn btn-secondary btn-lg" v-on:click="leaveOrJoinGroup('join')">Suivre le groupe</button>
+                    <button v-if="isUserInGroup == true" class="btn btn-outline-secondary rounded-0" v-on:click="leaveOrJoinGroup('leave')"><i class="fas fa-sign-out-alt"></i></button>
+                    <button v-else-if="isUserInGroup == false" class="btn btn-secondary rounded-0" v-on:click="leaveOrJoinGroup('join')"><i class="fas fa-sign-in-alt"></i></button>
                 </div>
             </div>
         </div>
     </div>
 
 
-    <div v-for="post in postsList" v-bind:key="post._id" class="card p-2 mb-2 bg-light shadow-sm">
+    <div v-for="post in postsList" v-bind:key="post._id" class="card p-2 bg-light rounded-0">
         <div class="card-body">
             <div class="row">
-                <div class="col-2">
-                    <small class="cursor badge badge-pill badge-success" v-on:click="votePost(post, 'post', true)">+ {{ post.votePros }}</small>
-                    <small class="cursor badge badge-pill badge-warning" v-on:click="votePost(post, 'post', false)">- {{ post.voteCons }}</small>
+                <div class="col-1">
+                    <small class="cursor badge badge-success rounded-0" v-on:click="votePost(post, 'post', true)">+ {{ post.votePros }}</small>
+                    <small class="cursor badge badge-warning rounded-0" v-on:click="votePost(post, 'post', false)">- {{ post.voteCons }}</small>
                 </div>
-                <div class="col-6">
+                <div class="col-8">
                     <div class="row">
                         <div class="col-12">
                             <router-link :to="{ name: 'postSingle', params: { postId: post._id }}">
@@ -64,24 +64,17 @@
                             <p>{{ post.excerpt }}</p>
                         </div>
                         <div v-if="!isGroupList" class="col-12">
-                            <div class="row">
-                                <div class="col-6">
-                                    <p>Groupe <router-link :to="{ name: 'groupPostsList', params: { groupId: post.group_id } }">{{ post.group_name }}</router-link></p>
-                                </div>
-                                <div class="col-6">
-                                    <p class="text-right">{{ post.number_of_versions }} versions</p>
-                                </div>
-                            </div>
+                            <p>{{ post.number_of_versions }} versions - groupe <router-link :to="{ name: 'groupPostsList', params: { groupId: post.group_id } }">{{ post.group_name }}</router-link></p>
+                        </div>
+                        <div class="col-12">
+                            <p class="card-text text-center"><small class="text-muted">Créé le {{ post.created_at }} par {{ post.author_name }}</small></p>
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-3">
                     <ul class="card-text list-group list-group-flush">
                         <li class="list-group-item font-weight-light font-italic border-0" v-for="keyword in post.keywords">{{ keyword }}</li>
                     </ul>
-                </div>
-                <div class="col-12">
-                    <p class="card-text text-center"><small class="text-muted">Créé le {{ post.created_at }} par {{ post.author_name }}</small></p>
                 </div>
             </div>
         </div>
@@ -116,7 +109,7 @@ export default {
             } else if (this.$route.params.postsListType == 'mes-articles') {
                 title = 'Mes Articles';
             } else if (this.$route.params.postsListType == 'articles-suivis') {
-                title = 'Mes Articles Suivis';
+                title = 'Articles Suivis';
             } else if (this.$route.params.groupId) {
                 title = this.groupSingle.name;
             }

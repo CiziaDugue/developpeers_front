@@ -1,46 +1,46 @@
 <template>
 <div class="main-block">
-    <div class="row align-items-center justify-content-center border-bottom mb-2 pb-2 pt-2">
+    <div class="row align-items-center justify-content-center p-2">
         <div class="col-8">
             <h2 class="text-center">{{ title }}</h2>
         </div>
-        <div class="col-4">
+        <div class="col-4 p-2">
             <div class="input-group input-group-sm">
-                <input type="search" class="form-control searchBar w-50" placeholder="Rechercher un groupe" v-model="searchGroupBarContent" v-on:keyup.enter="searchGroup">
+                <input type="search" class="form-control searchBar w-50 rounded-0" placeholder="Rechercher un groupe" v-model="searchGroupBarContent" v-on:keyup.enter="searchGroup">
                 <div class="input-group-append">
-                    <button type="button" class="btn btn-outline-primary my-2 my-sm-0" v-on:click="searchGroup"><i class="fa fa-search"></i></button>
+                    <button type="button" class="btn btn-outline-primary my-2 my-sm-0 rounded-0" v-on:click="searchGroup"><i class="fa fa-search"></i></button>
                 </div>
             </div>
         </div>
     </div>
 
     <div>
-        <div v-for="group in groupsList" v-bind:key="group._id" class="card p-2 mb-2 bg-light shadow-sm">
+        <div v-for="group in groupsList" v-bind:key="group._id" class="card p-2 bg-light rounded-0">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-8">
                         <div class="row">
-                            <div class="col-12 align-self-start">
+                            <div class="col-12">
                                 <router-link :to="{ name: 'groupPostsList', params: {groupId: group._id } }">
                                     <h3 class="card-title">{{ group.name }}</h3>
                                 </router-link>
                             </div>
-                            <div class="col-12 align-self-center">
-                                <p class="card-text">{{ group.description }}</p>
+                            <div class="col-12">
+                                <p>{{ group.description }}</p>
                             </div>
-                            <div class="col-12 align-self-end">
-                                <p class="text-center">{{ group.users.length }} membres - xxx articles</p>
+                            <div class="col-12">
+                                <p>{{ group.users.length }} membres - {{ group.number_of_posts }} articles</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-4 align-self-center">
+                    <div class="col-3 align-self-center">
                         <ul class="card-text list-group list-group-flush">
                             <li class="list-group-item font-weight-light font-italic border-0" v-for="keyword in group.keywords">{{ keyword }}</li>
                         </ul>
                     </div>
-                    <div class="col-2 align-self-center">
-                        <button v-if="isUserInGroup(group.users_id, authUserData.id)" class="btn btn-outline-secondary btn-lg" v-on:click="leaveOrJoinGroup(group, 'leave')">Quitter le groupe</button>
-                        <button v-else class="btn btn-secondary btn-lg" v-on:click="leaveOrJoinGroup(group, 'join')">Suivre le groupe</button>
+                    <div class="col-1 align-self-center">
+                        <button v-if="isUserInGroup(group.users_id, authUserData.id)" class="btn btn-outline-secondary rounded-0" v-on:click="leaveOrJoinGroup(group, 'leave')"><i class="fas fa-sign-out-alt"></i></button>
+                        <button v-else class="btn btn-secondary rounded-0" v-on:click="leaveOrJoinGroup(group, 'join')"><i class="fas fa-sign-in-alt"></i></button>
                     </div>
                 </div>
 

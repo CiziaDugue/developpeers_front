@@ -13,9 +13,9 @@
                 <!-- <input type="search" class="searchBar" placeholder="Recherche par mots clés" v-model="searchBarContent" v-on:keyup.enter="getSearchResult">
                 <button type="button" class="btn btn-outline-success my-2 my-sm-0 searchBtn" v-on:click="getSearchResult"><i class="fa fa-search"></i></button> -->
                 <div class="input-group input-group-sm w-75">
-                    <input type="search" class="form-control searchBar" placeholder="Recherche par mots clés" v-model="searchBarContent" v-on:keyup.enter="getSearchResult">
+                    <input type="search" class="form-control searchBar rounded-0" placeholder="Recherche par mots clés" v-model="searchBarContent" v-on:keyup.enter="getSearchResult">
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-outline-primary my-2 my-sm-0 searchBtn" v-on:click="getSearchResult"><i class="fa fa-search"></i></button>
+                        <button type="button" class="btn btn-outline-primary my-2 my-sm-0 searchBtn rounded-0" v-on:click="getSearchResult"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
             </form>
@@ -32,9 +32,9 @@
 
         <div class="userBlock" v-if="userLogged">
             <div class="userSubBlock">
-                <div class="profilePicCtnr">
+                <div class="profilePicCtnr rounded-0">
                     <!-- <img src="@/assets/blank_profile_pic.png" alt=""> -->
-                    <img :src="profilePicUrl">
+                    <img :src="profilePicUrl" class="rounded-0">
                 </div>
                 <router-link to="/profil"><strong>{{authUserData.name}}</strong></router-link>
             </div>
@@ -42,7 +42,7 @@
                 <notification-component></notification-component>
             </div>
             <div class="userSubBlock">
-                <button v-on:click="disconnectUser" class="btn btn-secondary" title="Se déconnecter"> <i class="fas fa-power-off"></i> </button>
+                <button v-on:click="disconnectUser" class="btn btn-secondary rounded-0" title="Se déconnecter"> <i class="fas fa-power-off"></i> </button>
             </div>
         </div>
 
@@ -175,6 +175,6 @@ export default {
 }
 
 .title {
-    font-family: monospace;
+    /* font-family: monospace; */
 }
 </style>

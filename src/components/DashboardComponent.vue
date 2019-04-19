@@ -17,12 +17,13 @@ export default {
         return {
             name: 'DashboardComponent',
             // theme: 'white-theme',
-            menu: [{
-                    header: true,
-                    title: 'Menu',
-                    // component: componentName
-                    visibleOnCollapse: false
-                },
+            menu: [
+                // {
+                //     header: true,
+                //     title: 'Menu',
+                //     // component: componentName
+                //     visibleOnCollapse: false
+                // },
                 {
                     href: '/',
                     title: 'Dashboard',
@@ -121,7 +122,7 @@ export default {
 .v-sidebar-menu {
     height: calc(100vh - 5em);
     position: relative;
-    box-shadow: 0 5px 5px black;
+    /* box-shadow: 0 5px 5px black; */
 }
 
 @media (min-width: 640px) {
