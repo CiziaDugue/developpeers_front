@@ -31,6 +31,9 @@
                             <div class="col-12">
                                 <p>{{ group.users.length }} membres - {{ group.number_of_posts }} articles</p>
                             </div>
+                            <div class="col-12">
+                                <p class="card-text text-center"><small class="text-muted">Créé le {{ group.created_at }}</small></p>
+                            </div>
                         </div>
                     </div>
                     <div class="col-3 align-self-center">
