@@ -66,3 +66,7 @@ pre {
 .commentContent>pre {
     color: #fff;
 }
+
+textarea {
+    height: auto;
+}

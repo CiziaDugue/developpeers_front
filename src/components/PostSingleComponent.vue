@@ -116,8 +116,12 @@
                         <td>{{ comment.author_name }}</td>
                         <td v-if="comment._id != editedCommentId || !commentEditMode" class="commentContent" v-html="'<pre>'+comment.content+'</pre>'"></td>
                         <td v-if="commentEditMode && comment._id==editedCommentId">
-                            <!-- <input type="text" v-model="commentEditedContent"> -->
-                            <textarea-autosize v-model="commentEditedContent"></textarea-autosize>
+                            <textarea-autosize
+                                            v-model="commentEditedContent"
+                                            @keydown.enter.exact.prevent
+                                            @keyup.enter.exact.native="validateCommentUpdate(comment._id)"
+                                            @keydown.enter.shift.exact="newline(commentEditedContent)"
+                            ></textarea-autosize>
                             <button type="button" class="btn btn-sm btn-success" v-on:click="validateCommentUpdate(comment._id)">Ok</button>
                         </td>
                         <td>
@@ -136,7 +140,10 @@
         </div>
         <div class="col-12">
             <div class="input-group">
-                <textarea-autosize class="form-control" aria-label="With textarea" v-model="commentToAdd"></textarea-autosize>
+                <textarea-autosize class="form-control" aria-label="With textarea" v-model="commentToAdd"
+                @keydown.enter.exact.prevent
+                @keyup.enter.exact.native="addComment"
+                @keydown.enter.shift.exact="newline(commentToAdd)"></textarea-autosize>
                 <div class="input-group-append">
                     <button class="fas fa-plus" v-on:click="addComment"></button>
                 </div>
@@ -177,6 +184,9 @@ export default {
         ])
     },
     methods: {
+        newline: function(object) {
+            object = `${this.commentToAdd}\n`;
+        },
         isUserFollowing: function() {
             this.userIsFollowing = (this.postSingle.followers.indexOf(this.authUserData.id) != -1) ? true : false;
         },
