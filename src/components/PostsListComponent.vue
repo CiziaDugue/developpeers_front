@@ -13,7 +13,9 @@
 
     <div v-if="isGroupList == true" class="row align-items-center justify-content-center p-2">
         <div class="col-1 align-self-stretch">
-            <small class="cursor badge badge-secondary rounded-0" v-on:click="goBack()"><i class="fas fa-angle-left"></i></small>
+            <small class="cursor badge badge-secondary rounded-0" v-on:click="goBack()">
+                <i class="fas fa-angle-left"></i>
+            </small>
         </div>
         <div class="col-8">
             <div class="row align-items-center">
@@ -35,7 +37,9 @@
         <div class="col-1">
             <div class="row">
                 <div class="col-12">
-                    <button class="btn btn-primary mb-2 rounded-0" v-on:click="createPost" data-toggle="tooltip" data-placement="down" title="Ajouter un article?"><i class="far fa-edit"></i></button>
+                    <button class="btn btn-primary mb-2 rounded-0" v-on:click="createPost" data-toggle="tooltip" data-placement="down" title="Ajouter un article?">
+                        <i class="far fa-edit"></i>
+                    </button>
                 </div>
                 <div class="col-12">
                     <button v-if="isUserInGroup == true" class="btn btn-outline-secondary rounded-0" v-on:click="leaveOrJoinGroup('leave')" data-toggle="tooltip" data-placement="left" title="Quitter le groupe?">
@@ -53,16 +57,6 @@
     <div v-for="post in postsList" v-bind:key="post._id" class="card p-2 bg-light rounded-0">
         <div class="card-body">
             <!-- FOLLOW POST BUTTON : -->
-            <div class="row">
-                <button v-if="!userIsFollowingPost(post.followers)" type="button" title="Suivre cet article" v-on:click="followPost(post._id)">
-                    <i class="fa fa-eye"></i>
-                </button>
-
-                <button v-if="userIsFollowingPost(post.followers)" type="button" title="Ne plus suivre cet article" v-on:click="unfollowPost(post._id)">
-                    <i class="far fa-eye-slash"></i>
-                </button>
-            </div>
-
             <div class="row">
                 <div class="col-1">
                     <small class="cursor badge badge-success rounded-0" v-on:click="votePost(post, 'post', true)">+ {{ post.votePros }}</small>
@@ -86,10 +80,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-2">
                     <ul class="card-text list-group list-group-flush">
                         <li class="list-group-item font-weight-light font-italic border-0" v-for="keyword in post.keywords">{{ keyword }}</li>
                     </ul>
+                </div>
+                <div class="col-1">
+                    <button v-if="!userIsFollowingPost(post.followers)" type="button" title="Suivre cet article" class="btn btn-secondary rounded-0" v-on:click="followPost(post._id)">
+                        <i class="fa fa-eye"></i>
+                    </button>
+
+                    <button v-if="userIsFollowingPost(post.followers)" type="button" title="Ne plus suivre cet article" class="btn btn-outline-secondary rounded-0" v-on:click="unfollowPost(post._id)">
+                        <i class="far fa-eye-slash"></i>
+                    </button>
                 </div>
             </div>
         </div>
