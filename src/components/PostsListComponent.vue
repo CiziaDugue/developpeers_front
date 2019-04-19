@@ -39,14 +39,12 @@
     </div>
 
 
-    <div v-for="post in postsList" v-bind:key="post._id" class="card p-2 mb-2 bg-light">
+    <div v-for="post in postsList" v-bind:key="post._id" class="card p-2 mb-2 bg-light shadow-sm">
         <div class="card-body">
             <div class="row">
                 <div class="col-2">
-                    <!-- <button class="fas fa-angle-up" v-on:click="votePost(post, 'post', true)"></button> -->
                     <small class="cursor badge badge-pill badge-success" v-on:click="votePost(post, 'post', true)">+ {{ post.votePros }}</small>
                     <small class="cursor badge badge-pill badge-warning" v-on:click="votePost(post, 'post', false)">- {{ post.voteCons }}</small>
-                    <!-- <button class="fas fa-angle-down" v-on:click="votePost(post, 'post', false)"></button> -->
                 </div>
                 <div class="col-6">
                     <div class="row">
@@ -56,12 +54,17 @@
                             </router-link>
                         </div>
                         <div class="col-12">
-                            <p>{{post.excerpt}}</p>
-
+                            <p>{{ post.excerpt }}</p>
                         </div>
-                        <div class="col-12">
-                            <p>{{post.number_of_versions}}</p>
-
+                        <div v-if="!isGroupList" class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p>Groupe <router-link :to="{ name: 'groupPostsList', params: { groupId: post.group_id } }">{{ post.group_name }}</router-link></p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-right">{{ post.number_of_versions }} versions</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -230,7 +233,7 @@ export default {
     watch: {
         '$route': function(to, from) {
 
-            let listType = (to.params.groupId == null) ? to.params.postsListType : "group-posts";
+            let listType = (to.params.groupId) ? "group-posts" : to.params.postsListType;
 
             let groupId = (to.params.groupId) ? to.params.groupId : null;
 
