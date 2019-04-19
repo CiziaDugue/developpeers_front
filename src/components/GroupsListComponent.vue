@@ -42,12 +42,14 @@
                         </ul>
                     </div>
                     <div class="col-1 align-self-center">
-                        <button v-if="isUserInGroup(group.users_id, authUserData.id)" class="btn btn-outline-secondary rounded-0" v-on:click="leaveOrJoinGroup(group, 'leave')"><i class="fas fa-sign-out-alt"></i></button>
-                        <button v-else class="btn btn-secondary rounded-0" v-on:click="leaveOrJoinGroup(group, 'join')"><i class="fas fa-sign-in-alt"></i></button>
+                        <button v-if="isUserInGroup(group.users_id, authUserData.id)" class="btn btn-outline-secondary rounded-0" v-on:click="leaveOrJoinGroup(group, 'leave')" data-toggle="tooltip" data-placement="up" title="Quitter le groupe?">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                        <button v-else class="btn btn-secondary rounded-0" v-on:click="leaveOrJoinGroup(group, 'join')" data-toggle="tooltip" data-placement="up" title="Rejoindre le groupe?">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </button>
                     </div>
                 </div>
-
-                <!-- <p class="card-footer"><small class="text-muted">{{ group.updated_at }}</small></p> -->
             </div>
         </div>
     </div>

@@ -35,11 +35,15 @@
         <div class="col-1">
             <div class="row">
                 <div class="col-12">
-                    <button class="btn btn-primary mb-2 rounded-0" v-on:click="createPost"><i class="far fa-edit"></i></button>
+                    <button class="btn btn-primary mb-2 rounded-0" v-on:click="createPost" data-toggle="tooltip" data-placement="down" title="Ajouter un article?"><i class="far fa-edit"></i></button>
                 </div>
                 <div class="col-12">
-                    <button v-if="isUserInGroup == true" class="btn btn-outline-secondary rounded-0" v-on:click="leaveOrJoinGroup('leave')"><i class="fas fa-sign-out-alt"></i></button>
-                    <button v-else-if="isUserInGroup == false" class="btn btn-secondary rounded-0" v-on:click="leaveOrJoinGroup('join')"><i class="fas fa-sign-in-alt"></i></button>
+                    <button v-if="isUserInGroup == true" class="btn btn-outline-secondary rounded-0" v-on:click="leaveOrJoinGroup('leave')" data-toggle="tooltip" data-placement="left" title="Quitter le groupe?">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                    <button v-else-if="isUserInGroup == false" class="btn btn-secondary rounded-0" v-on:click="leaveOrJoinGroup('join')" data-toggle="tooltip" data-placement="right" title="Rejoindre le groupe?">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </button>
                 </div>
             </div>
         </div>

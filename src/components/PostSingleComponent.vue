@@ -1,9 +1,9 @@
 <template>
 <div class="container main-block">
-    <div v-if="postSingle == ''" class="container">
+    <div v-if="postSingle == ''">
         <img src="@/assets/spinner.gif" alt="Chargement en cours">
     </div>
-    <div v-else class="row justify-content-center align-items-center">
+    <div v-else class="row justify-content-center align-items-center p-2">
         <div class="col-10">
             <div class="row border">
                 <div class="col-md-6 col-12">
