@@ -1,38 +1,45 @@
 <template>
 <div class="main-block">
-    <div class="row align-items-center justify-content-center border-bottom mb-2 pb-2 pt-2">
+
+
+    <div v-if="isGroupList == false" class="row align-items-center justify-content-center border-bottom mb-2 pb-2 pt-2">
+        <div class="col-12">
+            <h2 class="text-center">{{ title }}</h2>
+        </div>
+        <div class="col-12">
+            <p class="text-center">{{ numberOfPosts }} articles</p>
+        </div>
+    </div>
+
+    <div v-if="isGroupList == true" class="row align-items-center justify-content-center border-bottom mb-2 pb-2 pt-2">
         <div class="col-1 align-self-stretch">
-            <button v-if="isGroupList == true" class="fas fa-angle-left" v-on:click="goBack()"></button>
+            <button class="fas fa-angle-left" v-on:click="goBack()"></button>
         </div>
         <div class="col-5">
             <div class="row align-items-center">
                 <div class="col-12">
                     <h2 class="text-center">{{ title }}</h2>
                 </div>
-                <div v-if="isGroupList == true" class="col-12">
+                <div class="col-12">
                     <p class="text-center">{{ numberOfMembers }} membres - {{ numberOfPosts }} articles</p>
-                </div>
-                <div v-else-if="isGroupList == false" class="col-12">
-                    <p class="text-center">{{ numberOfPosts }} articles</p>
                 </div>
             </div>
         </div>
-        <div class="col-4" v-if="isGroupList">
+        <div class="col-4">
             <div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item font-weight-light font-italic border-0" v-for="word in groupSingle.keywords">{{word}}</li>
                 </ul>
             </div>
-
         </div>
-        <div class="col-2" v-if="isGroupList == true">
+        <div class="col-2">
             <div class="row">
                 <div class="col-12">
                     <button class="btn btn-primary btn-lg mb-2" v-on:click="createPost">Créer un article</button>
                 </div>
                 <div class="col-12">
-                    <button v-if="isGroupList == true && isUserInGroup == true" class="btn btn-outline-secondary btn-lg" v-on:click="leaveOrJoinGroup('leave')">Quitter le groupe</button>
-                    <button v-else-if="isGroupList == true && isUserInGroup == false" class="btn btn-secondary btn-lg" v-on:click="leaveOrJoinGroup('join')">Suivre le groupe</button>
+                    <button v-if="isUserInGroup == true" class="btn btn-outline-secondary btn-lg" v-on:click="leaveOrJoinGroup('leave')">Quitter le groupe</button>
+                    <button v-else-if="isUserInGroup == false" class="btn btn-secondary btn-lg" v-on:click="leaveOrJoinGroup('join')">Suivre le groupe</button>
                 </div>
             </div>
         </div>
@@ -154,25 +161,7 @@ export default {
             this.$store.dispatch('voteInPostListAction', payload);
         },
 
-        // numberOfVersions: function(post) {
-        //     return post.versions.length;
-        // },
-
-        // contentExcerpt: function(content) {
-        //     if (content != null) {
-        //         let result = '';
-        //         if(content.length < 100) {
-        //             result = content;
-        //         }
-        //         else {
-        //             result = content.substring(0, 99) + ' [...]';
-        //         }
-        //         return result;
-        //     }
-        // },
-
         goBack: function() {
-
             this.$router.go(-1);
         },
 

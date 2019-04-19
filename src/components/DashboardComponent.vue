@@ -121,6 +121,7 @@ export default {
 .v-sidebar-menu {
     height: calc(100vh - 5em);
     position: relative;
+    box-shadow: 0 5px 5px black;
 }
 
 @media (min-width: 640px) {

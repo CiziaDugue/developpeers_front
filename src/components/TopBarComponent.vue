@@ -114,6 +114,7 @@ export default {
     height: 5em;
     padding: 5px 30px;
     background-color: #2a2a2e;
+    /* box-shadow: 5px 0 5px black; */
 }
 
 .topBarContentBlock {
