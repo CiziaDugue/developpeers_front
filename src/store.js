@@ -864,6 +864,54 @@ export default new Vuex.Store({
             });
         },
 
+        followPostAction({dispatch}) {
+            return new Promise((resolve, reject) => {
+                axios.put('http://localhost/developeers/public/api/follow/'+this.state.postSingle._id, {},
+                { headers: this.state.headerObject })
+                    .then((response)=>{
+                        //refresh post data :
+                        let payload = {
+                            postId: this.state.postSingle._id,
+                            versionId: this.state.postSingle.active_version._id
+                        };
+                        dispatch('changePostVersionAction', payload)
+                            .then((response2)=>{
+                                resolve(response);
+                            }, (error)=>{
+                                console.error(error);
+                            });
+
+                    })
+                    .catch((error)=>{
+                        reject(error);
+                    });
+            });
+        },
+
+        unfollowPostAction({dispatch}) {
+            return new Promise((resolve, reject) => {
+                axios.put('http://localhost/developeers/public/api/unfollow/'+this.state.postSingle._id, {},
+                { headers: this.state.headerObject })
+                    .then((response)=>{
+                        //refresh post data :
+                        let payload = {
+                            postId: this.state.postSingle._id,
+                            versionId: this.state.postSingle.active_version._id
+                        };
+                        dispatch('changePostVersionAction', payload)
+                            .then((response)=>{
+                                resolve(response);
+                            }, (error)=>{
+                                console.error(error);
+                            });
+                            resolve(response);
+                    })
+                    .catch((error)=>{
+                        reject(error);
+                    });
+            });
+        },
+
         //GUEST CIRCUIT
         getGuestFeed: function({commit}) {
             return new Promise((resolve, reject)=>{

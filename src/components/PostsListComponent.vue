@@ -139,6 +139,28 @@ export default {
         }
     },
     methods: {
+        followPost: function() {
+            //console.log(this.postSingle.followers);
+            this.$store.dispatch('followPostAction')
+                        .then((response)=>{
+                            console.log(response.data);
+                            this.init();
+                        }, (error)=>{
+                            console.error(error);
+                        });
+        },
+
+        unfollowPost: function() {
+            //console.log(this.postSingle.followers);
+            this.$store.dispatch('unfollowPostAction')
+                        .then((response)=>{
+                            console.log(response.data);
+                            this.init();
+                        }, (error)=>{
+                            console.error(error);
+                        });
+        },
+
         votePost: function(target, type, vote) {
 
             let listType = this.$route.params.postsListType ? this.$route.params.postsListType : null;
