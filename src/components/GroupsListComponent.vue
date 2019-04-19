@@ -41,12 +41,14 @@
                             <li class="list-group-item font-weight-light font-italic border-0" v-for="keyword in group.keywords">{{ keyword }}</li>
                         </ul>
                     </div>
-                    <div class="col-1 align-self-center">
+                    <div class="col-1 align-self-start">
                         <button v-if="isUserInGroup(group.users_id, authUserData.id)" class="btn btn-outline-secondary rounded-0" v-on:click="leaveOrJoinGroup(group, 'leave')" data-toggle="tooltip" data-placement="up" title="Quitter le groupe?">
-                            <i class="fas fa-sign-out-alt"></i>
+                            <!-- <i class="far fa-eye-slash"></i> -->
+                            <i class="fas fa-bookmark"></i>
                         </button>
                         <button v-else class="btn btn-secondary rounded-0" v-on:click="leaveOrJoinGroup(group, 'join')" data-toggle="tooltip" data-placement="up" title="Rejoindre le groupe?">
-                            <i class="fas fa-sign-in-alt"></i>
+                            <!-- <i class="far fa-eye"></i> -->
+                            <i class="far fa-bookmark"></i>
                         </button>
                     </div>
                 </div>

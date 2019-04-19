@@ -10,19 +10,8 @@
     <div v-if="userLogged">
         <div v-for="post in postsFeed" v-bind:key="post._id" class="card p-2 bg-light rounded-0">
             <div class="card-body">
-                <!-- FOLLOW POST BUTTON : -->
                 <div class="row">
-                    <button v-if="!userIsFollowingPost(post.followers)" type="button" title="Suivre cet article" v-on:click="followPost(post._id)">
-                        <i class="fa fa-eye"></i>
-                    </button>
-
-                    <button v-if="userIsFollowingPost(post.followers)" type="button" title="Ne plus suivre cet article" v-on:click="unfollowPost(post._id)">
-                        <i class="far fa-eye-slash"></i>
-                    </button>
-                </div>
-
-                <div class="row">
-                    <div class="col-2">
+                    <div class="col-1">
                         <small class="cursor badge rounded-0 badge-success" v-on:click="votePost(post, 'post', true)">+ {{ post.votePros }}</small>
                         <small class="cursor badge rounded-0 badge-warning" v-on:click="votePost(post, 'post', false)">- {{ post.voteCons }}</small>
                     </div>
@@ -48,6 +37,20 @@
                         <ul class="card-text list-group list-group-flush">
                             <li class="list-group-item font-weight-light font-italic border-0" v-for="keyword in post.keywords">{{ keyword }}</li>
                         </ul>
+                    </div>
+                    <div class="col-1">
+                        <!-- <button v-if="isUserInGroup == true" class="btn btn-outline-secondary rounded-0" v-on:click="leaveOrJoinGroup('leave')" data-toggle="tooltip" data-placement="left" title="Quitter le groupe?">
+                            <i class="far fa-eye-slash"></i>
+                        </button>
+                        <button v-else-if="isUserInGroup == false" class="btn btn-secondary rounded-0" v-on:click="leaveOrJoinGroup('join')" data-toggle="tooltip" data-placement="right" title="Rejoindre le groupe?">
+                            <i class="far fa-eye"></i>
+                        </button> -->
+                        <button v-if="!userIsFollowingPost(post.followers)" class="btn btn-secondary rounded-0" type="button" title="Suivre cet article" v-on:click="followPost(post._id)">
+                            <i class="fa fa-eye"></i>
+                        </button>
+                        <button v-if="userIsFollowingPost(post.followers)" class="btn btn-outline-secondary rounded-0" type="button" title="Ne plus suivre cet article" v-on:click="unfollowPost(post._id)">
+                            <i class="far fa-eye-slash"></i>
+                        </button>
                     </div>
                 </div>
             </div>
