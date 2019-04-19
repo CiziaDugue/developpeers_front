@@ -20,14 +20,26 @@
                 <div class="dropdown-divider"></div>
                 <router-link class="dropdown-item" to="/groupes/tous-les-groupes">Tous les groupes</router-link>
                 <router-link class="dropdown-item" to="/groupes/mes-groupes">Mes groupes</router-link>
-                <router-link class="dropdown-item" to="/groupes/creer-un-groupe">Créer un groupe</router-link>
+                <router-link class="dropdown-item" to="/creer-un-groupe">Créer un groupe</router-link>
                 <div class="dropdown-divider"></div>
-                <div class="dropdown-item profileDropdownItem">
-                    <span class="profilePicCtnr">
-                        <img :src="profilePicUrl">
-                    </span>
-                    <router-link class="dropdown-item" to="/profil">Mon profil</router-link>
-                </div>
+
+                <router-link  class="dropdown-item" to="/profil">
+                        <div class="profileTab">
+                            <div class="profilePicCtnr">
+                                <img :src="profilePicUrl">
+                            </div>
+                            <div>
+                                <div>
+                                    <b>{{authUserData.name}}</b>
+                                </div>
+
+                                <div>
+                                    <small>Mon profil</small>
+                                </div>
+                            </div>
+
+                        </div>
+                </router-link>
 
             </div>
         </div>
@@ -251,17 +263,19 @@ export default {
 }
 
 .profilePicCtnr {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     margin: 0 5px;
     overflow: hidden;
     display: flex;
     justify-content: center;
 }
-
-.profileDropdownItem {
+.profileTab {
     display: flex;
-    align-items: center;
+    text-decoration: none;
+}
+.profileTab small {
+    color: #888;
 }
 
 .profilePicCtnr img {

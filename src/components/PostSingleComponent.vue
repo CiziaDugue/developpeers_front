@@ -10,6 +10,9 @@
                     <button class="fas fa-angle-left" v-on:click="goBack()"></button>
                     <!-- <button v-if="postSingle.active_version.created_at != postSingle.active_version.updated_at" class="fas fa-angle-left" v-on:click="goBack()"></button> -->
                     <h2 class="text-center">{{ postSingle.title }}</h2>
+                    <div class="authorProfilePic">
+                        <img :src="postSingle.author_profile_pic_url">
+                    </div>
 
                     <div v-if="postEditMode">
                         <label>Modifier le titre : </label>
@@ -63,6 +66,9 @@
                     <small class="text-center">Créé le {{ postSingle.created_at }}</small>
                 </div>
                 <div class="col-md-6 col-12">
+                    <div class="authorProfilePic">
+                        <img :src="postSingle.active_version.author_profile_pic_url">
+                    </div>
                     <p class="text-center">
                         Version: {{ postSingle.active_version.number }}, proposée par {{postSingle.active_version.author_name}}
                     </p>
@@ -113,6 +119,9 @@
                 <tbody>
                     <tr v-for="comment in postSingle.active_version.comments">
                         <th scope="row">{{ comment.created_at }}</th>
+                        <td class="authorProfilePic">
+                            <img :src="comment.author_profile_pic_url">
+                        </td>
                         <td>{{ comment.author_name }}</td>
                         <td v-if="comment._id != editedCommentId || !commentEditMode" class="commentContent" v-html="'<pre>'+comment.content+'</pre>'"></td>
                         <td v-if="commentEditMode && comment._id==editedCommentId">
@@ -159,7 +168,7 @@ import {
     mapState
 } from 'vuex'
 import VueHighlightJS from 'vue-highlightjs'
-
+const axios = require('axios');
 export default {
     data: function() {
         return {
@@ -184,6 +193,7 @@ export default {
         ])
     },
     methods: {
+
         newline: function(object) {
             object = `${this.commentToAdd}\n`;
         },
@@ -243,6 +253,7 @@ export default {
                 postId: this.postSingle._id,
                 versionId: versionId
             };
+
             this.$store.dispatch('changePostVersionAction', payload)
                 .then((response) => {
                     this.updateUserRights();
@@ -463,4 +474,17 @@ export default {
     top: 8vh; */
 }
 
+.authorProfilePic {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 0;
+}
+
+.authorProfilePic img {
+    height: 100%;
+}
 </style>
