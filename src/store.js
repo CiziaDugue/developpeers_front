@@ -864,6 +864,102 @@ export default new Vuex.Store({
             });
         },
 
+        followPostAction({dispatch}, payload) {
+            let postId = payload.postId;
+            let fromPostSingle = payload.fromPostSingle;
+            return new Promise((resolve, reject) => {
+                axios.put('http://localhost/developeers/public/api/follow/'+ postId, {},
+                { headers: this.state.headerObject })
+                    .then((response)=>{
+                        //refresh post data :
+                        if(fromPostSingle) {
+                            let payloadSingle = {
+                                postId: this.state.postSingle._id,
+                                versionId: this.state.postSingle.active_version._id
+                            };
+                            dispatch('changePostVersionAction', payloadSingle)
+                                .then((response2)=>{
+                                    resolve(response);
+                                }, (error)=>{
+                                    console.error(error);
+                                });
+                        } else {
+                            if (payload.listType = 'userFeed') {
+                                dispatch('getPostsFeed')
+                                        .then((responseFeed)=>{
+                                            resolve(responseFeed);
+                                        }, (error)=>{
+                                            reject(error);
+                                        });
+                            } else {
+                                let payloadList = {
+                                    listType : payload.list,
+                                    groupId: payload.groupId
+                                };
+                                dispatch('initPostsListAction', payloadList)
+                                        .then((responseList)=>{
+                                            resolve(responseList);
+                                        }, (error)=>{
+                                            console.error(error);
+                                            reject(error);
+                                        });
+                            }
+                        }
+                    })
+                    .catch((error)=>{
+                        reject(error);
+                    });
+            });
+        },
+
+        unfollowPostAction({dispatch}, payload) {
+            let postId = payload.postId;
+            let fromPostSingle = payload.fromPostSingle;
+            return new Promise((resolve, reject) => {
+                axios.put('http://localhost/developeers/public/api/unfollow/'+ postId, {},
+                { headers: this.state.headerObject })
+                    .then((response)=>{
+                        //refresh post data :
+                        if(fromPostSingle) {
+                            let payloadSingle = {
+                                postId: this.state.postSingle._id,
+                                versionId: this.state.postSingle.active_version._id
+                            };
+                            dispatch('changePostVersionAction', payloadSingle)
+                                .then((response2)=>{
+                                    resolve(response);
+                                }, (error)=>{
+                                    console.error(error);
+                                });
+                        } else {
+                            if (payload.listType = 'userFeed') {
+                                dispatch('getPostsFeed')
+                                        .then((responseFeed)=>{
+                                            resolve(responseFeed);
+                                        }, (error)=>{
+                                            reject(error);
+                                        });
+                            } else {
+                                let payloadList = {
+                                    listType : payload.list,
+                                    groupId: payload.groupId
+                                };
+                                dispatch('initPostsListAction', payloadList)
+                                        .then((responseList)=>{
+                                            resolve(responseList);
+                                        }, (error)=>{
+                                            console.error(error);
+                                            reject(error);
+                                        });
+                            }
+                        }
+                    })
+                    .catch((error)=>{
+                        reject(error);
+                    });
+            });
+        },
+
         //GUEST CIRCUIT
         getGuestFeed: function({commit}) {
             return new Promise((resolve, reject)=>{

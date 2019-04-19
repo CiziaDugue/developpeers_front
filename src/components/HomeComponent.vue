@@ -10,6 +10,17 @@
     <div v-if="userLogged">
         <div v-for="post in postsFeed" v-bind:key="post._id" class="card p-2 bg-light rounded-0">
             <div class="card-body">
+                <!-- FOLLOW POST BUTTON : -->
+                <div class="row">
+                    <button v-if="!userIsFollowingPost(post.followers)" type="button" title="Suivre cet article" v-on:click="followPost(post._id)">
+                        <i class="fa fa-eye"></i>
+                    </button>
+
+                    <button v-if="userIsFollowingPost(post.followers)" type="button" title="Ne plus suivre cet article" v-on:click="unfollowPost(post._id)">
+                        <i class="far fa-eye-slash"></i>
+                    </button>
+                </div>
+
                 <div class="row">
                     <div class="col-2">
                         <small class="cursor badge rounded-0 badge-success" v-on:click="votePost(post, 'post', true)">+ {{ post.votePros }}</small>
@@ -97,10 +108,46 @@ export default {
     computed: {
         ...mapState([
             'postsFeed',
-            'userLogged'
+            'userLogged',
+            'authUserData'
         ])
     },
     methods: {
+        userIsFollowingPost: function(followers) {
+            return (followers.indexOf(this.authUserData.id) != -1);
+        },
+
+        followPost: function(postId) {
+
+            let payload = {
+                    postId: postId,
+                    fromPostSingle: false,
+                    listType: 'userFeed'
+            };
+
+            this.$store.dispatch('followPostAction', payload)
+                        .then((response)=>{
+                            //
+                        }, (error)=>{
+                            console.error(error);
+                        });
+        },
+
+        unfollowPost: function(postId) {
+
+            let payload = {
+                    postId: postId,
+                    fromPostSingle: false,
+                    listType: 'userFeed'
+            };
+
+            this.$store.dispatch('unfollowPostAction', payload)
+                        .then((response)=>{
+                            //
+                        }, (error)=>{
+                            console.error(error);
+                        });
+        },
         getPostsFeed: function() {
             if(!this.$route.params.words) {
                 if (this.userLogged) this.$store.dispatch('getPostsFeed');

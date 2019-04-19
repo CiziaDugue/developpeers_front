@@ -48,6 +48,17 @@
 
     <div v-for="post in postsList" v-bind:key="post._id" class="card p-2 bg-light rounded-0">
         <div class="card-body">
+            <!-- FOLLOW POST BUTTON : -->
+            <div class="row">
+                <button v-if="!userIsFollowingPost(post.followers)" type="button" title="Suivre cet article" v-on:click="followPost(post._id)">
+                    <i class="fa fa-eye"></i>
+                </button>
+
+                <button v-if="userIsFollowingPost(post.followers)" type="button" title="Ne plus suivre cet article" v-on:click="unfollowPost(post._id)">
+                    <i class="far fa-eye-slash"></i>
+                </button>
+            </div>
+
             <div class="row">
                 <div class="col-1">
                     <small class="cursor badge badge-success rounded-0" v-on:click="votePost(post, 'post', true)">+ {{ post.votePros }}</small>
@@ -99,7 +110,8 @@ export default {
         ...mapState([
             'postsList',
             'groupSingle',
-            'userLogged'
+            'userLogged',
+            'authUserData'
         ]),
 
         title: function() {
@@ -138,6 +150,43 @@ export default {
         }
     },
     methods: {
+
+        userIsFollowingPost: function(followers) {
+            return (followers.indexOf(this.authUserData.id) != -1);
+        },
+
+        followPost: function(postId) {
+            let payload = {
+                    postId: postId,
+                    fromPostSingle: false,
+                    listType: this.$route.params.postsListType,
+                    groupId: this.groupSingle._id
+            };
+            this.$store.dispatch('followPostAction', payload)
+                        .then((response)=>{
+                            //console.log(response.data);
+                            this.init();
+                        }, (error)=>{
+                            console.error(error);
+                        });
+        },
+
+        unfollowPost: function(postId) {
+            let payload = {
+                    postId: postId,
+                    fromPostSingle: false,
+                    listType: this.$route.params.postsListType,
+                    groupId: this.groupSingle._id
+            };
+            this.$store.dispatch('unfollowPostAction', payload)
+                        .then((response)=>{
+                            //console.log(response.data);
+                            this.init();
+                        }, (error)=>{
+                            console.error(error);
+                        });
+        },
+
         votePost: function(target, type, vote) {
 
             let listType = this.$route.params.postsListType ? this.$route.params.postsListType : null;

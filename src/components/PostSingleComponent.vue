@@ -17,6 +17,16 @@
                     </div>
 
                     <div>
+                        <button v-if="!userIsFollowing" type="button" title="Suivre cet article" v-on:click="follow">
+                            <i class="fa fa-eye"></i>
+                        </button>
+
+                        <button v-if="userIsFollowing" type="button" title="Ne plus suivre cet article" v-on:click="unfollow">
+                            <i class="far fa-eye-slash"></i>
+                        </button>
+                    </div>
+
+                    <div>
                         <span>Mot clés :</span>
                         <ul>
                             <li v-for="word in this.postSingle.keywords">{{word}}</li>
@@ -155,7 +165,8 @@ export default {
             postEditedKeywords: "",
             commentEditMode: false,
             commentEditedContent: "",
-            editedCommentId: null
+            editedCommentId: null,
+            userIsFollowing: false
         }
     },
     computed: {
@@ -166,6 +177,56 @@ export default {
         ])
     },
     methods: {
+        isUserFollowing: function() {
+            this.userIsFollowing = (this.postSingle.followers.indexOf(this.authUserData.id) != -1) ? true : false;
+        },
+
+        follow: function() {
+            let payload = {
+                    postId: this.postSingle._id,
+                    fromPostSingle: true
+            };
+
+            this.$store.dispatch('followPostAction', payload)
+                        .then((response)=>{
+                            console.log(response.data);
+                            let postId = this.postSingle._id;
+                            let versionId = this.postSingle.active_version._id;
+
+                            let data = {
+                                versionId: versionId,
+                                postId: postId
+                            }
+                            this.init(data);
+
+                        }, (error)=>{
+                            console.error(error);
+                        });
+        },
+
+        unfollow: function() {
+            let payload = {
+                    postId: this.postSingle._id,
+                    fromPostSingle: true
+            };
+
+            this.$store.dispatch('unfollowPostAction',payload)
+                        .then((response)=>{
+                            console.log(response.data);
+                            let postId = this.postSingle._id;
+                            let versionId = this.postSingle.active_version._id;
+
+                            let data = {
+                                versionId: versionId,
+                                postId: postId
+                            }
+                            this.init(data);
+
+                        }, (error)=>{
+                            console.error(error);
+                        });
+        },
+
         changeVersion: function(versionId) {
 
             let payload = {
@@ -175,6 +236,7 @@ export default {
             this.$store.dispatch('changePostVersionAction', payload)
                 .then((response) => {
                     this.updateUserRights();
+                    this.isUserFollowing();
                 }, (error) => {
                     console.error(error);
                 });
@@ -315,11 +377,13 @@ export default {
         },
 
         init: function(data) {
+
             if (data.versionId != null) {
                 this.$store.dispatch('changePostVersionAction', data)
                 .then((response)=>{
                   this.updateUserRights();
                   this.getNotifications();
+                  this.isUserFollowing();
                 }, (error)=>{
                   console.error(error);
                 });
@@ -335,11 +399,11 @@ export default {
                               this.postEditedKeywords = this.postEditedKeywords.substring(0, this.postEditedKeywords.length - 1);
                               this.updateUserRights();
                               this.getNotifications();
+                              this.isUserFollowing();
                             }, (error) => {
                               console.error(error);
                             });
             }
-
         }
     },
     created: function() {
