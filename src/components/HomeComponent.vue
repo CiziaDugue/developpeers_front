@@ -103,8 +103,7 @@ export default {
 
             this.$store.dispatch('followPostAction', payload)
                         .then((response)=>{
-                            console.log(response.data);
-                            //this.getPostsFeed();
+                            //
                         }, (error)=>{
                             console.error(error);
                         });
@@ -120,8 +119,7 @@ export default {
 
             this.$store.dispatch('unfollowPostAction', payload)
                         .then((response)=>{
-                            console.log(response.data);
-                            //this.getPostsFeed();
+                            //
                         }, (error)=>{
                             console.error(error);
                         });
