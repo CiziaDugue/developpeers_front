@@ -25,7 +25,7 @@
                             <div class="col-12">
                                 <p>{{ post.excerpt }}</p>
                             </div>
-                            <div v-if="!isGroupList" class="col-12">
+                            <div class="col-12">
                                 <div class="row">
                                     <div class="col-6">
                                         <p>Groupe <router-link :to="{ name: 'groupPostsList', params: { groupId: post.group_id } }">{{ post.group_name }}</router-link></p>
@@ -69,7 +69,7 @@
                             <div class="col-12">
                                 <p>{{ post.excerpt }}</p>
                             </div>
-                            <div v-if="!isGroupList" class="col-12">
+                            <div class="col-12">
                                 <div class="row">
                                     <div class="col-6">
                                         <p>Groupe {{ post.group_name }}</p>
@@ -92,28 +92,6 @@
                 </div>
             </div>
         </div>
-        <!-- <div v-for="post in postsFeed" v-bind:key="post._id" class="card p-3">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-8">
-                        <router-link :to="{ name: 'guestPostSingle', params: { postId: post._id }}">
-                            <h3 class="card-title">{{ post.title }}</h3>
-                        </router-link>
-                    </div>
-                    <div class="col-4">
-                        <small class="badge badge-pill badge-success">{{ post.votePros }}</small>
-                        <small class="badge badge-pill badge-danger">{{ post.voteCons }}</small>
-                    </div>
-                </div>
-                <ul class="card-text">
-                    <li v-for="keyword in post.keywords">{{ keyword }}</li>
-                </ul>
-                <p class='card-text'>
-                    <strong>Groupe :</strong>{{post.group_name}}
-                </p>
-                <p class="card-text"><small class="text-muted">{{ post.created_at }}</small></p>
-            </div>
-        </div> -->
     </div>
 
 </main>

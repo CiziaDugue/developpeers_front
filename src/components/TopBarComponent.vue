@@ -10,12 +10,14 @@
 
         <div class="searchBlock">
             <form>
-                <<input type="search" class="searchBar" placeholder="Recherche par mots clés" v-model="searchBarContent" v-on:keyup.enter="getSearchResult">
-                <button type="button" class="btn btn-outline-success my-2 my-sm-0 searchBtn" v-on:click="getSearchResult"><i class="fa fa-search"></i></button>
-                <!-- <input type="search" class="form-control searchBar w-75" placeholder="Recherche par mots clés" v-model="searchBarContent" v-on:keyup.enter="getSearchResult"> -->
-                <!-- <div class="input-group-append"> -->
-                    <!-- <button type="button" class="btn btn-outline-primary my-2 my-sm-0 searchBtn" v-on:click="getSearchResult"><i class="fa fa-search"></i></button> -->
-                <!-- </div> -->
+                <!-- <input type="search" class="searchBar" placeholder="Recherche par mots clés" v-model="searchBarContent" v-on:keyup.enter="getSearchResult">
+                <button type="button" class="btn btn-outline-success my-2 my-sm-0 searchBtn" v-on:click="getSearchResult"><i class="fa fa-search"></i></button> -->
+                <div class="input-group input-group-sm w-75">
+                    <input type="search" class="form-control searchBar" placeholder="Recherche par mots clés" v-model="searchBarContent" v-on:keyup.enter="getSearchResult">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-primary my-2 my-sm-0 searchBtn" v-on:click="getSearchResult"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
             </form>
         </div>
 

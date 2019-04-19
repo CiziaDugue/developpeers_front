@@ -13,7 +13,7 @@
 
     <div v-if="isGroupList == true" class="row align-items-center justify-content-center border-bottom mb-2 pb-2 pt-2">
         <div class="col-1 align-self-stretch">
-            <button class="fas fa-angle-left" v-on:click="goBack()"></button>
+            <small class="cursor badge badge-pill badge-secondary" v-on:click="goBack()"><i class="fas fa-angle-left"></i></small>
         </div>
         <div class="col-5">
             <div class="row align-items-center">
