@@ -864,23 +864,47 @@ export default new Vuex.Store({
             });
         },
 
-        followPostAction({dispatch}) {
+        followPostAction({dispatch}, payload) {
+            let postId = payload.postId;
+            let fromPostSingle = payload.fromPostSingle;
             return new Promise((resolve, reject) => {
-                axios.put('http://localhost/developeers/public/api/follow/'+this.state.postSingle._id, {},
+                axios.put('http://localhost/developeers/public/api/follow/'+ postId, {},
                 { headers: this.state.headerObject })
                     .then((response)=>{
                         //refresh post data :
-                        let payload = {
-                            postId: this.state.postSingle._id,
-                            versionId: this.state.postSingle.active_version._id
-                        };
-                        dispatch('changePostVersionAction', payload)
-                            .then((response2)=>{
-                                resolve(response);
-                            }, (error)=>{
-                                console.error(error);
-                            });
-
+                        if(fromPostSingle) {
+                            let payloadSingle = {
+                                postId: this.state.postSingle._id,
+                                versionId: this.state.postSingle.active_version._id
+                            };
+                            dispatch('changePostVersionAction', payloadSingle)
+                                .then((response2)=>{
+                                    resolve(response);
+                                }, (error)=>{
+                                    console.error(error);
+                                });
+                        } else {
+                            if (payload.listType = 'userFeed') {
+                                dispatch('getPostsFeed')
+                                        .then((responseFeed)=>{
+                                            resolve(responseFeed);
+                                        }, (error)=>{
+                                            reject(error);
+                                        });
+                            } else {
+                                let payloadList = {
+                                    listType : payload.list,
+                                    groupId: payload.groupId
+                                };
+                                dispatch('initPostsListAction', payloadList)
+                                        .then((responseList)=>{
+                                            resolve(responseList);
+                                        }, (error)=>{
+                                            console.error(error);
+                                            reject(error);
+                                        });
+                            }
+                        }
                     })
                     .catch((error)=>{
                         reject(error);
@@ -888,23 +912,47 @@ export default new Vuex.Store({
             });
         },
 
-        unfollowPostAction({dispatch}) {
+        unfollowPostAction({dispatch}, payload) {
+            let postId = payload.postId;
+            let fromPostSingle = payload.fromPostSingle;
             return new Promise((resolve, reject) => {
-                axios.put('http://localhost/developeers/public/api/unfollow/'+this.state.postSingle._id, {},
+                axios.put('http://localhost/developeers/public/api/unfollow/'+ postId, {},
                 { headers: this.state.headerObject })
                     .then((response)=>{
                         //refresh post data :
-                        let payload = {
-                            postId: this.state.postSingle._id,
-                            versionId: this.state.postSingle.active_version._id
-                        };
-                        dispatch('changePostVersionAction', payload)
-                            .then((response)=>{
-                                resolve(response);
-                            }, (error)=>{
-                                console.error(error);
-                            });
-                            resolve(response);
+                        if(fromPostSingle) {
+                            let payloadSingle = {
+                                postId: this.state.postSingle._id,
+                                versionId: this.state.postSingle.active_version._id
+                            };
+                            dispatch('changePostVersionAction', payloadSingle)
+                                .then((response2)=>{
+                                    resolve(response);
+                                }, (error)=>{
+                                    console.error(error);
+                                });
+                        } else {
+                            if (payload.listType = 'userFeed') {
+                                dispatch('getPostsFeed')
+                                        .then((responseFeed)=>{
+                                            resolve(responseFeed);
+                                        }, (error)=>{
+                                            reject(error);
+                                        });
+                            } else {
+                                let payloadList = {
+                                    listType : payload.list,
+                                    groupId: payload.groupId
+                                };
+                                dispatch('initPostsListAction', payloadList)
+                                        .then((responseList)=>{
+                                            resolve(responseList);
+                                        }, (error)=>{
+                                            console.error(error);
+                                            reject(error);
+                                        });
+                            }
+                        }
                     })
                     .catch((error)=>{
                         reject(error);

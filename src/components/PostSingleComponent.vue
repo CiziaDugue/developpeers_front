@@ -182,8 +182,12 @@ export default {
         },
 
         follow: function() {
-            //console.log(this.postSingle.followers);
-            this.$store.dispatch('followPostAction')
+            let payload = {
+                    postId: this.postSingle._id,
+                    fromPostSingle: true
+            };
+
+            this.$store.dispatch('followPostAction', payload)
                         .then((response)=>{
                             console.log(response.data);
                             let postId = this.postSingle._id;
@@ -201,8 +205,12 @@ export default {
         },
 
         unfollow: function() {
-            //console.log(this.postSingle.followers);
-            this.$store.dispatch('unfollowPostAction')
+            let payload = {
+                    postId: this.postSingle._id,
+                    fromPostSingle: true
+            };
+
+            this.$store.dispatch('unfollowPostAction',payload)
                         .then((response)=>{
                             console.log(response.data);
                             let postId = this.postSingle._id;
