@@ -12,14 +12,14 @@
       </div>
       <div class="form-group">
         <label>Email</label>
-        <input type="email" placeholder="Votre email" name="email" class="form-control" v-model="email"/>
+        <input type="email" placeholder="Votre email" name="email" class="form-control rounded-0" v-model="email"/>
       </div>
       <div class="form-group">
         <label>Mot de passe</label>
-        <input type="password" placeholder="Votre mot de passe" name="password" class="form-control" v-model="password" v-on:keyup.enter="logUser"/>
+        <input type="password" placeholder="Votre mot de passe" name="password" class="form-control rounded-0" v-model="password" v-on:keyup.enter="logUser"/>
       </div>
       <div class="form-group">
-        <input type="button" value="Se connecter" class="btn btn-primary" v-on:click="logUser"/>
+        <input type="button" value="Se connecter" class="btn btn-primary rounded-0" v-on:click="logUser"/>
       </div>
     </form>
     <div v-if="this.$store.state.userLogged == true">

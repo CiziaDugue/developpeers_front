@@ -9,28 +9,28 @@
       </div>
       <div class="form-group">
         <label>Nom</label>
-        <input type="text" placeholder="Votre nom" name="name" class="form-control" v-model="userName" v-on:keyup.enter="registerUser"/>
+        <input type="text" placeholder="Votre nom" name="name" class="form-control rounded-0" v-model="userName" v-on:keyup.enter="registerUser"/>
       </div>
       <div class="form-group">
         <label>Email</label>
-        <input type="email" placeholder="Votre email" name="email" class="form-control" v-model="email" v-on:keyup.enter="registerUser"/>
+        <input type="email" placeholder="Votre email" name="email" class="form-control rounded-0" v-model="email" v-on:keyup.enter="registerUser"/>
       </div>
       <div class="alert alert-danger" v-if="invalidEmail">
           Adresse email invalide.
       </div>
       <div class="form-group">
         <label>Mot de passe</label>
-        <input type="password" placeholder="Votre mot de passe" name="password" class="form-control" v-model="password" v-on:keyup.enter="registerUser"/>
+        <input type="password" placeholder="Votre mot de passe" name="password" class="form-control rounded-0" v-model="password" v-on:keyup.enter="registerUser"/>
       </div>
       <div class="form-group">
         <label>Confirmer le mot de passe</label>
-        <input type="password" placeholder="Retapez votre mot de passe" name="password-confirm" class="form-control" v-model="passwordConfirmation" v-on:keyup.enter="registerUser"/>
+        <input type="password" placeholder="Retapez votre mot de passe" name="password-confirm" class="form-control rounded-0" v-model="passwordConfirmation" v-on:keyup.enter="registerUser"/>
       </div>
       <div class="alert alert-danger" v-if="invalidPwdConfirm">
           Erreur de confirmation de mot de passe.
       </div>
       <div class="form-group">
-        <input type="button" value="Valider" class="btn btn-primary" v-on:click="registerUser"/>
+        <input type="button" value="Valider" class="btn btn-primary rounded-0" v-on:click="registerUser"/>
       </div>
     </form>
     <div v-if="this.$store.state.userLogged == true">
