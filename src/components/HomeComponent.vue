@@ -49,10 +49,12 @@
                     </div>
                     <div class="col-sm-1 col-4 d-flex flex-column align-items-end" :class="bg2(key)">
                         <small v-if="!userIsFollowingPost(post.followers)" class="cursor square-btn bg-secondary text-center pt-1" title="Suivre cet article" v-on:click="followPost(post._id)">
-                            <i class="fa fa-eye-slash"></i>
+                            <!-- <i class="fa fa-eye-slash"></i> -->
+                            <i class="far fa-bookmark"></i>
                         </small>
                         <small v-if="userIsFollowingPost(post.followers)" class="cursor square-btn bg-info text-center pt-1" title="Ne plus suivre cet article" v-on:click="unfollowPost(post._id)">
-                            <i class="fa fa-eye"></i>
+                            <!-- <i class="fa fa-eye"></i> -->
+                            <i class="fas fa-bookmark"></i>
                         </small>
                     </div>
                 </div>
@@ -254,11 +256,13 @@ p {
 }
 */
 .card-bg2 {
-    background-color: #8baed3;
+    /* background-color: #8baed3; */
+    background-color: #c3d1dd;
 }
 
 .card-bg1 {
-    background-color: #c3d1dd;
+    /* background-color: #c3d1dd; */
+    background-color: #fff;
 }
 
 .card-text2 {

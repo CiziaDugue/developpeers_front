@@ -2,22 +2,23 @@
 <div class="main-block">
 
 
-    <div v-if="isGroupList == false" class="row align-items-center justify-content-center p-2">
-        <div class="col-12">
+    <div v-if="isGroupList == false" class="row align-items-center justify-content-center">
+        <div class="col-sm-9 col-12 card-bg2 p-5">
             <h2 class="text-center">{{ title }}</h2>
         </div>
-        <div class="col-12">
+        <!-- centrer verticalement!! -->
+        <div class="col-sm-3 col-12 card-bg1 align-self-stretch p-5">
             <p class="text-center">{{ numberOfPosts }} articles</p>
         </div>
     </div>
 
-    <div v-if="isGroupList == true" class="row align-items-center justify-content-center p-2">
-        <div class="col-1 align-self-stretch">
+    <div v-if="isGroupList == true" class="row align-items-center justify-content-center">
+        <!-- <div class="col-1 align-self-stretch">
             <small class="cursor badge badge-secondary rounded-0" v-on:click="goBack()">
                 <i class="fas fa-angle-left"></i>
             </small>
-        </div>
-        <div class="col-8">
+        </div> -->
+        <div class="col-sm-9 col-12 card-bg2 py-5">
             <div class="row align-items-center">
                 <div class="col-12">
                     <h2 class="text-center">{{ title }}</h2>
@@ -27,14 +28,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-2">
+        <div class="col-sm-2 col-12 card-bg1 align-self-stretch">
             <div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item font-weight-light font-italic border-0" v-for="word in groupSingle.keywords">{{word}}</li>
+                    <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" v-for="word in groupSingle.keywords">{{word}}</li>
                 </ul>
             </div>
         </div>
-        <div class="col-1 align-self-start">
+        <div class="col-sm-1 card-bg1 align-self-stretch">
             <button class="btn btn-primary mb-2 rounded-0" v-on:click="createPost" data-toggle="tooltip" data-placement="down" title="Ajouter un article?">
                 <i class="far fa-edit"></i>
             </button>
@@ -153,6 +154,26 @@ export default {
         }
     },
     methods: {
+        bg1: function(key) {
+            if (key % 2 == 0) {
+                return 'card-bg1';
+            } else return 'card-bg2';
+        },
+        bg2: function(key) {
+            if (key % 2 == 0) {
+                return 'card-bg2';
+            } else return 'card-bg1';
+        },
+        textColor1: function(key) {
+            if (key % 2 == 0) {
+                return 'card-text2';
+            } else return 'card-text1';
+        },
+        textColor2: function(key) {
+            if (key % 2 == 0) {
+                return 'card-text1';
+            } else return 'card-text2';
+        },
 
         userIsFollowingPost: function(followers) {
             return (followers.indexOf(this.authUserData.id) != -1);
@@ -284,13 +305,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.main-block {
-    /* position: relative;
-    right: 0;
-    top: 8vh; */
+.card-bg2 {
+    /* background-color: #8baed3; */
+    background-color: #c3d1dd;
 }
-.cursor:hover {
-    cursor: pointer;
-    transform: scale(1.1);
+
+.card-bg1 {
+    background-color: #fff;
+}
+
+.card-text2 {
+    color: #57515b;
+}
+
+.card-text1 {
+    color: #fff;
 }
 </style>
