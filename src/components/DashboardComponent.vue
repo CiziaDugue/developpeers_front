@@ -18,23 +18,10 @@ export default {
             name: 'DashboardComponent',
             // theme: 'white-theme',
             menu: [
-                // {
-                //     header: true,
-                //     title: 'Menu',
-                //     // component: componentName
-                //     visibleOnCollapse: false
-                // },
                 {
                     href: '/',
                     title: 'Dashboard',
                     icon: 'fa fa-chart-area',
-                    /*
-                    disabled: true
-                    badge: {
-                        text: 'new',
-                        // class:''
-                    }
-                    */
                 },
                 {
                     title: 'Groupes',
@@ -46,10 +33,6 @@ export default {
                         {
                             href: '/groupes/mes-groupes',
                             title: 'Mes Groupes',
-                            // badge: {
-                            //     text: '1',
-                            //     class: 'badge badge-light'
-                            // }
                         },
                         {
                             href: '/creer-un-groupe',
@@ -69,18 +52,10 @@ export default {
                         {
                             href: '/articles/mes-articles',
                             title: 'Mes Articles',
-                            // badge: {
-                            //     text: '1',
-                            //     class: 'badge badge-light'
-                            // }
                         },
                         {
                             href: '/articles/articles-suivis',
                             title: 'Articles suivis',
-                            // badge: {
-                            //     text: '1',
-                            //     class: 'badge badge-light'
-                            // }
                         },
                         {
                             href: '/creer-un-article',
@@ -89,14 +64,6 @@ export default {
 
                     ]
                 },
-                // {
-                //     title: 'Notifications',
-                //     icon: 'fas fa-bell',
-                //     badge: {
-                //         text: 1,
-                //         class: 'badge badge-light'
-                //     }
-                // },
                 {
                     href: '/profil',
                     title: 'Mon Profil',
@@ -130,6 +97,7 @@ export default {
         max-width: 15vw;
     }
 }
+
 
 /* vsm-dropdown {
     max-width: 50vw;

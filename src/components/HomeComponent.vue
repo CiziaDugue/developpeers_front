@@ -7,15 +7,18 @@
     </div>
 
     <!-- Authenticated user posts feed : -->
-    <div v-if="userLogged">
-        <div v-for="post in postsFeed" v-bind:key="post._id" class="card p-2 bg-light rounded-0">
-            <div class="card-body">
+    <div v-if="userLogged" class="feedCtnr">
+        <div v-for="post in postsFeed" v-bind:key="post._id" class="card p-0 m-0 rounded-0">
+            <div class="card-body p-0 m-0 border-0">
                 <div class="row">
-                    <div class="col-1">
-                        <small class="cursor badge rounded-0 badge-success" v-on:click="votePost(post, 'post', true)">+ {{ post.votePros }}</small>
-                        <small class="cursor badge rounded-0 badge-warning" v-on:click="votePost(post, 'post', false)">- {{ post.voteCons }}</small>
+
+                    <div class="col-1 card-block d-flex flex-column">
+                        <small class="cursor square-btn bg-info text-center" v-on:click="votePost(post, 'post', true)" title="Voter pour cet article">
+                            + {{ post.votePros }}
+                        </small>
+                        <small class="cursor square-btn bg-light text-center" v-on:click="votePost(post, 'post', false)" title="Voter contre cet article">- {{ post.voteCons }}</small>
                     </div>
-                    <div class="col-8">
+                    <div class="col-8 py-4 card-block-l">
                         <div class="row">
                             <div class="col-12">
                                 <router-link :to="{ name: 'postSingle', params: { postId: post._id }}">
@@ -26,25 +29,22 @@
                                 <p>{{ post.excerpt }}</p>
                             </div>
                             <div class="col-12">
-                                <p>{{ post.number_of_versions }} versions - groupe <router-link :to="{ name: 'groupPostsList', params: { groupId: post.group_id } }">{{ post.group_name }}</router-link></p>
+                                <p>{{ post.number_of_versions }} versions - groupe <router-link :to="{ name: 'groupPostsList', params: { groupId: post.group_id } }">{{ post.group_name }}</router-link>
+                                </p>
                             </div>
                             <div class="col-12">
                                 <p class="card-text"><small class="text-muted">Créé le {{ post.created_at }} par {{ post.author_name }}</small></p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-2">
+
+
+                    <div class="col-2 card-block-r">
                         <ul class="card-text list-group list-group-flush">
-                            <li class="list-group-item font-weight-light font-italic border-0" v-for="keyword in post.keywords">{{ keyword }}</li>
+                            <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" v-for="keyword in post.keywords">{{ keyword }}</li>
                         </ul>
                     </div>
-                    <div class="col-1">
-                        <!-- <button v-if="isUserInGroup == true" class="btn btn-outline-secondary rounded-0" v-on:click="leaveOrJoinGroup('leave')" data-toggle="tooltip" data-placement="left" title="Quitter le groupe?">
-                            <i class="far fa-eye-slash"></i>
-                        </button>
-                        <button v-else-if="isUserInGroup == false" class="btn btn-secondary rounded-0" v-on:click="leaveOrJoinGroup('join')" data-toggle="tooltip" data-placement="right" title="Rejoindre le groupe?">
-                            <i class="far fa-eye"></i>
-                        </button> -->
+                    <div class="col-1 card-block">
                         <button v-if="!userIsFollowingPost(post.followers)" class="btn btn-secondary rounded-0" type="button" title="Suivre cet article" v-on:click="followPost(post._id)">
                             <i class="fa fa-eye"></i>
                         </button>
@@ -123,36 +123,36 @@ export default {
         followPost: function(postId) {
 
             let payload = {
-                    postId: postId,
-                    fromPostSingle: false,
-                    listType: 'userFeed'
+                postId: postId,
+                fromPostSingle: false,
+                listType: 'userFeed'
             };
 
             this.$store.dispatch('followPostAction', payload)
-                        .then((response)=>{
-                            //
-                        }, (error)=>{
-                            console.error(error);
-                        });
+                .then((response) => {
+                    //
+                }, (error) => {
+                    console.error(error);
+                });
         },
 
         unfollowPost: function(postId) {
 
             let payload = {
-                    postId: postId,
-                    fromPostSingle: false,
-                    listType: 'userFeed'
+                postId: postId,
+                fromPostSingle: false,
+                listType: 'userFeed'
             };
 
             this.$store.dispatch('unfollowPostAction', payload)
-                        .then((response)=>{
-                            //
-                        }, (error)=>{
-                            console.error(error);
-                        });
+                .then((response) => {
+                    //
+                }, (error) => {
+                    console.error(error);
+                });
         },
         getPostsFeed: function() {
-            if(!this.$route.params.words) {
+            if (!this.$route.params.words) {
                 if (this.userLogged) this.$store.dispatch('getPostsFeed');
                 else this.$store.dispatch('getGuestFeed');
             }
@@ -179,18 +179,18 @@ export default {
         autoLogin: function() {
 
             this.$store.dispatch('autoLogin')
-            .then((response)=>{
-                console.log(response);
-                this.getPostsFeed();
-                this.getNotifications();
-            }, (error)=>{
-                console.log(error);
-                this.getPostsFeed();
-            })
+                .then((response) => {
+                    console.log(response);
+                    this.getPostsFeed();
+                    this.getNotifications();
+                }, (error) => {
+                    console.log(error);
+                    this.getPostsFeed();
+                })
         }
     },
     created: function() {
-        if(!this.userLogged) {
+        if (!this.userLogged) {
             this.autoLogin();
         } else {
             this.getPostsFeed();
@@ -201,13 +201,46 @@ export default {
 </script>
 
 <style scoped>
-main {
-    /* position: relative;
-    left: 50px;
-    top: 8vh; */
+.main-container {
+    /* background-color: #b2c7e8; */
 }
+
 .cursor:hover {
     cursor: pointer;
     transform: scale(1.1);
 }
+
+.card-block {
+    /* position: relative; */
+    /* padding: 15px; */
+    /* background-color: #4c5768; */
+}
+
+.card:nth-child(odd) {
+    background-color: #4c5768;
+}
+
+.card:nth-child(even) {
+    background-color: #5695f7;
+}
+
+.square-btn {
+    /* display: block; */
+    /* position: absolute; */
+    width: 25px;
+    height: 25px;
+    background-color: #fff;
+}
+
+.btn-l-1 {
+    top: 0;
+    left: 0;
+    /* background-color: #fff; */
+}
+.btn-l-2 {
+    bottom: 0;
+    left: 20px;
+    background-color: #fff;
+}
+
 </style>

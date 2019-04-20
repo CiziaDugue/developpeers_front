@@ -7,7 +7,7 @@
     box-sizing: border-box;
 }
 body {
-    background-color: #eee;
+    /* background-color: #eee; */
 }
 p, li, span, a {
     font-family: helvetica, sans-serif;
@@ -25,6 +25,11 @@ h1, h2, h3 {
 #topBarCtnr {
     width: 100%;
     flex: 1;
+    /* position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10vh; */
 }
 
 #dashboardCptCtnr {
@@ -47,7 +52,7 @@ h1, h2, h3 {
 
 #routerViewCtnr {
     position: relative;
-    background-color: #fff;
+    background-color: #b2c7e8;
     /* top: 10vh; */
     max-width: 1300px;
     /* min-width: 70%; */
@@ -66,4 +71,8 @@ pre {
 
 .commentContent>pre {
     color: #fff;
+}
+
+.card {
+    border: none;
 }
