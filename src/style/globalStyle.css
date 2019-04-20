@@ -52,9 +52,9 @@ h1, h2, h3 {
 
 #routerViewCtnr {
     position: relative;
-    background-color: #b2c7e8;
+    background-color: #8baed3;
     /* top: 10vh; */
-    max-width: 1300px;
+    /* max-width: 1300px; */
     /* min-width: 70%; */
     width: 100%;
     /* margin: 0 auto; */
@@ -73,9 +73,59 @@ pre {
     color: #fff;
 }
 
+/* List views */
+.cursor:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+h2, h3, .square-btn, a, a:hover {
+    color: #193052;
+}
+
+a:hover, h3:hover {
+    font-weight: 600;
+    text-decoration: none;
+}
+
+p {
+    color: #fff;
+}
+
+.footer-text {
+    text-align: center;
+    font-size: 0.8em;
+    font-style: italic;
+}
 .card {
     border: none;
 }
+.card-bg1 {
+    background-color: #8baed3;
+}
+
+.card-bg2 {
+    background-color: #c3d1dd;
+}
+
+.square-btn {
+    width: 30px;
+    height: 30px;
+    /* background-color: #8baed3; */
+}
+
+.btn-l-1 {
+    top: 0;
+    left: 0;
+}
+
+.btn-l-2 {
+    bottom: 0;
+    left: 20px;
+}
+
+/* forms */
+
 textarea {
     height: auto;
 }

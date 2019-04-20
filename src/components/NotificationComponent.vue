@@ -1,14 +1,14 @@
 <template>
     <div>
-        <button v-if="notifCount == 0" class="btn btn-secondary dropdown-toggle rounded-0" type="button" aria-haspopup="true" aria-expanded="false" disabled>
+        <small v-if="notifCount == 0" class="cursor square-btn bg-warning text-center pt-1" aria-haspopup="true" aria-expanded="false" disabled title="Vous n'avez pas de notifications">
             <i class="fas fa-bell"></i>
-        </button>
+        </small>
         <div v-else class="dropdown">
-            <div class="btn-group">
-                <button type="button" class="btn btn-secondary dropdown-toggle rounded-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="btn-group square-btn m-0 p-0">
+                <small class="cursor square-btn bg-warning text-center pt-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-bell"></i>
                     <span class="badge badge-light ml-1" v-if="unreadNotifCount > 0">{{ unreadNotifCount }}</span>
-                </button>
+                </small>
                 <div class="dropdown-menu dropdown-menu-right rounded-0">
                     <div class="clearNotifsLink" v-on:click="clearNotifs">Tout marquer comme lu</div>
                     <div
@@ -146,7 +146,6 @@ export default {
 </script>
 
 <style scoped>
-
 .notif {
     padding: 16px 21px;
 }

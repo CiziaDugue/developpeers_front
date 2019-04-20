@@ -43,7 +43,7 @@
 
             </div>
         </div>
-        <!-- Giest user responsive menu : -->
+        <!-- Guest user responsive menu : -->
         <div class="smallWindowMenu dropdown" v-if="smallWindowMode && !userLogged">
             <button type="button"
                     class="btn btn-secondary dropdown-toggle"
@@ -64,7 +64,7 @@
         <!-- Regular screen topBar -->
         <div class="rootLogoBlock" v-if="!smallWindowMode">
             <router-link :to="{ path: '/' }">
-                <h1 class="title">Developeers</h1>
+                <img class="w-75" src="../assets/logo-title.png">
             </router-link>
         </div>
 
@@ -72,11 +72,11 @@
             <form>
                 <div class="input-group input-group-sm">
                     <input type="search" class="searchBar" placeholder="Recherche par mots clés" v-model="searchBarContent" v-on:keyup.enter="getSearchResult">
-                    <div class="input-group-append">
+                    <!-- <div class="input-group-append">
                         <button type="button" class="btn btn-outline-primary my-2 my-sm-0 searchBtn rounded-0" v-on:click="getSearchResult">
                             <i class="fa fa-search"></i>
                         </button>
-                    </div>
+                    </div> -->
                 </div>
             </form>
         </div>
@@ -90,7 +90,7 @@
             </div>
         </div>
 
-        <div class="userBlock" v-if="userLogged">
+        <!-- <div class="userBlock" v-if="userLogged">
             <div class="userSubBlock" v-if="!smallWindowMode">
                 <div class="profilePicCtnr">
                     <img :src="profilePicUrl">
@@ -101,8 +101,28 @@
                 <notification-component></notification-component>
             </div>
             <div class="userSubBlock">
-                <button v-on:click="disconnectUser" class="btn btn-secondary rounded-0" title="Se déconnecter"> <i class="fas fa-power-off"></i> </button>
+                <small v-on:click="disconnectUser" class="cursor square-btn bg-danger text-center pt-1" title="Se déconnecter"> <i class="fas fa-power-off"></i> </small>
             </div>
+        </div> -->
+        <div class="userBlock d-flex align-items-center justify-content-end" v-if="userLogged">
+
+            <div v-if="!smallWindowMode" class="profilePicCtnr">
+                <img :src="profilePicUrl">
+            </div>
+
+            <router-link v-if="!smallWindowMode" to="/profil"><strong class="text-white ml-4">{{authUserData.name}}</strong></router-link>
+
+            <div class="d-flex flex-column ml-4 justify-content-start align-items-end">
+                <small v-on:click="disconnectUser" class="cursor square-btn bg-danger text-center pt-1" title="Se déconnecter">
+                     <i class="fas fa-power-off"></i>
+                </small>
+                <small class="cursor square-btn bg-warning text-center pt-1">
+                     <notification-component></notification-component>
+                </small>
+
+
+            </div>
+
         </div>
 
     </div>
@@ -188,9 +208,10 @@ export default {
 
 <style scoped>
 .topBarCtnr {
-    height: 5em;
-    padding: 5px 30px;
-    background-color: #2a2a2e;
+    height: 60px;
+    padding: 5px 0px 5px 15px;
+    background-color: #212529;
+    overflow: hidden;
 }
 
 .topBarContentBlock {
@@ -212,13 +233,13 @@ export default {
 }
 
 .searchBlock {
-    flex: 2;
+    flex: 3;
 }
 
 .searchBar {
     width: 70%;
-    padding: 5px;
-    margin: 0 5px;
+    /* padding: 5px; */
+    margin: 0 auto;
 }
 
 .dropdown-menu {
@@ -252,20 +273,20 @@ export default {
 
 .userSubBlock {
     flex: auto;
-    border-left: 1px solid #fff2;
+    /* border-left: 1px solid #fff2; */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .userSubBlock:last-child {
-    border-right: 1px solid #fff2;
+    /* border-right: 1px solid #fff2; */
 }
 
 .profilePicCtnr {
     width: 60px;
     height: 60px;
-    margin: 0 5px;
+    /* margin: 0 5px; */
     overflow: hidden;
     display: flex;
     justify-content: center;
