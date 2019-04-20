@@ -7,7 +7,7 @@
           <div class="card-body">
               <div class="profile_pic">
                 <img :src="profilePicUrl"/>
-                <button type="button" class="btn btn-sm btn-outline-primary" v-on:click="togglePicForm" title="Changer ma photo de profil"> <i class="fas fa-camera"></i> </button>
+                <button type="button" class="btn btn-sm btn-outline-primary changePicBtn" v-on:click="togglePicForm" title="Changer ma photo de profil"> <i class="fas fa-camera"></i> </button>
               </div>
 
               <div class="changePicForm" v-if="changePicForm">
@@ -96,13 +96,9 @@ export default {
 </script>
 
 <style scoped>
-main {
-    /* position: relative;
-    left: 50px;
-    top: 100px;
-    max-width: 1200px;
-    margin: 0 auto; */
-    border: 1px solid #eee;
+.card {
+    padding: 20px;
+    border-radius: 0;
 }
 
 .profile_pic {
@@ -121,8 +117,18 @@ main {
     z-index: 2;
     top: 20%;
     left: 18%;
-    box-shadow: 0 2px 10px #0002;
+    box-shadow: 3px 2px 8px #0002;
     border-radius: 3px;
+}
+
+.changePicBtn {
+    position: relative;
+    top : -30px;
+    visibility: hidden;
+}
+
+.profile_pic:hover .changePicBtn {
+    visibility: visible;
 }
 
 .closePicForm {

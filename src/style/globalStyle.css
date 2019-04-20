@@ -76,3 +76,6 @@ pre {
 .card {
     border: none;
 }
+textarea {
+    height: auto;
+}

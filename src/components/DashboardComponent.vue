@@ -16,6 +16,7 @@ export default {
     data: function() {
         return {
             name: 'DashboardComponent',
+            windowWidth: window.innerWidth,
             // theme: 'white-theme',
             menu: [
                 {
@@ -81,7 +82,17 @@ export default {
     },
     created: function() {
         this.getNotifications();
+    },
+    mounted () {
+        window.addEventListener('resize', () => {
+            this.windowWidth = window.innerWidth;
+        })
+    },
+    computed: {
+        smallWindowMode() {
+            return this.windowWidth <= 1100;
     }
+  }
 }
 </script>
 
@@ -89,7 +100,6 @@ export default {
 .v-sidebar-menu {
     height: calc(100vh - 5em);
     position: relative;
-    /* box-shadow: 0 5px 5px black; */
 }
 
 @media (min-width: 640px) {
@@ -98,6 +108,11 @@ export default {
     }
 }
 
+@media (max-width: 1100px) {
+    .v-sidebar-menu {
+        display: none;
+    }
+}
 
 /* vsm-dropdown {
     max-width: 50vw;

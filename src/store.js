@@ -118,7 +118,7 @@ export default new Vuex.Store({
             if (!path) {
                  state.profilePicUrl = "http://localhost/developeers/public/blank_profile_pic.png";
             } else {
-                state.profilePicUrl = "http://localhost/developeers/storage/app/public/"+path;
+                state.profilePicUrl = path;
             }
 
         }
@@ -404,7 +404,7 @@ export default new Vuex.Store({
                 } else {
                   dispatch('getPostsFeed')
                   .then((response)=>{
-                      resolve(response);
+                      resolve("feed");
                   }, (error)=>{
                       reject(error);
                   });
@@ -864,6 +864,19 @@ export default new Vuex.Store({
             });
         },
 
+        // getAnUserProfilePic({commit}, userId) {
+        //     return new Promise((resolve, reject) => {
+        //         axios.get('http://localhost/developeers/public/api/user/profilepic/'+userId,
+        //         { headers: this.state.headerObject })
+        //             .then((response)=> {
+        //                 resolve(response.data);
+        //             })
+        //             .catch((error)=>{
+        //                 reject("http://localhost/developeers/public/blank_profile_pic.png");
+        //             })
+        //     });
+        // },
+
         followPostAction({dispatch}, payload) {
             let postId = payload.postId;
             let fromPostSingle = payload.fromPostSingle;
@@ -994,7 +1007,7 @@ export default new Vuex.Store({
                 } else {
                   dispatch('getGuestFeed')
                   .then((response)=>{
-                      resolve(response);
+                      resolve("feed");
                   }, (error)=>{
                       console.error(error);
                       reject(error);

@@ -78,6 +78,6 @@ main {
 form {
   border: 1px solid #ccc;
   padding: 30px;
-  box-shadow: 2px 2px 8px #eee;
+  /* box-shadow: 2px 2px 8px #eee; */
 }
 </style>

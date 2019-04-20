@@ -16,6 +16,10 @@
             <div class="row">
                 <div class="col-12">
                     <h2 class="text-center">{{ postSingle.title }}</h2>
+                    <div class="authorProfilePic">
+                        <img :src="postSingle.author_profile_pic_url">
+                    </div>
+
                     <div v-if="postEditMode">
                         <label>Modifier le titre : </label>
                         <input type="text" v-model="postEditedTitle">
@@ -28,136 +32,227 @@
                 <div class="col-12">
                     <p class="text-center">Créé le {{ postSingle.created_at }}</p>
                 </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <ul class="card-text list-group list-group-flush">
-                <li class="list-group-item font-weight-light font-italic border-0" v-for="word in this.postSingle.keywords">{{word}}</li>
-            </ul>
-            <div v-if="postEditMode">
-                <label>Modifier les mots-clés : </label>
-                <input type="text" v-model="postEditedKeywords">
-            </div>
-        </div>
-        <div class="col-1 align-self-start">
-            <button v-if="!userIsFollowing" type="button" title="Suivre cet article" v-on:click="follow" class="btn btn-outline-secondary rounded-0">
-                <i class="fa fa-eye"></i>
-            </button>
 
-            <button v-if="userIsFollowing" type="button" title="Ne plus suivre cet article" v-on:click="unfollow" class="btn btn-outline-secondary rounded-0">
-                <i class="far fa-eye-slash"></i>
-            </button>
-            <template v-if="userIsAuthorOfPost">
-                <button v-if="!postEditMode" class="btn btn-secondary btn-sm rounded-0" title="Éditer cet article" v-on:click="toggleEditMode">
-                    <i class="fas fa-pen"></i>
-                </button>
-                <button v-else-if="postEditMode" class="btn btn-sm btn-success rounded-0" v-on:click="validatePostUpdate" title="Valider les changements">
-                    <i class="fas fa-check"></i>
-                </button>
-                <button class="btn btn-danger btn-sm rounded-0" title="Supprimer cet article" v-on:click="deletePost">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-            </template>
-        </div>
-    </div>
-    <div class="row justify-content-center align-items-center p-2">
-        <div class="col-1 align-self-start">
-            <small class="cursor badge badge-success rounded-0" v-on:click="voteTarget(postSingle.active_version, 'version', true, postSingle.active_version._id)">+ {{ postSingle.active_version.votePros }}</small>
-            <small class="cursor badge badge-warning rounded-0" v-on:click="voteTarget(postSingle.active_version, 'version', false, postSingle.active_version._id)">- {{ postSingle.active_version.voteCons }}</small>
-        </div>
-        <div class="col-8">
-            <div class="row">
-                <div class="col-12">
-                    <p class="text-center">
-                        Version: {{ postSingle.active_version.number }} - Auteur: {{postSingle.active_version.author_name}}
-                    </p>
-                    <template v-if="userIsAuthorOfActiveVersion">
-                        <button class="btn btn-secondary btn-sm rounded-0" title="Éditer cette version" v-on:click="editActiveVersion">
-                            <i class="fas fa-pen"></i>
-                        </button>
-                        <button class="btn btn-danger btn-sm rounded-0" title="supprimer cette version" v-on:click="deleteActiveVersion" v-if="postSingle.active_version.number != '1.0'">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </template>
-                </div>
-                <div class="col-12">
-                    <p class="text-center">Créé le {{ postSingle.created_at }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-3 align-self-start">
-            <div class="row justify-content-end">
-                <template v-for="version in postSingle.versions">
-                    <button v-if="postSingle.active_version._id == version._id" class="btn btn-outline-primary rounded-0" disabled>
-                        {{ version.number }}
+                <div>
+                    <button v-if="!userIsFollowing" type="button" title="Suivre cet article" v-on:click="follow">
+                        <i class="fa fa-eye"></i>
                     </button>
-                    <button v-else v-on:click="changeVersion(version._id)" class="btn btn-outline-secondary rounded-0">
-                        {{ version.number }}
+
+                    <button v-if="userIsFollowing" type="button" title="Ne plus suivre cet article" v-on:click="unfollow">
+                        <i class="far fa-eye-slash"></i>
                     </button>
-                </template>
-                <button class="btn btn-outline-secondary rounded-0" v-on:click="createVersion">
-                    <i class="fas fa-plus"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-center align-items-center p-2">
-        <div class="col-12">
-            <p class="text-center">{{ postSingle.active_version.text_content }}</p>
-            <!-- <p v-html="'<pre>'+postSingle.active_version.text_content +'</pre>'"></p> -->
-        </div>
-        <div v-for="snippet in postSingle.active_version.code_snippets" class="col-12">
-            <pre v-highlightjs="snippet.content"><code></code></pre>
-        </div>
-    </div>
-    <div class="row justify-content-center align-items-center p-2">
-        <div class="col-12" v-for="comment in postSingle.active_version.comments">
-            <div class="row">
-                <div class="col-1">
-                    <div class="row">
-                        <div class="col-12">
-                            <p>{{ comment.author_name }}</p>
-                        </div>
-                        <div class="col-12">
-                            <small>{{ comment.created_at }}</small>
-                        </div>
+                </div>
+
+                <div>
+                    <span>Mot clés :</span>
+                    <ul>
+                        <li v-for="word in this.postSingle.keywords">{{word}}</li>
+                    </ul>
+
+                    <div v-if="postEditMode">
+                        <label>Modifier les mots-clés : </label>
+                        <input type="text" v-model="postEditedKeywords">
                     </div>
                 </div>
-                <div class="col-8">
-                    <p v-if="comment._id != editedCommentId || !commentEditMode" class="" v-html="'<pre>'+comment.content+'</pre>'"></p>
-                    <!-- <template v-if="commentEditMode && comment._id==editedCommentId"> -->
+
+                <div v-if="postEditMode">
+                </div>
+            </div>
+            <div class="col-2">
+                <ul class="card-text list-group list-group-flush">
+                    <li class="list-group-item font-weight-light font-italic border-0" v-for="word in this.postSingle.keywords">{{word}}</li>
+                </ul>
+                <div v-if="postEditMode">
+                    <label>Modifier les mots-clés : </label>
+                    <input type="text" v-model="postEditedKeywords">
+                </div>
+            </div>
+            <div class="col-1 align-self-start">
+                <button v-if="!userIsFollowing" type="button" title="Suivre cet article" v-on:click="follow" class="btn btn-outline-secondary rounded-0">
+                    <i class="fa fa-eye"></i>
+                </button>
+
+                <button v-if="userIsFollowing" type="button" title="Ne plus suivre cet article" v-on:click="unfollow" class="btn btn-outline-secondary rounded-0">
+                    <i class="far fa-eye-slash"></i>
+                </button>
+                <template v-if="userIsAuthorOfPost">
+                    <button v-if="!postEditMode" class="btn btn-secondary btn-sm rounded-0" title="Éditer cet article" v-on:click="toggleEditMode">
+                        <i class="fas fa-pen"></i>
+                    </button>
+                    <button v-else-if="postEditMode" class="btn btn-sm btn-success rounded-0" v-on:click="validatePostUpdate" title="Valider les changements">
+                        <i class="fas fa-check"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm rounded-0" title="Supprimer cet article" v-on:click="deletePost">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </template>
+            </div>
+        </div>
+        <div class="row justify-content-center align-items-center p-2">
+            <div class="col-1 align-self-start">
+                <small class="cursor badge badge-success rounded-0" v-on:click="voteTarget(postSingle.active_version, 'version', true, postSingle.active_version._id)">+ {{ postSingle.active_version.votePros }}</small>
+                <small class="cursor badge badge-warning rounded-0" v-on:click="voteTarget(postSingle.active_version, 'version', false, postSingle.active_version._id)">- {{ postSingle.active_version.voteCons }}</small>
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="text-center">
+                            Version: {{ postSingle.active_version.number }} - Auteur: {{postSingle.active_version.author_name}}
+                        </p>
+                        <template v-if="userIsAuthorOfActiveVersion">
+                            <button class="btn btn-secondary btn-sm rounded-0" title="Éditer cette version" v-on:click="editActiveVersion">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm rounded-0" title="supprimer cette version" v-on:click="deleteActiveVersion" v-if="postSingle.active_version.number != '1.0'">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </template>
+                    </div>
+                    <div class="col-12">
+                        <p class="text-center">Créé le {{ postSingle.created_at }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 align-self-start">
+                <div class="row justify-content-end">
+                    <template v-for="version in postSingle.versions">
+                        <button v-if="postSingle.active_version._id == version._id" class="btn btn-outline-primary rounded-0" disabled>
+                            {{ version.number }}
+                        </button>
+                        <button v-else v-on:click="changeVersion(version._id)" class="btn btn-outline-secondary rounded-0">
+                            {{ version.number }}
+                        </button>
+                    </template>
+                    <button class="btn btn-outline-secondary rounded-0" v-on:click="createVersion">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center align-items-center p-2">
+            <div class="col-12">
+                <p class="text-center">{{ postSingle.active_version.text_content }}</p>
+                <!-- <p v-html="'<pre>'+postSingle.active_version.text_content +'</pre>'"></p> -->
+            </div>
+            <div v-for="snippet in postSingle.active_version.code_snippets" class="col-12">
+                <pre v-highlightjs="snippet.content"><code></code></pre>
+            </div>
+        </div>
+        <div class="row justify-content-center align-items-center p-2">
+            <div class="col-12" v-for="comment in postSingle.active_version.comments">
+                <div class="row">
+                    <div class="col-1">
+                        <div class="row">
+                            <div class="col-12">
+                                <p>{{ comment.author_name }}</p>
+                            </div>
+                            <div class="col-12">
+                                <small>{{ comment.created_at }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <p v-if="comment._id != editedCommentId || !commentEditMode" class="" v-html="'<pre>'+comment.content+'</pre>'"></p>
+                        <!-- <template v-if="commentEditMode && comment._id==editedCommentId"> -->
                         <textarea-autosize v-if="commentEditMode && comment._id==editedCommentId" v-model="commentEditedContent"></textarea-autosize>
                         <!-- <button type="button" class="btn btn-sm btn-success rounded-0" v-on:click="validateCommentUpdate(comment._id)">
                             <i class="fas fa-check"></i>
                         </button> -->
-                    <!-- </template> -->
+                        <!-- </template> -->
+                    </div>
+                    <div class="col-2">
+                        <small class="cursor badge badge-success rounded-0" v-on:click="voteTarget(comment, 'comment', true, postSingle.active_version._id)">+ {{ comment.votePros }}</small>
+                        <small class="cursor badge badge-warning rounded-0" v-on:click="voteTarget(comment, 'comment', false, postSingle.active_version._id)">- {{ comment.voteCons }}</small>
+                    </div>
+                    <div class="col-1">
+                        <template v-if="authUserData.id === comment.author_id">
+                            <button v-if="!commentEditMode" class="btn btn-secondary btn-sm rounded-0" title="Éditer mon commentaire" v-on:click="toggleCommentEditMode(comment._id, comment.content)">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button v-else-if="commentEditMode && comment._id==editedCommentId" type="button" class="btn btn-sm btn-success rounded-0" v-on:click="validateCommentUpdate(comment._id)">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class='btn btn-danger btn-sm rounded-0' title="Supprimer mon commentaire" v-on:click="deleteComment(comment._id)">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </template>
+                    </div>
                 </div>
-                <div class="col-2">
-                    <small class="cursor badge badge-success rounded-0" v-on:click="voteTarget(comment, 'comment', true, postSingle.active_version._id)">+ {{ comment.votePros }}</small>
-                    <small class="cursor badge badge-warning rounded-0" v-on:click="voteTarget(comment, 'comment', false, postSingle.active_version._id)">- {{ comment.voteCons }}</small>
+            </div>
+            <div class="col-12">
+                <div class="input-group input-group-sm">
+                    <textarea-autosize class="form-control rounded-0" aria-label="With textarea" placeholder="Taper votre commentaire" v-model="commentToAdd"></textarea-autosize>
+                    <div class="col-md-6 col-12">
+                        <button class="fas fa-angle-up" v-on:click="voteTarget(postSingle.active_version, 'version', true, postSingle.active_version._id)"></button>
+                        <small class="badge badge-pill badge-success">{{ postSingle.active_version.votePros }}</small>
+                        <small class="badge badge-pill badge-danger">{{ postSingle.active_version.voteCons }}</small>
+                        <button class="fas fa-angle-down" v-on:click="voteTarget(postSingle.active_version, 'version', false, postSingle.active_version._id)"></button>
+                    </div>
                 </div>
-                <div class="col-1">
-                    <template v-if="authUserData.id === comment.author_id">
-                        <button v-if="!commentEditMode" class="btn btn-secondary btn-sm rounded-0" title="Éditer mon commentaire" v-on:click="toggleCommentEditMode(comment._id, comment.content)">
-                            <i class="fas fa-pen"></i>
+                <div class="row border">
+                    <div class="col-12">
+                        <!-- <p class="text-center">{{ postSingle.active_version.text_content }}</p> -->
+                        <p v-html="'<pre>'+postSingle.active_version.text_content +'</pre>'"></p>
+                        <div v-for="snippet in postSingle.active_version.code_snippets" class="border">
+                            <pre v-highlightjs="snippet.content"><code></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2 border">
+
+                <div class="row">
+                    <div v-for="version in postSingle.versions" class="col-12">
+                        <button v-if="postSingle.active_version._id == version._id" class="btn btn-outline-primary" disabled>
+                            {{ version.number }}
                         </button>
-                        <button v-else-if="commentEditMode && comment._id==editedCommentId" type="button" class="btn btn-sm btn-success rounded-0" v-on:click="validateCommentUpdate(comment._id)">
-                            <i class="fas fa-check"></i>
+                        <button v-else v-on:click="changeVersion(version._id)" class="btn btn-outline-secondary">
+                            {{ version.number }}
                         </button>
-                        <button class='btn btn-danger btn-sm rounded-0' title="Supprimer mon commentaire" v-on:click="deleteComment(comment._id)">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </template>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-outline-secondary" v-on:click="createVersion">+</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-12">
-            <div class="input-group input-group-sm">
-                <textarea-autosize class="form-control rounded-0" aria-label="With textarea" placeholder="Taper votre commentaire" v-model="commentToAdd"></textarea-autosize>
-                <div class="input-group-append">
-                    <button type="button" class=" btn-outline-primary my-2 my-sm-0 rounded-0" v-on:click="addComment">
-                        <i class="fas fa-plus"></i>
-                    </button>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-hover table-dark">
+                    <tbody>
+                        <tr v-for="comment in postSingle.active_version.comments">
+                            <th scope="row">{{ comment.created_at }}</th>
+                            <td class="authorProfilePic">
+                                <img :src="comment.author_profile_pic_url">
+                            </td>
+                            <td>{{ comment.author_name }}</td>
+                            <td v-if="comment._id != editedCommentId || !commentEditMode" class="commentContent" v-html="'<pre>'+comment.content+'</pre>'"></td>
+                            <td v-if="commentEditMode && comment._id==editedCommentId">
+                                <textarea-autosize v-model="commentEditedContent" @keydown.enter.exact.prevent @keyup.enter.exact.native="validateCommentUpdate(comment._id)" @keydown.enter.shift.exact="newline(commentEditedContent)"></textarea-autosize>
+                                <button type="button" class="btn btn-sm btn-success" v-on:click="validateCommentUpdate(comment._id)">Ok</button>
+                            </td>
+                            <td>
+                                <button class="fas fa-angle-up" v-on:click="voteTarget(comment, 'comment', true, postSingle.active_version._id)"></button>
+                                <small class="badge badge-pill badge-success">{{ comment.votePros }}</small>
+                                <small class="badge badge-pill badge-danger">{{ comment.voteCons }}</small>
+                                <button class="fas fa-angle-down" v-on:click="voteTarget(comment, 'comment', false, postSingle.active_version._id)"></button>
+                            </td>
+                            <td v-if="authUserData.id === comment.author_id">
+                                <button class="btn btn-secondary btn-sm" title="Éditer mon commentaire" v-on:click="toggleCommentEditMode(comment._id, comment.content)">Edit</button>
+                                <button class='btn btn-danger btn-sm' title="supprimer le commentaire" v-on:click="deleteComment(comment._id)">Suppr</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12">
+                <div class="input-group">
+                    <textarea-autosize class="form-control" aria-label="With textarea" v-model="commentToAdd" @keydown.enter.exact.prevent @keyup.enter.exact.native="addComment" @keydown.enter.shift.exact="newline(commentToAdd)"></textarea-autosize>
+                    <div class="input-group-append">
+                        <button type="button" class=" btn-outline-primary my-2 my-sm-0 rounded-0" v-on:click="addComment">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -170,7 +265,7 @@ import {
     mapState
 } from 'vuex'
 import VueHighlightJS from 'vue-highlightjs'
-
+const axios = require('axios');
 export default {
     data: function() {
         return {
@@ -195,6 +290,10 @@ export default {
         ])
     },
     methods: {
+
+        newline: function(object) {
+            object = `${this.commentToAdd}\n`;
+        },
         isUserFollowing: function() {
             this.userIsFollowing = (this.postSingle.followers.indexOf(this.authUserData.id) != -1) ? true : false;
         },
@@ -251,6 +350,7 @@ export default {
                 postId: this.postSingle._id,
                 versionId: versionId
             };
+
             this.$store.dispatch('changePostVersionAction', payload)
                 .then((response) => {
                     this.updateUserRights();
@@ -469,6 +569,20 @@ export default {
     /* position: relative;
     right: 0;
     top: 8vh; */
+}
+
+.authorProfilePic {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 0;
+}
+
+.authorProfilePic img {
+    height: 100%;
 }
 
 .cursor:hover {

@@ -169,7 +169,13 @@ export default {
     max-height: 500px;
     overflow: auto;
     scrollbar-width: thin;
-    box-shadow: 2px 2px 5px #0003;
+    /* box-shadow: 2px 2px 5px #0003; */
+}
+
+@media (max-width: 800px) {
+    .dropdown-menu {
+        max-width: 96vw;
+    }
 }
 
 .clearNotifsLink {
