@@ -68,6 +68,59 @@ h1, h2, h3 {
 
 }
 
+/* sidebar menu */
+.v-sidebar-menu {
+    /* background-color: #8baed3; */
+}
+
+/* main block */
+.v-sidebar-menu.vsm-default {
+    /* background-color: #8baed3; */
+}
+
+.v-sidebar-menu.vsm-collapsed {
+    /* background-color: #8baed3; */
+}
+.v-sidebar-menu .vsm-header {
+    /* background-color: #8baed3; */
+}
+.v-sidebar-menu .vsm-list {
+    /* background-color: #8baed3; */
+}
+
+/* small list */
+.v-sidebar-menu .vsm-dropdown > .vsm-list {
+    /* background-color: #8baed3; */
+}
+.v-sidebar-menu .vsm-item {
+    /* background-color: #8baed3; */
+}
+
+/* main list */
+.v-sidebar-menu .vsm-item.first-item {
+    /* background-color: #8baed3; */
+}
+
+.v-sidebar-menu .vsm-item.mobile-item {
+    /* background-color: #8baed3; */
+}
+
+.v-sidebar-menu .vsm-item.open-item {
+    /* background-color: #8baed3; */
+}
+
+/* selected item (no children) */
+.v-sidebar-menu .vsm-item.active-item {
+    /* background-color: #8baed3; */
+}
+/* selected item (children and closed parent) */
+.v-sidebar-menu .vsm-item.parent-active-item {
+    /* background-color: #8baed3; */
+}
+.vsm-item .first-item .open-item{
+    background-color: #8baed3;
+}
+
 /* dropdowns */
 .dropdown-menu {
     /* position: relative;

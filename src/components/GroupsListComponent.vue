@@ -1,10 +1,10 @@
 <template>
 <div class="main-block">
     <div class="row justify-content-center align-items-center">
-        <div class="col-8 card-bg2 p-4">
+        <div class="col-sm-8 col-12 card-bg2 p-5">
             <h2 class="text-center">{{ title }}</h2>
         </div>
-        <div class="col-4">
+        <div class="col-sm-4 col-12 p-5">
             <div class="input-group input-group-sm">
                 <input type="search" class="form-control searchBar w-50 rounded-0" placeholder="Rechercher un groupe" v-model="searchGroupBarContent" v-on:keyup.enter="searchGroup">
                 <!-- <div class="input-group-append">
@@ -20,7 +20,7 @@
                 <div class="row">
                     <!-- <div class="col-sm-1 col-2">
                     </div> -->
-                    <div class="col-sm-8 col-10 p-4" v-bind:class="bg1(key)">
+                    <div class="col-sm-8 col-12 p-4" :class="bg1(key)">
                         <div class="row">
                             <div class="col-12">
                                 <router-link :to="{ name: 'groupPostsList', params: {groupId: group._id } }">
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="col-sm-3 col-8 align-self-stretch" v-bind:class="bg2(key)">
-                        <ul class="card-text list-group list-group-flush">
+                        <ul class="card-text list-group list-group-flush py-4">
                             <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" :class="textColor2(key)" v-for="keyword in group.keywords">{{ keyword }}</li>
                         </ul>
                     </div>
