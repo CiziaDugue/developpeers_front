@@ -18,13 +18,16 @@ h1, h2, h3 {
 
 
 #app {
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
+    position: relative;
 }
 
 #topBarCtnr {
     width: 100%;
-    flex: 1;
+    position: relative;
+    z-index: 100;
+    /* flex: 1; */
     /* position: fixed;
     top: 0;
     left: 0;
@@ -35,6 +38,7 @@ h1, h2, h3 {
 #dashboardCptCtnr {
     width: 100%;
     position: relative;
+    z-index: -100;
 }
 
 #dashboard-container {
@@ -64,6 +68,13 @@ h1, h2, h3 {
 
 }
 
+/* dropdowns */
+.dropdown-menu {
+    position: relative;
+    z-index: 1000;
+}
+
+/* text-blocks in posts */
 pre {
     font-family: arial, sans-serif;
     font-size: 1em;
@@ -79,11 +90,11 @@ pre {
     transform: scale(1.1);
 }
 
-h2, h3, .square-btn, a, a:hover {
+h2, h3, .square-btn, a, a:hover, div.clearNotifsLink {
     color: #193052;
 }
 
-a:hover, h3:hover {
+a:hover, h3:hover, div.clearNotifsLink:hover {
     font-weight: 600;
     text-decoration: none;
 }

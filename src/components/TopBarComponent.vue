@@ -11,7 +11,9 @@
                     aria-expanded="false">
                 <i class="fas fa-bars"></i>
             </button>
-            <img class="logo-small" src="../assets/logo.png">
+            <router-link :to="{ path: '/' }">
+                <img class="logo-small" src="../assets/logo.png">
+            </router-link>
             <div class="dropdown-menu" aria-labelledby="smallWindowMenuButton">
                 <router-link class="dropdown-item" to="/">Dashboard</router-link>
                 <div class="dropdown-divider"></div>
@@ -117,10 +119,10 @@
                 <small v-on:click="disconnectUser" class="cursor square-btn bg-danger text-center pt-1" title="Se déconnecter">
                      <i class="fas fa-power-off"></i>
                 </small>
-                <small class="cursor square-btn bg-warning text-center pt-1">
+                <!-- <small class="cursor square-btn bg-warning text-center pt-1">
                      <notification-component></notification-component>
-                </small>
-
+                </small> -->
+                <notification-component></notification-component>
 
             </div>
 
@@ -212,7 +214,7 @@ export default {
     height: 60px;
     padding: 5px 0px 5px 15px;
     background-color: #212529;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .topBarContentBlock {
