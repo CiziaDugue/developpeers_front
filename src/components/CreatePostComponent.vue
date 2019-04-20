@@ -7,29 +7,29 @@
         </div>
         <div class="form-group">
             <label>Titre :</label>
-            <input type="text" name="name" placeholder="Titre de l'article" class="form-control" v-model="title">
+            <input type="text" name="name" placeholder="Titre de l'article" class="form-control rounded-0" v-model="title">
         </div>
 
         <div class="form-group">
             <label>Mots-clés :</label>
-            <input type="text" name="keywords" placeholder="Tapez des mots clés séparés par des espaces" class="form-control" v-model="keywords">
+            <input type="text" name="keywords" placeholder="Tapez des mots clés séparés par des espaces" class="form-control rounded-0" v-model="keywords">
         </div>
 
         <div class="form-group">
             <label>Contenu texte :</label>
-            <textarea-autosize placeholder="Tapez votre message d'intro ici" class="form-control" v-model="textContent"></textarea-autosize>
+            <textarea-autosize placeholder="Tapez votre message d'intro ici" class="form-control rounded-0" v-model="textContent"></textarea-autosize>
         </div>
 
         <div class="form-group">
             <label>Contenu code :</label>
             <div v-for="snippet in codeSnippets">
                 <div class="form-group">
-                    <textarea-autosize placeholder="Tapez du code ici" class="form-control" v-model="codeSnippets[snippet.index].content"></textarea-autosize>
+                    <textarea-autosize placeholder="Tapez du code ici" class="form-control rounded-0" v-model="codeSnippets[snippet.index].content"></textarea-autosize>
                 </div>
             </div>
 
             <div class="form-group">
-                <button type="button" name="button" v-on:click="addCodeSnippet">Ajouter un bloc de code</button>
+                <button type="button" class="rounded-0" name="button" v-on:click="addCodeSnippet">Ajouter un bloc de code</button>
             </div>
         </div>
 
@@ -49,7 +49,7 @@
         </div>
 
         <div class="form-group">
-            <input type="button" value="Poster" class="btn btn-success" v-on:click="createPost">
+            <input type="button" value="Poster" class="btn btn-success rounded-0" v-on:click="createPost">
         </div>
 
     </form>

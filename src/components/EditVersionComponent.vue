@@ -13,17 +13,17 @@
         </div>
 
         <div class="form-group">
-            <textarea-autosize class="form-control" v-model="textContent"></textarea-autosize>
+            <textarea-autosize class="form-control rounded-0" v-model="textContent"></textarea-autosize>
         </div>
 
         <div v-for="snippet in codeSnippets">
             <div class="form-group">
-                <textarea-autosize class="form-control" v-model="codeSnippets[snippet.index].content"></textarea-autosize>
+                <textarea-autosize class="form-control rounded-0" v-model="codeSnippets[snippet.index].content"></textarea-autosize>
             </div>
         </div>
 
       <div class="form-group">
-        <input type="button" value="Valider les changements" class="btn btn-success" v-on:click="validateVersionUpdate">
+        <input type="button" value="Valider les changements" class="btn btn-success rounded-0" v-on:click="validateVersionUpdate">
       </div>
 
     </form>

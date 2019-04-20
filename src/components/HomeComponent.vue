@@ -9,16 +9,15 @@
     <!-- Authenticated user posts feed : -->
     <div v-if="userLogged" class="feedCtnr">
         <div v-for="post in postsFeed" v-bind:key="post._id" class="card p-0 m-0 rounded-0">
-            <div class="card-body p-0 m-0 border-0">
+            <div class="card-body p-0 m-0">
                 <div class="row">
-
-                    <div class="col-1 card-block d-flex flex-column">
-                        <small class="cursor square-btn bg-info text-center" v-on:click="votePost(post, 'post', true)" title="Voter pour cet article">
+                    <div class="col-1 d-flex flex-column">
+                        <small class="cursor square-btn bg-info text-center pt-1" v-on:click="votePost(post, 'post', true)" title="Voter pour cet article">
                             + {{ post.votePros }}
                         </small>
-                        <small class="cursor square-btn bg-light text-center" v-on:click="votePost(post, 'post', false)" title="Voter contre cet article">- {{ post.voteCons }}</small>
+                        <small class="cursor square-btn bg-light text-center pt-1" v-on:click="votePost(post, 'post', false)" title="Voter contre cet article">- {{ post.voteCons }}</small>
                     </div>
-                    <div class="col-8 py-4 card-block-l">
+                    <div class="col-8 py-4">
                         <div class="row">
                             <div class="col-12">
                                 <router-link :to="{ name: 'postSingle', params: { postId: post._id }}">
@@ -39,18 +38,24 @@
                     </div>
 
 
-                    <div class="col-2 card-block-r">
+                    <div class="col-2">
                         <ul class="card-text list-group list-group-flush">
                             <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" v-for="keyword in post.keywords">{{ keyword }}</li>
                         </ul>
                     </div>
-                    <div class="col-1 card-block">
-                        <button v-if="!userIsFollowingPost(post.followers)" class="btn btn-secondary rounded-0" type="button" title="Suivre cet article" v-on:click="followPost(post._id)">
+                    <div class="col-1 d-flex flex-column align-items-end">
+                        <small v-if="!userIsFollowingPost(post.followers)" class="cursor square-btn bg-info text-center pt-1" title="Suivre cet article" v-on:click="followPost(post._id)">
+                            <i class="fa fa-eye"></i>
+                        </small>
+                        <small v-if="userIsFollowingPost(post.followers)" class="cursor square-btn bg-info text-center pt-1" title="Ne plus suivre cet article" v-on:click="unfollowPost(post._id)">
+                            <i class="fa fa-eye-slash"></i>
+                        </small>
+                        <!-- <button v-if="!userIsFollowingPost(post.followers)" class="btn btn-secondary rounded-0" type="button" title="Suivre cet article" v-on:click="followPost(post._id)">
                             <i class="fa fa-eye"></i>
                         </button>
                         <button v-if="userIsFollowingPost(post.followers)" class="btn btn-outline-secondary rounded-0" type="button" title="Ne plus suivre cet article" v-on:click="unfollowPost(post._id)">
                             <i class="far fa-eye-slash"></i>
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </div>
@@ -58,15 +63,15 @@
     </div>
 
     <!-- Guest user posts feed : -->
-    <div v-if="!userLogged">
-        <div v-for="post in postsFeed" v-bind:key="post._id" class="card p-2 bg-light rounded-0">
-            <div class="card-body">
+    <div v-if="!userLogged" class="feedCtnr">
+        <div v-for="post in postsFeed" v-bind:key="post._id" class="card p-0 m-0 rounded-0">
+            <div class="card-body p-0 m-0">
                 <div class="row">
-                    <div class="col-2">
-                        <small class="badge rounded-0 badge-success">+ {{ post.votePros }}</small>
-                        <small class="badge rounded-0 badge-warning">- {{ post.voteCons }}</small>
+                    <div class="col-2 d-flex flex-column">
+                        <small class="square-btn bg-info text-center pt-1">+ {{ post.votePros }}</small>
+                        <small class="square-btn bg-light text-center pt-1">- {{ post.voteCons }}</small>
                     </div>
-                    <div class="col-6">
+                    <div class="col-7 py-4">
                         <div class="row">
                             <div class="col-12">
                                 <router-link :to="{ name: 'guestPostSingle', params: { postId: post._id }}">
@@ -81,9 +86,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-sm-3 col-12">
                         <ul class="card-text list-group list-group-flush">
-                            <li class="list-group-item font-weight-light font-italic border-0" v-for="keyword in post.keywords">{{ keyword }}</li>
+                            <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" v-for="keyword in post.keywords">{{ keyword }}</li>
                         </ul>
                     </div>
                     <div class="col-12">
@@ -201,10 +206,6 @@ export default {
 </script>
 
 <style scoped>
-.main-container {
-    /* background-color: #b2c7e8; */
-}
-
 .cursor:hover {
     cursor: pointer;
     transform: scale(1.1);
@@ -227,9 +228,9 @@ export default {
 .square-btn {
     /* display: block; */
     /* position: absolute; */
-    width: 25px;
-    height: 25px;
-    background-color: #fff;
+    width: 30px;
+    height: 30px;
+    /* background-color: #fff; */
 }
 
 .btn-l-1 {

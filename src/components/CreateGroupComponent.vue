@@ -7,19 +7,19 @@
       </div>
       <div class="form-group">
         <label>Nom</label>
-        <input type="text" name="name" placeholder="Nom du groupe" class="form-control" v-model="name">
+        <input type="text" name="name" placeholder="Nom du groupe" class="form-control rounded-0" v-model="name">
       </div>
       <div class="form-group">
         <label>Description</label>
         <!-- <input name="description" placeholder="Description du groupe" class="form-control" v-model="description"> -->
-        <textarea-autosize name="description" placeholder="Description du groupe" class="form-control" v-model="description"></textarea-autosize>
+        <textarea-autosize name="description" placeholder="Description du groupe" class="form-control rounded-0" v-model="description"></textarea-autosize>
       </div>
       <div class="form-group">
         <label>Mots-clés</label>
-        <input type="text" name="keywords" placeholder="Tapez des mots clés séparés par des espaces" class="form-control" v-model="keywords">
+        <input type="text" name="keywords" placeholder="Tapez des mots clés séparés par des espaces" class="form-control rounded-0" v-model="keywords">
       </div>
       <div class="form-group">
-        <input type="button" value="Valider" class="btn btn-success" v-on:click="createGroup">
+        <input type="button" value="Valider" class="btn btn-success rounded-0" v-on:click="createGroup">
       </div>
     </form>
 </main>
