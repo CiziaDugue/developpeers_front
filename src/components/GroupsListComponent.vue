@@ -1,24 +1,26 @@
 <template>
 <div class="main-block">
-    <div class="row align-items-center justify-content-center p-2">
-        <div class="col-8">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-8 card-bg2 p-4">
             <h2 class="text-center">{{ title }}</h2>
         </div>
-        <div class="col-4 p-2">
+        <div class="col-4">
             <div class="input-group input-group-sm">
                 <input type="search" class="form-control searchBar w-50 rounded-0" placeholder="Rechercher un groupe" v-model="searchGroupBarContent" v-on:keyup.enter="searchGroup">
-                <div class="input-group-append">
+                <!-- <div class="input-group-append">
                     <button type="button" class="btn btn-outline-primary my-2 my-sm-0 rounded-0" v-on:click="searchGroup"><i class="fa fa-search"></i></button>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
 
     <div>
-        <div v-for="group in groupsList" v-bind:key="group._id" class="card p-2 bg-light rounded-0">
-            <div class="card-body">
+        <div v-for="(group, key, index) in groupsList" v-bind:key="group._id" class="card p-0 m-0 bg-light rounded-0">
+            <div class="card-body p-0 m-0">
                 <div class="row">
-                    <div class="col-8">
+                    <!-- <div class="col-sm-1 col-2">
+                    </div> -->
+                    <div class="col-sm-8 col-10 p-4" v-bind:class="bg1(key)">
                         <div class="row">
                             <div class="col-12">
                                 <router-link :to="{ name: 'groupPostsList', params: {groupId: group._id } }">
@@ -26,30 +28,30 @@
                                 </router-link>
                             </div>
                             <div class="col-12">
-                                <p>{{ group.description }}</p>
+                                <p :class="textColor1(key)">{{ group.description }}</p>
                             </div>
                             <div class="col-12">
-                                <p>{{ group.users.length }} membres - {{ group.number_of_posts }} articles</p>
+                                <p :class="textColor1(key)">{{ group.users.length }} membres - {{ group.number_of_posts }} articles</p>
                             </div>
                             <div class="col-12">
-                                <p class="card-text text-center"><small class="text-muted">Créé le {{ group.created_at }}</small></p>
+                                <p class="footer-text"  :class="textColor1(key)">Créé le {{ group.created_at }}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-3 align-self-center">
+                    <div class="col-sm-3 col-8 align-self-stretch" v-bind:class="bg2(key)">
                         <ul class="card-text list-group list-group-flush">
-                            <li class="list-group-item font-weight-light font-italic border-0" v-for="keyword in group.keywords">{{ keyword }}</li>
+                            <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" :class="textColor2(key)" v-for="keyword in group.keywords">{{ keyword }}</li>
                         </ul>
                     </div>
-                    <div class="col-1 align-self-start">
-                        <button v-if="isUserInGroup(group.users_id, authUserData.id)" class="btn btn-outline-secondary rounded-0" v-on:click="leaveOrJoinGroup(group, 'leave')" data-toggle="tooltip" data-placement="up" title="Quitter le groupe?">
+                    <div class="col-sm-1 col-4 d-flex flex-column align-items-end" v-bind:class="bg2(key)">
+                        <small v-if="isUserInGroup(group.users_id, authUserData.id)" class="cursor square-btn bg-info text-center pt-1" v-on:click="leaveOrJoinGroup(group, 'leave')" data-toggle="tooltip" data-placement="up" title="Quitter le groupe?">
                             <!-- <i class="far fa-eye-slash"></i> -->
                             <i class="fas fa-bookmark"></i>
-                        </button>
-                        <button v-else class="btn btn-secondary rounded-0" v-on:click="leaveOrJoinGroup(group, 'join')" data-toggle="tooltip" data-placement="up" title="Rejoindre le groupe?">
+                        </small>
+                        <small v-else class="cursor square-btn bg-secondary text-center pt-1" v-on:click="leaveOrJoinGroup(group, 'join')" data-toggle="tooltip" data-placement="up" title="Rejoindre le groupe?">
                             <!-- <i class="far fa-eye"></i> -->
                             <i class="far fa-bookmark"></i>
-                        </button>
+                        </small>
                     </div>
                 </div>
             </div>
@@ -87,6 +89,26 @@ export default {
         }
     },
     methods: {
+        bg1: function(key) {
+            if (key % 2 == 0) {
+                return 'card-bg1';
+            } else return 'card-bg2';
+        },
+        bg2: function(key) {
+            if (key % 2 == 0) {
+                return 'card-bg2';
+            } else return 'card-bg1';
+        },
+        textColor1: function(key) {
+            if (key % 2 == 0) {
+                return 'card-text2';
+            } else return 'card-text1';
+        },
+        textColor2: function(key) {
+            if (key % 2 == 0) {
+                return 'card-text1';
+            } else return 'card-text2';
+        },
         isUserInGroup: function(groupUsers, userId) {
 
             return groupUsers.includes(userId);
@@ -154,9 +176,18 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.main-block {
-    /* position: relative;
-    right: 0;
-    top: 8vh; */
+.card-bg1 {
+    background-color: #8baed3;
+}
+
+.card-bg2 {
+    background-color: #c3d1dd;
+}
+.card-text1 {
+    color: #57515b;
+}
+
+.card-text2 {
+    color: #fff;
 }
 </style>

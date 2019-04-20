@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-2 col-8 card-bg2">
+                        <div class="col-sm-2 col-8 card-bg2 align-self-stetch">
                             <ul class="card-text list-group list-group-flush">
                                 <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" v-for="keyword in post.keywords">{{ keyword }}</li>
                             </ul>
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-2 col-8 card-bg1">
+                        <div class="col-sm-2 col-8 card-bg1 align-self-stetch">
                             <ul class="card-text list-group list-group-flush">
                                 <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" v-for="keyword in post.keywords">{{ keyword }}</li>
                             </ul>
@@ -124,7 +124,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3 card-bg2 col-12">
+                        <div class="col-sm-3 card-bg2 col-12 align-self-stetch">
                             <ul class="card-text list-group list-group-flush">
                                 <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" v-for="keyword in post.keywords">{{ keyword }}</li>
                             </ul>
@@ -157,7 +157,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3 card-bg1 col-12">
+                        <div class="col-sm-3 card-bg1 col-12 align-self-stetch">
                             <ul class="card-text list-group list-group-flush">
                                 <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" v-for="keyword in post.keywords">{{ keyword }}</li>
                             </ul>
@@ -284,11 +284,11 @@ export default {
             this.getNotifications();
         }
     },
-    mounted: function() {
-        window.addEventListener('resize', () => {
-            this.windowWidth = window.innerWidth;
-        });
-    }
+    // mounted: function() {
+    //     window.addEventListener('resize', () => {
+    //         this.windowWidth = window.innerWidth;
+    //     });
+    // }
 }
 </script>
 
@@ -316,7 +316,7 @@ p {
     font-size: 0.8em;
     font-style: italic;
 }
-
+*/
 .card-bg1 {
     background-color: #8baed3;
 }
@@ -325,7 +325,7 @@ p {
     background-color: #c3d1dd;
 }
 
-.square-btn {
+/* .square-btn {
     width: 30px;
     height: 30px;
 }

@@ -25,8 +25,8 @@ h1, h2, h3 {
 
 #topBarCtnr {
     width: 100%;
-    position: relative;
-    z-index: 100;
+    /* position: relative;
+    z-index: 100; */
     /* flex: 1; */
     /* position: fixed;
     top: 0;
@@ -37,8 +37,8 @@ h1, h2, h3 {
 
 #dashboardCptCtnr {
     width: 100%;
-    position: relative;
-    z-index: -100;
+    /* position: relative; */
+    /* z-index: -100; */
 }
 
 #dashboard-container {
@@ -62,7 +62,7 @@ h1, h2, h3 {
     /* min-width: 70%; */
     width: 100%;
     /* margin: 0 auto; */
-    padding: 10px 0;
+    /* padding: 10px 0; */
     overflow: auto;
     scrollbar-width: thin;
 
@@ -70,8 +70,8 @@ h1, h2, h3 {
 
 /* dropdowns */
 .dropdown-menu {
-    position: relative;
-    z-index: 1000;
+    /* position: relative;
+    z-index: 1000; */
 }
 
 /* text-blocks in posts */
@@ -111,13 +111,13 @@ p {
 .card {
     border: none;
 }
-.card-bg1 {
+/* .card-bg1 {
     background-color: #8baed3;
 }
 
 .card-bg2 {
     background-color: #c3d1dd;
-}
+} */
 
 .square-btn {
     width: 30px;
