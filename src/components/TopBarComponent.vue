@@ -74,7 +74,7 @@
         <div class="searchBlock">
             <form>
                 <div class="input-group input-group-sm">
-                    <input type="search" class="searchBar" placeholder="Recherche par mots clés" v-model="searchBarContent" v-on:keyup.enter="getSearchResult">
+                    <input type="search" class="searchBar" placeholder="Recherche par mots clés, auteur..." v-model="searchBarContent" v-on:keyup.enter="getSearchResult">
                     <!-- <div class="input-group-append">
                         <button type="button" class="btn btn-outline-primary my-2 my-sm-0 searchBtn rounded-0" v-on:click="getSearchResult">
                             <i class="fa fa-search"></i>
@@ -285,10 +285,7 @@ export default {
 .userSubBlock:last-child {
     /* border-right: 1px solid #fff2; */
 }
-.logo-small {
-    height: 60px;
-    width: auto;
-}
+
 .profilePicCtnr {
     width: 60px;
     height: 60px;

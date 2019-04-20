@@ -5,30 +5,34 @@
     </div> -->
 
     <!-- post row -->
-    <div class="row justify-content-center align-items-center">
-        <div class="col-1 align-self-start">
-            <small class="cursor badge badge-secondary rounded-0" v-on:click="goBack()">
-                <i class="fas fa-angle-left"></i>
+    <div class="row align-items-center justify-content-center">
+        <div class="col-sm-1 col-2 d-flex flex-column card-bg2 align-self-stretch">
+            <small class="cursor square-btn bg-info text-center pt-1 font-weight-bold" v-on:click="voteTarget(postSingle, 'post', true, postSingle.active_version._id)" title="Voter pour cet article">
+                + {{ postSingle.votePros }}
             </small>
-            <small class="cursor badge badge-success rounded-0" v-on:click="voteTarget(postSingle, 'post', true, postSingle.active_version._id)">+ {{ postSingle.votePros }}</small>
-            <small class="cursor badge badge-warning rounded-0" v-on:click="voteTarget(postSingle, 'post', false, postSingle.active_version._id)">- {{ postSingle.voteCons }}</small>
+            <small class="cursor square-btn bg-secondary text-center pt-1 font-weight-bold" v-on:click="voteTarget(postSingle, 'post', false, postSingle.active_version._id)" title="Voter contre cet article">
+                - {{ postSingle.voteCons }}
+            </small>
         </div>
-        <div class="col-8">
+        <div class="col-sm-8 col-10 py-5">
             <div class="row">
                 <div class="col-12">
                     <h2 class="text-center">{{ postSingle.title }}</h2>
-                    <div class="authorProfilePic">
-                        <img :src="postSingle.author_profile_pic_url">
-                    </div>
-
                     <div v-if="postEditMode">
                         <label>Modifier le titre : </label>
                         <input type="text" v-model="postEditedTitle">
                     </div>
                 </div>
-                <div class="col-12">
-                    <p class="text-center">Auteur: {{ postSingle.author_name }} - Groupe: <router-link :to="{ name: 'groupPostsList', params: { groupId: postSingle.group_id } }">{{ postSingle.group_name }}</router-link>
+                <div class="col-12 d-flex justify-content-around align-irems-stretch">
+                    <p class="text-center align-middle">
+                         Groupe:
+                         <router-link :to="{ name: 'groupPostsList', params: { groupId: postSingle.group_id } }">{{ postSingle.group_name }}</router-link>
                     </p>
+                    <p class="text-center align-middle">
+                        Auteur: {{ postSingle.author_name }}
+                        <img class="logo-small" :src="postSingle.author_profile_pic_url">
+                    </p>
+
                 </div>
                 <div class="col-12">
                     <p class="text-center">Créé le {{ postSingle.created_at }}</p>
@@ -480,28 +484,20 @@ export default {
 </script>
 
 <style scoped>
-.main-block {
-    /* position: relative;
-    right: 0;
-    top: 8vh; */
+.card-bg2 {
+    /* background-color: #8baed3; */
+    background-color: #c3d1dd;
 }
 
-.authorProfilePic {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    padding: 0;
+.card-bg1 {
+    background-color: #fff;
 }
 
-.authorProfilePic img {
-    height: 100%;
+.card-text2 {
+    color: #57515b;
 }
 
-.cursor:hover {
-    cursor: pointer;
-    transform: scale(1.1);
+.card-text1 {
+    color: #57515b;
 }
 </style>

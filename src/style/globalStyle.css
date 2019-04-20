@@ -172,6 +172,13 @@ p {
     background-color: #c3d1dd;
 } */
 
+/* buttons & thumbnails */
+
+.logo-small {
+    height: 60px;
+    width: auto;
+}
+
 .square-btn {
     width: 30px;
     height: 30px;
