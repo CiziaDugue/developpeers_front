@@ -97,9 +97,14 @@ export default {
 </script>
 
 <style scoped>
-.v-sidebar-menu {
-    height: calc(100vh - 5em);
+.v-sidebar-menu, #routerViewCtnr {
+    height: calc(100vh - 60px);
     position: relative;
+    margin-top: 60px;
+}
+
+#routerViewCtnr {
+    overflow-x: hidden;
 }
 
 @media (min-width: 640px) {

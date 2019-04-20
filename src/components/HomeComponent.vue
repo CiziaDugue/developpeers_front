@@ -12,13 +12,13 @@
             <div class="card-body p-0 m-0">
                 <div class="row">
                     <template v-if="key % 2">
-                        <div class="col-1 d-flex card-bg1 flex-column">
+                        <div class="col-sm-1 col-2 d-flex card-bg1 flex-column">
                             <small class="cursor square-btn bg-info text-center pt-1" v-on:click="votePost(post, 'post', true)" title="Voter pour cet article">
                                 + {{ post.votePros }}
                             </small>
                             <small class="cursor square-btn bg-light text-center pt-1" v-on:click="votePost(post, 'post', false)" title="Voter contre cet article">- {{ post.voteCons }}</small>
                         </div>
-                        <div class="col-8 card-bg1 py-4">
+                        <div class="col-sm-8 col-10 card-bg1 py-4">
                             <div class="row">
                                 <div class="col-12">
                                     <router-link :to="{ name: 'postSingle', params: { postId: post._id }}">
@@ -37,12 +37,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-2 card-bg2">
+                        <div class="col-sm-2 col-8 card-bg2">
                             <ul class="card-text list-group list-group-flush">
                                 <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" v-for="keyword in post.keywords">{{ keyword }}</li>
                             </ul>
                         </div>
-                        <div class="col-1 d-flex flex-column align-items-end card-bg2">
+                        <div class="col-sm-1 col-4 d-flex flex-column align-items-end card-bg2">
                             <small v-if="!userIsFollowingPost(post.followers)" class="cursor square-btn bg-info text-center pt-1" title="Suivre cet article" v-on:click="followPost(post._id)">
                                 <i class="fa fa-eye"></i>
                             </small>

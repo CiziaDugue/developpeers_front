@@ -1,16 +1,17 @@
 <template>
-<div class="topBarCtnr">
+<div class="topBarCtnr fixed-top">
     <div class="topBarContentBlock">
         <!-- Logged user responsive menu : -->
         <div class="smallWindowMenu dropdown" v-if="smallWindowMode && userLogged">
             <button type="button"
-                    class="btn btn-secondary dropdown-toggle"
+                    class="btn btn-secondary dropdown-toggle rounded-0 m-0"
                     id="smallWindowMenuButton"
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false">
                 <i class="fas fa-bars"></i>
             </button>
+            <img class="logo-small" src="../assets/logo.png">
             <div class="dropdown-menu" aria-labelledby="smallWindowMenuButton">
                 <router-link class="dropdown-item" to="/">Dashboard</router-link>
                 <div class="dropdown-divider"></div>
@@ -64,7 +65,7 @@
         <!-- Regular screen topBar -->
         <div class="rootLogoBlock" v-if="!smallWindowMode">
             <router-link :to="{ path: '/' }">
-                <img class="w-75" src="../assets/logo-title.png">
+                <img class="logo-small" src="../assets/logo-title.png">
             </router-link>
         </div>
 
@@ -83,10 +84,10 @@
 
         <div class="userBlock" v-if="!userLogged && !smallWindowMode">
             <div class="userSubBlock">
-                <router-link to='/login'>Se Connecter</router-link>
+                <router-link to='/login' class="text-white">Se Connecter</router-link>
             </div>
             <div class="userSubBlock">
-                <router-link to="/register">S'inscrire</router-link>
+                <router-link to="/register" class="text-white">S'inscrire</router-link>
             </div>
         </div>
 
@@ -282,7 +283,10 @@ export default {
 .userSubBlock:last-child {
     /* border-right: 1px solid #fff2; */
 }
-
+.logo-small {
+    height: 60px;
+    width: auto;
+}
 .profilePicCtnr {
     width: 60px;
     height: 60px;
