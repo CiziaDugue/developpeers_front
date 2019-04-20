@@ -8,7 +8,7 @@
         </div>
         <!-- centrer verticalement!! -->
         <div class="col-sm-3 col-12 card-bg1 align-self-stretch p-5">
-            <p class="text-center">{{ numberOfPosts }} articles</p>
+            <p class="text-center card-text1">{{ numberOfPosts }} articles</p>
         </div>
     </div>
 
@@ -35,31 +35,37 @@
                 </ul>
             </div>
         </div>
-        <div class="col-sm-1 card-bg1 align-self-stretch">
-            <button class="btn btn-primary mb-2 rounded-0" v-on:click="createPost" data-toggle="tooltip" data-placement="down" title="Ajouter un article?">
+        <div class="col-sm-1 card-bg1 align-self-stretch col-4 d-flex flex-column align-items-end">
+            <small class="cursor square-btn bg-primary text-center pt-1" v-on:click="createPost" data-toggle="tooltip" data-placement="down" title="Ajouter un article?">
                 <i class="far fa-edit"></i>
-            </button>
-            <button v-if="isUserInGroup == true" class="btn btn-outline-secondary rounded-0" v-on:click="leaveOrJoinGroup('leave')" data-toggle="tooltip" data-placement="left" title="Quitter le groupe?">
+            </small>
+            <small v-if="isUserInGroup == true" class="cursor square-btn bg-info text-center pt-1" v-on:click="leaveOrJoinGroup('leave')" data-toggle="tooltip" data-placement="left" title="Quitter le groupe?">
                 <!-- <i class="fas fa-sign-out-alt"></i> -->
-                <i class="far fa-eye-slash"></i>
-            </button>
-            <button v-else-if="isUserInGroup == false" class="btn btn-secondary rounded-0" v-on:click="leaveOrJoinGroup('join')" data-toggle="tooltip" data-placement="right" title="Rejoindre le groupe?">
+                <!-- <i class="far fa-eye-slash"></i> -->
+                <i class="fas fa-bookmark"></i>
+            </small>
+            <small v-else-if="isUserInGroup == false" class="btn btn-secondary rounded-0" v-on:click="leaveOrJoinGroup('join')" data-toggle="tooltip" data-placement="right" title="Rejoindre le groupe?">
                 <!-- <i class="fas fa-sign-in-alt"></i> -->
-                <i class="far fa-eye"></i>
-            </button>
+                <!-- <i class="far fa-eye"></i> -->
+                <i class="far fa-bookmark"></i>
+            </small>
         </div>
     </div>
 
 
-    <div v-for="post in postsList" v-bind:key="post._id" class="card p-2 bg-light rounded-0">
-        <div class="card-body">
+    <div v-for="(post, key, index) in postsList" v-bind:key="post._id" class="card p-0 m-0 rounded-0">
+        <div class="card-body p-0 m-0">
             <!-- FOLLOW POST BUTTON : -->
             <div class="row">
-                <div class="col-1">
-                    <small class="cursor badge badge-success rounded-0" v-on:click="votePost(post, 'post', true)">+ {{ post.votePros }}</small>
-                    <small class="cursor badge badge-warning rounded-0" v-on:click="votePost(post, 'post', false)">- {{ post.voteCons }}</small>
+                <div class="col-sm-1 col-2 d-flex flex-column" :class="bg1(key)">
+                    <small class="cursor square-btn bg-info text-center pt-1 font-weight-bold" v-on:click="votePost(post, 'post', true)" title="Voter pour cet article">
+                        + {{ post.votePros }}
+                    </small>
+                    <small class="cursor square-btn bg-secondary text-center pt-1 font-weight-bold" v-on:click="votePost(post, 'post', false)" title="Voter contre cet article">- {{ post.voteCons }}</small>
+                    <!-- <small class="cursor badge badge-success rounded-0" v-on:click="votePost(post, 'post', true)">+ {{ post.votePros }}</small>
+                    <small class="cursor badge badge-warning rounded-0" v-on:click="votePost(post, 'post', false)">- {{ post.voteCons }}</small> -->
                 </div>
-                <div class="col-8">
+                <div class="col-sm-8 col-10 py-4" :class="bg1(key)">
                     <div class="row">
                         <div class="col-12">
                             <router-link :to="{ name: 'postSingle', params: { postId: post._id }}">
@@ -67,29 +73,29 @@
                             </router-link>
                         </div>
                         <div class="col-12">
-                            <p>{{ post.excerpt }}</p>
+                            <p :class="textColor1(key)">{{ post.excerpt }}</p>
                         </div>
                         <div v-if="!isGroupList" class="col-12">
-                            <p>{{ post.number_of_versions }} versions - groupe <router-link :to="{ name: 'groupPostsList', params: { groupId: post.group_id } }">{{ post.group_name }}</router-link></p>
+                            <p :class="textColor1(key)">{{ post.number_of_versions }} versions - groupe <router-link :to="{ name: 'groupPostsList', params: { groupId: post.group_id } }">{{ post.group_name }}</router-link></p>
                         </div>
                         <div class="col-12">
-                            <p class="card-text text-center"><small class="text-muted">Créé le {{ post.created_at }} par {{ post.author_name }}</small></p>
+                            <p class="footer-text" :class="textColor1(key)">Créé le {{ post.created_at }} par {{ post.author_name }}</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-2">
-                    <ul class="card-text list-group list-group-flush">
-                        <li class="list-group-item font-weight-light font-italic border-0" v-for="keyword in post.keywords">{{ keyword }}</li>
+                <div class="col-sm-2 col-8 align-self-stetch" :class="bg2(key)">
+                    <ul class="card-text list-group list-group-flush py-4">
+                        <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" :class="textColor2(key)" v-for="keyword in post.keywords">{{ keyword }}</li>
                     </ul>
                 </div>
-                <div class="col-1">
-                    <button v-if="!userIsFollowingPost(post.followers)" type="button" title="Suivre cet article" class="btn btn-secondary rounded-0" v-on:click="followPost(post._id)">
-                        <i class="fa fa-eye"></i>
-                    </button>
+                <div class="col-sm-1 col-4 d-flex flex-column align-items-end" :class="bg2(key)">
+                    <small v-if="!userIsFollowingPost(post.followers)" title="Suivre cet article" class="cursor square-btn bg-secondary text-center pt-1" v-on:click="followPost(post._id)">
+                        <i class="far fa-bookmark"></i>
+                    </small>
 
-                    <button v-if="userIsFollowingPost(post.followers)" type="button" title="Ne plus suivre cet article" class="btn btn-outline-secondary rounded-0" v-on:click="unfollowPost(post._id)">
-                        <i class="far fa-eye-slash"></i>
-                    </button>
+                    <small v-if="userIsFollowingPost(post.followers)" title="Ne plus suivre cet article" class="cursor square-btn bg-info text-center pt-1" v-on:click="unfollowPost(post._id)">
+                        <i class="fas fa-bookmark"></i>
+                    </small>
                 </div>
             </div>
         </div>
@@ -319,6 +325,6 @@ export default {
 }
 
 .card-text1 {
-    color: #fff;
+    color: #57515b;
 }
 </style>

@@ -18,10 +18,10 @@
             <div class="card-body p-0 m-0">
                 <div class="row">
                     <div class="col-sm-1 col-2 d-flex flex-column" :class="bg1(key)">
-                        <small class="cursor square-btn bg-info text-center pt-1" v-on:click="votePost(post, 'post', true)" title="Voter pour cet article">
+                        <small class="cursor square-btn bg-info text-center pt-1 font-weight-bold" v-on:click="votePost(post, 'post', true)" title="Voter pour cet article">
                             + {{ post.votePros }}
                         </small>
-                        <small class="cursor square-btn bg-light text-center pt-1" v-on:click="votePost(post, 'post', false)" title="Voter contre cet article">- {{ post.voteCons }}</small>
+                        <small class="cursor square-btn bg-light text-center pt-1 font-weight-bold" v-on:click="votePost(post, 'post', false)" title="Voter contre cet article">- {{ post.voteCons }}</small>
                     </div>
                     <div class="col-sm-8 col-10 py-4" :class="bg1(key)">
                         <div class="row">
@@ -68,8 +68,8 @@
             <div class="card-body p-0 m-0">
                 <div class="row">
                     <div class="col-sm-2 col-2 d-flex flex-column" :class="bg1(key)">
-                        <small class="square-btn bg-info text-center pt-1">+ {{ post.votePros }}</small>
-                        <small class="square-btn bg-light text-center pt-1">- {{ post.voteCons }}</small>
+                        <small class="square-btn bg-info text-center pt-1 font-weight-bold">+ {{ post.votePros }}</small>
+                        <small class="square-btn bg-light text-center pt-1 font-weight-bold">- {{ post.voteCons }}</small>
                     </div>
                     <div class="col-sm-7 col-10 py-4" :class="bg1(key)">
                         <div class="row">
