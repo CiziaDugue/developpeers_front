@@ -1,11 +1,55 @@
 <template>
 <div class="container main-block">
 
-    <div v-if="postSingle == ''" class="container">
+    <!-- <div v-if="postSingle == ''" class="container">
         <img src="@/assets/spinner.gif" alt="Chargement en cours">
+    </div> -->
+    <!-- post row -->
+    <div class="row align-items-center justify-content-center">
+        <div class="col-sm-1 col-2 d-flex flex-column card-bg2 align-self-stretch">
+            <span class="cursor square-btn bg-white text-center pt-1" v-on:click="goBack()">
+                <i class="fas fa-angle-left"></i>
+            </span>
+            <small class="square-btn bg-info text-center pt-1 font-weight-bold" title="Votes pour cet article">
+                + {{ postSingle.votePros }}
+            </small>
+            <small class="square-btn bg-secondary text-center pt-1 font-weight-bold" title="Votes contre cet article">
+                - {{ postSingle.voteCons }}
+            </small>
+        </div>
+        <div class="col-sm-8 col-10 py-5 card-bg2">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <h2 class="text-center">{{ postSingle.title }}</h2>
+                </div>
+                <div class="col-12 d-flex justify-content-around align-items-center">
+                    <p class="text-center align-self-middle card-text2">
+                        Groupe:
+                        <router-link :to="{ name: 'groupPostsList', params: { groupId: postSingle.group_id } }">{{ postSingle.group_name }}</router-link>
+                    </p>
+                    <p class="text-center card-text2">
+                        Auteur:
+                        <router-link
+                                :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
+                                {{ postSingle.author_name }}
+                        </router-link>
+                        <img class="logo-small" :src="postSingle.author_profile_pic_url">
+                    </p>
+                </div>
+                <div class="col-12">
+                    <p class="footer-text card-text2">Créé le {{ postSingle.created_at }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 col-12 card-bg1 align-self-stretch">
+            <ul class="list-group list-group-flush py-4">
+                <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" v-for="word in this.postSingle.keywords">{{word}}</li>
+            </ul>
+        </div>
     </div>
 
-    <div v-else class="row justify-content-center align-items-center">
+    <!-- old guestfeed -->
+    <div class="row justify-content-center align-items-center">
         <div class="col-10">
             <div class="row border">
                 <div class="col-md-6 col-12">
@@ -108,6 +152,26 @@ export default {
         ])
     },
     methods: {
+        bg1: function(key) {
+            if (key % 2 == 0) {
+                return 'card-bg1';
+            } else return 'card-bg2';
+        },
+        bg2: function(key) {
+            if (key % 2 == 0) {
+                return 'card-bg2';
+            } else return 'card-bg1';
+        },
+        textColor1: function(key) {
+            if (key % 2 == 0) {
+                return 'card-text2';
+            } else return 'card-text1';
+        },
+        textColor2: function(key) {
+            if (key % 2 == 0) {
+                return 'card-text1';
+            } else return 'card-text2';
+        },
         changeVersion: function(version_id) {
 
             let payload = {
@@ -151,9 +215,23 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.main-block {
-    /* position: relative;
-    right: 0;
-    top: 8vh; */
+#main-block {
+    width: 100%;
+}
+.card-bg2 {
+    /* background-color: #8baed3; */
+    background-color: #c3d1dd;
+}
+
+.card-bg1 {
+    background-color: #fff;
+}
+
+.card-text2 {
+    color: #57515b;
+}
+
+.card-text1 {
+    color: #57515b;
 }
 </style>

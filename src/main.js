@@ -16,8 +16,6 @@ import hljs from 'highlight.js'
 Vue.use(hljs)
 import VueHighlightJS from 'vue-highlightjs'
 Vue.use(VueHighlightJS)
-// import 'highlight.js/styles/an-old-hope.css'
-// import 'highlight.js/styles/purebasic.css'
 
 import VueTextareaAutosize from 'vue-textarea-autosize'
 Vue.use(VueTextareaAutosize)
