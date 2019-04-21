@@ -17,10 +17,11 @@
         <div class="col-sm-7 col-8 py-5 card-bg2">
             <div class="row justify-content-center">
                 <div class="col-12">
-                    <div v-if="postEditMode" class="input-group input-group-sm w-50">
-                        <!-- <label>Modifier le titre : </label> -->
-                        <input class="form-control searchBar w-50 rounded-0" type="text" v-model="postEditedTitle">
-                    </div>
+                    <!-- <div v-if="postEditMode" class="input-group input-group-sm w-50">
+                        <label>Modifier le titre : </label>
+                        <textarea-autosize type="text" v-model="postEditedTitle"></textarea-autosize>
+                    </div> -->
+                    <textarea-autosize v-if="postEditMode" type="text" v-model="postEditedTitle"></textarea-autosize>
                     <h2 v-else class="text-center">{{ postSingle.title }}</h2>
                 </div>
                 <div class="col-12 d-flex justify-content-around align-items-center">
@@ -58,10 +59,11 @@
             </template>
         </div>
         <div class="col-sm-3 col-12 card-bg1 align-self-stretch">
-            <div v-if="postEditMode" class="input-group input-group-sm w-100">
+            <!-- <div v-if="postEditMode" class="input-group input-group-sm w-100">
                 <label>Modifier les mots-clés : </label>
                 <input class="form-control searchBar w-50 rounded-0" type="text" v-model="postEditedKeywords">
-            </div>
+            </div> -->
+            <textarea-autosize v-if="postEditMode" type="text" v-model="postEditedKeywords"></textarea-autosize>
             <ul v-else class="list-group list-group-flush py-4">
                 <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" v-for="word in this.postSingle.keywords">{{word}}</li>
             </ul>
@@ -110,7 +112,7 @@
                     {{ version.number }}
                 </small>
             </template>
-            <small class="cursor square-btn bg-info text-center pt-1" v-on:click="createVersion" title="Ajouter une version">
+            <small class="cursor square-btn bg-primary text-center pt-1" v-on:click="createVersion" title="Ajouter une version">
                 <i class="fas fa-plus"></i>
             </small>
         </div>
@@ -130,7 +132,7 @@
     </div>
 
     <!-- comments row -->
-    <div v-for="(comment, key, index) in postSingle.active_version.comments" class="row justify-content-center align-items-center">
+    <div v-for="(comment, key, index) in postSingle.active_version.comments" class="row justify-content-start align-items-center">
         <div class="col-sm-2 col-2 d-flex align-self-stretch" :class="bg2(key)">
             <div class="d-flex flex-column">
                 <small class="cursor square-btn bg-info text-center pt-1 font-weight-bold" v-on:click="voteTarget(comment, 'comment', true, postSingle.active_version._id)">
@@ -144,13 +146,12 @@
         </div>
         <div class="col-sm-6 col-9" :class="bg2(key)">
             <div class="col-12">
-                <p :class="textColor2(key)">{{ comment.author_name }} - <small>{{ comment.created_at }}</small></p>
+                <p :class="textColor2(key)">{{ comment.author_name }} - <small :class="textColor2(key)">{{ comment.created_at }}</small></p>
             </div>
             <div class="col-12">
-
+                <p v-if="comment._id != editedCommentId || !commentEditMode" class="" v-html="'<pre>'+comment.content+'</pre>'" :class="textColor2(key)"></p>
+                <textarea-autosize v-if="commentEditMode && comment._id==editedCommentId" v-model="commentEditedContent"></textarea-autosize>
             </div>
-            <p v-if="comment._id != editedCommentId || !commentEditMode" class="" v-html="'<pre>'+comment.content+'</pre>'" :class="textColor2(key)"></p>
-            <textarea-autosize v-if="commentEditMode && comment._id==editedCommentId" v-model="commentEditedContent"></textarea-autosize>
         </div>
         <div class="col-sm-1 col-1 d-flex flex-column align-self-stretch align-items-end p-0" :class="bg2(key)">
             <template v-if="authUserData.id === comment.author_id">
