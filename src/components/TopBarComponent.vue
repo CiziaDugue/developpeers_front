@@ -22,7 +22,7 @@
                 <div class="dropdown-divider"></div>
                 <router-link class="dropdown-item" to="/articles/mes-articles">Mes articles</router-link>
                 <router-link class="dropdown-item" to="/articles/articles-suivis">Articles suivis</router-link>
-                <router-link class="dropdown-item" to="/articles/creer-un-article">Créer un article</router-link>
+                <router-link class="dropdown-item" to="/creer-un-article">Créer un article</router-link>
                 <div class="dropdown-divider"></div>
                 <router-link class="dropdown-item" to="/groupes/tous-les-groupes">Tous les groupes</router-link>
                 <router-link class="dropdown-item" to="/groupes/mes-groupes">Mes groupes</router-link>
@@ -65,9 +65,12 @@
                 <router-link class="dropdown-item" to="/login">Se connecter</router-link>
                 <router-link class="dropdown-item" to="/register">S'inscrire</router-link>
             </div>
-            <router-link class="pl-2" :to="{ path: '/' }">
+            <!-- <router-link class="pl-2" :to="{ path: '/' }">
                 <img class="logo-small-resp" src="../assets/logo.png">
-            </router-link>
+            </router-link> -->
+            <a class="pl-2">
+                <img v-on:click="refreshHomePage" class="logo-small-resp" src="../assets/logo.png">
+            </a>
         </div>
 
         <!-- Regular screen topBar -->
@@ -179,12 +182,22 @@ export default {
         },
 
         refreshHomePage: function() {
-            this.$store.dispatch('getPostsFeed')
-                        .then((response)=>{
-                            this.$router.push('/');
-                        }, (error)=>{
-                            console.error(error);
-                        });
+            if(this.userLogged) {
+                this.$store.dispatch('getPostsFeed')
+                            .then((response)=>{
+                                this.$router.push('/');
+                            }, (error)=>{
+                                console.error(error);
+                            });
+            } else {
+                this.$store.dispatch('getGuestFeed')
+                            .then((response)=>{
+                                this.$router.push('/');
+                            }, (error)=>{
+                                console.error(error);
+                            });
+            }
+
         },
     },
 
