@@ -8,7 +8,7 @@
         </div>
         <!-- centrer verticalement!! -->
         <div class="col-sm-3 col-12 card-bg1 align-self-stretch p-5">
-            <p class="text-center card-text1">{{ numberOfPosts }} articles</p>
+            <p class="text-center card-text1">{{ numberOfPosts }} Articles</p>
         </div>
     </div>
 
@@ -24,7 +24,7 @@
                     <h2 class="text-center">{{ title }}</h2>
                 </div>
                 <div class="col-12">
-                    <p class="text-center card-text2">{{ numberOfMembers }} membres - {{ numberOfPosts }} articles</p>
+                    <p class="text-center card-text2">{{ numberOfMembers }} Membres - {{ numberOfPosts }} Articles</p>
                 </div>
             </div>
         </div>
@@ -77,8 +77,24 @@
                         <div class="col-12">
                             <p :class="textColor1(key)">{{ post.excerpt }}</p>
                         </div>
-                        <div v-if="!isGroupList" class="col-12">
-                            <p :class="textColor1(key)">{{ post.number_of_versions }} versions - groupe <router-link :to="{ name: 'groupPostsList', params: { groupId: post.group_id } }">{{ post.group_name }}</router-link></p>
+                        <div class="col-12 d-flex justify-content-between align-items-center">
+                            <p :class="textColor1(key)">
+                                Groupe:
+                                <router-link :to="{ name: 'groupPostsList', params: { groupId: post.group_id } }">
+                                    {{ post.group_name }}
+                                </router-link>
+                            </p>
+                            <p :class="textColor1(key)" class="text-center">
+                                Auteur:
+                                <router-link
+                                        :to="{ name: 'userPublicProfile', params: {userId: post.author_id, userName: post.author_name.replace(' ', '-')} }">
+                                        {{ post.author_name }}
+                                </router-link>
+                                <img class="logo-small" :src="post.author_profile_pic_url">
+                            </p>
+                            <p :class="textColor1(key)">
+                                {{ post.number_of_versions }} Versions
+                            </p>
                         </div>
                         <div class="col-12">
                             <p class="footer-text" :class="textColor1(key)">Créé le {{ post.created_at }} par {{ post.author_name }}</p>

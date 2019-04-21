@@ -31,7 +31,7 @@
                                 <p :class="textColor1(key)">{{ group.description }}</p>
                             </div>
                             <div class="col-12">
-                                <p :class="textColor1(key)">{{ group.users.length }} membres - {{ group.number_of_posts }} articles</p>
+                                <p :class="textColor1(key)">{{ group.users.length }} Membres - {{ group.number_of_posts }} Articles</p>
                             </div>
                             <div class="col-12">
                                 <p class="footer-text"  :class="textColor1(key)">Créé le {{ group.created_at }}</p>

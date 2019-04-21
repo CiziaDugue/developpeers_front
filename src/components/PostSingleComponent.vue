@@ -5,15 +5,6 @@
     </div> -->
 
     <!-- post row -->
-
-
-    <!-- TEMPORAIRE, à intégrer proprement, lien vers user public profile : -->
-    <router-link
-            :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
-            <h4>{{postSingle.author_name}}</h4>
-    </router-link>
-
-
     <div class="row align-items-center justify-content-center">
         <div class="col-sm-1 col-2 d-flex flex-column card-bg2 align-self-stretch">
             <small class="cursor square-btn bg-info text-center pt-1 font-weight-bold" v-on:click="voteTarget(postSingle, 'post', true, postSingle.active_version._id)" title="Voter pour cet article">
@@ -39,7 +30,11 @@
                         <router-link :to="{ name: 'groupPostsList', params: { groupId: postSingle.group_id } }">{{ postSingle.group_name }}</router-link>
                     </p>
                     <p class="text-center card-text2">
-                        Auteur: {{ postSingle.author_name }}
+                        Auteur:
+                        <router-link
+                                :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
+                                {{ postSingle.author_name }}
+                        </router-link>
                         <img class="logo-small" :src="postSingle.author_profile_pic_url">
                     </p>
                 </div>
@@ -93,7 +88,11 @@
                         Version: <strong>{{ postSingle.active_version.number }}</strong>
                     </p>
                     <p class="text-center align-self-middle card-text1">
-                        Auteur: {{postSingle.active_version.author_name}}
+                        Auteur:
+                        <router-link
+                                :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
+                                {{postSingle.active_version.author_name}}
+                        </router-link>
                         <img class="logo-small" :src="postSingle.active_version.author_profile_pic_url">
                     </p>
                 </div>
@@ -161,7 +160,14 @@
         </div>
         <div class="col-sm-6 col-9" :class="bg2(key)">
             <div class="col-12">
-                <p :class="textColor2(key)">{{ comment.author_name }} - <small :class="textColor2(key)">{{ comment.created_at }}</small></p>
+                <p :class="textColor2(key)">
+                    <strong>
+                    <router-link
+                            :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
+                            {{ comment.author_name }}
+                    </router-link></strong>
+                     - <small :class="textColor2(key)">{{ comment.created_at }}</small>
+                </p>
             </div>
             <div class="col-12">
                 <p v-if="comment._id != editedCommentId || !commentEditMode" class="" v-html="'<pre>'+comment.content+'</pre>'" :class="textColor2(key)"></p>
@@ -191,7 +197,7 @@
             <div class="input-group">
                 <textarea-autosize class="form-control rounded-0 d-block" placeholder=" Taper votre commentaire" aria-label="With textarea" v-model="commentToAdd" @keydown.enter.exact.prevent @keyup.enter.exact.native="addComment" @keydown.enter.shift.exact="newline(commentToAdd)"></textarea-autosize>
                 <div class="input-group-append">
-                    <button type="button" class="cursor btn-primary rounded-0" v-on:click="addComment">
+                    <button type="button" class="cursor btn-primary rounded-0 border-0" v-on:click="addComment">
                         <i class="fas fa-plus"></i>
                     </button>
                 </div>
