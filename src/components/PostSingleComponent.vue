@@ -120,7 +120,7 @@
                 </small>
             </template>
         </div>
-        <div class="col-sm-3 col-12 card-bg2 d-flex flex-column align-self-stretch p-0 m-0">
+        <div class="col-sm-3 col-12 card-bg2 d-flex flex-wrap align-self-stretch align-items-start justify-content-start p-0 m-0">
             <template v-for="version in postSingle.versions">
                 <small v-if="postSingle.active_version._id == version._id" class="square-btn bg-success text-center pt-1 font-weight-bold">
                     {{ version.number }}
@@ -143,7 +143,7 @@
         <div class="col-sm-3 col-12 card-bg1 align-self-stretch p-0 m-0">
         </div>
         <!-- alterner bgcolor? -->
-        <div v-for="(snippet, key, index) in postSingle.active_version.code_snippets" class="col-12 px-5 pt-3 align-self-center" :class="bg2(key)">
+        <div v-for="(snippet, key, index) in postSingle.active_version.code_snippets" class="col-12 px-5 pb-4 pt-5 align-self-center" :class="bg2(key)">
             <pre v-highlightjs="snippet.content"><code></code></pre>
         </div>
     </div>
