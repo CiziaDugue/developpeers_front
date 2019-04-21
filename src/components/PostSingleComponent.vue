@@ -119,23 +119,19 @@
     <!-- version content & snippets row -->
     <div class="row justify-content-center align-items-center">
         <div class="col-sm-9 col-12 card-bg2 p-4">
-            <!-- <p class="text-center">{{ postSingle.active_version.text_content }}</p> -->
             <p v-html="'<pre>'+postSingle.active_version.text_content +'</pre>'" class="card-text2"></p>
         </div>
         <div class="col-sm-3 col-12 card-bg1 align-self-stretch">
         </div>
         <!-- alterner bgcolor? -->
-        <div v-for="(snippet, key, index) in postSingle.active_version.code_snippets" class="col-12 px-4 py-2">
+        <div v-for="(snippet, key, index) in postSingle.active_version.code_snippets" class="col-12 px-4 pt-3 align-self-center" :class="bg2(key)">
             <pre v-highlightjs="snippet.content"><code></code></pre>
         </div>
     </div>
 
     <!-- comments row -->
     <div v-for="(comment, key, index) in postSingle.active_version.comments" class="row justify-content-center align-items-center">
-        <!-- <div class="col-12" v-for="(comment, key, index) in postSingle.active_version.comments">
-            <div class="row"> -->
-
-        <div class="col-sm-2 col-2 d-flex card-bg2 align-self-stretch">
+        <div class="col-sm-2 col-2 d-flex align-self-stretch" :class="bg2(key)">
             <div class="d-flex flex-column">
                 <small class="cursor square-btn bg-info text-center pt-1 font-weight-bold" v-on:click="voteTarget(comment, 'comment', true, postSingle.active_version._id)">
                     + {{ comment.votePros }}
@@ -146,22 +142,17 @@
             </div>
             <img class="logo-small" :src="comment.author_profile_pic_url">
         </div>
-        <div class="col-sm-6 col-9">
+        <div class="col-sm-6 col-9" :class="bg2(key)">
             <div class="col-12">
-                <p>{{ comment.author_name }} - <small>{{ comment.created_at }}</small></p>
+                <p :class="textColor2(key)">{{ comment.author_name }} - <small>{{ comment.created_at }}</small></p>
             </div>
             <div class="col-12">
 
             </div>
-            <p v-if="comment._id != editedCommentId || !commentEditMode" class="" v-html="'<pre>'+comment.content+'</pre>'"></p>
-            <!-- <template v-if="commentEditMode && comment._id==editedCommentId"> -->
+            <p v-if="comment._id != editedCommentId || !commentEditMode" class="" v-html="'<pre>'+comment.content+'</pre>'" :class="textColor2(key)"></p>
             <textarea-autosize v-if="commentEditMode && comment._id==editedCommentId" v-model="commentEditedContent"></textarea-autosize>
-            <!-- <button class="btn btn-sm btn-success rounded-0" v-on:click="validateCommentUpdate(comment._id)">
-                        <i class="fas fa-check"></i>
-                    </button> -->
-            <!-- </template> -->
         </div>
-        <div class="col-sm-1 col-1 d-flex flex-column align-self-stretch">
+        <div class="col-sm-1 col-1 d-flex flex-column align-self-stretch align-items-end p-0" :class="bg2(key)">
             <template v-if="authUserData.id === comment.author_id">
                 <small v-if="!commentEditMode" class="cursor square-btn bg-primary text-center pt-1" title="Éditer mon commentaire" v-on:click="toggleCommentEditMode(comment._id, comment.content)">
                     <i class="fas fa-pen"></i>
@@ -174,17 +165,17 @@
                 </small>
             </template>
         </div>
-        <div class="col-sm-3 col-0">
+        <div class="col-sm-3 col-0 align-self-stretch" :class="bg1(key)">
 
         </div>
 
     </div>
     <div class="row justify-content-center align-items-center">
-        <div class="col-sm-9 col-12 card-bg2">
+        <div class="col-sm-9 col-12 card-bg2 pl-3 pr-0">
             <div class="input-group">
-                <textarea-autosize class="form-control rounded-0 d-block" placeholder="Taper votre commentaire" aria-label="With textarea" v-model="commentToAdd" @keydown.enter.exact.prevent @keyup.enter.exact.native="addComment" @keydown.enter.shift.exact="newline(commentToAdd)"></textarea-autosize>
+                <textarea-autosize class="form-control rounded-0 d-block" placeholder=" Taper votre commentaire" aria-label="With textarea" v-model="commentToAdd" @keydown.enter.exact.prevent @keyup.enter.exact.native="addComment" @keydown.enter.shift.exact="newline(commentToAdd)"></textarea-autosize>
                 <div class="input-group-append">
-                    <button type="button" class=" btn-outline-primary my-2 my-sm-0 rounded-0" v-on:click="addComment">
+                    <button type="button" class="cursor btn-primary rounded-0" v-on:click="addComment">
                         <i class="fas fa-plus"></i>
                     </button>
                 </div>
@@ -229,7 +220,26 @@ export default {
         ])
     },
     methods: {
-
+        bg1: function(key) {
+            if (key % 2 == 0) {
+                return 'card-bg1';
+            } else return 'card-bg2';
+        },
+        bg2: function(key) {
+            if (key % 2 == 0) {
+                return 'card-bg2';
+            } else return 'card-bg1';
+        },
+        textColor1: function(key) {
+            if (key % 2 == 0) {
+                return 'card-text2';
+            } else return 'card-text1';
+        },
+        textColor2: function(key) {
+            if (key % 2 == 0) {
+                return 'card-text1';
+            } else return 'card-text2';
+        },
         newline: function(object) {
             object = `${this.commentToAdd}\n`;
         },
