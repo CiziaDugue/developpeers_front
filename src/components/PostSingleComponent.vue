@@ -36,8 +36,8 @@
                                 :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
                                 {{ postSingle.author_name }}
                         </router-link>
-                        <img class="logo-small rounded-circle" :src="postSingle.author_profile_pic_url">
-                        <!-- <img class="logo-small" :src="postSingle.author_profile_pic_url"> -->
+                        <!-- <img class="logo-small rounded-circle" :src="postSingle.author_profile_pic_url"> -->
+                        <img class="logo-small" :src="postSingle.author_profile_pic_url">
                     </p>
                 </div>
                 <div class="col-12">
@@ -95,8 +95,8 @@
                                 :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
                                 {{postSingle.active_version.author_name}}
                         </router-link>
-                        <img class="logo-small rounded-circle" :src="postSingle.active_version.author_profile_pic_url">
-                        <!-- <img class="logo-small" :src="postSingle.active_version.author_profile_pic_url"> -->
+                        <!-- <img class="logo-small rounded-circle" :src="postSingle.active_version.author_profile_pic_url"> -->
+                        <img class="logo-small" :src="postSingle.active_version.author_profile_pic_url">
                     </p>
                 </div>
                 <div class="col-12">
@@ -160,8 +160,8 @@
                 </small>
             </div>
             <!-- if large viewport -->
-            <img class="logo-small rounded-circle" :src="comment.author_profile_pic_url">
-            <!-- <img class="logo-small" :src="comment.author_profile_pic_url"> -->
+            <!-- <img class="logo-small rounded-circle" :src="comment.author_profile_pic_url"> -->
+            <img class="logo-small" :src="comment.author_profile_pic_url">
         </div>
         <div class="col-sm-6 col-9 p-0 m-0" :class="bg2(key)">
             <div class="col-12">

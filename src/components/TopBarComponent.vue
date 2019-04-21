@@ -12,7 +12,7 @@
                 <i class="fas fa-bars pr-2"></i>
             </button>
             <router-link class="pl-2" :to="{ path: '/' }">
-                <img class="logo-small" src="../assets/logo.png">
+                <img class="logo-small-resp" src="../assets/logo.png">
             </router-link>
             <div class="dropdown-menu" aria-labelledby="smallWindowMenuButton">
                 <router-link class="dropdown-item" to="/">Dashboard</router-link>
@@ -63,7 +63,7 @@
                 <router-link class="dropdown-item" to="/register">S'inscrire</router-link>
             </div>
             <router-link class="pl-2" :to="{ path: '/' }">
-                <img class="logo-small" src="../assets/logo.png">
+                <img class="logo-small-resp" src="../assets/logo.png">
             </router-link>
         </div>
 
@@ -91,7 +91,7 @@
             <div class="userSubBlock">
                 <router-link to='/login' class="text-white">Se Connecter</router-link>
             </div>
-            <div class="userSubBlock">
+            <div class="userSubBlock pl-4">
                 <router-link to="/register" class="text-white">S'inscrire</router-link>
             </div>
         </div>
@@ -300,5 +300,10 @@ export default {
 
 .title {
     /* font-family: monospace; */
+}
+
+.logo-small-resp {
+    height: 56px;
+    width: auto;
 }
 </style>
