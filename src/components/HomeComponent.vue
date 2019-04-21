@@ -1,9 +1,6 @@
 <template>
 <main class="main-container">
     <div class="row align-items-center justify-content-center">
-        <!-- <div class="col-12 p-5">
-            <h2 class="text-center">Dashboard</h2>
-        </div> -->
         <div class="col-sm-9 col-12 card-bg2 p-5">
             <h2 class="text-center">Dashboard</h2>
         </div>

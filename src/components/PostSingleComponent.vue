@@ -198,7 +198,7 @@
 
     </div>
     <div class="row justify-content-center align-items-center p-0 m-0">
-        <div class="col-sm-9 col-12 card-bg2 pl-3 pr-0">
+        <div class="col-sm-9 col-12 card-bg2 m-0 p-0">
             <div class="input-group">
                 <textarea-autosize class="form-control rounded-0 d-block" placeholder=" Taper votre commentaire" aria-label="With textarea" v-model="commentToAdd" @keydown.enter.exact.prevent @keyup.enter.exact.native="addComment" @keydown.enter.shift.exact="newline(commentToAdd)"></textarea-autosize>
                 <div class="input-group-append">

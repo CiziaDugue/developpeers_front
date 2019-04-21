@@ -1,5 +1,13 @@
 <template>
-  <main>
+<main>
+    <div class="row align-items-center justify-content-center">
+        <div class="col-sm-9 col-12 card-bg1 p-5">
+            <h2 class="text-center">Connexion</h2>
+        </div>
+        <div class="col-sm-3 col-12 card-bg2 align-self-stretch">
+
+        </div>
+    </div>
     <form v-if="this.$store.state.userLogged == false">
         <div class="alert alert-danger" v-if="wrongLoginOrPwd">
             Mauvais login ou mot de passe
@@ -7,77 +15,87 @@
         <div class="alert alert-danger" v-if="invalidData">
             Tous les champs doivent être remplis.
         </div>
-      <div class="form-group">
-        <h2>Login</h2>
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" placeholder="Votre email" name="email" class="form-control rounded-0" v-model="email"/>
-      </div>
-      <div class="form-group">
-        <label>Mot de passe</label>
-        <input type="password" placeholder="Votre mot de passe" name="password" class="form-control rounded-0" v-model="password" v-on:keyup.enter="logUser"/>
-      </div>
-      <div class="form-group">
-        <input type="button" value="Se connecter" class="btn btn-primary rounded-0" v-on:click="logUser"/>
-      </div>
+        <div class="form-group">
+            <h2>Login</h2>
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="Votre email" name="email" class="form-control rounded-0" v-model="email" />
+        </div>
+        <div class="form-group">
+            <label>Mot de passe</label>
+            <input type="password" placeholder="Votre mot de passe" name="password" class="form-control rounded-0" v-model="password" v-on:keyup.enter="logUser" />
+        </div>
+        <div class="form-group">
+            <input type="button" value="Se connecter" class="btn btn-primary rounded-0" v-on:click="logUser" />
+        </div>
     </form>
     <div v-if="this.$store.state.userLogged == true">
-      <h3>Bienvenue {{this.$store.state.authUserData.name}} !</h3>
-      <span>Vous vous êtes connecté avec succès.</span>
-      <router-link to="/">Home</router-link>
+        <h3>Bienvenue {{this.$store.state.authUserData.name}} !</h3>
+        <span>Vous vous êtes connecté avec succès.</span>
+        <router-link to="/">Home</router-link>
     </div>
-  </main>
+</main>
 </template>
 
 <script>
-  export default {
+export default {
     data: function() {
-      return {
-        name: 'LoginComponent',
-        email: '',
-        password: '',
-        wrongLoginOrPwd: false,
-        invalidData: false
-      }
+        return {
+            name: 'LoginComponent',
+            email: '',
+            password: '',
+            wrongLoginOrPwd: false,
+            invalidData: false
+        }
     },
     methods: {
-      logUser: function() {
-          if(this.email == ""
-          || this.password == "") {
-          this.invalidData = true;
-        } else {
-          let logData = {
-            "email": this.email,
-            "password": this.password
-          };
-          this.$store.dispatch('logUser', logData)
-          .then((response)=>{
-              //setTimeout( () => {
-                this.$router.push('/');
-              //}, 1000);
-          }, (error)=>{
-              console.error(error);
-              this.wrongLoginOrPwd = true;
-          });
+        logUser: function() {
+            if (this.email == "" ||
+                this.password == "") {
+                this.invalidData = true;
+            } else {
+                let logData = {
+                    "email": this.email,
+                    "password": this.password
+                };
+                this.$store.dispatch('logUser', logData)
+                    .then((response) => {
+                        //setTimeout( () => {
+                        this.$router.push('/');
+                        //}, 1000);
+                    }, (error) => {
+                        console.error(error);
+                        this.wrongLoginOrPwd = true;
+                    });
+            }
         }
-      }
     }
-  }
+}
 </script>
 
 <style scoped>
-main {
-    /* position: relative;
-    right: 0;
-    top: 200px;
-    width: 1000px;
-    margin: 0 auto; */
+.card-bg2 {
+    /* background-color: #8baed3; */
+    background-color: #c3d1dd;
+}
+
+.card-bg1 {
+    /* background-color: #c3d1dd; */
+    background-color: #fff;
+}
+
+.card-text2 {
+    color: #57515b;
+}
+
+.card-text1 {
+    color: #57515b;
 }
 
 form {
-  border: 1px solid #ccc;
-  padding: 30px;
-  /* box-shadow: 2px 2px 8px #eee; */
+    border: 1px solid #ccc;
+    padding: 30px;
+    /* box-shadow: 2px 2px 8px #eee; */
 }
 </style>

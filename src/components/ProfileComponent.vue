@@ -1,73 +1,118 @@
 <template>
-  <main>
-      <div class="card">
-          <div class="card-title">
-              <h2>Mon profil</h2>
-          </div>
-          <div class="card-body">
-              <div class="profile_pic">
-                <img :src="profilePicUrl"/>
-                <button type="button" class="btn btn-sm btn-outline-primary changePicBtn" v-on:click="togglePicForm" title="Changer ma photo de profil"> <i class="fas fa-camera"></i> </button>
-              </div>
-
-              <div class="changePicForm" v-if="changePicForm">
+<main>
+    <div class="row align-items-center justify-content-center">
+        <div class="col-sm-9 col-12 card-bg2 p-4">
+            <h2 class="text-center">Mon Profil</h2>
+        </div>
+        <div class="col-sm-3 col-12 card-bg1 align-self-stretch d-flex">
+            <div class="profile_pic m-auto pt-4">
+                <img :src="profilePicUrl" />
+                <p class="cursor bg-info text-center pt-1 changePicBtn" v-on:click="togglePicForm" title="Changer ma photo de profil">
+                    <i class="fas fa-camera"></i>
+                </p>
+                <div class="changePicForm" v-if="changePicForm">
                     <button type="button" class="close closePicForm" aria-label="Close" v-on:click='closePicForm'>
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <form class="form-inline">
-                        <input class="form-control" type="file" ref="file" v-bind:name="authUserData.id" v-on:change="handlePicFile">
-                        <button class="btn btn-success" type="button" v-on:click='submitPic'>ok</button>
+                        <!-- <input class="form-control" type="file" ref="file" v-bind:name="authUserData.id" v-on:change="handlePicFile">
+                        <!-- <button class="btn btn-success" type="button" v-on:click='submitPic'>ok</button> -->
+
+                        <div class="input-group mb-3 rounded-0">
+                            <!-- <label class="cursor rounded-0 border-0 btn-secondary" for="picInput"><i class="fas fa-search"></i></label> -->
+                            <!-- <input type="file" ref="file" v-bind:name="authUserData.id" v-on:change="handlePicFile" class="form-control rounded-0 input-file">
+                            <div class="input-group-append">
+                                <button class="cursor rounded-0 border-0 btn-secondary" type="button" id="button-addon2">Button</button>
+                                <button class="cursor rounded-0 border-0 btn-success" type="button" v-on:click='submitPic'>
+                                    <i class="fas fa-check"></i>
+                                </button>
+                            </div> -->
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input rounded-0" id="picInput" ref="file" v-bind:name="authUserData.id" v-on:change="handlePicFile">
+                                    <label class="custom-file-label" for="picInput">
+                                        Aucun fichier choisi
+                                    </label>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="cursor rounded-0 border-0 btn-success" type="button" v-on:click='submitPic'>
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </form>
-              </div>
+                </div>
+                <!-- <i class="changePicBtn fas fa-camera"></i> -->
+            </div>
+        </div>
+    </div>
 
-              <div class="updateDataForm">
-                  <h4>Mettre mes infos à jour</h4>
-                  <form>
-                      <div class="form-group">
-                          <label>Présentation</label>
-                          <textarea-autosize name="user_presentation" class="form-control rounded-0" v-model="userPresentation"></textarea-autosize>
-                      </div>
-                      <div class="form-group">
-                          <label>Centres d'interet - </label>
-                          <small><i>Mots-clés séparés par des espaces</i></small>
-                          <input class="form-control rounded-0" type="text" name="user_interests" v-model="userInterests">
-                      </div>
+    <div class="card">
+        <!-- <div class="card-title">
+            <h2>Mon profil</h2>
+        </div> -->
+        <div class="card-body">
+            <!-- <div class="profile_pic">
+                <img :src="profilePicUrl" />
+                <button type="button" class="btn btn-sm btn-outline-primary changePicBtn" v-on:click="togglePicForm" title="Changer ma photo de profil"> <i class="fas fa-camera"></i> </button>
+            </div>
 
-                      <div class="form-group">
-                          <label>Liens :</label>
-                          <div v-for="link in userLinks">
-                              <div class="form-group">
-                                  <input placeholder="http://www.une-page-que-je-veux-montrer.com"
-                                        type="text"
-                                        class="form-control rounded-0"
-                                        v-model="userLinks[link.index].url">
-                              </div>
-                          </div>
+            <div class="changePicForm" v-if="changePicForm">
+                <button type="button" class="close closePicForm" aria-label="Close" v-on:click='closePicForm'>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <form class="form-inline">
+                    <input class="form-control" type="file" ref="file" v-bind:name="authUserData.id" v-on:change="handlePicFile">
+                    <button class="btn btn-success" type="button" v-on:click='submitPic'>ok</button>
+                </form>
+            </div> -->
 
-                          <div class="form-group">
-                              <button type="button" class="rounded-0" name="button" v-on:click="addUserLink">+</button>
-                          </div>
-                      </div>
+            <div class="updateDataForm">
+                <h4>Mettre mes infos à jour</h4>
+                <form>
+                    <div class="form-group">
+                        <label>Présentation</label>
+                        <textarea-autosize name="user_presentation" class="form-control rounded-0" v-model="userPresentation"></textarea-autosize>
+                    </div>
+                    <div class="form-group">
+                        <label>Centres d'interet - </label>
+                        <small><i>Mots-clés séparés par des espaces</i></small>
+                        <input class="form-control rounded-0" type="text" name="user_interests" v-model="userInterests">
+                    </div>
 
-                      <div class="form-group">
-                          <button type="button" class="btn btn-success" name="button" v-on:click="updateUserPublicData">Enregistrer</button>
-                      </div>
+                    <div class="form-group">
+                        <label>Liens :</label>
+                        <div v-for="link in userLinks">
+                            <div class="form-group">
+                                <input placeholder="http://www.une-page-que-je-veux-montrer.com" type="text" class="form-control rounded-0" v-model="userLinks[link.index].url">
+                            </div>
+                        </div>
 
-                  </form>
-              </div>
+                        <div class="form-group">
+                            <button type="button" class="rounded-0" name="button" v-on:click="addUserLink">+</button>
+                        </div>
+                    </div>
 
-              <div class="list-group list-group-flush">
-                  <ul>
-                      <li class="list-group-item">Nom : {{authUserData.name}}</li>
-                      <li class="list-group-item">Email : {{ authUserData.email }}</li>
-                      <li class="list-group-item"> <a href="">Réinitialiser mon mot de passe</a></li>
-                      <li class="list-group-item"> <a href="">Supprimer mon compte</a></li>
-                  </ul>
-              </div>
-          </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-success" name="button" v-on:click="updateUserPublicData">Enregistrer</button>
+                    </div>
 
-      </div>
-  </main>
+                </form>
+            </div>
+
+            <div class="list-group list-group-flush">
+                <ul>
+                    <li class="list-group-item">Nom : {{authUserData.name}}</li>
+                    <li class="list-group-item">Email : {{ authUserData.email }}</li>
+                    <li class="list-group-item"> <a href="">Réinitialiser mon mot de passe</a></li>
+                    <li class="list-group-item"> <a href="">Supprimer mon compte</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</main>
 </template>
 
 <script>
@@ -81,30 +126,31 @@ export default {
         return {
             name: 'ProfileComponent',
             changePicForm: false,
-            userLinks: [
-                {
-                    index: 0,
-                    url: ''
-                }
-            ],
-            uLinksLength : 1,
+            userLinks: [{
+                index: 0,
+                url: ''
+            }],
+            uLinksLength: 1,
             userInterests: '',
             userPresentation: ''
         }
     },
     computed: {
-      ...mapState([
-        'authUserData',
-        'userLogged',
-        'profilePicUrl',
-        'userPublicData'
-      ])
+        ...mapState([
+            'authUserData',
+            'userLogged',
+            'profilePicUrl',
+            'userPublicData'
+        ])
     },
 
     methods: {
         addUserLink: function() {
-          this.userLinks.push({index: this.uLinksLength, content: ""});
-          this.uLinksLength++;
+            this.userLinks.push({
+                index: this.uLinksLength,
+                content: ""
+            });
+            this.uLinksLength++;
         },
 
         togglePicForm: function() {
@@ -121,14 +167,14 @@ export default {
             let formData = new FormData();
             formData.append('file', this.profilePicFile);
             this.$store.dispatch('uploadProfilePic', formData)
-            .then((response)=>{
-                //console.log(response.data);
-                console.log("Profile image successfully uploaded");
-                this.$router.go();
-                //console.log(this.profilePicUrl);
-            }, (error)=>{
-                console.error(error);
-            });
+                .then((response) => {
+                    //console.log(response.data);
+                    console.log("Profile image successfully uploaded");
+                    this.$router.go();
+                    //console.log(this.profilePicUrl);
+                }, (error) => {
+                    console.error(error);
+                });
         },
 
         initUserPublicData: function() {
@@ -153,7 +199,7 @@ export default {
         initUserInterests: function() {
             this.userInterests = "";
             if (this.userPublicData.user_interests.length > 0) {
-                this.userPublicData.user_interests.forEach((word)=>{
+                this.userPublicData.user_interests.forEach((word) => {
                     this.userInterests += word + " ";
                 });
                 //remove final white space
@@ -170,44 +216,62 @@ export default {
 
             payload.user_interests = this.userInterests.split(" ");
 
-            this.userLinks.forEach((link)=>{
+            this.userLinks.forEach((link) => {
                 payload.user_links.push(link.url);
             });
 
             this.$store.dispatch('updateUserPublicDataAction', payload)
-                        .then((response)=>{
-                            this.initUserPublicData();
-                        }, (error)=>{
-                            console.error(error);
-                        });
+                .then((response) => {
+                    this.initUserPublicData();
+                }, (error) => {
+                    console.error(error);
+                });
         }
     },
 
     mounted() {
         this.$store.dispatch('getUserPublicDataAction')
-                                        .then((response)=>{
-                                            this.initUserPublicData();
-                                            console.log(response);
-                                        }, (error)=>{
-                                            console.error(error);
-                                        });
+            .then((response) => {
+                this.initUserPublicData();
+                console.log(response);
+            }, (error) => {
+                console.error(error);
+            });
     },
 
     created: function() {
         if (!this.userLogged) {
             this.$store.dispatch('autoLogin')
-                        .then((response)=>{
-                            //
-                        }, (error)=>{
-                            console.error(error);
-                            this.$router.push('/login');
-                        });
+                .then((response) => {
+                    //
+                }, (error) => {
+                    console.error(error);
+                    this.$router.push('/login');
+                });
         }
     }
 }
 </script>
 
 <style scoped>
+.card-bg2 {
+    /* background-color: #8baed3; */
+    background-color: #c3d1dd;
+}
+
+.card-bg1 {
+    /* background-color: #c3d1dd; */
+    background-color: #fff;
+}
+
+.card-text2 {
+    color: #57515b;
+}
+
+.card-text1 {
+    color: #57515b;
+}
+
 .card {
     padding: 20px;
     border-radius: 0;
@@ -215,7 +279,7 @@ export default {
 
 .profile_pic {
     width: 100px;
-
+    position: relative;
 }
 
 .profile_pic img {
@@ -228,14 +292,17 @@ export default {
     background-color: #fff;
     z-index: 2;
     top: 20%;
-    left: 18%;
+    left: -200%;
     box-shadow: 3px 2px 8px #0002;
-    border-radius: 3px;
+    /* border-radius: 3px; */
 }
 
 .changePicBtn {
     position: relative;
-    top : -30px;
+    width: 30px;
+    height: 30px;
+    left: +70px;
+    bottom: +30px;
     visibility: hidden;
 }
 

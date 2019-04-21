@@ -156,7 +156,7 @@ pre {
     transform: scale(1.1);
 }
 
-h2, h3, .square-btn, a, a:hover, div.clearNotifsLink {
+h2, h3, .square-btn, a, a:hover, div.clearNotifsLink, p i {
     color: #193052;
 }
 

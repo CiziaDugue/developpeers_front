@@ -1,36 +1,47 @@
 <template>
-  <main>
-      <div>
-          <button v-if="!authUserIsFollowing" type="button" v-on:click="followUser">Suivre</button>
-          <button  v-else type="button" v-on:click="unfollowUser">Ne plus suivre</button>
-      </div>
-      <div>
-          <h2>{{userData.user_name}}</h2>
-      </div>
+<main>
+    <div class="row align-items-center justify-content-center">
+        <div class="col-sm-9 col-12 card-bg2 p-4">
+            <h2 class="text-center">Profil de {{ userData }}</h2>
+        </div>
+        <div class="col-sm-3 col-12 card-bg1 align-self-stretch d-flex">
+            <div class="profile_pic m-auto pt-4">
+                <img src="" />
+            </div>
+        </div>
+    </div>
 
-      <div class="profile_pic">
-        <img :src="userProfilePicUrl"/>
-      </div>
+    <div>
+        <button v-if="!authUserIsFollowing" type="button" v-on:click="followUser">Suivre</button>
+        <button v-else type="button" v-on:click="unfollowUser">Ne plus suivre</button>
+    </div>
+    <div>
+        <h2>{{userData.user_name}}</h2>
+    </div>
 
-      <div>
-          <h4>Presentation</h4>
-          <p>{{userPresentation}}</p>
-      </div>
+    <div class="profile_pic">
+        <img :src="userProfilePicUrl" />
+    </div>
 
-      <div>
-          <h4>Centre d'intérêts</h4>
-          <p>{{userInterests}}</p>
-      </div>
+    <div>
+        <h4>Presentation</h4>
+        <p>{{userPresentation}}</p>
+    </div>
 
-      <div>
-          <h4>Liens</h4>
-          <ul>
-              <li v-for="link in userLinks">{{link.url}}</li>
-          </ul>
-      </div>
+    <div>
+        <h4>Centre d'intérêts</h4>
+        <p>{{userInterests}}</p>
+    </div>
+
+    <div>
+        <h4>Liens</h4>
+        <ul>
+            <li v-for="link in userLinks">{{link.url}}</li>
+        </ul>
+    </div>
 
 
-  </main>
+</main>
 </template>
 
 <script>
@@ -53,10 +64,10 @@ export default {
         }
     },
     computed: {
-      ...mapState([
-        'authUserData',
-        'userLogged'
-      ])
+        ...mapState([
+            'authUserData',
+            'userLogged'
+        ])
     },
 
     methods: {
@@ -73,7 +84,7 @@ export default {
         isAuthUserFollowing: function(userPublicData) {
             let match = false;
             if (userPublicData.followers.length > 0) {
-                for (let i=0; i<userPublicData.followers.length; i++) {
+                for (let i = 0; i < userPublicData.followers.length; i++) {
                     if (userPublicData.followers[i].id == this.authUserData.id) {
                         match = true;
                         break;
@@ -105,7 +116,7 @@ export default {
         initUserInterests: function(userPublicData) {
             this.userInterests = "";
             if (userPublicData.user_interests.length > 0) {
-                userPublicData.user_interests.forEach((word)=>{
+                userPublicData.user_interests.forEach((word) => {
                     this.userInterests += word + ", ";
                 });
                 //remove final white space and comma
@@ -115,36 +126,40 @@ export default {
 
         followUser: function() {
             let userId = this.userData.user_id;
-            axios.put('http://localhost/developeers/public/api/followuser/'+userId, {},
-            {headers: this.$store.state.headerObject})
-            .then((response)=>{
-                //console.log(response.data);
-                this.getUserPublicData();
-            })
-            .catch((error)=>{
-                console.error(error);
-            });
+            axios.put('http://localhost/developeers/public/api/followuser/' + userId, {}, {
+                    headers: this.$store.state.headerObject
+                })
+                .then((response) => {
+                    //console.log(response.data);
+                    this.getUserPublicData();
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         },
 
         unfollowUser: function() {
             let userId = this.userData.user_id;
-            axios.put('http://localhost/developeers/public/api/unfollowuser/'+userId, {},
-            {headers: this.$store.state.headerObject})
-            .then((response)=>{
-                //console.log(response.data);
-                this.getUserPublicData();
-            })
-            .catch((error)=>{
-                console.error(error);
-            });
+            axios.put('http://localhost/developeers/public/api/unfollowuser/' + userId, {}, {
+                    headers: this.$store.state.headerObject
+                })
+                .then((response) => {
+                    //console.log(response.data);
+                    this.getUserPublicData();
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         },
         getUserPublicData: function() {
             let userId = this.$route.params.userId;
-            axios.get('http://localhost/developeers/public/api/userdata/'+userId, {headers: this.$store.state.headerObject})
-                .then( (response)=>{
+            axios.get('http://localhost/developeers/public/api/userdata/' + userId, {
+                    headers: this.$store.state.headerObject
+                })
+                .then((response) => {
                     this.initUserPublicData(response.data);
                 })
-                .catch((error)=>{
+                .catch((error) => {
                     console.error(error);
                 });
         }
@@ -165,18 +180,36 @@ export default {
     created: function() {
         if (!this.userLogged) {
             this.$store.dispatch('autoLogin')
-                        .then((response)=>{
-                            //
-                        }, (error)=>{
-                            console.error(error);
-                            this.$router.push('/login');
-                        });
+                .then((response) => {
+                    //
+                }, (error) => {
+                    console.error(error);
+                    this.$router.push('/login');
+                });
         }
     }
 }
 </script>
 
 <style scoped>
+.card-bg2 {
+    /* background-color: #8baed3; */
+    background-color: #c3d1dd;
+}
+
+.card-bg1 {
+    /* background-color: #c3d1dd; */
+    background-color: #fff;
+}
+
+.card-text2 {
+    color: #57515b;
+}
+
+.card-text1 {
+    color: #57515b;
+}
+
 .card {
     padding: 20px;
     border-radius: 0;
@@ -204,7 +237,7 @@ export default {
 
 .changePicBtn {
     position: relative;
-    top : -30px;
+    top: -30px;
     visibility: hidden;
 }
 
