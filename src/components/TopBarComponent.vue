@@ -62,6 +62,9 @@
                 <router-link class="dropdown-item" to="/login">Se connecter</router-link>
                 <router-link class="dropdown-item" to="/register">S'inscrire</router-link>
             </div>
+            <router-link :to="{ path: '/' }">
+                <img class="logo-small" src="../assets/logo.png">
+            </router-link>
         </div>
 
         <!-- Regular screen topBar -->

@@ -49,6 +49,9 @@
                                 <p :class="textColor1(key)" class="text-center align-self-middle">
                                     {{ post.number_of_versions }} Versions
                                 </p>
+                                <p :class="textColor1(key)">
+
+                                </p>
                             </div>
                             <div class="col-12">
                                 <p class="footer-text" :class="textColor1(key)">Créé le {{ post.created_at }} par {{ post.author_name }}</p>
@@ -109,6 +112,9 @@
                                 </p>
                                 <p :class="textColor1(key)" class="text-center align-self-middle">
                                     {{ post.number_of_versions }} Versions
+                                </p>
+                                <p :class="textColor1(key)">
+
                                 </p>
                             </div>
                             <div class="col-12">

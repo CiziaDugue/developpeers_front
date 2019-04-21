@@ -5,8 +5,9 @@
     </div> -->
 
     <!-- post row -->
-    <div class="row align-items-center justify-content-center">
-        <div class="col-sm-1 col-2 d-flex flex-column card-bg2 align-self-stretch">
+    <div class="row align-items-center justify-content-center p-0 m-0">
+        <div class="col-sm-1 col-2 d-flex flex-column card-bg2 align-self-stretch p-0 m-0">
+        <!-- <div class="col-sm-1 col-2 d-flex flex-column card-bg2 align-self-stretch p-0 m-0"> -->
             <small class="cursor square-btn bg-info text-center pt-1 font-weight-bold" v-on:click="voteTarget(postSingle, 'post', true, postSingle.active_version._id)" title="Voter pour cet article">
                 + {{ postSingle.votePros }}
             </small>
@@ -14,7 +15,7 @@
                 - {{ postSingle.voteCons }}
             </small>
         </div>
-        <div class="col-sm-7 col-8 py-5 card-bg2">
+        <div class="col-sm-7 col-8 py-5 card-bg2 px-0 m-0">
             <div class="row justify-content-center">
                 <div class="col-12">
                     <!-- <div v-if="postEditMode" class="input-group input-group-sm w-50">
@@ -43,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-1 col-2 card-bg2 align-self-stretch d-flex flex-column align-items-end p-0">
+        <div class="col-sm-1 col-2 card-bg2 align-self-stretch d-flex flex-column align-items-end p-0 m-0">
             <small v-if="userIsFollowing" title="Ne plus suivre cet article" v-on:click="unfollow" class="cursor square-btn bg-info text-center pt-1">
                 <i class="fas fa-bookmark"></i>
             </small>
@@ -62,7 +63,7 @@
                 </small>
             </template>
         </div>
-        <div class="col-sm-3 col-12 card-bg1 align-self-stretch">
+        <div class="col-sm-3 col-12 card-bg1 align-self-stretch p-0 m-0">
             <!-- <div v-if="postEditMode" class="input-group input-group-sm w-100">
                 <label>Modifier les mots-clés : </label>
                 <input class="form-control searchBar w-50 rounded-0" type="text" v-model="postEditedKeywords">
@@ -75,8 +76,8 @@
     </div>
 
     <!-- version row -->
-    <div class="row align-items-center justify-content-center">
-        <div class="col-sm-1 col-2 d-flex flex-column card-bg1 align-self-stretch">
+    <div class="row align-items-center justify-content-center p-0 m-0">
+        <div class="col-sm-1 col-2 d-flex flex-column card-bg1 align-self-stretch p-0 m-0">
             <small class="cursor square-btn bg-info text-center pt-1 font-weight-bold" v-on:click="voteTarget(postSingle.active_version, 'version', true, postSingle.active_version._id)">+ {{ postSingle.active_version.votePros }}</small>
 
             <small class="cursor square-btn bg-secondary text-center pt-1 font-weight-bold" v-on:click="voteTarget(postSingle.active_version, 'version', false, postSingle.active_version._id)">- {{ postSingle.active_version.voteCons }}</small>
@@ -117,7 +118,7 @@
                 </small>
             </template>
         </div>
-        <div class="col-sm-3 col-12 card-bg2 d-flex flex-column align-self-stretch p-0">
+        <div class="col-sm-3 col-12 card-bg2 d-flex flex-column align-self-stretch p-0 m-0">
             <template v-for="version in postSingle.versions">
                 <small v-if="postSingle.active_version._id == version._id" class="square-btn bg-success text-center pt-1 font-weight-bold">
                     {{ version.number }}
@@ -133,21 +134,21 @@
     </div>
 
     <!-- version content & snippets row -->
-    <div class="row justify-content-center align-items-center">
-        <div class="col-sm-9 col-12 card-bg2 p-4">
+    <div class="row justify-content-center align-items-center p-0 m-0">
+        <div class="col-sm-9 col-12 card-bg2 py-4 m-0">
             <p v-html="'<pre>'+postSingle.active_version.text_content +'</pre>'" class="card-text2"></p>
         </div>
-        <div class="col-sm-3 col-12 card-bg1 align-self-stretch">
+        <div class="col-sm-3 col-12 card-bg1 align-self-stretch p-0 m-0">
         </div>
         <!-- alterner bgcolor? -->
-        <div v-for="(snippet, key, index) in postSingle.active_version.code_snippets" class="col-12 px-4 pt-3 align-self-center" :class="bg2(key)">
+        <div v-for="(snippet, key, index) in postSingle.active_version.code_snippets" class="col-12 px-5 pt-3 align-self-center" :class="bg2(key)">
             <pre v-highlightjs="snippet.content"><code></code></pre>
         </div>
     </div>
 
     <!-- comments row -->
-    <div v-for="(comment, key, index) in postSingle.active_version.comments" class="row justify-content-start align-items-center">
-        <div class="col-sm-2 col-2 d-flex align-self-stretch" :class="bg2(key)">
+    <div v-for="(comment, key, index) in postSingle.active_version.comments" class="row justify-content-start align-items-center p-0 m-0">
+        <div class="col-sm-2 col-2 d-flex align-self-stretch p-0 m-0" :class="bg2(key)">
             <div class="d-flex flex-column">
                 <small class="cursor square-btn bg-info text-center pt-1 font-weight-bold" v-on:click="voteTarget(comment, 'comment', true, postSingle.active_version._id)">
                     + {{ comment.votePros }}
@@ -156,9 +157,10 @@
                     - {{ comment.voteCons }}
                 </small>
             </div>
+            <!-- if large viewport -->
             <img class="logo-small" :src="comment.author_profile_pic_url">
         </div>
-        <div class="col-sm-6 col-9" :class="bg2(key)">
+        <div class="col-sm-6 col-9 p-0 m-0" :class="bg2(key)">
             <div class="col-12">
                 <p :class="textColor2(key)">
                     <strong>
@@ -174,7 +176,7 @@
                 <textarea-autosize v-if="commentEditMode && comment._id==editedCommentId" v-model="commentEditedContent"></textarea-autosize>
             </div>
         </div>
-        <div class="col-sm-1 col-1 d-flex flex-column align-self-stretch align-items-end p-0" :class="bg2(key)">
+        <div class="col-sm-1 col-1 d-flex flex-column align-self-stretch align-items-end p-0 m-0" :class="bg2(key)">
             <template v-if="authUserData.id === comment.author_id">
                 <small v-if="!commentEditMode" class="cursor square-btn bg-primary text-center pt-1" title="Éditer mon commentaire" v-on:click="toggleCommentEditMode(comment._id, comment.content)">
                     <i class="fas fa-pen"></i>
@@ -192,7 +194,7 @@
         </div>
 
     </div>
-    <div class="row justify-content-center align-items-center">
+    <div class="row justify-content-center align-items-center p-0 m-0">
         <div class="col-sm-9 col-12 card-bg2 pl-3 pr-0">
             <div class="input-group">
                 <textarea-autosize class="form-control rounded-0 d-block" placeholder=" Taper votre commentaire" aria-label="With textarea" v-model="commentToAdd" @keydown.enter.exact.prevent @keyup.enter.exact.native="addComment" @keydown.enter.shift.exact="newline(commentToAdd)"></textarea-autosize>
