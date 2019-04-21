@@ -9,7 +9,7 @@
 body {
     /* background-color: #eee; */
 }
-p, li, span, a {
+p, li, span, a, pre {
     font-family: helvetica, sans-serif;
 }
 h1, h2, h3 {
@@ -134,9 +134,16 @@ h1, h2, h3 {
 }
 
 /* text-blocks in posts */
+
 pre {
-    font-family: arial, sans-serif;
-    font-size: 1em;
+    /* font-family: arial, sans-serif; */
+    font-size: 1.1em;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
 }
 
 .commentContent>pre {

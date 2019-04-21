@@ -118,16 +118,20 @@
         </div>
     </div>
 
-    <!-- comment row -->
+    <!-- version content & snippets row -->
     <div class="row justify-content-center align-items-center">
-        <div class="col-12">
-            <p class="text-center">{{ postSingle.active_version.text_content }}</p>
-            <!-- <p v-html="'<pre>'+postSingle.active_version.text_content +'</pre>'"></p> -->
+        <div class="col-sm-9 col-12 card-bg2 p-4">
+            <!-- <p class="text-center">{{ postSingle.active_version.text_content }}</p> -->
+            <p v-html="'<pre>'+postSingle.active_version.text_content +'</pre>'" class="card-text2"></p>
         </div>
-        <div v-for="snippet in postSingle.active_version.code_snippets" class="col-12">
+        <div class="col-sm-3 col-12 card-bg1 align-self-stretch">
+        </div>
+        <div v-for="(snippet, key, index) in postSingle.active_version.code_snippets" class="col-12 px-4 py-2">
             <pre v-highlightjs="snippet.content"><code></code></pre>
         </div>
     </div>
+
+    <!-- comments row -->
     <div class="row justify-content-center align-items-center">
         <div class="col-12" v-for="comment in postSingle.active_version.comments">
             <div class="row">
