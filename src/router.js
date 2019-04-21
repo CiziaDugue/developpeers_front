@@ -14,6 +14,7 @@ import CreateVersionComponent from '@/components/CreateVersionComponent.vue'
 import EditVersionComponent from '@/components/EditVersionComponent.vue'
 import PostSingleGuestComponent from '@/components/PostSingleGuestComponent.vue'
 import OupsComponent from '@/components/OupsComponent.vue'
+import UserPublicProfileComponent from '@/components/UserPublicProfileComponent.vue'
 
 Vue.use(Router)
 
@@ -89,6 +90,11 @@ export default new Router({
             path: '/profil',
             name: 'profile',
             component: ProfileComponent
+        },
+        {
+            path: '/public-page/:userName/:userId',
+            name: 'userPublicProfile',
+            component: UserPublicProfileComponent
         },
         {
             path: '/',

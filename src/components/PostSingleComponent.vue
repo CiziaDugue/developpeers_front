@@ -5,6 +5,15 @@
     </div> -->
 
     <!-- post row -->
+
+
+    <!-- TEMPORAIRE, à intégrer proprement, lien vers user public profile : -->
+    <router-link
+            :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
+            <h4>{{postSingle.author_name}}</h4>
+    </router-link>
+
+
     <div class="row align-items-center justify-content-center">
         <div class="col-sm-1 col-2 d-flex flex-column card-bg2 align-self-stretch">
             <small class="cursor square-btn bg-info text-center pt-1 font-weight-bold" v-on:click="voteTarget(postSingle, 'post', true, postSingle.active_version._id)" title="Voter pour cet article">
