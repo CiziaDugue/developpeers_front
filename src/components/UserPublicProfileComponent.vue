@@ -2,7 +2,7 @@
 <main>
     <div class="row align-items-center justify-content-center">
         <div class="col-sm-9 col-12 card-bg2 p-4">
-            <h2 class="text-center">Profil de {{ userData }}</h2>
+            <h2 class="text-center">Profil de {{ userData.user_name }}</h2>
         </div>
         <div class="col-sm-3 col-12 card-bg1 align-self-stretch d-flex">
             <div class="profile_pic m-auto pt-4">
@@ -14,9 +14,6 @@
     <div>
         <button v-if="!authUserIsFollowing" type="button" v-on:click="followUser">Suivre</button>
         <button v-else type="button" v-on:click="unfollowUser">Ne plus suivre</button>
-    </div>
-    <div>
-        <h2>{{userData.user_name}}</h2>
     </div>
 
     <div class="profile_pic">
@@ -38,6 +35,13 @@
         <ul>
             <li v-for="link in userLinks">{{link.url}}</li>
         </ul>
+    </div>
+
+    <div>
+        <router-link :to="{ name: '', params: {} }">
+            <h4>Publications</h4>
+        </router-link>
+
     </div>
 
 
