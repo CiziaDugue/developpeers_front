@@ -38,7 +38,10 @@
     </div>
 
     <div>
-        <h4 class="searchUserPostsLink" v-on:click="searchUserPosts">Publications</h4>
+        <router-link :to="{ name: '', params: {} }">
+            <h4>Publications</h4>
+        </router-link>
+
     </div>
 
 
@@ -163,15 +166,6 @@ export default {
                 .catch((error) => {
                     console.error(error);
                 });
-        },
-        searchUserPosts: function() {
-            this.$store.dispatch('getSearchResult', this.userData.user_name)
-            .then((response)=>{
-                let route = "/search/"+this.userData.user_name.replace(' ', '-').toLowerCase();
-                this.$router.push(route);
-            }, (error)=>{
-                console.error(error);
-            });
         }
     },
 
@@ -259,9 +253,5 @@ export default {
     position: absolute;
     top: 3px;
     right: 6px;
-}
-
-.searchUserPostsLink {
-    cursor: pointer;
 }
 </style>

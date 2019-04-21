@@ -11,9 +11,12 @@
                     aria-expanded="false">
                 <i class="fas fa-bars pr-2"></i>
             </button>
-            <router-link class="pl-2" :to="{ path: '/' }">
+            <!-- <router-link class="pl-2" :to="{ path: '/' }">
                 <img class="logo-small-resp" src="../assets/logo.png">
-            </router-link>
+            </router-link> -->
+            <a class="pl-2">
+                <img v-on:click="refreshHomePage" class="logo-small-resp" src="../assets/logo.png">
+            </a>
             <div class="dropdown-menu" aria-labelledby="smallWindowMenuButton">
                 <router-link class="dropdown-item" to="/">Dashboard</router-link>
                 <div class="dropdown-divider"></div>
@@ -69,9 +72,10 @@
 
         <!-- Regular screen topBar -->
         <div class="rootLogoBlock" v-if="!smallWindowMode">
-            <router-link :to="{ path: '/' }">
+            <!-- <router-link :to="{ path: '/' }">
                 <img class="logo-small" src="../assets/logo-title.png">
-            </router-link>
+            </router-link> -->
+            <img v-on:click="refreshHomePage" class="logo-small" src="../assets/logo-title.png">
         </div>
 
         <div class="searchBlock">
@@ -172,7 +176,16 @@ export default {
                         console.error(error);
                     });
             }
-        }
+        },
+
+        refreshHomePage: function() {
+            this.$store.dispatch('getPostsFeed')
+                        .then((response)=>{
+                            this.$router.push('/');
+                        }, (error)=>{
+                            console.error(error);
+                        });
+        },
     },
 
     mounted: function() {
@@ -305,5 +318,10 @@ export default {
 .logo-small-resp {
     height: 56px;
     width: auto;
+    cursor: pointer;
+}
+
+.logo-small {
+    cursor: pointer;
 }
 </style>
