@@ -3,7 +3,7 @@
 
 
     <div v-if="isGroupList == false" class="row align-items-center justify-content-center">
-        <div class="col-sm-9 col-12 card-bg2 p-5">
+        <div class="col-sm-9 col-12 card-bg2 p-4">
             <h2 class="text-center">{{ title }}</h2>
         </div>
         <!-- centrer verticalement!! -->
@@ -18,38 +18,40 @@
                 <i class="fas fa-angle-left"></i>
             </small>
         </div> -->
-        <div class="col-sm-9 col-12 card-bg2 py-5">
+        <div class="col-sm-8 col-10 card-bg2 py-5">
             <div class="row align-items-center">
                 <div class="col-12">
                     <h2 class="text-center">{{ title }}</h2>
                 </div>
                 <div class="col-12">
-                    <p class="text-center">{{ numberOfMembers }} membres - {{ numberOfPosts }} articles</p>
+                    <p class="text-center card-text2">{{ numberOfMembers }} membres - {{ numberOfPosts }} articles</p>
                 </div>
             </div>
         </div>
-        <div class="col-sm-2 col-12 card-bg1 align-self-stretch">
-            <div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" v-for="word in groupSingle.keywords">{{word}}</li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-sm-1 card-bg1 align-self-stretch col-4 d-flex flex-column align-items-end">
-            <small class="cursor square-btn bg-primary text-center pt-1" v-on:click="createPost" data-toggle="tooltip" data-placement="down" title="Ajouter un article?">
-                <i class="far fa-edit"></i>
-            </small>
+        <div class="col-sm-1 col-2 card-bg2 align-self-stretch d-flex flex-column align-items-end p-0">
+
             <small v-if="isUserInGroup == true" class="cursor square-btn bg-info text-center pt-1" v-on:click="leaveOrJoinGroup('leave')" data-toggle="tooltip" data-placement="left" title="Quitter le groupe?">
                 <!-- <i class="fas fa-sign-out-alt"></i> -->
                 <!-- <i class="far fa-eye-slash"></i> -->
                 <i class="fas fa-bookmark"></i>
             </small>
-            <small v-else-if="isUserInGroup == false" class="btn btn-secondary rounded-0" v-on:click="leaveOrJoinGroup('join')" data-toggle="tooltip" data-placement="right" title="Rejoindre le groupe?">
+            <small v-else-if="isUserInGroup == false" class="cursor square-btn bg-secondary text-center pt-1" v-on:click="leaveOrJoinGroup('join')" data-toggle="tooltip" data-placement="right" title="Rejoindre le groupe?">
                 <!-- <i class="fas fa-sign-in-alt"></i> -->
                 <!-- <i class="far fa-eye"></i> -->
                 <i class="far fa-bookmark"></i>
             </small>
+            <small class="cursor square-btn bg-primary text-center pt-1" v-on:click="createPost" data-toggle="tooltip" data-placement="down" title="Ajouter un article?">
+                <i class="far fa-edit"></i>
+            </small>
         </div>
+        <div class="col-sm-3 col-12 card-bg1 align-self-stretch">
+            <div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item font-weight-light font-italic border-0 bg-transparent card-text1" v-for="word in groupSingle.keywords">{{word}}</li>
+                </ul>
+            </div>
+        </div>
+
     </div>
 
 

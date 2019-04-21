@@ -14,102 +14,107 @@
                 - {{ postSingle.voteCons }}
             </small>
         </div>
-        <div class="col-sm-8 col-10 py-5">
-            <div class="row">
+        <div class="col-sm-7 col-8 py-5 card-bg2">
+            <div class="row justify-content-center">
                 <div class="col-12">
-                    <h2 class="text-center">{{ postSingle.title }}</h2>
-                    <div v-if="postEditMode">
-                        <label>Modifier le titre : </label>
-                        <input type="text" v-model="postEditedTitle">
+                    <div v-if="postEditMode" class="input-group input-group-sm w-50">
+                        <!-- <label>Modifier le titre : </label> -->
+                        <input class="form-control searchBar w-50 rounded-0" type="text" v-model="postEditedTitle">
                     </div>
+                    <h2 v-else class="text-center">{{ postSingle.title }}</h2>
                 </div>
-                <div class="col-12 d-flex justify-content-around align-irems-stretch">
-                    <p class="text-center align-middle">
+                <div class="col-12 d-flex justify-content-around align-items-center">
+                    <p class="text-center align-self-middle card-text2">
                          Groupe:
                          <router-link :to="{ name: 'groupPostsList', params: { groupId: postSingle.group_id } }">{{ postSingle.group_name }}</router-link>
                     </p>
-                    <p class="text-center align-middle">
+                    <p class="text-center card-text2">
                         Auteur: {{ postSingle.author_name }}
                         <img class="logo-small" :src="postSingle.author_profile_pic_url">
                     </p>
-
                 </div>
                 <div class="col-12">
-                    <p class="text-center">Créé le {{ postSingle.created_at }}</p>
+                    <p class="footer-text card-text2">Créé le {{ postSingle.created_at }}</p>
                 </div>
             </div>
         </div>
-        <div class="col-2">
-            <ul class="card-text list-group list-group-flush">
-                <li class="list-group-item font-weight-light font-italic border-0" v-for="word in this.postSingle.keywords">{{word}}</li>
-            </ul>
-            <div v-if="postEditMode">
-                <label>Modifier les mots-clés : </label>
-                <input type="text" v-model="postEditedKeywords">
-            </div>
-        </div>
-        <div class="col-1 align-self-start">
-            <button v-if="!userIsFollowing" type="button" title="Suivre cet article" v-on:click="follow" class="btn btn-outline-secondary rounded-0">
-                <i class="fa fa-eye"></i>
-            </button>
-
-            <button v-if="userIsFollowing" type="button" title="Ne plus suivre cet article" v-on:click="unfollow" class="btn btn-outline-secondary rounded-0">
-                <i class="far fa-eye-slash"></i>
-            </button>
+        <div class="col-sm-1 col-2 card-bg2 align-self-stretch d-flex flex-column align-items-end p-0">
+            <small v-if="userIsFollowing" title="Ne plus suivre cet article" v-on:click="unfollow" class="cursor square-btn bg-info text-center pt-1">
+                <i class="fas fa-bookmark"></i>
+            </small>
+            <small v-if="!userIsFollowing" title="Suivre cet article" v-on:click="follow" class="cursor square-btn bg-secondary text-center pt-1">
+                <i class="far fa-bookmark"></i>
+            </small>
             <template v-if="userIsAuthorOfPost">
-                <button v-if="!postEditMode" class="btn btn-secondary btn-sm rounded-0" title="Éditer cet article" v-on:click="toggleEditMode">
+                <small v-if="!postEditMode" class="cursor square-btn bg-primary text-center pt-1" title="Éditer cet article" v-on:click="toggleEditMode">
                     <i class="fas fa-pen"></i>
-                </button>
-                <button v-else-if="postEditMode" class="btn btn-sm btn-success rounded-0" v-on:click="validatePostUpdate" title="Valider les changements">
+                </small>
+                <small v-else-if="postEditMode" class="cursor square-btn bg-success text-center pt-1" v-on:click="validatePostUpdate" title="Valider les changements">
                     <i class="fas fa-check"></i>
-                </button>
-                <button class="btn btn-danger btn-sm rounded-0" title="Supprimer cet article" v-on:click="deletePost">
+                </small>
+                <small class="cursor square-btn bg-danger text-center pt-1" title="Supprimer cet article" v-on:click="deletePost">
                     <i class="fas fa-trash-alt"></i>
-                </button>
+                </small>
             </template>
+        </div>
+        <div class="col-sm-3 col-12 card-bg1 align-self-stretch">
+            <div v-if="postEditMode" class="input-group input-group-sm w-100">
+                <label>Modifier les mots-clés : </label>
+                <input class="form-control searchBar w-50 rounded-0" type="text" v-model="postEditedKeywords">
+            </div>
+            <ul v-else class="list-group list-group-flush py-4">
+                <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" v-for="word in this.postSingle.keywords">{{word}}</li>
+            </ul>
         </div>
     </div>
 
     <!-- version row -->
-    <div class="row justify-content-center align-items-center">
-        <div class="col-1 align-self-start">
-            <small class="cursor badge badge-success rounded-0" v-on:click="voteTarget(postSingle.active_version, 'version', true, postSingle.active_version._id)">+ {{ postSingle.active_version.votePros }}</small>
-            <small class="cursor badge badge-warning rounded-0" v-on:click="voteTarget(postSingle.active_version, 'version', false, postSingle.active_version._id)">- {{ postSingle.active_version.voteCons }}</small>
+    <div class="row align-items-center justify-content-center">
+        <div class="col-sm-1 col-2 d-flex flex-column card-bg1 align-self-stretch">
+            <small class="cursor square-btn bg-info text-center pt-1 font-weight-bold" v-on:click="voteTarget(postSingle.active_version, 'version', true, postSingle.active_version._id)">+ {{ postSingle.active_version.votePros }}</small>
+
+            <small class="cursor square-btn bg-secondary text-center pt-1 font-weight-bold" v-on:click="voteTarget(postSingle.active_version, 'version', false, postSingle.active_version._id)">- {{ postSingle.active_version.voteCons }}</small>
         </div>
-        <div class="col-8">
-            <div class="row">
-                <div class="col-12">
-                    <p class="text-center">
-                        Version: {{ postSingle.active_version.number }} - Auteur: {{postSingle.active_version.author_name}}
+        <div class="col-sm-7 col-8 py-5 card-bg1">
+            <div class="row justify-content-center">
+                <div class="col-12 d-flex justify-content-around align-items-center">
+                    <p class="text-center align-self-middle card-text1">
+                        Version: <strong>{{ postSingle.active_version.number }}</strong>
                     </p>
-                    <template v-if="userIsAuthorOfActiveVersion">
-                        <button class="btn btn-secondary btn-sm rounded-0" title="Éditer cette version" v-on:click="editActiveVersion">
-                            <i class="fas fa-pen"></i>
-                        </button>
-                        <button class="btn btn-danger btn-sm rounded-0" title="supprimer cette version" v-on:click="deleteActiveVersion" v-if="postSingle.active_version.number != '1.0'">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </template>
+                    <p class="text-center align-self-middle card-text1">
+                        Auteur: {{postSingle.active_version.author_name}}
+                        <img class="logo-small" :src="postSingle.active_version.author_profile_pic_url">
+                    </p>
                 </div>
                 <div class="col-12">
-                    <p class="text-center">Créé le {{ postSingle.created_at }}</p>
+                    <p class="footer-text card-text1">Créée le {{ postSingle.created_at }}</p>
                 </div>
             </div>
         </div>
-        <div class="col-3 align-self-start">
-            <div class="row justify-content-end">
+        <div class="col-sm-1 col-2 card-bg1 align-self-stretch d-flex flex-column align-items-end p-0">
+            <template v-if="userIsAuthorOfActiveVersion">
+                <small class="cursor square-btn bg-primary text-center pt-1" title="Éditer cette version" v-on:click="editActiveVersion">
+                    <i class="fas fa-pen"></i>
+                </small>
+                <small class="cursor square-btn bg-danger text-center pt-1" title="supprimer cette version" v-on:click="deleteActiveVersion" v-if="postSingle.active_version.number != '1.0'">
+                    <i class="fas fa-trash-alt"></i>
+                </small>
+            </template>
+        </div>
+        <div class="col-sm-3 col-12 card-bg2 d-flex flex-column align-self-stretch p-0">
+            <!-- <div class="row justify-content-end"> -->
                 <template v-for="version in postSingle.versions">
-                    <button v-if="postSingle.active_version._id == version._id" class="btn btn-outline-primary rounded-0" disabled>
+                    <small v-if="postSingle.active_version._id == version._id" class="square-btn bg-primary text-center pt-1 font-weight-bold" disabled>
                         {{ version.number }}
-                    </button>
-                    <button v-else v-on:click="changeVersion(version._id)" class="btn btn-outline-secondary rounded-0">
+                    </small>
+                    <small v-else v-on:click="changeVersion(version._id)" class="cursor square-btn bg-secondary text-center pt-1 font-weight-bold">
                         {{ version.number }}
-                    </button>
+                    </small>
                 </template>
-                <button class="btn btn-outline-secondary rounded-0" v-on:click="createVersion">
+                <small class="cursor square-btn bg-info text-center pt-1" v-on:click="createVersion" title="Ajouter une version">
                     <i class="fas fa-plus"></i>
-                </button>
-            </div>
+                </small>
+            <!-- </div> -->
         </div>
     </div>
 
@@ -141,7 +146,7 @@
                     <p v-if="comment._id != editedCommentId || !commentEditMode" class="" v-html="'<pre>'+comment.content+'</pre>'"></p>
                     <!-- <template v-if="commentEditMode && comment._id==editedCommentId"> -->
                     <textarea-autosize v-if="commentEditMode && comment._id==editedCommentId" v-model="commentEditedContent"></textarea-autosize>
-                    <!-- <button type="button" class="btn btn-sm btn-success rounded-0" v-on:click="validateCommentUpdate(comment._id)">
+                    <!-- <button class="btn btn-sm btn-success rounded-0" v-on:click="validateCommentUpdate(comment._id)">
                             <i class="fas fa-check"></i>
                         </button> -->
                     <!-- </template> -->

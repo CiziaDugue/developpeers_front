@@ -47,8 +47,8 @@ h1, h2, h3 {
     margin: 0 auto;
     /*à surveiller*/
     height: 90vh;
-    /* overflow: auto;
-    scrollbar-width: thin; */
+    /* overflow: auto; */
+    /* scrollbar-width: thin; */
 }
 
 /* #sideBarCtnr {
@@ -65,9 +65,15 @@ h1, h2, h3 {
     /* padding: 10px 0; */
     overflow: auto;
     scrollbar-width: thin;
+    /* scrollbar: none; */
 
 }
+@media (max-width: 540px) {
+    #routerViewCtnr {
+        scrollbar: none;
 
+    }
+}
 /* sidebar menu */
 .v-sidebar-menu {
     /* background-color: #8baed3; */

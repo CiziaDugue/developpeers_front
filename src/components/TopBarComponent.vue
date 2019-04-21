@@ -265,7 +265,7 @@ export default {
         margin: 2px;
     }
     .topBarCtnr {
-        padding: 5px 8px;
+        /* padding: 5px 8px; */
     }
 }
 @media (max-width: 540px) {
