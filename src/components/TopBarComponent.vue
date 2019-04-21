@@ -2,16 +2,16 @@
 <div class="topBarCtnr fixed-top">
     <div class="topBarContentBlock">
         <!-- Logged user responsive menu : -->
-        <div class="smallWindowMenu dropdown" v-if="smallWindowMode && userLogged">
+        <div class="smallWindowMenu dropdown border-0 p-0 m-0" v-if="smallWindowMode && userLogged">
             <button type="button"
-                    class="btn btn-secondary dropdown-toggle rounded-0 m-0"
+                    class="logo-small btn-secondary dropdown-toggle rounded-0 border-0 pl-4 m-0"
                     id="smallWindowMenuButton"
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false">
-                <i class="fas fa-bars"></i>
+                <i class="fas fa-bars pr-2"></i>
             </button>
-            <router-link :to="{ path: '/' }">
+            <router-link class="pl-2" :to="{ path: '/' }">
                 <img class="logo-small" src="../assets/logo.png">
             </router-link>
             <div class="dropdown-menu" aria-labelledby="smallWindowMenuButton">
@@ -47,14 +47,14 @@
             </div>
         </div>
         <!-- Guest user responsive menu : -->
-        <div class="smallWindowMenu dropdown" v-if="smallWindowMode && !userLogged">
+        <div class="smallWindowMenu dropdown border-0 p-0 m-0" v-if="smallWindowMode && !userLogged">
             <button type="button"
-                    class="btn btn-secondary dropdown-toggle"
+                    class="logo-small btn-secondary dropdown-toggle rounded-0 border-0 pl-4 m-0"
                     id="smallWindowMenuButton"
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false">
-                <i class="fas fa-bars"></i>
+                <i class="fas fa-bars pr-2"></i>
             </button>
             <div class="dropdown-menu" aria-labelledby="smallWindowMenuButton">
                 <router-link class="dropdown-item" to="/">Accueil</router-link>
@@ -62,7 +62,7 @@
                 <router-link class="dropdown-item" to="/login">Se connecter</router-link>
                 <router-link class="dropdown-item" to="/register">S'inscrire</router-link>
             </div>
-            <router-link :to="{ path: '/' }">
+            <router-link class="pl-2" :to="{ path: '/' }">
                 <img class="logo-small" src="../assets/logo.png">
             </router-link>
         </div>
@@ -96,39 +96,18 @@
             </div>
         </div>
 
-        <!-- <div class="userBlock" v-if="userLogged">
-            <div class="userSubBlock" v-if="!smallWindowMode">
-                <div class="profilePicCtnr">
-                    <img :src="profilePicUrl">
-                </div>
-                <router-link to="/profil"><strong>{{authUserData.name}}</strong></router-link>
-            </div>
-            <div class="userSubBlock">
-                <notification-component></notification-component>
-            </div>
-            <div class="userSubBlock">
-                <small v-on:click="disconnectUser" class="cursor square-btn bg-danger text-center pt-1" title="Se déconnecter"> <i class="fas fa-power-off"></i> </small>
-            </div>
-        </div> -->
         <div class="userBlock d-flex align-items-center justify-content-end" v-if="userLogged">
-
             <div v-if="!smallWindowMode" class="profilePicCtnr">
                 <img :src="profilePicUrl">
             </div>
-
             <router-link v-if="!smallWindowMode" to="/profil"><strong class="text-white ml-4">{{authUserData.name}}</strong></router-link>
 
             <div class="d-flex flex-column ml-4 justify-content-start align-items-end">
                 <small v-on:click="disconnectUser" class="cursor square-btn bg-danger text-center pt-1" title="Se déconnecter">
                      <i class="fas fa-power-off"></i>
                 </small>
-                <!-- <small class="cursor square-btn bg-warning text-center pt-1">
-                     <notification-component></notification-component>
-                </small> -->
                 <notification-component></notification-component>
-
             </div>
-
         </div>
 
     </div>
@@ -215,7 +194,7 @@ export default {
 <style scoped>
 .topBarCtnr {
     height: 60px;
-    padding: 5px 0px 5px 15px;
+    padding: 5px 0px;
     background-color: #27272b;
     /* overflow: hidden; */
 }
@@ -244,7 +223,6 @@ export default {
 
 .searchBar {
     width: 70%;
-    /* padding: 5px; */
     margin: 0 auto;
 }
 
@@ -254,11 +232,13 @@ export default {
 }
 
 .smallWindowMenu {
-
+    /* position: fixed;
+    top: 0;
+    left: 0; */
 }
 
 @media (max-width: 800px) {
-    .searchBlock {
+    /* .searchBlock {
         flex: auto;
     }
     .userBlock {
@@ -266,24 +246,33 @@ export default {
     }
     .searchBar {
         margin: 2px;
-    }
+    } */
     .topBarCtnr {
         /* padding: 5px 8px; */
     }
 }
 @media (max-width: 540px) {
+    /* .searchBlock {
+        flex: auto;
+    }
+    .userBlock {
+        flex: auto;
+    }
+    .searchBar {
+        margin: 2px;
+    } */
     .dropdown-menu {
         width: 96vw;
     }
 }
 
-.userSubBlock {
+/* .userSubBlock {
     flex: auto;
-    /* border-left: 1px solid #fff2; */
+    border-left: 1px solid #fff2;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+} */
 
 .userSubBlock:last-child {
     /* border-right: 1px solid #fff2; */
