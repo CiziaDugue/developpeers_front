@@ -213,7 +213,7 @@ export default {
 .topBarCtnr {
     height: 60px;
     padding: 5px 0px 5px 15px;
-    background-color: #212529;
+    background-color: #27272b;
     /* overflow: hidden; */
 }
 

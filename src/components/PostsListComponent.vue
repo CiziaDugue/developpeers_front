@@ -41,7 +41,7 @@
                 <i class="far fa-bookmark"></i>
             </small>
             <small class="cursor square-btn bg-primary text-center pt-1" v-on:click="createPost" data-toggle="tooltip" data-placement="down" title="Ajouter un article?">
-                <i class="far fa-edit"></i>
+                <i class="fas fa-edit"></i>
             </small>
         </div>
         <div class="col-sm-3 col-12 card-bg1 align-self-stretch">

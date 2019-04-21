@@ -100,6 +100,12 @@
                 <div class="col-12">
                     <p class="footer-text card-text1">Créée le {{ postSingle.created_at }}</p>
                 </div>
+                <!-- chevron sous la version??? -->
+                <!-- <div class="col-12">
+                    <p class="logo-small bg-info text-center pt-1 font-weight-bold" v-on:click="voteTarget(postSingle.active_version, 'version', true, postSingle.active_version._id)">
+                        <i class="fas fa-chevron-down text-dark"></i>
+                    </p>
+                </div> -->
             </div>
         </div>
         <div class="col-sm-1 col-2 card-bg1 align-self-stretch d-flex flex-column align-items-end p-0">
