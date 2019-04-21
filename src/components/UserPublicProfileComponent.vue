@@ -171,14 +171,6 @@ export default {
 
     mounted() {
         this.getUserPublicData();
-        // let userId = this.$route.params.userId;
-        // axios.get('http://localhost/developeers/public/api/userdata/'+userId, {headers: this.$store.state.headerObject})
-        //     .then( (response)=>{
-        //         this.initUserPublicData(response.data);
-        //     })
-        //     .catch((error)=>{
-        //         console.error(error);
-        //     });
     },
 
     created: function() {

@@ -15,18 +15,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <form class="form-inline">
-                        <!-- <input class="form-control" type="file" ref="file" v-bind:name="authUserData.id" v-on:change="handlePicFile">
-                        <!-- <button class="btn btn-success" type="button" v-on:click='submitPic'>ok</button> -->
-
                         <div class="input-group mb-3 rounded-0">
-                            <!-- <label class="cursor rounded-0 border-0 btn-secondary" for="picInput"><i class="fas fa-search"></i></label> -->
-                            <!-- <input type="file" ref="file" v-bind:name="authUserData.id" v-on:change="handlePicFile" class="form-control rounded-0 input-file">
-                            <div class="input-group-append">
-                                <button class="cursor rounded-0 border-0 btn-secondary" type="button" id="button-addon2">Button</button>
-                                <button class="cursor rounded-0 border-0 btn-success" type="button" v-on:click='submitPic'>
-                                    <i class="fas fa-check"></i>
-                                </button>
-                            </div> -->
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input rounded-0" id="picInput" ref="file" v-bind:name="authUserData.id" v-on:change="handlePicFile">
@@ -43,31 +32,12 @@
                         </div>
                     </form>
                 </div>
-                <!-- <i class="changePicBtn fas fa-camera"></i> -->
             </div>
         </div>
     </div>
 
     <div class="card">
-        <!-- <div class="card-title">
-            <h2>Mon profil</h2>
-        </div> -->
         <div class="card-body">
-            <!-- <div class="profile_pic">
-                <img :src="profilePicUrl" />
-                <button type="button" class="btn btn-sm btn-outline-primary changePicBtn" v-on:click="togglePicForm" title="Changer ma photo de profil"> <i class="fas fa-camera"></i> </button>
-            </div>
-
-            <div class="changePicForm" v-if="changePicForm">
-                <button type="button" class="close closePicForm" aria-label="Close" v-on:click='closePicForm'>
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <form class="form-inline">
-                    <input class="form-control" type="file" ref="file" v-bind:name="authUserData.id" v-on:change="handlePicFile">
-                    <button class="btn btn-success" type="button" v-on:click='submitPic'>ok</button>
-                </form>
-            </div> -->
-
             <div class="updateDataForm">
                 <h4>Mettre mes infos à jour</h4>
                 <form>
