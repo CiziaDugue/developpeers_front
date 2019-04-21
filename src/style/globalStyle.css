@@ -137,7 +137,7 @@ h1, h2, h3 {
 
 pre {
     /* font-family: arial, sans-serif; */
-    font-size: 1.1em;
+    font-size: 1em;
     overflow-x: auto;
     white-space: pre-wrap;
     white-space: -moz-pre-wrap;
@@ -212,4 +212,6 @@ p {
 
 textarea {
     height: auto;
+    width: 80%;
+    margin: 0 auto;
 }

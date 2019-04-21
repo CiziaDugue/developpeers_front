@@ -50,10 +50,6 @@
                                     {{ post.number_of_versions }} Versions
                                 </p>
                             </div>
-                            <!-- <div class="col-12">
-                                <p :class="textColor1(key)">{{ post.number_of_versions }} versions - Groupe <router-link :to="{ name: 'groupPostsList', params: { groupId: post.group_id } }">{{ post.group_name }}</router-link>
-                                </p>
-                            </div> -->
                             <div class="col-12">
                                 <p class="footer-text" :class="textColor1(key)">Créé le {{ post.created_at }} par {{ post.author_name }}</p>
                             </div>
@@ -97,9 +93,6 @@
                             </div>
                             <div class="col-12">
                                 <p :class="textColor1(key)">{{ post.excerpt }}</p>
-                            </div>
-                            <div class="col-12">
-                                <p :class="textColor1(key)">{{ post.number_of_versions }} versions - groupe {{ post.group_name }}</p>
                             </div>
                             <div class="col-12 d-flex justify-content-between align-items-center">
                                 <p :class="textColor1(key)" class="text-center align-self-middle">
