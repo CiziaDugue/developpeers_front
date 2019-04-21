@@ -20,6 +20,42 @@
                     </form>
               </div>
 
+              <div class="updateDataForm">
+                  <h4>Mettre mes infos à jour</h4>
+                  <form>
+                      <div class="form-group">
+                          <label>Présentation</label>
+                          <textarea-autosize name="user_presentation" class="form-control rounded-0" v-model="userPresentation"></textarea-autosize>
+                      </div>
+                      <div class="form-group">
+                          <label>Centres d'interet - </label>
+                          <small><i>Mots-clés séparés par des espaces</i></small>
+                          <input class="form-control rounded-0" type="text" name="user_interests" v-model="userInterests">
+                      </div>
+
+                      <div class="form-group">
+                          <label>Liens :</label>
+                          <div v-for="link in userLinks">
+                              <div class="form-group">
+                                  <input placeholder="http://www.une-page-que-je-veux-montrer.com"
+                                        type="text"
+                                        class="form-control rounded-0"
+                                        v-model="userLinks[link.index].url">
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                              <button type="button" class="rounded-0" name="button" v-on:click="addUserLink">+</button>
+                          </div>
+                      </div>
+
+                      <div class="form-group">
+                          <button type="button" class="btn btn-success" name="button" v-on:click="updateUserPublicData">Enregistrer</button>
+                      </div>
+
+                  </form>
+              </div>
+
               <div class="list-group list-group-flush">
                   <ul>
                       <li class="list-group-item">Nom : {{authUserData.name}}</li>
@@ -44,18 +80,33 @@ export default {
     data: function() {
         return {
             name: 'ProfileComponent',
-            changePicForm: false
+            changePicForm: false,
+            userLinks: [
+                {
+                    index: 0,
+                    url: ''
+                }
+            ],
+            uLinksLength : 1,
+            userInterests: '',
+            userPresentation: ''
         }
     },
     computed: {
       ...mapState([
         'authUserData',
         'userLogged',
-        'profilePicUrl'
+        'profilePicUrl',
+        'userPublicData'
       ])
     },
 
     methods: {
+        addUserLink: function() {
+          this.userLinks.push({index: this.uLinksLength, content: ""});
+          this.uLinksLength++;
+        },
+
         togglePicForm: function() {
             this.changePicForm = true;
         },
@@ -78,7 +129,68 @@ export default {
             }, (error)=>{
                 console.error(error);
             });
+        },
+
+        initUserPublicData: function() {
+            this.initUserLinks();
+            this.userPresentation = this.userPublicData.user_presentation;
+            this.initUserInterests();
+        },
+
+        initUserLinks: function() {
+            if (this.userPublicData.user_links.length > 0) {
+                this.userLinks = [];
+                this.uLinksLength = 0;
+                for (let i = 0; i < this.userPublicData.user_links.length; i++) {
+                    this.userLinks[i] = {
+                        index: i,
+                        url: this.userPublicData.user_links[i]
+                    };
+                    this.uLinksLength = i + 1;
+                }
+            }
+        },
+        initUserInterests: function() {
+            this.userInterests = "";
+            if (this.userPublicData.user_interests.length > 0) {
+                this.userPublicData.user_interests.forEach((word)=>{
+                    this.userInterests += word + " ";
+                });
+                //remove final white space
+                this.userInterests = this.userInterests.substring(0, this.userInterests.length - 1);
+            }
+        },
+        updateUserPublicData: function() {
+
+            let payload = {
+                user_presentation: this.userPresentation,
+                user_links: [],
+                user_interests: []
+            };
+
+            payload.user_interests = this.userInterests.split(" ");
+
+            this.userLinks.forEach((link)=>{
+                payload.user_links.push(link.url);
+            });
+
+            this.$store.dispatch('updateUserPublicDataAction', payload)
+                        .then((response)=>{
+                            this.initUserPublicData();
+                        }, (error)=>{
+                            console.error(error);
+                        });
         }
+    },
+
+    mounted() {
+        this.$store.dispatch('getUserPublicDataAction')
+                                        .then((response)=>{
+                                            this.initUserPublicData();
+                                            console.log(response);
+                                        }, (error)=>{
+                                            console.error(error);
+                                        });
     },
 
     created: function() {

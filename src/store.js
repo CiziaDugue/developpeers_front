@@ -25,7 +25,6 @@ let voteCounter = function(object) {
 
 export default new Vuex.Store({
     state: {
-
         postsList: [],
         postSingle: {},
         groupsList: [],
@@ -36,8 +35,8 @@ export default new Vuex.Store({
         headerObject:{},
         userGroups: [],
         userNotifs: [],
-        profilePicUrl: ""
-
+        profilePicUrl: "",
+        userPublicData: {}
     },
     mutations: {
 
@@ -121,6 +120,10 @@ export default new Vuex.Store({
                 state.profilePicUrl = path;
             }
 
+        },
+
+        SET_USER_PUBLIC_DATA(state, data) {
+            state.userPublicData = data;
         }
     },
     actions: {
@@ -864,19 +867,6 @@ export default new Vuex.Store({
             });
         },
 
-        // getAnUserProfilePic({commit}, userId) {
-        //     return new Promise((resolve, reject) => {
-        //         axios.get('http://localhost/developeers/public/api/user/profilepic/'+userId,
-        //         { headers: this.state.headerObject })
-        //             .then((response)=> {
-        //                 resolve(response.data);
-        //             })
-        //             .catch((error)=>{
-        //                 reject("http://localhost/developeers/public/blank_profile_pic.png");
-        //             })
-        //     });
-        // },
-
         followPostAction({dispatch}, payload) {
             let postId = payload.postId;
             let fromPostSingle = payload.fromPostSingle;
@@ -966,6 +956,55 @@ export default new Vuex.Store({
                                         });
                             }
                         }
+                    })
+                    .catch((error)=>{
+                        reject(error);
+                    });
+            });
+        },
+
+        getUserPublicDataAction: function({commit}) {
+            return new Promise((resolve, reject) => {
+                axios.get('http://localhost/developeers/public/api/userdata', {headers: this.state.headerObject})
+                    .then( (response)=>{
+                        commit('SET_USER_PUBLIC_DATA', response.data);
+                        resolve("Got user public data");
+                    })
+                    .catch((error)=>{
+                        reject(error);
+                    })
+            });
+        },
+
+        updateUserPublicDataAction: function({dispatch}, payload) {
+            return new Promise((resolve, reject)=>{
+                axios.put('http://localhost/developeers/public/api/userdata', payload,
+                {headers: this.state.headerObject})
+                    .then((response)=>{
+                        dispatch('getUserPublicDataAction')
+                                .then((response)=>{
+                                    resolve(response);
+                                }, (error)=>{
+                                    console.error(error);
+                                });
+                    })
+                    .catch((error)=>{
+                        reject(error);
+                    });
+            });
+        },
+
+        storeInitUserPublicDataAction: function({dispatch}, payload) {
+            return new Promise((resolve, reject)=>{
+                axios.post('http://localhost/developeers/public/api/inituserdata', {},
+                {headers: this.state.headerObject})
+                    .then((response)=>{
+                        dispatch('getUserPublicDataAction')
+                                .then((response)=>{
+                                    resolve(response);
+                                }, (error)=>{
+                                    console.error(error);
+                                });
                     })
                     .catch((error)=>{
                         reject(error);
