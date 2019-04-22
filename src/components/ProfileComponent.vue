@@ -1,8 +1,28 @@
 <template>
 <main>
-    <div class="row align-items-center justify-content-center">
-        <div class="col-sm-9 col-12 card-bg2 p-4">
+    <div class="row align-items-center justify-content-center p-0 m-0">
+        <div class="col-sm-8 col-11 card-bg2 py-4">
             <h2 class="text-center">Mon Profil</h2>
+        </div>
+        <div class="col-sm-1 col-1 card-bg2 align-self-stretch d-flex flex-column align-items-end p-0 m-0">
+            <small v-if="!userDataView" class="cursor square-btn bg-secondary text-center pt-1" data-toggle="tooltip" data-placement="down" title="Informations personnelles" v-on:click="toggleUserDataView">
+                <i class="far fa-user"></i>
+            </small>
+            <small v-else class="square-btn bg-success text-center pt-1">
+                <i class="fas fa-user"></i>
+            </small>
+            <small v-if="!followersFollowingView" class="cursor square-btn bg-secondary text-center pt-1" data-toggle="tooltip" data-placement="down" title="Utilisateurs suivis" v-on:click="toggleFollowersFollowingView">
+                <i class="fas fa-users"></i>
+            </small>
+            <small v-else class="square-btn bg-primary text-center pt-1" title="Valider les changements">
+                <i class="fas fa-users"></i>
+            </small>
+            <small v-if="!optionsView" class="cursor square-btn bg-secondary text-center pt-1" data-toggle="tooltip" data-placement="down" title="Paramètres" v-on:click="toggleOptionsView">
+                <i class="fas fa-tools"></i>
+            </small>
+            <small v-else class="square-btn bg-warning text-center pt-1" title="Valider les changements">
+                <i class="fas fa-tools"></i>
+            </small>
         </div>
         <div class="col-sm-3 col-12 card-bg1 align-self-stretch d-flex p-0 m-0">
             <div class="profile_pic m-auto pt-4">
@@ -36,7 +56,7 @@
         </div>
     </div>
     <div class="row align-items-center justify-content-center p-0 m-0">
-        <div class="col-sm-8 col-11 card-bg1 p-4">
+        <div v-if="userDataView" class="col-sm-8 col-11 card-bg1 p-4">
             <div class="row">
                 <div class="col-12 form-group">
                     <h4 class="text-center">Informations Personnelles</h4>
@@ -70,7 +90,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-1 col-1 card-bg1 align-self-stretch d-flex flex-column align-items-end p-0 m-0">
+        <div v-if="userDataView" class="col-sm-1 col-1 card-bg1 align-self-stretch d-flex flex-column align-items-end p-0 m-0">
             <small v-if="!editMode" class="cursor square-btn bg-primary text-center pt-1" data-toggle="tooltip" data-placement="down" title="Editer les informations personnelles" v-on:click="toggleEditMode">
                 <i class="fas fa-edit"></i>
             </small>
@@ -78,14 +98,14 @@
                 <i class="fas fa-check"></i>
             </small>
         </div>
-        <!-- <div v-show="false" class="col-sm-9 col-12 card-bg1 p-4">
+        <div v-if="followersFollowingView" class="col-sm-9 col-12 card-bg1 p-4">
             <div class="row">
                 <div class="col-12">
                     <h4 class="text-center">Following</h4>
                 </div>
             </div>
         </div>
-        <div v-show="false" class="col-sm-9 col-12 card-bg1 p-4">
+        <div v-if="optionsView" class="col-sm-9 col-12 card-bg1 p-4">
             <div class="row">
                 <div class="col-12">
                     <h4 class="text-center">Paramètres</h4>
@@ -94,7 +114,7 @@
                     <label>Thème interface :</label>
                 </div>
             </div>
-        </div> -->
+        </div>
         <div class="col-sm-3 col-12 card-bg2 align-self-stretch p-0 m-0">
             <p class="text-center card-text2">Nom : {{authUserData.name}}</p>
             <p class="text-center card-text2">Email : {{ authUserData.email }}</p>
@@ -138,7 +158,10 @@ export default {
             uLinksLength: 1,
             userInterests: '',
             userPresentation: '',
-            editMode: false
+            editMode: false,
+            userDataView: true,
+            followersFollowingView: false,
+            optionsView: false
         }
     },
     computed: {
@@ -151,6 +174,21 @@ export default {
     },
 
     methods: {
+        toggleUserDataView: function() {
+            this.userDataView = true;
+            this.followersFollowingView = false;
+            this.optionsView = false;
+        },
+        toggleFollowersFollowingView: function() {
+            this.userDataView = false;
+            this.followersFollowingView = true;
+            this.optionsView = false;
+        },
+        toggleOptionsView: function() {
+            this.userDataView = false;
+            this.followersFollowingView = false;
+            this.optionsView = true;
+        },
         toggleEditMode: function() {
             this.editMode = true;
         },
@@ -297,10 +335,10 @@ export default {
     color: #57515b;
 }
 
-.card {
+/* .card {
     padding: 20px;
     border-radius: 0;
-}
+} */
 
 .profile_pic {
     width: 100px;
