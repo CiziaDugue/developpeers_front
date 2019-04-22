@@ -4,7 +4,7 @@
         <div class="col-sm-9 col-12 card-bg2 p-4">
             <h2 class="text-center">Mon Profil</h2>
         </div>
-        <div class="col-sm-3 col-12 card-bg1 align-self-stretch d-flex">
+        <div class="col-sm-3 col-12 card-bg1 align-self-stretch d-flex p-0 m-0">
             <div class="profile_pic m-auto pt-4">
                 <img :src="profilePicUrl" />
                 <p class="cursor bg-info text-center pt-1 changePicBtn" v-on:click="togglePicForm" title="Changer ma photo de profil">
@@ -35,52 +35,87 @@
             </div>
         </div>
     </div>
-
-    <div class="card">
-        <div class="card-body">
-            <div class="updateDataForm">
-                <h4>Mettre mes infos à jour</h4>
-                <form>
-                    <div class="form-group">
-                        <label>Présentation</label>
-                        <textarea-autosize name="user_presentation" class="form-control rounded-0" v-model="userPresentation"></textarea-autosize>
+    <div class="row align-items-center justify-content-center p-0 m-0">
+        <div class="col-sm-8 col-11 card-bg1 p-4">
+            <div class="row">
+                <div class="col-12 form-group">
+                    <h4 class="text-center">Informations Personnelles</h4>
+                </div>
+                <div class="col-12 form-group">
+                    <label>Présentation :</label>
+                    <p v-if="!editMode" class="card-text1">{{ userPresentation }}</p>
+                    <textarea-autosize v-else name="user_presentation" class="form-control rounded-0 card-bg2" v-model="userPresentation"></textarea-autosize>
+                </div>
+                <div class="col-12 form-group">
+                    <label>Centres d'interêt :</label>
+                    <p v-if="!editMode" class="card-text1">{{ userInterests }}</p>
+                    <input v-if="editMode" class="form-control rounded-0 card-bg2" type="text" name="user_interests" v-model="userInterests">
+                    <small v-if="editMode" class="d-block"><i>Mots-clés séparés par des espaces</i></small>
+                </div>
+                <div class="col-12 form-group">
+                    <label>Liens :</label>
+                    <div v-if="!editMode" v-for="link in userLinks" class="">
+                        <a class="card-text1" :href="link.url">{{ link.url }}</a>
                     </div>
-                    <div class="form-group">
-                        <label>Centres d'interet - </label>
-                        <small><i>Mots-clés séparés par des espaces</i></small>
-                        <input class="form-control rounded-0" type="text" name="user_interests" v-model="userInterests">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Liens :</label>
-                        <div v-for="link in userLinks">
-                            <div class="form-group">
-                                <input placeholder="http://www.une-page-que-je-veux-montrer.com" type="text" class="form-control rounded-0" v-model="userLinks[link.index].url">
-                            </div>
-                        </div>
-
+                    <div v-if="editMode" v-for="link in userLinks">
                         <div class="form-group">
-                            <button type="button" class="rounded-0" name="button" v-on:click="addUserLink">+</button>
+                            <input placeholder="http://www.une-page-que-je-veux-montrer.com" type="text" class="form-control rounded-0 card-bg2 pb-2" v-model="userLinks[link.index].url">
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <button type="button" class="btn btn-success" name="button" v-on:click="updateUserPublicData">Enregistrer</button>
+                    <div v-if="editMode" class="form-group row justify-content-center">
+                        <small class="cursor strong-white square-btn bg-secondary text-center pt-1" v-on:click="addUserLink" title="Ajouter un bloc de code">
+                            <i class="fas fa-plus"></i>
+                        </small>
                     </div>
-
-                </form>
-            </div>
-
-            <div class="list-group list-group-flush">
-                <ul>
-                    <li class="list-group-item">Nom : {{authUserData.name}}</li>
-                    <li class="list-group-item">Email : {{ authUserData.email }}</li>
-                    <li class="list-group-item"> <a href="">Réinitialiser mon mot de passe</a></li>
-                    <li class="list-group-item"> <a href="">Supprimer mon compte</a></li>
-                </ul>
+                </div>
             </div>
         </div>
+        <div class="col-sm-1 col-1 card-bg1 align-self-stretch d-flex flex-column align-items-end p-0 m-0">
+            <small v-if="!editMode" class="cursor square-btn bg-primary text-center pt-1" data-toggle="tooltip" data-placement="down" title="Editer les informations personnelles" v-on:click="toggleEditMode">
+                <i class="fas fa-edit"></i>
+            </small>
+            <small v-else class="cursor square-btn bg-success text-center pt-1" v-on:click="updateUserPublicData" title="Valider les changements">
+                <i class="fas fa-check"></i>
+            </small>
+        </div>
+        <!-- <div v-show="false" class="col-sm-9 col-12 card-bg1 p-4">
+            <div class="row">
+                <div class="col-12">
+                    <h4 class="text-center">Following</h4>
+                </div>
+            </div>
+        </div>
+        <div v-show="false" class="col-sm-9 col-12 card-bg1 p-4">
+            <div class="row">
+                <div class="col-12">
+                    <h4 class="text-center">Paramètres</h4>
+                </div>
+                <div class="col-12 form-group">
+                    <label>Thème interface :</label>
+                </div>
+            </div>
+        </div> -->
+        <div class="col-sm-3 col-12 card-bg2 align-self-stretch p-0 m-0">
+            <p class="text-center card-text2">Nom : {{authUserData.name}}</p>
+            <p class="text-center card-text2">Email : {{ authUserData.email }}</p>
+            <p class="text-center card-text2"><a href="">Réinitialiser mon mot de passe</a></p>
+            <p class="text-center card-text2"><a href="">Supprimer mon compte</a></p>
+            <!-- <div class="row">
+                <div class="col-12">
+                    <p class="text-center card-text2">Nom : {{authUserData.name}}</p>
+                </div>
+                <div class="col-12">
+                    <p class="text-center card-text2">Email : {{ authUserData.email }}</p>
+                </div>
 
+                <div class="col-12">
+                    <p class="text-center card-text2"><a href="">Réinitialiser mon mot de passe</a></p>
+                </div>
+                <div class="col-12">
+                    <p class="text-center card-text2"><a href="">Supprimer mon compte</a></p>
+                </div>
+            </div> -->
+        </div>
     </div>
 </main>
 </template>
@@ -102,7 +137,8 @@ export default {
             }],
             uLinksLength: 1,
             userInterests: '',
-            userPresentation: ''
+            userPresentation: '',
+            editMode: false
         }
     },
     computed: {
@@ -115,6 +151,10 @@ export default {
     },
 
     methods: {
+        toggleEditMode: function() {
+            this.editMode = true;
+        },
+
         addUserLink: function() {
             this.userLinks.push({
                 index: this.uLinksLength,
@@ -196,7 +236,22 @@ export default {
                 }, (error) => {
                     console.error(error);
                 });
-        }
+
+            this.editMode = false;
+        },
+        unfollowUser: function() {
+            // let userId = this.userData.user_id;
+            axios.put('http://localhost/developeers/public/api/unfollowuser/' + userId, {}, {
+                    headers: this.$store.state.headerObject
+                })
+                .then((response) => {
+                    //console.log(response.data);
+                    this.getUserPublicData();
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
     },
 
     mounted() {
