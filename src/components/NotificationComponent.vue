@@ -7,18 +7,24 @@
         </small>
         <div class="dropdown-menu dropdown-menu-right rounded-0">
             <div class="clearNotifsLink" v-on:click="clearNotifs">Tout marquer comme lu</div>
-            <div v-for="notif in this.unreadUserNotifs" :key="notif._id" class="unreadNotif notif dropdown-item" v-on:click="validateNotification(notif._id, notif.post_id, notif.version.id)">
+            <div v-for="notif in this.unreadUserNotifs" :key="notif._id" class="unreadNotif notif dropdown-item" v-on:click="validateNotification(notif._id, notif.post_id, notif.version.id, notif.request_route_link, notif.origin_element_id)">
                 {{ notif.message }}
                 <div class="notifDate">
                     <small>Le {{ notif.created_at }}</small>
                 </div>
             </div>
-            <router-link v-for="notif in this.oldUserNotifs" :key="notif._id" class="oldNotif notif dropdown-item" :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
+            <!-- <router-link v-for="notif in this.oldUserNotifs" :key="notif._id" class="oldNotif notif dropdown-item" :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
                 {{ notif.message }}
                 <div class="notifDate">
                     <small> Le {{ notif.created_at }}</small>
                 </div>
-            </router-link>
+            </router-link> -->
+            <div v-for="notif in this.oldUserNotifs" :key="notif._id" class="oldNotif notif dropdown-item" v-on:click="validateNotification(notif._id, notif.post_id, notif.version.id, notif.request_route_link, notif.origin_element_id)">
+                {{ notif.message }}
+                <div class="notifDate">
+                    <small>Le {{ notif.created_at }}</small>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -76,30 +82,33 @@ export default {
     methods: {
         getNotifications: function() {
             this.$store.dispatch('getNotificationsAction');
-            // console.log(this.$store.state.userNotifs);
-            // console.log(this.userNotifs);
         },
 
-        validateNotification: function(notificationId, postId, versionId) {
-            console.log(versionId);
+        validateNotification: function(notificationId, postId, versionId, link, originElementId) {
             let payload = {
                 notificationId: notificationId,
                 postId: postId,
-                versionId: versionId
-            }
+                versionId: versionId,
+                link: link,
+                originElementId: originElementId
+            };
             this.$store.dispatch('testNotificationLink', payload)
-                .then((response) => {
-                    this.$router.push('/article/' + postId + '/' + versionId);
+                    .then((response) => {
+                        if (typeof originElementId == 'number') {
+                            this.$router.push(link);
+                        } else {
+                            this.$router.push('/article/' + postId + '/' + versionId);
+                        }
                 }, (error) => {
                     //console.error(error);//404
                     this.$store.dispatch('deleteObsoleteNotification', notificationId)
-                        .then((response) => {
-                            this.getNotifications()
-                                .then((response) => {
-                                    this.$router.push('/oups'); //router push '/' or errorCpt
-                                }, (error) => {
-                                    console.error(error);
-                                });
+                            .then((response) => {
+                                this.getNotifications()
+                                    .then((response) => {
+                                        this.$router.push('/oups'); //router push '/' or errorCpt
+                                    }, (error) => {
+                                        console.error(error);
+                                    });
                         }, (error) => {
                             console.error(error);
                         });

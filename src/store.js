@@ -776,14 +776,26 @@ export default new Vuex.Store({
 
         testNotificationLink: function({commit}, payload) {
             return new Promise((resolve, reject)=> {
-                axios.get('http://localhost/developeers/public/api/posts/'+payload.postId+'/'+payload.versionId,
-                { headers: this.state.headerObject })
-                    .then((response)=>{
-                        resolve("ok");
-                    })
-                    .catch((error)=>{
-                        reject(error);
-                    });
+                if(typeof payload.originElementId == 'number') {
+                    axios.get('http://localhost/developeers/public/api/userdata/'+payload.originElementId,
+                    { headers: this.state.headerObject })
+                            .then((response)=>{
+                                resolve("ok");
+                            })
+                            .catch((error)=>{
+                                reject(error);
+                            });
+                } else {
+                    axios.get('http://localhost/developeers/public/api/posts/'+payload.postId+'/'+payload.versionId,
+                    { headers: this.state.headerObject })
+                            .then((response)=>{
+                                resolve("ok");
+                            })
+                            .catch((error)=>{
+                                reject(error);
+                            });
+                }
+
             });
         },
 
@@ -963,12 +975,18 @@ export default new Vuex.Store({
             });
         },
 
-        getUserPublicDataAction: function({commit}) {
+        getUserPublicDataAction: function({dispatch, commit}) {
             return new Promise((resolve, reject) => {
                 axios.get('http://localhost/developeers/public/api/userdata', {headers: this.state.headerObject})
                     .then( (response)=>{
                         commit('SET_USER_PUBLIC_DATA', response.data);
                         resolve("Got user public data");
+                        dispatch('getNotificationsAction')
+                                .then((response)=>{
+                                    //
+                                }, (error)=>{
+                                    console.error(error);
+                                });
                     })
                     .catch((error)=>{
                         reject(error);

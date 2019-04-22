@@ -207,6 +207,7 @@ export default {
 
     mounted() {
         this.getUserPublicData();
+        this.$store.dispatch('getNotificationsAction');
     },
 
     created: function() {
@@ -218,6 +219,16 @@ export default {
                     console.error(error);
                     this.$router.push('/login');
                 });
+        }
+    },
+    watch: {
+        '$route': function(to, from) {
+
+            let userName = to.params.userName;
+            let userId = to.params.userId;
+
+            this.getUserPublicData();
+            this.$store.dispatch('getNotificationsAction');
         }
     }
 }
