@@ -161,14 +161,14 @@
                 <small v-else v-on:click="changeVersion(version._id)" class="cursor square-btn bg-secondary text-center pt-1 font-weight-bold">
                     {{ version.number }}
                 </small> -->
-                <router-link :to="{ name: 'notificatedPost', params: {postId: postSingle._id, versionId: version._id} }"
+                <router-link class="square-btn bg-success text-center pt-1 font-weight-bold" :to="{ name: 'notificatedPost', params: {postId: postSingle._id, versionId: version._id} }"
                             v-if="postSingle.active_version._id == version._id">
-                    <small  class="square-btn bg-success text-center pt-1 font-weight-bold">
+                    <small  >
                         {{ version.number }}
                     </small>
                 </router-link>
-                <router-link v-else :to="{ name: 'notificatedPost', params: {postId: postSingle._id, versionId: version._id} }">
-                    <small class="cursor square-btn bg-secondary text-center pt-1 font-weight-bold">
+                <router-link class="cursor square-btn bg-secondary text-center pt-1 font-weight-bold" v-else :to="{ name: 'notificatedPost', params: {postId: postSingle._id, versionId: version._id} }">
+                    <small >
                         {{ version.number }}
                     </small>
                 </router-link>
