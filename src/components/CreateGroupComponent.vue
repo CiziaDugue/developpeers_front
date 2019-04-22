@@ -1,35 +1,44 @@
 <template>
 <main>
     <div class="row align-items-center justify-content-center">
-        <div class="col-sm-9 col-12 card-bg1 p-5">
+        <div class="col-sm-9 col-12 card-bg1 p-5 shadow-lg">
             <h2 class="text-center">Nouveau Groupe</h2>
         </div>
         <div class="col-sm-3 col-12 card-bg2 align-self-stretch">
 
         </div>
     </div>
-    <form>
-        <h2>Céer un groupe</h2>
-        <div class="alert alert-danger" v-if="invalidData">
-            Tous les champs doivent être remplis.
+    <div class="row align-items-center justify-content-center">
+        <div class="col-sm-9 col-12 card-bg2 p-5">
+            <form>
+                <div class="alert alert-danger" v-if="invalidData">
+                    Tous les champs doivent être remplis.
+                </div>
+                <div class="form-group">
+                    <label>Nom</label>
+                    <input type="text" name="name" placeholder="Nom du groupe" class="form-control rounded-0" v-model="name">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <!-- <input name="description" placeholder="Description du groupe" class="form-control" v-model="description"> -->
+                    <textarea-autosize name="description" placeholder="Description du groupe" class="form-control rounded-0" v-model="description"></textarea-autosize>
+                </div>
+                <div class="form-group">
+                    <label>Mots-clés</label>
+                    <input type="text" name="keywords" placeholder="Tapez des mots clés séparés par des espaces" class="form-control rounded-0" v-model="keywords">
+                </div>
+                <div class="form-group row justify-content-center">
+                    <small class="cursor long-btn bg-success text-center pt-2 mt-1" v-on:click="createGroup" title="Créer le groupe">
+                        <i class="fas fa-check"></i>
+                    </small>
+                    <!-- <input type="button" value="Valider" class="btn btn-success rounded-0" v-on:click="createGroup"> -->
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <label>Nom</label>
-            <input type="text" name="name" placeholder="Nom du groupe" class="form-control rounded-0" v-model="name">
+        <div class="col-sm-3 col-12 card-bg1 align-self-stretch">
+
         </div>
-        <div class="form-group">
-            <label>Description</label>
-            <!-- <input name="description" placeholder="Description du groupe" class="form-control" v-model="description"> -->
-            <textarea-autosize name="description" placeholder="Description du groupe" class="form-control rounded-0" v-model="description"></textarea-autosize>
-        </div>
-        <div class="form-group">
-            <label>Mots-clés</label>
-            <input type="text" name="keywords" placeholder="Tapez des mots clés séparés par des espaces" class="form-control rounded-0" v-model="keywords">
-        </div>
-        <div class="form-group">
-            <input type="button" value="Valider" class="btn btn-success rounded-0" v-on:click="createGroup">
-        </div>
-    </form>
+    </div>
 </main>
 </template>
 
@@ -115,10 +124,10 @@ export default {
 .card-text1 {
     color: #57515b;
 }
-form {
+/* .top-box {
   border: 1px solid #ccc;
   padding: 30px;
   box-shadow: 2px 2px 8px #eee;
-}
+} */
 
 </style>
