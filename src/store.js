@@ -215,7 +215,7 @@ export default new Vuex.Store({
                       })
                       .then(response => {
                           let comments = response.data;
-                          commit('SET_POST_COMMENTS', pcommentsost);
+                          commit('SET_POST_COMMENTS', comments);
                           resolve(response);
                       })
                       .catch(error => {

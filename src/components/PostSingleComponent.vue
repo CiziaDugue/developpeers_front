@@ -267,8 +267,12 @@
 
         </div>
     </div>
-    <!-- <button type="button" v-on:click="getCommentsNextPage">Afficher les commentaires précédents</button>
-    <button type="button" v-on:click="getCommentsPrevPage">Afficher les commentaires suivant</button> -->
+    <button v-if="!firstPageOfComments" title="Voir des commentaires plus récents" type="button" v-on:click="getCommentsPrevPage">
+        <i class="fas fa-arrow-left"></i>
+    </button>
+    <button v-if="!lastPageOfComments" title="Voir des commentaires plus anciens" type="button" v-on:click="getCommentsNextPage">
+        <i class="fas fa-arrow-right"></i>
+    </button>
 </div>
 </template>
 
@@ -295,7 +299,9 @@ export default {
             editedCommentId: null,
             userIsFollowing: false,
             lastCommentListId: null,
-            firstCommentListId: null
+            firstCommentListId: null,
+            firstPageOfComments: true,
+            lastPageOfComments: false
         }
     },
     computed: {
@@ -530,38 +536,49 @@ export default {
             if (this.postSingle.active_version.comments.length > 0) {
                 this.lastCommentListId = this.postSingle.active_version.comments[this.postSingle.active_version.comments.length - 1]._id;
                 this.firstCommentListId = this.postSingle.active_version.comments[0]._id;
+                this.isLastPageOfComments();
+                this.isFirstPageOfComments();
             }
         },
 
+        isLastPageOfComments: function() {
+            this.lastPageOfComments = (this.lastCommentListId == this.postSingle.active_version.last_comment_id) ? true : false;
+        },
+
+        isFirstPageOfComments: function() {
+            this.firstPageOfComments = (this.firstCommentListId == this.postSingle.active_version.first_comment_id) ? true : false;
+        },
+
         getCommentsNextPage: function() {
-            // this.$router.push({ name: 'postSingleCommentPage',
-            //                     params: {postId: this.postSingle._id,
-            //                             versionId: this.postSingle.active_version._id,
-            //                             commentId: this.lastCommentListId
-            //                             }
-            //                         });
+
             let payload = {
                 postId: this.postSingle._id,
                 versionId: this.postSingle.active_version._id,
                 commentId: this.lastCommentListId
-            }
-            this.$store.dispatch('getCommentsNextPageAction', payload);
+            };
+
+            this.$store.dispatch('getCommentsNextPageAction', payload)
+                        .then((response)=>{
+                            this.setLastAndFirstCommentId();
+                        }, (error)=>{
+                            console.error(error);
+                        });
         },
 
         getCommentsPrevPage: function() {
-            // this.$router.push({ name: 'postSingleCommentPage',
-            //                     params: {postId: this.postSingle._id,
-            //                             versionId: this.postSingle.active_version._id,
-            //                             commentId: this.firstCommentListId
-            //                             }
-            //                         });
+
             let payload = {
                 postId: this.postSingle._id,
                 versionId: this.postSingle.active_version._id,
                 commentId: this.firstCommentListId
-            }
-            //console.log(payload);
-            this.$store.dispatch('getCommentsPrevPageAction', payload);
+            };
+
+            this.$store.dispatch('getCommentsPrevPageAction', payload)
+                        .then((response)=>{
+                            this.setLastAndFirstCommentId();
+                        }, (error)=>{
+                            console.error(error);
+                        });
         },
 
         init: function(data) {
