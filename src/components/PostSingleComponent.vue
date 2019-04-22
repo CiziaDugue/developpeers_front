@@ -267,8 +267,8 @@
 
         </div>
     </div>
-    <button type="button" v-on:click="getCommentsNextPage">Afficher les commentaires précédents</button>
-    <button type="button" v-on:click="getCommentsPrevPage">Afficher les commentaires suivant</button>
+    <!-- <button type="button" v-on:click="getCommentsNextPage">Afficher les commentaires précédents</button>
+    <button type="button" v-on:click="getCommentsPrevPage">Afficher les commentaires suivant</button> -->
 </div>
 </template>
 
