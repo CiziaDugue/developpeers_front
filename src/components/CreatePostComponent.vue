@@ -8,59 +8,69 @@
 
         </div>
     </div>
-    <form>
-        <h2>Céer un article</h2>
-        <div class="alert alert-danger" v-if="invalidFormMsg != ''">
-            {{invalidFormMsg}}
-        </div>
-        <div class="form-group">
-            <label>Titre :</label>
-            <input type="text" name="name" placeholder="Titre de l'article" class="form-control rounded-0" v-model="title">
-        </div>
-
-        <div class="form-group">
-            <label>Mots-clés :</label>
-            <input type="text" name="keywords" placeholder="Tapez des mots clés séparés par des espaces" class="form-control rounded-0" v-model="keywords">
-        </div>
-
-        <div class="form-group">
-            <label>Contenu texte :</label>
-            <textarea-autosize placeholder="Tapez votre message d'intro ici" class="form-control rounded-0" v-model="textContent"></textarea-autosize>
-        </div>
-
-        <div class="form-group">
-            <label>Contenu code :</label>
-            <div v-for="snippet in codeSnippets">
-                <div class="form-group">
-                    <textarea-autosize placeholder="Tapez du code ici" class="form-control rounded-0" v-model="codeSnippets[snippet.index].content"></textarea-autosize>
+    <div class="row align-items-center justify-content-center">
+        <div class="col-sm-9 col-12 card-bg1 px-5 py-4">
+            <form>
+                <div class="alert alert-danger rounded-0" v-if="invalidFormMsg != ''">
+                    {{invalidFormMsg}}
                 </div>
-            </div>
+                <div class="form-group">
+                    <label>Titre :</label>
+                    <input type="text" name="name" placeholder="Titre de l'article" class="form-control rounded-0 card-bg2" v-model="title">
+                </div>
 
-            <div class="form-group">
-                <button type="button" class="rounded-0" name="button" v-on:click="addCodeSnippet">Ajouter un bloc de code</button>
-            </div>
+                <div class="form-group">
+                    <label>Mots-clés :</label>
+                    <input type="text" name="keywords" placeholder="Tapez des mots clés séparés par des espaces" class="form-control rounded-0 card-bg2" v-model="keywords">
+                </div>
+
+                <div class="form-group">
+                    <label>Contenu texte :</label>
+                    <textarea-autosize placeholder="Tapez votre message d'intro ici" class="form-control rounded-0 card-bg2" v-model="textContent"></textarea-autosize>
+                </div>
+
+                <div class="form-group">
+                    <label>Contenu code :</label>
+                    <div v-for="snippet in codeSnippets">
+                        <div class="form-group">
+                            <textarea-autosize placeholder="Tapez du code ici" class="form-control rounded-0 card-bg2" v-model="codeSnippets[snippet.index].content"></textarea-autosize>
+                        </div>
+                    </div>
+
+                    <div class="form-group row justify-content-center">
+                        <small class="cursor strong-white square-btn bg-secondary text-center pt-1" v-on:click="addCodeSnippet" title="Ajouter un bloc de code">
+                            <i class="fas fa-plus"></i>
+                        </small>
+                    </div>
+                </div>
+
+
+                <div class="form-group" v-if="!fromGroup">
+                    <label>Choisissez un groupe :</label>
+                    <div>
+                        <select class="custom-select card-bg2 rounded-0" v-model="selectedGroup">
+                            <optgroup label="mes-groupes">
+                                Mes groupes
+                            </optgroup>
+                            <option v-for="group in groupsList" :key="group._id" v-bind:value="group._id">{{group.name}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="from-group" v-if='fromGroup'>
+                    <span>Groupe : {{groupSingle.name}}</span>
+                </div>
+
+                <div class="form-group row justify-content-center pt-3">
+                    <input type="button" value="Poster l'article" class="cursor-sm btn btn-primary rounded-0 strong-white" v-on:click="createPost">
+                </div>
+
+            </form>
         </div>
+        <div class="col-sm-3 col-12 card-bg2 align-self-stretch">
 
-
-        <div class="form-group" v-if="!fromGroup">
-            <label>Choisissez un groupe</label>
-            <select v-model="selectedGroup">
-                <optgroup label="mes-groupes">
-                    Mes groupes
-                </optgroup>
-                <option v-for="group in groupsList" :key="group._id" v-bind:value="group._id">{{group.name}}</option>
-            </select>
         </div>
-
-        <div class="from-group" v-if='fromGroup'>
-            <span>Groupe : {{groupSingle.name}}</span>
-        </div>
-
-        <div class="form-group">
-            <input type="button" value="Poster" class="btn btn-success rounded-0" v-on:click="createPost">
-        </div>
-
-    </form>
+    </div>
 </main>
 </template>
 
@@ -206,10 +216,10 @@ export default {
     color: #57515b;
 }
 
-form {
+/* form {
   border: 1px solid #ccc;
   padding: 30px;
   box-shadow: 2px 2px 8px #eee;
-}
+} */
 
 </style>

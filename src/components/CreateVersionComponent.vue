@@ -1,10 +1,10 @@
 <template>
 <main>
     <div class="row align-items-center justify-content-center">
-        <div class="col-sm-9 col-12 card-bg2 p-5">
+        <div class="col-sm-9 col-12 card-bg1 p-5">
             <h2 class="text-center">Nouvelle Version</h2>
         </div>
-        <div class="col-sm-3 col-12 card-bg1 align-self-stretch p-5">
+        <div class="col-sm-3 col-12 card-bg2 align-self-stretch pt-4">
             <p class="text-center card-text1">
                 Article
                 <router-link :to="{ name: 'notificatedPost', params: { postId: postSingle._id, versionId: postSingle.active_version._id }}">
@@ -16,40 +16,43 @@
             </p>
         </div>
     </div>
-    <form>
-        <h2>Créer une nouvelle version</h2>
-        <div class="alert alert-danger" v-if="invalidFormMsg != ''">
-            {{invalidFormMsg}}
-        </div>
-        <div class="form-group">
-            <h3>{{title}}</h3>
-        </div>
-        <div class="form-group">
-            <span>Édité à partir de la version {{previousVersionNb}}</span>
-            <br>
-            <label>Numéro de la nouvelle version : </label>
-            <input type="text" v-model="number" placeholder="exemple : 1.2 ou 2.0 ...">
-        </div>
+    <div class="row align-items-center justify-content-center">
+        <div class="col-sm-9 col-12 card-bg2 px-5 py-4">
+            <form>
+                <div class="alert alert-danger rounded-0" v-if="invalidFormMsg != ''">
+                    {{invalidFormMsg}}
+                </div>
+                <div class="form-group">
+                    <label>Numéro de la nouvelle version : </label>
+                    <input type="text" class="form-control rounded-0" v-model="number" placeholder="exemple : 1.2 ou 2.0 ...">
+                </div>
 
-        <div class="form-group">
-            <textarea-autosize class="form-control rounded-0" v-model="textContent"></textarea-autosize>
-        </div>
+                <div class="form-group">
+                    <textarea-autosize class="form-control rounded-0" v-model="textContent"></textarea-autosize>
+                </div>
 
-        <div v-for="snippet in codeSnippets">
-            <div class="form-group">
-                <textarea-autosize class="form-control rounded-0" v-model="codeSnippets[snippet.index].content"></textarea-autosize>
-            </div>
-        </div>
+                <div v-for="snippet in codeSnippets">
+                    <div class="form-group">
+                        <textarea-autosize class="form-control rounded-0" v-model="codeSnippets[snippet.index].content"></textarea-autosize>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <button type="button" name="button" v-on:click="addCodeSnippet">Ajouter un bloc de code</button>
-        </div>
+                <div class="form-group row justify-content-center">
+                    <small class="cursor strong-white square-btn bg-secondary text-center pt-1" v-on:click="addCodeSnippet" title="Ajouter un bloc de code">
+                        <i class="fas fa-plus"></i>
+                    </small>
+                </div>
 
-        <div class="form-group">
-            <input type="button" value="Valider" class="btn btn-success rounded-0" v-on:click="validateNewVersion">
-        </div>
+                <div class="form-group row justify-content-center pt-3">
+                    <input type="button" value="Publier la version" class="cursor-sm btn btn-primary rounded-0 strong-white" v-on:click="validateNewVersion" />
+                </div>
 
-    </form>
+            </form>
+        </div>
+        <div class="col-sm-3 col-12 card-bg1 align-self-stretch">
+
+        </div>
+    </div>
 </main>
 </template>
 
@@ -192,11 +195,11 @@ export default {
 .card-text1 {
     color: #57515b;
 }
-
+/*
 form {
   border: 1px solid #ccc;
   padding: 30px;
   box-shadow: 2px 2px 8px #eee;
-}
+} */
 
 </style>

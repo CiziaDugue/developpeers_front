@@ -11,10 +11,10 @@
     <div class="row align-items-center justify-content-center">
         <div class="col-sm-9 col-12 card-bg2 p-5">
             <form v-if="this.$store.state.userLogged == false">
-                <div class="alert alert-danger" v-if="wrongLoginOrPwd">
+                <div class="alert alert-danger rounded-0" v-if="wrongLoginOrPwd">
                     Mauvais login ou mot de passe
                 </div>
-                <div class="alert alert-danger" v-if="invalidData">
+                <div class="alert alert-danger rounded-0" v-if="invalidData">
                     Tous les champs doivent être remplis.
                 </div>
                 <div class="form-group">
@@ -25,9 +25,8 @@
                     <label>Mot de passe</label>
                     <input type="password" placeholder="Votre mot de passe" name="password" class="form-control rounded-0" v-model="password" v-on:keyup.enter="logUser" />
                 </div>
-                <div class="form-group row justify-content-center">
-                    <input type="button" value="Se connecter" class="btn btn-primary rounded-0" v-on:click="logUser" />
-                    <!-- <input type="button" value="Se connecter" class="cursor btn-primary rounded-0 border-0" v-on:click="logUser" /> -->
+                <div class="form-group row justify-content-center pt-3">
+                    <input type="button" value="Se connecter" class="cursor-sm btn btn-primary rounded-0 strong-white" v-on:click="logUser" />
                 </div>
             </form>
             <div v-if="this.$store.state.userLogged == true">

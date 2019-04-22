@@ -154,6 +154,10 @@ pre {
     cursor: pointer;
     transform: scale(1.1);
 }
+.cursor-sm:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
 
 h2, h3, .square-btn, a, a:hover, div.clearNotifsLink, p i {
     color: #193052;
@@ -175,6 +179,10 @@ p {
 }
 .card {
     border: none;
+}
+.strong-white {
+    color: white;
+    font-weight: bold;
 }
 /* .card-bg1 {
     background-color: #8baed3;
@@ -200,6 +208,12 @@ p {
 .long-btn {
     width: 60px;
     height: 40px;
+    color: white;
+    font-size: 1.1em;
+}
+.big-btn {
+    width: 45px;
+    height: 45px;
     color: white;
     font-size: 1.1em;
 }
