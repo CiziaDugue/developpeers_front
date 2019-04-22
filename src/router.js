@@ -33,7 +33,7 @@ export default new Router({
         },
         {
             path: '/article/:postId/:versionId',
-            name: 'notificatedPost',
+            name: 'notificatedPost',//il faudrait changer ce nom de route car la route sert à d'autres choses aussi
             component: PostSingleComponent
         },
         {

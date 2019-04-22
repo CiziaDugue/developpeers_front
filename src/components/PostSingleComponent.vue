@@ -267,6 +267,8 @@
 
         </div>
     </div>
+    <button type="button" v-on:click="getCommentsNextPage">Afficher les commentaires précédents</button>
+    <button type="button" v-on:click="getCommentsPrevPage">Afficher les commentaires suivant</button>
 </div>
 </template>
 
@@ -291,7 +293,9 @@ export default {
             commentEditMode: false,
             commentEditedContent: "",
             editedCommentId: null,
-            userIsFollowing: false
+            userIsFollowing: false,
+            lastCommentListId: null,
+            firstCommentListId: null
         }
     },
     computed: {
@@ -393,8 +397,7 @@ export default {
 
         addComment: function() {
 
-            if (this.commentToAdd != '') {
-
+            if (this.commentToAdd != '' && this.commentToAdd != '\n') {
                 let comment = {
                     content: this.commentToAdd,
                 }
@@ -521,27 +524,73 @@ export default {
 
         getNotifications: function() {
             this.$store.dispatch('getNotificationsAction');
-            // console.log(this.$store.state.userNotifs);
-            // console.log(this.userNotifs);
+        },
+
+        setLastAndFirstCommentId: function() {
+            if (this.postSingle.active_version.comments.length > 0) {
+                this.lastCommentListId = this.postSingle.active_version.comments[this.postSingle.active_version.comments.length - 1]._id;
+                this.firstCommentListId = this.postSingle.active_version.comments[0]._id;
+            }
+        },
+
+        getCommentsNextPage: function() {
+            // this.$router.push({ name: 'postSingleCommentPage',
+            //                     params: {postId: this.postSingle._id,
+            //                             versionId: this.postSingle.active_version._id,
+            //                             commentId: this.lastCommentListId
+            //                             }
+            //                         });
+            let payload = {
+                postId: this.postSingle._id,
+                versionId: this.postSingle.active_version._id,
+                commentId: this.lastCommentListId
+            }
+            this.$store.dispatch('getCommentsNextPageAction', payload);
+        },
+
+        getCommentsPrevPage: function() {
+            // this.$router.push({ name: 'postSingleCommentPage',
+            //                     params: {postId: this.postSingle._id,
+            //                             versionId: this.postSingle.active_version._id,
+            //                             commentId: this.firstCommentListId
+            //                             }
+            //                         });
+            let payload = {
+                postId: this.postSingle._id,
+                versionId: this.postSingle.active_version._id,
+                commentId: this.firstCommentListId
+            }
+            //console.log(payload);
+            this.$store.dispatch('getCommentsPrevPageAction', payload);
         },
 
         init: function(data) {
 
-            if (data.versionId != null) {
+            if (data.versionId != null && data.commentId == null) {
                 this.$store.dispatch('changePostVersionAction', data)
                     .then((response) => {
-                        console.log(this.postSingle.active_version.number);
-
                         this.updateUserRights();
                         this.getNotifications();
                         this.isUserFollowing();
+                        this.setLastAndFirstCommentId();
                     }, (error) => {
                         console.error(error);
                     });
+            } else if (data.commentId != null) {
+                console.log("comment page");
+                this.$store.dispatch('changeCommentPageAction', data)
+                    .then((response) => {
+                        this.updateUserRights();
+                        this.getNotifications();
+                        this.isUserFollowing();
+                        this.setLastAndFirstCommentId();
+                    }, (error) => {
+                        console.error(error);
+                    });
+
             } else {
                 this.$store.dispatch('initPostSingleAction', data)
                     .then((response) => {
-                        console.log(this.postSingle.active_version.number);
                         this.postEditedTitle = this.postSingle.title;
                         this.postEditedKeywords;
                         this.postSingle.keywords.forEach((word) => {
@@ -552,6 +601,7 @@ export default {
                         this.updateUserRights();
                         this.getNotifications();
                         this.isUserFollowing();
+                        this.setLastAndFirstCommentId();
                     }, (error) => {
                         console.error(error);
                     });
@@ -585,10 +635,12 @@ export default {
 
             let postId = to.params.postId;
             let versionId = (to.params.versionId) ? to.params.versionId : null;
+            let commentId = (to.params.commentId) ? to.params.commentId : null;
 
             let data = {
                 versionId: versionId,
-                postId: postId
+                postId: postId,
+                commentId: commentId
             }
 
             this.init(data);

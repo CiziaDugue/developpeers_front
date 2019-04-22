@@ -124,6 +124,10 @@ export default new Vuex.Store({
 
         SET_USER_PUBLIC_DATA(state, data) {
             state.userPublicData = data;
+        },
+
+        SET_POST_COMMENTS(state, comments) {
+            state.postSingle.active_version.comments = comments;
         }
     },
     actions: {
@@ -204,6 +208,70 @@ export default new Vuex.Store({
 
         },
 
+        getCommentsNextPageAction: function({commit},payload) {
+                return new Promise ((resolve, reject)=>{
+                  axios.get('http://localhost/developeers/public/api/commentsafter/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
+                          headers: this.state.headerObject
+                      })
+                      .then(response => {
+                          let comments = response.data;
+                          commit('SET_POST_COMMENTS', pcommentsost);
+                          resolve(response);
+                      })
+                      .catch(error => {
+                          reject(error);
+                      });
+                });
+        },
+
+        getCommentsPrevPageAction: function({commit},payload) {
+            return new Promise ((resolve, reject)=>{
+              axios.get('http://localhost/developeers/public/api/commentsbefore/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
+                      headers: this.state.headerObject
+                  })
+                  .then(response => {
+                      let comments = response.data;
+                      commit('SET_POST_COMMENTS', comments);
+                      resolve(response);
+                  })
+                  .catch(error => {
+                      reject(error);
+                  });
+            });
+        },
+
+        // changeCommentPageAction: function({commit}, payload) {
+        //     return new Promise ((resolve, reject)=>{
+        //       axios.get('http://localhost/developeers/public/api/commentsafter/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
+        //               headers: this.state.headerObject
+        //           })
+        //           .then(response => {
+        //               let post = response.data;
+        //               commit('SET_POST', post);
+        //               resolve(response);
+        //           })
+        //           .catch(error => {
+        //               reject(error);
+        //           });
+        //     });
+        // },
+
+        // changeCommentPrevPageAction: function({commit}, payload) {
+        //     return new Promise ((resolve, reject)=>{
+        //       axios.get(('http://localhost/developeers/public/api/commentsbefore/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
+        //               headers: this.state.headerObject
+        //           })
+        //           .then(response => {
+        //               let post = response.data;
+        //               commit('SET_POST', post);
+        //               resolve(response);
+        //           })
+        //           .catch(error => {
+        //               reject(error);
+        //           });
+        //     });
+        // },
+
         addCommentAction: function({dispatch}, payload) {
 
             axios.post('http://localhost/developeers/public/api/comments/' + payload.versionId, payload.comment, {
@@ -231,7 +299,7 @@ export default new Vuex.Store({
                 })
 
                 .then((response) => {
-
+SET_POST_COMMENTS
                     dispatch('getPostsFeed');
                 })
                 .catch((error) => {
