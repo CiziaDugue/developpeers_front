@@ -30,15 +30,37 @@
                         Groupe:
                         <router-link :to="{ name: 'groupPostsList', params: { groupId: postSingle.group_id } }">{{ postSingle.group_name }}</router-link>
                     </p>
-                    <p class="text-center card-text2">
+                    <p v-if="authUserData.id == postSingle.author_id" class="text-center align-self-middle card-text1">
+                        Auteur:
+                        <router-link to="/profil">
+                                {{postSingle.author_name}}
+                        </router-link>
+                        <router-link to="/profil">
+                                <img class="logo-small" :src="postSingle.author_profile_pic_url">
+                        </router-link>
+                    </p>
+                    <p v-else class="text-center align-self-middle card-text1">
+                        Auteur:
+                        <router-link
+                                :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
+                                {{postSingle.author_name}}
+                        </router-link>
+                        <router-link
+                                :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
+                                <img class="logo-small" :src="postSingle.author_profile_pic_url">
+                        </router-link>
+                    </p>
+                    <!-- <p class="text-center card-text2">
                         Auteur:
                         <router-link
                                 :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
                                 {{ postSingle.author_name }}
                         </router-link>
-                        <!-- <img class="logo-small rounded-circle" :src="postSingle.author_profile_pic_url"> -->
-                        <img class="logo-small" :src="postSingle.author_profile_pic_url">
-                    </p>
+                        <router-link
+                                :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
+                                <img class="logo-small" :src="postSingle.author_profile_pic_url">
+                        </router-link>
+                    </p> -->
                 </div>
                 <div class="col-12">
                     <p class="footer-text card-text2">Créé le {{ postSingle.created_at }}</p>
@@ -89,14 +111,25 @@
                     <p class="text-center align-self-middle card-text1">
                         Version: <strong>{{ postSingle.active_version.number }}</strong>
                     </p>
-                    <p class="text-center align-self-middle card-text1">
+                    <p v-if="authUserData.id == postSingle.active_version.author_id" class="text-center align-self-middle card-text1">
                         Auteur:
-                        <router-link
-                                :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
+                        <router-link to="/profil">
                                 {{postSingle.active_version.author_name}}
                         </router-link>
-                        <!-- <img class="logo-small rounded-circle" :src="postSingle.active_version.author_profile_pic_url"> -->
-                        <img class="logo-small" :src="postSingle.active_version.author_profile_pic_url">
+                        <router-link to="/profil">
+                                <img class="logo-small" :src="postSingle.active_version.author_profile_pic_url">
+                        </router-link>
+                    </p>
+                    <p v-else class="text-center align-self-middle card-text1">
+                        Auteur:
+                        <router-link
+                                :to="{ name: 'userPublicProfile', params: {userId: postSingle.active_version.author_id, userName: postSingle.active_version.author_name.replace(' ', '-')} }">
+                                {{postSingle.active_version.author_name}}
+                        </router-link>
+                        <router-link
+                                :to="{ name: 'userPublicProfile', params: {userId: postSingle.active_version.author_id, userName: postSingle.active_version.author_name.replace(' ', '-')} }">
+                                <img class="logo-small" :src="postSingle.active_version.author_profile_pic_url">
+                        </router-link>
                     </p>
                 </div>
                 <div class="col-12">
@@ -175,17 +208,29 @@
                 </small>
             </div>
             <!-- if large viewport -->
-            <!-- <img class="logo-small rounded-circle" :src="comment.author_profile_pic_url"> -->
-            <img class="logo-small" :src="comment.author_profile_pic_url">
+            <router-link v-if="authUserData.id == comment.author_id" to="/profil">
+                <img class="logo-small" :src="comment.author_profile_pic_url">
+            </router-link>
+            <router-link v-else :to="{ name: 'userPublicProfile', params: {userId: comment.author_id, userName: comment.author_name.replace(' ', '-')} }">
+                <img class="logo-small" :src="comment.author_profile_pic_url">
+            </router-link>
+
         </div>
         <div class="col-sm-6 col-9 p-0 m-0" :class="bg2(key)">
             <div class="col-12">
-                <p :class="textColor2(key)">
+                <p v-if="authUserData.id == comment.author_id" :class="textColor2(key)">
                     <strong>
-                    <router-link
-                            :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
-                            {{ comment.author_name }}
-                    </router-link></strong>
+                        <router-link to="/profil">{{ comment.author_name }}</router-link>
+                    </strong>
+                     - <small :class="textColor2(key)">{{ comment.created_at }}</small>
+                </p>
+                <p v-else :class="textColor2(key)">
+                    <strong>
+                        <router-link
+                                :to="{ name: 'userPublicProfile', params: {userId: comment.author_id, userName: comment.author_name.replace(' ', '-')} }">
+                                {{ comment.author_name }}
+                        </router-link>
+                    </strong>
                      - <small :class="textColor2(key)">{{ comment.created_at }}</small>
                 </p>
             </div>

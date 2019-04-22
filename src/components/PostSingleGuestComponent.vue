@@ -32,7 +32,10 @@
                         <router-link :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
                             {{ postSingle.author_name }}
                         </router-link>
-                        <img class="logo-small" :src="postSingle.author_profile_pic_url">
+                        <router-link :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
+                            <img class="logo-small" :src="postSingle.author_profile_pic_url">
+                        </router-link>
+
                     </p>
                 </div>
                 <div class="col-12">
@@ -69,7 +72,10 @@
                         <router-link :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
                             {{postSingle.active_version.author_name}}
                         </router-link>
-                        <img class="logo-small" :src="postSingle.active_version.author_profile_pic_url">
+                        <router-link :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
+                            <img class="logo-small" :src="postSingle.active_version.author_profile_pic_url">
+                        </router-link>
+
                     </p>
                 </div>
                 <div class="col-12">
@@ -120,7 +126,10 @@
                     - {{ comment.voteCons }}
                 </small>
             </div>
-            <img class="logo-small" :src="comment.author_profile_pic_url">
+            <router-link :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
+                <img class="logo-small" :src="comment.author_profile_pic_url">
+            </router-link>
+
         </div>
         <div class="col-sm-7 col-10 m-0 p-0" :class="bg2(key)">
             <div class="col-12">

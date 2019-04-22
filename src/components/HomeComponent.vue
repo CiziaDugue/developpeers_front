@@ -35,13 +35,25 @@
                                     Groupe:
                                     <router-link :to="{ name: 'groupPostsList', params: { groupId: post.group_id } }">{{ post.group_name }}</router-link>
                                 </p>
-                                <p :class="textColor1(key)" class="text-center">
+                                <p v-if="authUserData.id == post.author_id" :class="textColor1(key)" class="text-center">
+                                    Auteur:
+                                    <router-link to="/profil">
+                                            {{ post.author_name }}
+                                    </router-link>
+                                    <router-link to="/profil">
+                                            <img class="logo-small" :src="post.author_profile_pic_url">
+                                    </router-link>
+                                </p>
+                                <p v-else :class="textColor1(key)" class="text-center">
                                     Auteur:
                                     <router-link
                                             :to="{ name: 'userPublicProfile', params: {userId: post.author_id, userName: post.author_name.replace(' ', '-')} }">
                                             {{ post.author_name }}
                                     </router-link>
-                                    <img class="logo-small" :src="post.author_profile_pic_url">
+                                    <router-link
+                                            :to="{ name: 'userPublicProfile', params: {userId: post.author_id, userName: post.author_name.replace(' ', '-')} }">
+                                            <img class="logo-small" :src="post.author_profile_pic_url">
+                                    </router-link>
                                 </p>
                                 <p :class="textColor1(key)" class="text-center align-self-middle">
                                     {{ post.number_of_versions }} Versions
@@ -105,7 +117,10 @@
                                             :to="{ name: 'userPublicProfile', params: {userId: post.author_id, userName: post.author_name.replace(' ', '-')} }">
                                             {{ post.author_name }}
                                     </router-link>
-                                    <img class="logo-small" :src="post.author_profile_pic_url">
+                                    <router-link
+                                            :to="{ name: 'userPublicProfile', params: {userId: post.author_id, userName: post.author_name.replace(' ', '-')} }">
+                                            <img class="logo-small" :src="post.author_profile_pic_url">
+                                    </router-link>
                                 </p>
                                 <p :class="textColor1(key)" class="text-center align-self-middle">
                                     {{ post.number_of_versions }} Versions
