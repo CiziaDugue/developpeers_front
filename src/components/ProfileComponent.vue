@@ -100,26 +100,57 @@
         </div>
         <div v-if="followersFollowingView" class="col-sm-9 col-12 card-bg1 p-4">
             <div class="row">
-                <div class="col-12">
-                    <h4 class="text-center">Following</h4>
+                <div class="col-12 form-group pb-2">
+                    <h4 class="text-center pb-1">Following</h4>
+                    <div class="row justify-content-around">
+                        <div v-for="(following, key, index) in userPublicData.following" class="col-3 d-flex justify-content-around align-items-center">
+                            <router-link v-if="following.name != 'bug fixing example'" :to="{ name: 'userPublicProfile', params: {userId: following.id, userName: following.name.replace(' ', '-')} }" class="align-self-center">
+                                {{ following.name }}
+                            </router-link>
+                            <p v-if="following.name != 'bug fixing example'" class="cursor square-btn bg-secondary text-center pt-1" data-toggle="tooltip" data-placement="down" title="Ne plus suivre" v-on:click="unfollowUser(following.id)">
+                                <i class="fas fa-times"></i>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 form-group pb-2">
+                    <h4 class="text-center pb-1">Followers</h4>
+                    <div class="row justify-content-around">
+                        <div v-for="(follower, key, index) in userPublicData.followers" class="col-3 d-flex justify-content-around align-items-center">
+                            <router-link v-if="follower.name != 'bug fixing example'" :to="{ name: 'userPublicProfile', params: {userId: follower.id, userName: follower.name.replace(' ', '-')} }" class="align-self-center">
+                                {{ follower.name }}
+                            </router-link>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div v-if="optionsView" class="col-sm-9 col-12 card-bg1 p-4">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 form-group">
                     <h4 class="text-center">Paramètres</h4>
                 </div>
                 <div class="col-12 form-group">
-                    <label>Thème interface :</label>
+                    <label>Thème couleur du site</label>
+                </div>
+                <div class="col-12 form-group">
+                    <label>Thème couleur de extraits de code</label>
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 col-12 card-bg2 align-self-stretch p-0 m-0">
-            <p class="text-center card-text2">Nom : {{authUserData.name}}</p>
-            <p class="text-center card-text2">Email : {{ authUserData.email }}</p>
-            <p class="text-center card-text2"><a href="">Réinitialiser mon mot de passe</a></p>
-            <p class="text-center card-text2"><a href="">Supprimer mon compte</a></p>
+        <div class="col-sm-3 col-12 card-bg2 d-flex flex-column justify-content-around align-self-stretch p-0 m-0">
+            <p class="text-center card-text2">
+                Nom : <strong>{{authUserData.name}}</strong>
+            </p>
+            <p class="text-center card-text2">
+                Email : {{ authUserData.email }}
+            </p>
+            <p class="text-center card-text2">
+                <a href="">Réinitialiser mon mot de passe</a>
+            </p>
+            <p class="text-center card-text2">
+                <a href="">Supprimer mon compte</a>
+            </p>
             <!-- <div class="row">
                 <div class="col-12">
                     <p class="text-center card-text2">Nom : {{authUserData.name}}</p>
@@ -277,15 +308,14 @@ export default {
 
             this.editMode = false;
         },
-        unfollowUser: function() {
-            // let userId = this.userData.user_id;
+        unfollowUser: function(userId) {
             axios.put('http://localhost/developeers/public/api/unfollowuser/' + userId, {}, {
                     headers: this.$store.state.headerObject
                 })
-                .then((response) => {
-                    //console.log(response.data);
-                    this.getUserPublicData();
-                })
+                // .then((response) => {
+                //     //console.log(response.data);
+                //     this.getUserPublicData();
+                // })
                 .catch((error) => {
                     console.error(error);
                 });
