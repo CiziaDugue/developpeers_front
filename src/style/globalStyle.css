@@ -64,9 +64,8 @@ h1, h2, h3 {
     /* margin: 0 auto; */
     /* padding: 10px 0; */
     overflow: auto;
-    scrollbar-width: thin;
-    /* scrollbar: none; */
-
+    /* scrollbar-width: thin; */
+    scrollbar: none;
 }
 @media (max-width: 540px) {
     #routerViewCtnr {
