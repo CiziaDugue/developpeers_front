@@ -105,9 +105,14 @@
 
         <div class="userBlock d-flex align-items-center justify-content-end" v-if="userLogged">
             <div v-if="!smallWindowMode" class="profilePicCtnr">
-                <img :src="profilePicUrl">
+                <router-link to="/profil">
+                    <img :src="profilePicUrl">
+                </router-link>
+                <!-- <img :src="profilePicUrl"> -->
             </div>
-            <router-link v-if="!smallWindowMode" to="/profil"><strong class="text-white ml-4">{{authUserData.name}}</strong></router-link>
+            <router-link v-if="!smallWindowMode" to="/profil">
+                <strong class="text-white ml-4">{{authUserData.name}}</strong>
+            </router-link>
 
             <div class="d-flex flex-column ml-4 justify-content-start align-items-end">
                 <small v-on:click="disconnectUser" class="cursor square-btn bg-danger text-center pt-1" title="Se déconnecter">

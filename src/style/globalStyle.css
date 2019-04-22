@@ -9,7 +9,7 @@
 body {
     /* background-color: #eee; */
 }
-p, li, span, a, pre {
+p, li, span, a, pre, label {
     font-family: helvetica, sans-serif;
 }
 h1, h2, h3 {

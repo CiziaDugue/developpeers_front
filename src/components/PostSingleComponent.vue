@@ -149,6 +149,21 @@
     </div>
 
     <!-- comments row -->
+    <div class="row justify-content-center align-items-center px-0 pb-4 m-0">
+        <div class="col-sm-9 col-12 card-bg2 m-0 p-0">
+            <div class="input-group">
+                <textarea-autosize class="form-control rounded-0 d-block" placeholder=" Taper votre commentaire" aria-label="With textarea" v-model="commentToAdd" @keydown.enter.exact.prevent @keyup.enter.exact.native="addComment" @keydown.enter.shift.exact="newline(commentToAdd)"></textarea-autosize>
+                <div class="input-group-append">
+                    <button type="button" class="cursor btn-primary rounded-0 border-0" v-on:click="addComment">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 col-0 card-bg1">
+
+        </div>
+    </div>
     <div v-for="(comment, key, index) in postSingle.active_version.comments" class="row justify-content-start align-items-center p-0 m-0">
         <div class="col-sm-2 col-2 d-flex align-self-stretch p-0 m-0" :class="bg2(key)">
             <div class="d-flex flex-column">
@@ -193,22 +208,6 @@
             </template>
         </div>
         <div class="col-sm-3 col-0 align-self-stretch" :class="bg1(key)">
-
-        </div>
-
-    </div>
-    <div class="row justify-content-center align-items-center p-0 m-0">
-        <div class="col-sm-9 col-12 card-bg2 m-0 p-0">
-            <div class="input-group">
-                <textarea-autosize class="form-control rounded-0 d-block" placeholder=" Taper votre commentaire" aria-label="With textarea" v-model="commentToAdd" @keydown.enter.exact.prevent @keyup.enter.exact.native="addComment" @keydown.enter.shift.exact="newline(commentToAdd)"></textarea-autosize>
-                <div class="input-group-append">
-                    <button type="button" class="cursor btn-primary rounded-0 border-0" v-on:click="addComment">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3 col-0 card-bg1">
 
         </div>
     </div>

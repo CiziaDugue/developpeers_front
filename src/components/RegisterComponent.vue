@@ -8,43 +8,47 @@
 
         </div>
     </div>
-    <form v-if="this.$store.state.userLogged == false">
-        <div class="form-group">
-            <h2>Créer mon compte</h2>
+    <div class="row align-items-center justify-content-center">
+        <div class="col-sm-9 col-12 card-bg1 p-5">
+            <form v-if="this.$store.state.userLogged == false">
+                <div class="alert alert-danger" v-if="invalidData">
+                    Tous les champs doivent être remplis.
+                </div>
+                <div class="form-group">
+                    <label>Nom</label>
+                    <input type="text" placeholder="Votre nom" name="name" class="form-control rounded-0" v-model="userName" v-on:keyup.enter="registerUser">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="Votre email" name="email" class="form-control rounded-0" v-model="email" v-on:keyup.enter="registerUser">
+                </div>
+                <div class="alert alert-danger" v-if="invalidEmail">
+                    Adresse email invalide.
+                </div>
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input type="password" placeholder="Votre mot de passe" name="password" class="form-control rounded-0" v-model="password" v-on:keyup.enter="registerUser">
+                </div>
+                <div class="form-group">
+                    <label>Confirmer le mot de passe</label>
+                    <input type="password" placeholder="Retapez votre mot de passe" name="password-confirm" class="form-control rounded-0" v-model="passwordConfirmation" v-on:keyup.enter="registerUser">
+                </div>
+                <div class="alert alert-danger" v-if="invalidPwdConfirm">
+                    Erreur de confirmation de mot de passe.
+                </div>
+                <div class="form-group row justify-content-center">
+                    <input type="button" value="Créer mon compte" class="btn btn-primary rounded-0" v-on:click="registerUser">
+                </div>
+            </form>
+            <div v-if="this.$store.state.userLogged == true">
+                <h3>Bienvenue {{this.$store.state.authUserData.name}} !</h3>
+                <span>Votre compte a été créé avec succès.</span>
+                <router-link to="/">Home</router-link>
+            </div>
         </div>
-        <div class="alert alert-danger" v-if="invalidData">
-            Tous les champs doivent être remplis.
+        <div class="col-sm-3 col-12 card-bg2 align-self-stretch">
+
         </div>
-        <div class="form-group">
-            <label>Nom</label>
-            <input type="text" placeholder="Votre nom" name="name" class="form-control rounded-0" v-model="userName" v-on:keyup.enter="registerUser" />
-        </div>
-        <div class="form-group">
-            <label>Email</label>
-            <input type="email" placeholder="Votre email" name="email" class="form-control rounded-0" v-model="email" v-on:keyup.enter="registerUser" />
-        </div>
-        <div class="alert alert-danger" v-if="invalidEmail">
-            Adresse email invalide.
-        </div>
-        <div class="form-group">
-            <label>Mot de passe</label>
-            <input type="password" placeholder="Votre mot de passe" name="password" class="form-control rounded-0" v-model="password" v-on:keyup.enter="registerUser" />
-        </div>
-        <div class="form-group">
-            <label>Confirmer le mot de passe</label>
-            <input type="password" placeholder="Retapez votre mot de passe" name="password-confirm" class="form-control rounded-0" v-model="passwordConfirmation" v-on:keyup.enter="registerUser" />
-        </div>
-        <div class="alert alert-danger" v-if="invalidPwdConfirm">
-            Erreur de confirmation de mot de passe.
-        </div>
-        <div class="form-group">
-            <input type="button" value="Valider" class="btn btn-primary rounded-0" v-on:click="registerUser" />
-        </div>
-    </form>
-    <div v-if="this.$store.state.userLogged == true">
-        <h3>Bienvenue {{this.$store.state.authUserData.name}} !</h3>
-        <span>Votre compte a été créé avec succès.</span>
-        <router-link to="/">Home</router-link>
     </div>
 </main>
 </template>
@@ -127,11 +131,5 @@ export default {
 
 .card-text1 {
     color: #57515b;
-}
-
-form {
-    border: 1px solid #ccc;
-    padding: 30px;
-    /* box-shadow: 2px 2px 8px #eee; */
 }
 </style>
