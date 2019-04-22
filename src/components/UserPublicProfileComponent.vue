@@ -1,6 +1,36 @@
 <template>
 <main>
-    <div class="row align-items-center justify-content-center">
+    <div class="row align-items-center justify-content-center p-0 m-0">
+        <div class="col-sm-9 col-12 card-bg2 py-4">
+            <h2 class="text-center">Profil de {{ userData.user_name }}</h2>
+        </div>
+        <!-- <div class="col-sm-1 col-1 card-bg2 align-self-stretch d-flex flex-column align-items-end p-0 m-0">
+            <small v-if="!userDataView" class="cursor square-btn bg-secondary text-center pt-1" data-toggle="tooltip" data-placement="down" title="Informations personnelles" v-on:click="toggleUserDataView">
+                <i class="far fa-user"></i>
+            </small>
+            <small v-else class="square-btn bg-success text-center pt-1">
+                <i class="fas fa-user"></i>
+            </small>
+            <small v-if="!followersFollowingView" class="cursor square-btn bg-secondary text-center pt-1" data-toggle="tooltip" data-placement="down" title="Utilisateurs suivis" v-on:click="toggleFollowersFollowingView">
+                <i class="fas fa-users"></i>
+            </small>
+            <small v-else class="square-btn bg-primary text-center pt-1" title="Valider les changements">
+                <i class="fas fa-users"></i>
+            </small>
+            <small v-if="!optionsView" class="cursor square-btn bg-secondary text-center pt-1" data-toggle="tooltip" data-placement="down" title="Paramètres" v-on:click="toggleOptionsView">
+                <i class="fas fa-tools"></i>
+            </small>
+            <small v-else class="square-btn bg-warning text-center pt-1" title="Valider les changements">
+                <i class="fas fa-tools"></i>
+            </small>
+        </div> -->
+        <div class="col-sm-3 col-12 card-bg1 align-self-stretch d-flex p-0 m-0">
+            <div class="profile_pic m-auto pt-4">
+                <img :src="userProfilePicUrl" />
+            </div>
+        </div>
+    </div>
+    <!-- <div class="row align-items-center justify-content-center">
         <div class="col-sm-9 col-12 card-bg2 p-4">
             <h2 class="text-center">Profil de {{ userData.user_name }}</h2>
         </div>
@@ -9,7 +39,7 @@
                 <img src="" />
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div>
         <button v-if="!authUserIsFollowing" type="button" v-on:click="followUser">Suivre</button>
