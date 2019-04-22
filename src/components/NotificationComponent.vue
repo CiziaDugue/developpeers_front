@@ -1,45 +1,34 @@
 <template>
-    <div>
-        <small v-if="notifCount == 0" class="cursor square-btn bg-warning text-center pt-1" aria-haspopup="true" aria-expanded="false" disabled title="Vous n'avez pas de notifications">
+<div class="dropdown">
+    <div class="btn-group square-btn m-0 p-0">
+        <small class="square-btn bg-warning text-center pt-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :class="{'cursor':notifCount}">
             <i class="fas fa-bell"></i>
+            <span class="badge badge-light ml-1" v-if="unreadNotifCount > 0">{{ unreadNotifCount }}</span>
         </small>
-        <div v-else class="dropdown">
-            <div class="btn-group square-btn m-0 p-0">
-                <small class="cursor square-btn bg-warning text-center pt-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-bell"></i>
-                    <span class="badge badge-light ml-1" v-if="unreadNotifCount > 0">{{ unreadNotifCount }}</span>
-                </small>
-                <div class="dropdown-menu dropdown-menu-right rounded-0">
-                    <div class="clearNotifsLink" v-on:click="clearNotifs">Tout marquer comme lu</div>
-                    <div
-                        v-for="notif in this.unreadUserNotifs"
-                        :key="notif._id"
-                        class="unreadNotif notif dropdown-item"
-                        v-on:click="validateNotification(notif._id, notif.post_id, notif.version.id)">
-                        {{ notif.message }}
-                        <div class="notifDate">
-                            <small>Le {{ notif.created_at }}</small>
-                        </div>
-                    </div>
-                    <router-link
-                                v-for="notif in this.oldUserNotifs"
-                                :key="notif._id"
-                                class="oldNotif notif dropdown-item"
-                                :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
-                        {{ notif.message }}
-                        <div class="notifDate">
-                            <small> Le {{ notif.created_at }}</small>
-                        </div>
-                    </router-link>
+        <div class="dropdown-menu dropdown-menu-right rounded-0">
+            <div class="clearNotifsLink" v-on:click="clearNotifs">Tout marquer comme lu</div>
+            <div v-for="notif in this.unreadUserNotifs" :key="notif._id" class="unreadNotif notif dropdown-item" v-on:click="validateNotification(notif._id, notif.post_id, notif.version.id)">
+                {{ notif.message }}
+                <div class="notifDate">
+                    <small>Le {{ notif.created_at }}</small>
                 </div>
-
-           </div>
+            </div>
+            <router-link v-for="notif in this.oldUserNotifs" :key="notif._id" class="oldNotif notif dropdown-item" :to="{ name: 'notificatedPost', params: { postId: notif.post_id, versionId: notif.version.id }}">
+                {{ notif.message }}
+                <div class="notifDate">
+                    <small> Le {{ notif.created_at }}</small>
+                </div>
+            </router-link>
         </div>
+
     </div>
+</div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {
+    mapState
+} from 'vuex'
 
 export default {
     data: function() {
@@ -79,7 +68,7 @@ export default {
         unreadNotifCount: function() {
             let count = 0;
             this.userNotifs.forEach(function(notif) {
-                if (notif.unread) count ++;
+                if (notif.unread) count++;
             });
             return count;
         }
@@ -99,23 +88,23 @@ export default {
                 versionId: versionId
             }
             this.$store.dispatch('testNotificationLink', payload)
-            .then((response)=>{
-                this.$router.push('/article/'+postId+'/'+versionId);
-            }, (error) => {
-                //console.error(error);//404
-                this.$store.dispatch('deleteObsoleteNotification', notificationId)
-                .then((response)=>{
-                    this.getNotifications()
-                    .then((response)=>{
-                        this.$router.push('/oups');//router push '/' or errorCpt
-                    }, (error)=>{
-                        console.error(error);
-                    });
-                }, (error)=>{
-                    console.error(error);
-                });
+                .then((response) => {
+                    this.$router.push('/article/' + postId + '/' + versionId);
+                }, (error) => {
+                    //console.error(error);//404
+                    this.$store.dispatch('deleteObsoleteNotification', notificationId)
+                        .then((response) => {
+                            this.getNotifications()
+                                .then((response) => {
+                                    this.$router.push('/oups'); //router push '/' or errorCpt
+                                }, (error) => {
+                                    console.error(error);
+                                });
+                        }, (error) => {
+                            console.error(error);
+                        });
 
-            });
+                });
         },
 
         clearNotifs: function() {
@@ -123,14 +112,16 @@ export default {
                 notifs: []
             };
             this.unreadUserNotifs.forEach(function(notif) {
-                payload.notifs.push({id: notif._id});
+                payload.notifs.push({
+                    id: notif._id
+                });
             });
             this.$store.dispatch('markAllNotificationsRead', payload)
-            .then((response)=>{
-                //console.log(response);
-            }, (error)=>{
-                console.error(error);
-            });
+                .then((response) => {
+                    //console.log(response);
+                }, (error) => {
+                    console.error(error);
+                });
         }
     },
     created: function() {
@@ -156,6 +147,7 @@ export default {
     font-weight: bold;
     cursor: pointer;
 }
+
 .unreadNotif:hover {
     background-color: #7bc9;
 }
