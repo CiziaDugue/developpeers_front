@@ -115,7 +115,7 @@ export default new Vuex.Store({
 
         SET_USER_PROFILE_PIC(state, path) {
             if (!path) {
-                 state.profilePicUrl = "http://localhost/developeers/public/blank_profile_pic.png";
+                 state.profilePicUrl = "http://http://51.75.126.56/developeers/public/blank_profile_pic.png";
             } else {
                 state.profilePicUrl = path;
             }
@@ -141,19 +141,19 @@ export default new Vuex.Store({
 
             if (listType == 'tous-les-articles') {
 
-                req = 'http://localhost/developeers/public/api/posts';
+                req = 'http://http://51.75.126.56/developeers/public/api/posts';
 
             } else if (listType == 'mes-articles') {
 
-                req = 'http://localhost/developeers/public/api/authorposts';
+                req = 'http://http://51.75.126.56/developeers/public/api/authorposts';
 
             } else if (listType == 'articles-suivis') {
 
-                req = 'http://localhost/developeers/public/api/userposts';
+                req = 'http://http://51.75.126.56/developeers/public/api/userposts';
 
             } else if (listType == 'group-posts') {
 
-                req = 'http://localhost/developeers/public/api/posts/group/' + groupId;
+                req = 'http://http://51.75.126.56/developeers/public/api/posts/group/' + groupId;
 
                 dispatch('initGroupSingleAction', groupId);
             }
@@ -179,7 +179,7 @@ export default new Vuex.Store({
 
         initPostSingleAction: function({commit}, payload) {
           return new Promise ((resolve, reject)=>{
-            axios.get('http://localhost/developeers/public/api/posts/' + payload.postId, {headers: this.state.headerObject})
+            axios.get('http://http://51.75.126.56/developeers/public/api/posts/' + payload.postId, {headers: this.state.headerObject})
                 .then(response => {
                     let post = response.data;
                     commit('SET_POST', post);
@@ -193,7 +193,7 @@ export default new Vuex.Store({
 
         changePostVersionAction: function({commit}, payload) {
           return new Promise ((resolve, reject)=>{
-            axios.get('http://localhost/developeers/public/api/posts/' + payload.postId + '/' + payload.versionId, {
+            axios.get('http://http://51.75.126.56/developeers/public/api/posts/' + payload.postId + '/' + payload.versionId, {
                     headers: this.state.headerObject
                 })
                 .then(response => {
@@ -210,7 +210,7 @@ export default new Vuex.Store({
 
         getCommentsNextPageAction: function({commit},payload) {
                 return new Promise ((resolve, reject)=>{
-                  axios.get('http://localhost/developeers/public/api/commentsafter/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
+                  axios.get('http://51.75.126.56/developeers/public/api/commentsafter/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
                           headers: this.state.headerObject
                       })
                       .then(response => {
@@ -226,7 +226,7 @@ export default new Vuex.Store({
 
         getCommentsPrevPageAction: function({commit},payload) {
             return new Promise ((resolve, reject)=>{
-              axios.get('http://localhost/developeers/public/api/commentsbefore/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
+              axios.get('http://http://51.75.126.56/developeers/public/api/commentsbefore/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
                       headers: this.state.headerObject
                   })
                   .then(response => {
@@ -242,7 +242,7 @@ export default new Vuex.Store({
 
         // changeCommentPageAction: function({commit}, payload) {
         //     return new Promise ((resolve, reject)=>{
-        //       axios.get('http://localhost/developeers/public/api/commentsafter/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
+        //       axios.get('http://http://51.75.126.56/developeers/public/api/commentsafter/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
         //               headers: this.state.headerObject
         //           })
         //           .then(response => {
@@ -258,7 +258,7 @@ export default new Vuex.Store({
 
         // changeCommentPrevPageAction: function({commit}, payload) {
         //     return new Promise ((resolve, reject)=>{
-        //       axios.get(('http://localhost/developeers/public/api/commentsbefore/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
+        //       axios.get(('http://http://51.75.126.56/developeers/public/api/commentsbefore/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
         //               headers: this.state.headerObject
         //           })
         //           .then(response => {
@@ -274,7 +274,7 @@ export default new Vuex.Store({
 
         addCommentAction: function({dispatch}, payload) {
 
-            axios.post('http://localhost/developeers/public/api/comments/' + payload.versionId, payload.comment, {
+            axios.post('http://http://51.75.126.56/developeers/public/api/comments/' + payload.versionId, payload.comment, {
                     headers: this.state.headerObject
                 })
                 .then(response => {
@@ -288,7 +288,7 @@ export default new Vuex.Store({
 
         voteInFeedAction: function({dispatch}, payload) {
 
-            let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
+            let req = 'http://http://51.75.126.56/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
 
             let voteType = {
                 vote: payload.vote
@@ -308,7 +308,7 @@ SET_POST_COMMENTS
         },
 
         voteInPostSingleAction: function({dispatch}, payload) {
-        let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
+        let req = 'http://http://51.75.126.56/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
 
         let voteType = { vote: payload.vote };
 
@@ -330,7 +330,7 @@ SET_POST_COMMENTS
 
         voteInPostListAction: function({dispatch}, payload) {
 
-            let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
+            let req = 'http://http://51.75.126.56/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
 
             let voteType = {
                 vote: payload.vote
@@ -376,11 +376,11 @@ SET_POST_COMMENTS
 
             if (listType.type == 'tous-les-groupes') {
 
-                req = 'http://localhost/developeers/public/api/groups';
+                req = 'http://http://51.75.126.56/developeers/public/api/groups';
 
             } else if (listType.type == 'mes-groupes') {
 
-                req = 'http://localhost/developeers/public/api/groups/user';
+                req = 'http://http://51.75.126.56/developeers/public/api/groups/user';
 
             }
 
@@ -402,7 +402,7 @@ SET_POST_COMMENTS
         },
 
         initGroupSingleAction: function({commit}, groupId) {
-          axios.get('http://localhost/developeers/public/api/groups/'+groupId, {headers: this.state.headerObject})
+          axios.get('http://http://51.75.126.56/developeers/public/api/groups/'+groupId, {headers: this.state.headerObject})
               .then((response)=>{
                 commit('SET_GROUP', response.data);
               })
@@ -413,7 +413,7 @@ SET_POST_COMMENTS
 
         leaveOrJoinGroupFromListAction: function({ dispatch }, payload) {
 
-            let req = 'http://localhost/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
+            let req = 'http://http://51.75.126.56/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
 
             axios.put(req, {}, {
                     headers: this.state.headerObject
@@ -428,7 +428,7 @@ SET_POST_COMMENTS
 
         leaveOrJoinGroupFromGroupAction: function({dispatch}, payload) {
 
-            let req = 'http://localhost/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
+            let req = 'http://http://51.75.126.56/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
 
             axios.put(req, {}, { headers: this.state.headerObject })
 
@@ -443,7 +443,7 @@ SET_POST_COMMENTS
 
         getPostsFeed: function({commit, dispatch}) {
             return new Promise((resolve, reject)=>{
-                axios.get('http://localhost/developeers/public/api/postsfeed', {headers: this.state.headerObject})
+                axios.get('http://http://51.75.126.56/developeers/public/api/postsfeed', {headers: this.state.headerObject})
                     .then( (response) => {
                         let posts = response.data;
                         dispatch('getNotificationsAction');
@@ -461,7 +461,7 @@ SET_POST_COMMENTS
             return new Promise((resolve, reject)=>{
                 if (words != "") {
                     let reqWords = words.replace(" ", "-");
-                    let req = 'http://localhost/developeers/public/api/searchposts/' + reqWords;
+                    let req = 'http://http://51.75.126.56/developeers/public/api/searchposts/' + reqWords;
                     axios.get(req, {headers: this.state.headerObject})
                       .then((response) => {
                         let posts = response.data;
@@ -486,7 +486,7 @@ SET_POST_COMMENTS
         getGroupSearchResult: function({commit, dispatch}, searchData) {
           if (searchData.words != "") {
               let reqWords = searchData.words.replace(" ", "-");
-            let req = 'http://localhost/developeers/public/api/searchgroups/' + reqWords;
+            let req = 'http://http://51.75.126.56/developeers/public/api/searchgroups/' + reqWords;
             axios.get(req, {headers: this.state.headerObject})
                 .then((response) => {
                   let groups = response.data;
@@ -503,7 +503,7 @@ SET_POST_COMMENTS
         getUserGroups: function({commit}) {
           //récupérer la list de groups de l'utilisateur (par ex pour le select dans create post)
           return new Promise((resolve, reject)=>{
-              axios.get('http://localhost/developeers/public/api/groups/user', {headers: this.state.headerObject})
+              axios.get('http://http://51.75.126.56/developeers/public/api/groups/user', {headers: this.state.headerObject})
                   .then((response)=> {
                     commit('SET_GROUPS', response.data);
                     resolve(response);
@@ -517,7 +517,7 @@ SET_POST_COMMENTS
 
         createGroup: function({dispatch}, requestData) {
           return new Promise((resolve, reject) => {
-            axios.post('http://localhost/developeers/public/api/groups', requestData, {headers: this.state.headerObject} )
+            axios.post('http://http://51.75.126.56/developeers/public/api/groups', requestData, {headers: this.state.headerObject} )
                 . then((response) => {
                   let data = {
                     listType: "group-posts",
@@ -538,7 +538,7 @@ SET_POST_COMMENTS
 
         createPost: function({dispatch}, requestData) {
           return  new Promise((resolve, reject) => {
-            axios.post('http://localhost/developeers/public/api/posts', requestData, {headers: this.state.headerObject})
+            axios.post('http://http://51.75.126.56/developeers/public/api/posts', requestData, {headers: this.state.headerObject})
                 . then((response) => {
                   dispatch('initPostSingleAction', {postId: response.data._id})
                   .then((response)=>{
@@ -559,7 +559,7 @@ SET_POST_COMMENTS
           let requestData = data.requestData;
 
           return new Promise((resolve, reject)=>{
-            axios.post('http://localhost/developeers/public/api/commitversion/'+postId,
+            axios.post('http://http://51.75.126.56/developeers/public/api/commitversion/'+postId,
             requestData,
             {headers: this.state.headerObject})
             .then(response=>{
@@ -582,7 +582,7 @@ SET_POST_COMMENTS
           let requestData = payload.requestData;
 
           return new Promise((resolve, reject)=>{
-            axios.put('http://localhost/developeers/public/api/posts/'+postId,
+            axios.put('http://http://51.75.126.56/developeers/public/api/posts/'+postId,
             requestData,
             {headers: this.state.headerObject})
             .then(response=>{
@@ -603,7 +603,7 @@ SET_POST_COMMENTS
           let versionId = payload.version_id;
           let requestData = payload.requestData;
           return new Promise((resolve, reject)=>{
-            axios.put('http://localhost/developeers/public/api/updateversion/'+versionId,
+            axios.put('http://http://51.75.126.56/developeers/public/api/updateversion/'+versionId,
             requestData, {headers: this.state.headerObject})
             .then(response=>{
               resolve(response);
@@ -616,7 +616,7 @@ SET_POST_COMMENTS
 
         deletePost: function({commit}, postId) {
           return new Promise((resolve, reject)=>{
-            axios.delete('http://localhost/developeers/public/api/posts/'+postId, {headers: this.state.headerObject})
+            axios.delete('http://http://51.75.126.56/developeers/public/api/posts/'+postId, {headers: this.state.headerObject})
             .then(response=>{
               resolve(response);
             })
@@ -628,7 +628,7 @@ SET_POST_COMMENTS
 
         deleteVersion: function({commit}, versionId) {
           return new Promise((resolve, reject)=>{
-            axios.delete('http://localhost/developeers/public/api/deleteversion/'+versionId, {headers: this.state.headerObject})
+            axios.delete('http://http://51.75.126.56/developeers/public/api/deleteversion/'+versionId, {headers: this.state.headerObject})
             .then(response=>{
               resolve(response);
             })
@@ -642,7 +642,7 @@ SET_POST_COMMENTS
           let commentId = payload.commentId;
           let requestData = payload.requestData;
           return new Promise((resolve, reject)=>{
-            axios.put('http://localhost/developeers/public/api/updatecomment/'+commentId, requestData, {headers: this.state.headerObject})
+            axios.put('http://http://51.75.126.56/developeers/public/api/updatecomment/'+commentId, requestData, {headers: this.state.headerObject})
             .then(response=>{
               dispatch('changePostVersionAction', payload)
               .then((response)=>{
@@ -659,7 +659,7 @@ SET_POST_COMMENTS
 
         deleteComment: function({dispatch}, payload) {
           return new Promise((resolve, reject)=>{
-            axios.delete('http://localhost/developeers/public/api/deletecomment/'+payload.commentId, {headers: this.state.headerObject})
+            axios.delete('http://http://51.75.126.56/developeers/public/api/deletecomment/'+payload.commentId, {headers: this.state.headerObject})
             .then((response)=>{
               dispatch('changePostVersionAction', {postId: payload.postId, versionId: payload.versionId})
               .then((response)=>{
@@ -676,12 +676,12 @@ SET_POST_COMMENTS
 
         logUser: function({commit, dispatch}, logData) {
             return new Promise((resolve, reject)=> {
-                axios.post('http://localhost/developeers/public/api/login', logData)
+                axios.post('http://http://51.75.126.56/developeers/public/api/login', logData)
                   .then( (response1) => {
 
                     localStorage.developeersAccessToken = response1.data.token;
 
-                    axios.get('http://localhost/developeers/public/api/user',
+                    axios.get('http://http://51.75.126.56/developeers/public/api/user',
                     {
                       headers :
                       {
@@ -730,12 +730,12 @@ SET_POST_COMMENTS
 
         registerUser: function({commit, dispatch}, registerData) {
             return new Promise((resolve, reject)=>{
-                axios.post('http://localhost/developeers/public/api/register', registerData)
+                axios.post('http://http://51.75.126.56/developeers/public/api/register', registerData)
                       .then( (response1) => {
 
                           localStorage.developeersAccessToken = response1.data.token;
 
-                          axios.get('http://localhost/developeers/public/api/user',
+                          axios.get('http://http://51.75.126.56/developeers/public/api/user',
                           {
                             headers :
                             {
@@ -825,7 +825,7 @@ SET_POST_COMMENTS
 
         getNotificationsAction: function({commit}) {
 
-            let req = 'http://localhost/developeers/public/api/notifications';
+            let req = 'http://http://51.75.126.56/developeers/public/api/notifications';
 
             return new Promise((resolve, reject) => {
 
@@ -845,7 +845,7 @@ SET_POST_COMMENTS
         testNotificationLink: function({commit}, payload) {
             return new Promise((resolve, reject)=> {
                 if(typeof payload.originElementId == 'number') {
-                    axios.get('http://localhost/developeers/public/api/userdata/'+payload.originElementId,
+                    axios.get('http://http://51.75.126.56/developeers/public/api/userdata/'+payload.originElementId,
                     { headers: this.state.headerObject })
                             .then((response)=>{
                                 resolve("ok");
@@ -854,7 +854,7 @@ SET_POST_COMMENTS
                                 reject(error);
                             });
                 } else {
-                    axios.get('http://localhost/developeers/public/api/posts/'+payload.postId+'/'+payload.versionId,
+                    axios.get('http://http://51.75.126.56/developeers/public/api/posts/'+payload.postId+'/'+payload.versionId,
                     { headers: this.state.headerObject })
                             .then((response)=>{
                                 resolve("ok");
@@ -869,7 +869,7 @@ SET_POST_COMMENTS
 
         deleteObsoleteNotification: function({commit}, notifId) {
             return new Promise((resolve, reject) => {
-                axios.delete('http://localhost/developeers/public/api/notifications/'+notifId,
+                axios.delete('http://http://51.75.126.56/developeers/public/api/notifications/'+notifId,
                 { headers: this.state.headerObject })
                     .then((response)=> {
                         resolve(response);
@@ -884,7 +884,7 @@ SET_POST_COMMENTS
             return new Promise((resolve, reject)=>{
                 try {
                     payload.notifs.forEach((notif) => {
-                        axios.put('http://localhost/developeers/public/api/notifications/'+notif.id, {},
+                        axios.put('http://http://51.75.126.56/developeers/public/api/notifications/'+notif.id, {},
                         { headers: this.state.headerObject })
                             .then((response)=>{
                                 dispatch('getNotificationsAction')
@@ -910,7 +910,7 @@ SET_POST_COMMENTS
         uploadProfilePic: function({dispatch}, formData) {
 
             return new Promise((resolve, reject) => {
-                axios.post( 'http://localhost/developeers/public/api/user/uploadpic', formData,
+                axios.post( 'http://http://51.75.126.56/developeers/public/api/user/uploadpic', formData,
                   {headers: {//special header for file upload
                         'Content-Type': 'multipart/form-data',
                         'Authorization': this.state.headerObject.Authorization
@@ -934,7 +934,7 @@ SET_POST_COMMENTS
 
         getUserProfilePic({commit}) {
             return new Promise((resolve, reject) => {
-                axios.get('http://localhost/developeers/public/api/user/profilepic',
+                axios.get('http://http://51.75.126.56/developeers/public/api/user/profilepic',
                 { headers: this.state.headerObject })
                     .then((response)=> {
                         commit('SET_USER_PROFILE_PIC', response.data);
@@ -951,7 +951,7 @@ SET_POST_COMMENTS
             let postId = payload.postId;
             let fromPostSingle = payload.fromPostSingle;
             return new Promise((resolve, reject) => {
-                axios.put('http://localhost/developeers/public/api/follow/'+ postId, {},
+                axios.put('http://http://51.75.126.56/developeers/public/api/follow/'+ postId, {},
                 { headers: this.state.headerObject })
                     .then((response)=>{
                         //refresh post data :
@@ -999,7 +999,7 @@ SET_POST_COMMENTS
             let postId = payload.postId;
             let fromPostSingle = payload.fromPostSingle;
             return new Promise((resolve, reject) => {
-                axios.put('http://localhost/developeers/public/api/unfollow/'+ postId, {},
+                axios.put('http://http://51.75.126.56/developeers/public/api/unfollow/'+ postId, {},
                 { headers: this.state.headerObject })
                     .then((response)=>{
                         //refresh post data :
@@ -1045,7 +1045,7 @@ SET_POST_COMMENTS
 
         getUserPublicDataAction: function({dispatch, commit}) {
             return new Promise((resolve, reject) => {
-                axios.get('http://localhost/developeers/public/api/userdata', {headers: this.state.headerObject})
+                axios.get('http://http://51.75.126.56/developeers/public/api/userdata', {headers: this.state.headerObject})
                     .then( (response)=>{
                         commit('SET_USER_PUBLIC_DATA', response.data);
                         resolve("Got user public data");
@@ -1064,7 +1064,7 @@ SET_POST_COMMENTS
 
         updateUserPublicDataAction: function({dispatch}, payload) {
             return new Promise((resolve, reject)=>{
-                axios.put('http://localhost/developeers/public/api/userdata', payload,
+                axios.put('http://http://51.75.126.56/developeers/public/api/userdata', payload,
                 {headers: this.state.headerObject})
                     .then((response)=>{
                         dispatch('getUserPublicDataAction')
@@ -1082,7 +1082,7 @@ SET_POST_COMMENTS
 
         storeInitUserPublicDataAction: function({dispatch}, payload) {
             return new Promise((resolve, reject)=>{
-                axios.post('http://localhost/developeers/public/api/inituserdata', {},
+                axios.post('http://http://51.75.126.56/developeers/public/api/inituserdata', {},
                 {headers: this.state.headerObject})
                     .then((response)=>{
                         dispatch('getUserPublicDataAction')
@@ -1101,7 +1101,7 @@ SET_POST_COMMENTS
         //GUEST CIRCUIT
         getGuestFeed: function({commit}) {
             return new Promise((resolve, reject)=>{
-                axios.get('http://localhost/developeers/public/api/guest/postsfeed', {headers: this.state.headerObject})
+                axios.get('http://http://51.75.126.56/developeers/public/api/guest/postsfeed', {headers: this.state.headerObject})
                     .then( (response) => {
                         let posts = response.data;
                         commit('SET_POSTS_FEED', posts);
@@ -1118,7 +1118,7 @@ SET_POST_COMMENTS
             return new Promise((resolve, reject)=> {
                 if (words != "") {
                     let reqWords = words.replace(" ", "-");
-                    let req = 'http://localhost/developeers/public/api/guest/searchposts/' + reqWords;
+                    let req = 'http://http://51.75.126.56/developeers/public/api/guest/searchposts/' + reqWords;
                     axios.get(req, {headers: this.state.headerObject})
                       .then((response) => {
                         let posts = response.data;
@@ -1144,7 +1144,7 @@ SET_POST_COMMENTS
 
         initGuestPostSingleAction: function({commit}, payload) {
             return new Promise ((resolve, reject)=>{
-              axios.get('http://localhost/developeers/public/api/guest/posts/' + payload.postId, {headers: this.state.headerObject})
+              axios.get('http://http://51.75.126.56/developeers/public/api/guest/posts/' + payload.postId, {headers: this.state.headerObject})
                   .then((response) => {
                       let post = response.data;
                       commit('SET_POST', post);
@@ -1158,7 +1158,7 @@ SET_POST_COMMENTS
 
         changeGuestPostVersionAction: function({commit}, payload) {
             return new Promise ((resolve, reject)=>{
-              axios.get('http://localhost/developeers/public/api/guest/postversion/' + payload.post_id + '/' + payload.version_id, {
+              axios.get('http://http://51.75.126.56/developeers/public/api/guest/postversion/' + payload.post_id + '/' + payload.version_id, {
                       headers: this.state.headerObject
                   })
                   .then(response => {

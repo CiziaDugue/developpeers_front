@@ -309,7 +309,7 @@ export default {
             this.editMode = false;
         },
         unfollowUser: function(userId) {
-            axios.put('http://localhost/developeers/public/api/unfollowuser/' + userId, {}, {
+            axios.put('http://51.75.126.56/developeers/public/api/unfollowuser/' + userId, {}, {
                     headers: this.$store.state.headerObject
                 })
                 // .then((response) => {
