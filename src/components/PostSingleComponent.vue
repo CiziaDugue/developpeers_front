@@ -155,12 +155,23 @@
         </div>
         <div class="col-sm-3 col-12 card-bg2 d-flex flex-wrap align-self-stretch align-items-start justify-content-start p-0 m-0">
             <template v-for="version in postSingle.versions">
-                <small v-if="postSingle.active_version._id == version._id" class="square-btn bg-success text-center pt-1 font-weight-bold">
+                <!-- <small v-if="postSingle.active_version._id == version._id" class="square-btn bg-success text-center pt-1 font-weight-bold">
                     {{ version.number }}
                 </small>
                 <small v-else v-on:click="changeVersion(version._id)" class="cursor square-btn bg-secondary text-center pt-1 font-weight-bold">
                     {{ version.number }}
-                </small>
+                </small> -->
+                <router-link :to="{ name: 'notificatedPost', params: {postId: postSingle._id, versionId: version._id} }"
+                            v-if="postSingle.active_version._id == version._id">
+                    <small  class="square-btn bg-success text-center pt-1 font-weight-bold">
+                        {{ version.number }}
+                    </small>
+                </router-link>
+                <router-link v-else :to="{ name: 'notificatedPost', params: {postId: postSingle._id, versionId: version._id} }">
+                    <small class="cursor square-btn bg-secondary text-center pt-1 font-weight-bold">
+                        {{ version.number }}
+                    </small>
+                </router-link>
             </template>
             <small class="cursor square-btn bg-primary text-center pt-1" v-on:click="createVersion" title="Ajouter une version">
                 <i class="fas fa-plus"></i>
@@ -364,21 +375,21 @@ export default {
                 });
         },
 
-        changeVersion: function(versionId) {
-
-            let payload = {
-                postId: this.postSingle._id,
-                versionId: versionId
-            };
-
-            this.$store.dispatch('changePostVersionAction', payload)
-                .then((response) => {
-                    this.updateUserRights();
-                    this.isUserFollowing();
-                }, (error) => {
-                    console.error(error);
-                });
-        },
+        // changeVersion: function(versionId) {
+        //
+        //     let payload = {
+        //         postId: this.postSingle._id,
+        //         versionId: versionId
+        //     };
+        //
+        //     this.$store.dispatch('changePostVersionAction', payload)
+        //         .then((response) => {
+        //             this.updateUserRights();
+        //             this.isUserFollowing();
+        //         }, (error) => {
+        //             console.error(error);
+        //         });
+        // },
 
         addComment: function() {
 
@@ -519,6 +530,8 @@ export default {
             if (data.versionId != null) {
                 this.$store.dispatch('changePostVersionAction', data)
                     .then((response) => {
+                        console.log(this.postSingle.active_version.number);
+
                         this.updateUserRights();
                         this.getNotifications();
                         this.isUserFollowing();
@@ -528,6 +541,7 @@ export default {
             } else {
                 this.$store.dispatch('initPostSingleAction', data)
                     .then((response) => {
+                        console.log(this.postSingle.active_version.number);
                         this.postEditedTitle = this.postSingle.title;
                         this.postEditedKeywords;
                         this.postSingle.keywords.forEach((word) => {
@@ -570,7 +584,6 @@ export default {
         '$route': function(to, from) {
 
             let postId = to.params.postId;
-            // let postId = (to.params.postId) ? to.params.postId : null;
             let versionId = (to.params.versionId) ? to.params.versionId : null;
 
             let data = {
