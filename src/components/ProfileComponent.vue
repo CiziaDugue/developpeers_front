@@ -151,21 +151,6 @@
             <p class="text-center card-text2">
                 <a href="">Supprimer mon compte</a>
             </p>
-            <!-- <div class="row">
-                <div class="col-12">
-                    <p class="text-center card-text2">Nom : {{authUserData.name}}</p>
-                </div>
-                <div class="col-12">
-                    <p class="text-center card-text2">Email : {{ authUserData.email }}</p>
-                </div>
-
-                <div class="col-12">
-                    <p class="text-center card-text2"><a href="">Réinitialiser mon mot de passe</a></p>
-                </div>
-                <div class="col-12">
-                    <p class="text-center card-text2"><a href="">Supprimer mon compte</a></p>
-                </div>
-            </div> -->
         </div>
     </div>
 </main>

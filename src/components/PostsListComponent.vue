@@ -78,7 +78,7 @@
                             <p :class="textColor1(key)">{{ post.excerpt }}</p>
                         </div>
                         <div class="col-12 d-flex justify-content-between align-items-center mr-2">
-                            <p :class="textColor1(key)">
+                            <p v-if="!isGroupList" :class="textColor1(key)">
                                 Groupe:
                                 <router-link :to="{ name: 'groupPostsList', params: { groupId: post.group_id } }">
                                     {{ post.group_name }}
