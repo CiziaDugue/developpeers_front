@@ -110,9 +110,12 @@
                 </router-link>
                 <!-- <img :src="profilePicUrl"> -->
             </div>
-            <router-link v-if="!smallWindowMode" to="/profil">
-                <strong class="text-white ml-4">{{authUserData.name}}</strong>
-            </router-link>
+            <div class="ml-4">
+                <router-link v-if="!smallWindowMode" to="/profil">
+                    <strong class="text-white">{{authUserData.name}}</strong>
+                </router-link>
+            </div>
+
 
             <div class="d-flex flex-column ml-4 justify-content-start align-items-end">
                 <small v-on:click="disconnectUser" class="cursor square-btn bg-danger text-center pt-1" title="Se déconnecter">
@@ -232,7 +235,7 @@ export default {
 
 .topBarContentBlock {
     display: flex;
-    max-width: 1400px;
+    /* max-width: 1400px; */
     margin: 0 auto;
     justify-content: space-between;
     align-items: center;
@@ -313,9 +316,9 @@ export default {
     width: 60px;
     height: 60px;
     /* margin: 0 5px; */
-    overflow: hidden;
+    /* overflow: hidden; */
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
 }
 .profileTab {
     display: flex;
@@ -337,6 +340,7 @@ export default {
     height: 56px;
     width: auto;
     cursor: pointer;
+    margin-top: -6px;
 }
 
 .logo-small {
