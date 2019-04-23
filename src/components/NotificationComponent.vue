@@ -154,7 +154,7 @@ export default {
 }
 .notif-badge {
     position: absolute;
-    left: 12px;
+    right: 1px;
     bottom: 1px;
 }
 .unreadNotif {
