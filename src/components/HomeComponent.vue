@@ -109,7 +109,7 @@
                             <div class="col-12 d-flex justify-content-between align-items-center">
                                 <p :class="textColor1(key)" class="text-center align-self-middle">
                                     Groupe:
-                                    <router-link :to="{ name: 'groupPostsList', params: { groupId: post.group_id } }">{{ post.group_name }}</router-link>
+                                    <router-link to="/login">{{ post.group_name }}</router-link>
                                 </p>
                                 <p :class="textColor1(key)" class="text-center">
                                     Auteur:
