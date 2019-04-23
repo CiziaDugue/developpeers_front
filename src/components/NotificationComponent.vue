@@ -1,9 +1,9 @@
 <template>
 <div class="dropdown">
     <div class="btn-group square-btn m-0 p-0">
-        <small class="square-btn bg-warning text-center pt-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :class="{'cursor':notifCount}">
+        <small class="square-btn bg-warning text-center pt-1 notif-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :class="{'cursor':notifCount}">
             <i class="fas fa-bell"></i>
-            <span class="badge badge-light ml-1" v-if="unreadNotifCount > 0">{{ unreadNotifCount }}</span>
+            <span class="badge badge-light ml-1 notif-badge" v-if="unreadNotifCount > 0">{{ unreadNotifCount }}</span>
         </small>
         <div class="dropdown-menu dropdown-menu-right rounded-0">
             <div class="clearNotifsLink" v-on:click="clearNotifs">Tout marquer comme lu</div>
@@ -149,7 +149,14 @@ export default {
 .notif {
     padding: 16px 21px;
 }
-
+.notif-btn {
+    position: relative;
+}
+.notif-badge {
+    position: absolute;
+    left: 12px;
+    bottom: 1px;
+}
 .unreadNotif {
     background-color: #7bc3;
     color: #444;
