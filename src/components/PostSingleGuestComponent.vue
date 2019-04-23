@@ -25,7 +25,7 @@
                 <div class="col-12 d-flex justify-content-around align-items-center">
                     <p class="text-center align-self-middle card-text2">
                         Groupe:
-                        <router-link :to="{ name: 'groupPostsList', params: { groupId: postSingle.group_id } }">{{ postSingle.group_name }}</router-link>
+                        <router-link to="/login">{{ postSingle.group_name }}</router-link>
                     </p>
                     <p class="text-center card-text2">
                         Auteur:
