@@ -115,7 +115,7 @@ export default new Vuex.Store({
 
         SET_USER_PROFILE_PIC(state, path) {
             if (!path) {
-                 state.profilePicUrl = "http://localhost/developeers/public/blank_profile_pic.png";
+                 state.profilePicUrl = "http://51.75.126.56/developeers/public/blank_profile_pic.png";
             } else {
                 state.profilePicUrl = path;
             }
@@ -141,19 +141,19 @@ export default new Vuex.Store({
 
             if (listType == 'tous-les-articles') {
 
-                req = 'http://localhost/developeers/public/api/posts';
+                req = 'http://51.75.126.56/developeers/public/api/posts';
 
             } else if (listType == 'mes-articles') {
 
-                req = 'http://localhost/developeers/public/api/authorposts';
+                req = 'http://51.75.126.56/developeers/public/api/authorposts';
 
             } else if (listType == 'articles-suivis') {
 
-                req = 'http://localhost/developeers/public/api/userposts';
+                req = 'http://51.75.126.56/developeers/public/api/userposts';
 
             } else if (listType == 'group-posts') {
 
-                req = 'http://localhost/developeers/public/api/posts/group/' + groupId;
+                req = 'http://51.75.126.56/developeers/public/api/posts/group/' + groupId;
 
                 dispatch('initGroupSingleAction', groupId);
             }
@@ -179,7 +179,7 @@ export default new Vuex.Store({
 
         initPostSingleAction: function({commit}, payload) {
           return new Promise ((resolve, reject)=>{
-            axios.get('http://localhost/developeers/public/api/posts/' + payload.postId, {headers: this.state.headerObject})
+            axios.get('http://51.75.126.56/developeers/public/api/posts/' + payload.postId, {headers: this.state.headerObject})
                 .then(response => {
                     let post = response.data;
                     commit('SET_POST', post);
@@ -193,7 +193,7 @@ export default new Vuex.Store({
 
         changePostVersionAction: function({commit}, payload) {
           return new Promise ((resolve, reject)=>{
-            axios.get('http://localhost/developeers/public/api/posts/' + payload.postId + '/' + payload.versionId, {
+            axios.get('http://51.75.126.56/developeers/public/api/posts/' + payload.postId + '/' + payload.versionId, {
                     headers: this.state.headerObject
                 })
                 .then(response => {
@@ -210,7 +210,7 @@ export default new Vuex.Store({
 
         getCommentsNextPageAction: function({commit},payload) {
                 return new Promise ((resolve, reject)=>{
-                  axios.get('http://localhost/developeers/public/api/commentsafter/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
+                  axios.get('http://51.75.126.56/developeers/public/api/commentsafter/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
                           headers: this.state.headerObject
                       })
                       .then(response => {
@@ -226,7 +226,7 @@ export default new Vuex.Store({
 
         getCommentsPrevPageAction: function({commit},payload) {
             return new Promise ((resolve, reject)=>{
-              axios.get('http://localhost/developeers/public/api/commentsbefore/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
+              axios.get('http://51.75.126.56/developeers/public/api/commentsbefore/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
                       headers: this.state.headerObject
                   })
                   .then(response => {
@@ -242,7 +242,7 @@ export default new Vuex.Store({
 
         addCommentAction: function({dispatch}, payload) {
             return new Promise((resolve, reject) => {
-                axios.post('http://localhost/developeers/public/api/comments/' + payload.versionId, payload.comment, {
+                axios.post('http://51.75.126.56/developeers/public/api/comments/' + payload.versionId, payload.comment, {
                         headers: this.state.headerObject
                     })
                         .then(response => {
@@ -264,7 +264,7 @@ export default new Vuex.Store({
 
         voteInFeedAction: function({dispatch}, payload) {
 
-            let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
+            let req = 'http://51.75.126.56/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
 
             let voteType = {
                 vote: payload.vote
@@ -283,7 +283,7 @@ export default new Vuex.Store({
         },
 
         voteInPostSingleAction: function({dispatch}, payload) {
-        let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
+        let req = 'http://51.75.126.56/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
 
         let voteType = { vote: payload.vote };
 
@@ -305,7 +305,7 @@ export default new Vuex.Store({
 
         voteInPostListAction: function({dispatch}, payload) {
 
-            let req = 'http://localhost/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
+            let req = 'http://51.75.126.56/developeers/public/api/vote' + payload.type + '/' + payload.target._id;
 
             let voteType = {
                 vote: payload.vote
@@ -351,11 +351,11 @@ export default new Vuex.Store({
 
             if (listType.type == 'tous-les-groupes') {
 
-                req = 'http://localhost/developeers/public/api/groups';
+                req = 'http://51.75.126.56/developeers/public/api/groups';
 
             } else if (listType.type == 'mes-groupes') {
 
-                req = 'http://localhost/developeers/public/api/groups/user';
+                req = 'http://51.75.126.56/developeers/public/api/groups/user';
 
             }
 
@@ -377,7 +377,7 @@ export default new Vuex.Store({
         },
 
         initGroupSingleAction: function({commit}, groupId) {
-          axios.get('http://localhost/developeers/public/api/groups/'+groupId, {headers: this.state.headerObject})
+          axios.get('http://51.75.126.56/developeers/public/api/groups/'+groupId, {headers: this.state.headerObject})
               .then((response)=>{
                 commit('SET_GROUP', response.data);
               })
@@ -388,7 +388,7 @@ export default new Vuex.Store({
 
         leaveOrJoinGroupFromListAction: function({ dispatch }, payload) {
 
-            let req = 'http://localhost/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
+            let req = 'http://51.75.126.56/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
 
             axios.put(req, {}, {
                     headers: this.state.headerObject
@@ -403,7 +403,7 @@ export default new Vuex.Store({
 
         leaveOrJoinGroupFromGroupAction: function({dispatch}, payload) {
 
-            let req = 'http://localhost/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
+            let req = 'http://51.75.126.56/developeers/public/api/groups/' + payload.action + '/' + payload.groupId;
 
             axios.put(req, {}, { headers: this.state.headerObject })
 
@@ -418,7 +418,7 @@ export default new Vuex.Store({
 
         getPostsFeed: function({commit, dispatch}) {
             return new Promise((resolve, reject)=>{
-                axios.get('http://localhost/developeers/public/api/postsfeed', {headers: this.state.headerObject})
+                axios.get('http://51.75.126.56/developeers/public/api/postsfeed', {headers: this.state.headerObject})
                     .then( (response) => {
                         let posts = response.data;
                         dispatch('getNotificationsAction');
@@ -436,7 +436,7 @@ export default new Vuex.Store({
             return new Promise((resolve, reject)=>{
                 if (words != "") {
                     let reqWords = words.replace(" ", "-");
-                    let req = 'http://localhost/developeers/public/api/searchposts/' + reqWords;
+                    let req = 'http://51.75.126.56/developeers/public/api/searchposts/' + reqWords;
                     axios.get(req, {headers: this.state.headerObject})
                       .then((response) => {
                         let posts = response.data;
@@ -461,7 +461,7 @@ export default new Vuex.Store({
         getGroupSearchResult: function({commit, dispatch}, searchData) {
           if (searchData.words != "") {
               let reqWords = searchData.words.replace(" ", "-");
-            let req = 'http://localhost/developeers/public/api/searchgroups/' + reqWords;
+            let req = 'http://51.75.126.56/developeers/public/api/searchgroups/' + reqWords;
             axios.get(req, {headers: this.state.headerObject})
                 .then((response) => {
                   let groups = response.data;
@@ -478,7 +478,7 @@ export default new Vuex.Store({
         getUserGroups: function({commit}) {
           //récupérer la list de groups de l'utilisateur (par ex pour le select dans create post)
           return new Promise((resolve, reject)=>{
-              axios.get('http://localhost/developeers/public/api/groups/user', {headers: this.state.headerObject})
+              axios.get('http://51.75.126.56/developeers/public/api/groups/user', {headers: this.state.headerObject})
                   .then((response)=> {
                     commit('SET_GROUPS', response.data);
                     resolve(response);
@@ -492,7 +492,7 @@ export default new Vuex.Store({
 
         createGroup: function({dispatch}, requestData) {
           return new Promise((resolve, reject) => {
-            axios.post('http://localhost/developeers/public/api/groups', requestData, {headers: this.state.headerObject} )
+            axios.post('http://51.75.126.56/developeers/public/api/groups', requestData, {headers: this.state.headerObject} )
                 . then((response) => {
                   let data = {
                     listType: "group-posts",
@@ -513,7 +513,7 @@ export default new Vuex.Store({
 
         createPost: function({dispatch}, requestData) {
           return  new Promise((resolve, reject) => {
-            axios.post('http://localhost/developeers/public/api/posts', requestData, {headers: this.state.headerObject})
+            axios.post('http://51.75.126.56/developeers/public/api/posts', requestData, {headers: this.state.headerObject})
                 . then((response) => {
                   dispatch('initPostSingleAction', {postId: response.data._id})
                   .then((response)=>{
@@ -534,7 +534,7 @@ export default new Vuex.Store({
           let requestData = data.requestData;
 
           return new Promise((resolve, reject)=>{
-            axios.post('http://localhost/developeers/public/api/commitversion/'+postId,
+            axios.post('http://51.75.126.56/developeers/public/api/commitversion/'+postId,
             requestData,
             {headers: this.state.headerObject})
             .then(response=>{
@@ -557,7 +557,7 @@ export default new Vuex.Store({
           let requestData = payload.requestData;
 
           return new Promise((resolve, reject)=>{
-            axios.put('http://localhost/developeers/public/api/posts/'+postId,
+            axios.put('http://51.75.126.56/developeers/public/api/posts/'+postId,
             requestData,
             {headers: this.state.headerObject})
             .then(response=>{
@@ -578,7 +578,7 @@ export default new Vuex.Store({
           let versionId = payload.version_id;
           let requestData = payload.requestData;
           return new Promise((resolve, reject)=>{
-            axios.put('http://localhost/developeers/public/api/updateversion/'+versionId,
+            axios.put('http://51.75.126.56/developeers/public/api/updateversion/'+versionId,
             requestData, {headers: this.state.headerObject})
             .then(response=>{
               resolve(response);
@@ -591,7 +591,7 @@ export default new Vuex.Store({
 
         deletePost: function({commit}, postId) {
           return new Promise((resolve, reject)=>{
-            axios.delete('http://localhost/developeers/public/api/posts/'+postId, {headers: this.state.headerObject})
+            axios.delete('http://51.75.126.56/developeers/public/api/posts/'+postId, {headers: this.state.headerObject})
             .then(response=>{
               resolve(response);
             })
@@ -603,7 +603,7 @@ export default new Vuex.Store({
 
         deleteVersion: function({commit}, versionId) {
           return new Promise((resolve, reject)=>{
-            axios.delete('http://localhost/developeers/public/api/deleteversion/'+versionId, {headers: this.state.headerObject})
+            axios.delete('http://51.75.126.56/developeers/public/api/deleteversion/'+versionId, {headers: this.state.headerObject})
             .then(response=>{
               resolve(response);
             })
@@ -617,7 +617,7 @@ export default new Vuex.Store({
           let commentId = payload.commentId;
           let requestData = payload.requestData;
           return new Promise((resolve, reject)=>{
-            axios.put('http://localhost/developeers/public/api/updatecomment/'+commentId, requestData, {headers: this.state.headerObject})
+            axios.put('http://51.75.126.56/developeers/public/api/updatecomment/'+commentId, requestData, {headers: this.state.headerObject})
             .then(response=>{
               dispatch('changePostVersionAction', payload)
               .then((response)=>{
@@ -634,7 +634,7 @@ export default new Vuex.Store({
 
         deleteComment: function({dispatch}, payload) {
           return new Promise((resolve, reject)=>{
-            axios.delete('http://localhost/developeers/public/api/deletecomment/'+payload.commentId, {headers: this.state.headerObject})
+            axios.delete('http://51.75.126.56/developeers/public/api/deletecomment/'+payload.commentId, {headers: this.state.headerObject})
             .then((response)=>{
               dispatch('changePostVersionAction', {postId: payload.postId, versionId: payload.versionId})
               .then((response)=>{
@@ -651,12 +651,12 @@ export default new Vuex.Store({
 
         logUser: function({commit, dispatch}, logData) {
             return new Promise((resolve, reject)=> {
-                axios.post('http://localhost/developeers/public/api/login', logData)
+                axios.post('http://51.75.126.56/developeers/public/api/login', logData)
                   .then( (response1) => {
 
                     localStorage.developeersAccessToken = response1.data.token;
 
-                    axios.get('http://localhost/developeers/public/api/user',
+                    axios.get('http://51.75.126.56/developeers/public/api/user',
                     {
                       headers :
                       {
@@ -705,12 +705,12 @@ export default new Vuex.Store({
 
         registerUser: function({commit, dispatch}, registerData) {
             return new Promise((resolve, reject)=>{
-                axios.post('http://localhost/developeers/public/api/register', registerData)
+                axios.post('http://51.75.126.56/developeers/public/api/register', registerData)
                       .then( (response1) => {
 
                           localStorage.developeersAccessToken = response1.data.token;
 
-                          axios.get('http://localhost/developeers/public/api/user',
+                          axios.get('http://51.75.126.56/developeers/public/api/user',
                           {
                             headers :
                             {
@@ -802,7 +802,7 @@ export default new Vuex.Store({
 
         getNotificationsAction: function({commit}) {
 
-            let req = 'http://localhost/developeers/public/api/notifications';
+            let req = 'http://51.75.126.56/developeers/public/api/notifications';
 
             return new Promise((resolve, reject) => {
 
@@ -822,7 +822,7 @@ export default new Vuex.Store({
         testNotificationLink: function({commit}, payload) {
             return new Promise((resolve, reject)=> {
                 if(typeof payload.originElementId == 'number') {
-                    axios.get('http://localhost/developeers/public/api/userdata/'+payload.originElementId,
+                    axios.get('http://51.75.126.56/developeers/public/api/userdata/'+payload.originElementId,
                     { headers: this.state.headerObject })
                             .then((response)=>{
                                 resolve("ok");
@@ -831,7 +831,7 @@ export default new Vuex.Store({
                                 reject(error);
                             });
                 } else {
-                    axios.get('http://localhost/developeers/public/api/posts/'+payload.postId+'/'+payload.versionId,
+                    axios.get('http://51.75.126.56/developeers/public/api/posts/'+payload.postId+'/'+payload.versionId,
                     { headers: this.state.headerObject })
                             .then((response)=>{
                                 resolve("ok");
@@ -846,7 +846,7 @@ export default new Vuex.Store({
 
         deleteObsoleteNotification: function({commit}, notifId) {
             return new Promise((resolve, reject) => {
-                axios.delete('http://localhost/developeers/public/api/notifications/'+notifId,
+                axios.delete('http://51.75.126.56/developeers/public/api/notifications/'+notifId,
                 { headers: this.state.headerObject })
                     .then((response)=> {
                         resolve(response);
@@ -861,7 +861,7 @@ export default new Vuex.Store({
             return new Promise((resolve, reject)=>{
                 try {
                     payload.notifs.forEach((notif) => {
-                        axios.put('http://localhost/developeers/public/api/notifications/'+notif.id, {},
+                        axios.put('http://51.75.126.56/developeers/public/api/notifications/'+notif.id, {},
                         { headers: this.state.headerObject })
                             .then((response)=>{
                                 dispatch('getNotificationsAction')
@@ -887,7 +887,7 @@ export default new Vuex.Store({
         uploadProfilePic: function({dispatch}, formData) {
 
             return new Promise((resolve, reject) => {
-                axios.post( 'http://localhost/developeers/public/api/user/uploadpic', formData,
+                axios.post( 'http://51.75.126.56/developeers/public/api/user/uploadpic', formData,
                   {headers: {//special header for file upload
                         'Content-Type': 'multipart/form-data',
                         'Authorization': this.state.headerObject.Authorization
@@ -911,7 +911,7 @@ export default new Vuex.Store({
 
         getUserProfilePic({commit}) {
             return new Promise((resolve, reject) => {
-                axios.get('http://localhost/developeers/public/api/user/profilepic',
+                axios.get('http://51.75.126.56/developeers/public/api/user/profilepic',
                 { headers: this.state.headerObject })
                     .then((response)=> {
                         commit('SET_USER_PROFILE_PIC', response.data);
@@ -928,7 +928,7 @@ export default new Vuex.Store({
             let postId = payload.postId;
             let fromPostSingle = payload.fromPostSingle;
             return new Promise((resolve, reject) => {
-                axios.put('http://localhost/developeers/public/api/follow/'+ postId, {},
+                axios.put('http://51.75.126.56/developeers/public/api/follow/'+ postId, {},
                 { headers: this.state.headerObject })
                     .then((response)=>{
                         //refresh post data :
@@ -976,7 +976,7 @@ export default new Vuex.Store({
             let postId = payload.postId;
             let fromPostSingle = payload.fromPostSingle;
             return new Promise((resolve, reject) => {
-                axios.put('http://localhost/developeers/public/api/unfollow/'+ postId, {},
+                axios.put('http://51.75.126.56/developeers/public/api/unfollow/'+ postId, {},
                 { headers: this.state.headerObject })
                     .then((response)=>{
                         //refresh post data :
@@ -1022,7 +1022,7 @@ export default new Vuex.Store({
 
         getUserPublicDataAction: function({dispatch, commit}) {
             return new Promise((resolve, reject) => {
-                axios.get('http://localhost/developeers/public/api/userdata', {headers: this.state.headerObject})
+                axios.get('http://51.75.126.56/developeers/public/api/userdata', {headers: this.state.headerObject})
                     .then( (response)=>{
                         commit('SET_USER_PUBLIC_DATA', response.data);
                         resolve("Got user public data");
@@ -1041,7 +1041,7 @@ export default new Vuex.Store({
 
         updateUserPublicDataAction: function({dispatch}, payload) {
             return new Promise((resolve, reject)=>{
-                axios.put('http://localhost/developeers/public/api/userdata', payload,
+                axios.put('http://51.75.126.56/developeers/public/api/userdata', payload,
                 {headers: this.state.headerObject})
                     .then((response)=>{
                         dispatch('getUserPublicDataAction')
@@ -1059,7 +1059,7 @@ export default new Vuex.Store({
 
         storeInitUserPublicDataAction: function({dispatch}, payload) {
             return new Promise((resolve, reject)=>{
-                axios.post('http://localhost/developeers/public/api/inituserdata', {},
+                axios.post('http://51.75.126.56/developeers/public/api/inituserdata', {},
                 {headers: this.state.headerObject})
                     .then((response)=>{
                         dispatch('getUserPublicDataAction')
@@ -1078,7 +1078,7 @@ export default new Vuex.Store({
         //GUEST CIRCUIT
         getGuestFeed: function({commit}) {
             return new Promise((resolve, reject)=>{
-                axios.get('http://localhost/developeers/public/api/guest/postsfeed', {headers: this.state.headerObject})
+                axios.get('http://51.75.126.56/developeers/public/api/guest/postsfeed', {headers: this.state.headerObject})
                     .then( (response) => {
                         let posts = response.data;
                         commit('SET_POSTS_FEED', posts);
@@ -1095,7 +1095,7 @@ export default new Vuex.Store({
             return new Promise((resolve, reject)=> {
                 if (words != "") {
                     let reqWords = words.replace(" ", "-");
-                    let req = 'http://localhost/developeers/public/api/guest/searchposts/' + reqWords;
+                    let req = 'http://51.75.126.56/developeers/public/api/guest/searchposts/' + reqWords;
                     axios.get(req, {headers: this.state.headerObject})
                       .then((response) => {
                         let posts = response.data;
@@ -1121,7 +1121,7 @@ export default new Vuex.Store({
 
         initGuestPostSingleAction: function({commit}, payload) {
             return new Promise ((resolve, reject)=>{
-              axios.get('http://localhost/developeers/public/api/guest/posts/' + payload.postId, {headers: this.state.headerObject})
+              axios.get('http://51.75.126.56/developeers/public/api/guest/posts/' + payload.postId, {headers: this.state.headerObject})
                   .then((response) => {
                       let post = response.data;
                       commit('SET_POST', post);
@@ -1135,7 +1135,7 @@ export default new Vuex.Store({
 
         changeGuestPostVersionAction: function({commit}, payload) {
             return new Promise ((resolve, reject)=>{
-              axios.get('http://localhost/developeers/public/api/guest/postversion/' + payload.post_id + '/' + payload.version_id, {
+              axios.get('http://51.75.126.56/developeers/public/api/guest/postversion/' + payload.post_id + '/' + payload.version_id, {
                       headers: this.state.headerObject
                   })
                   .then(response => {
