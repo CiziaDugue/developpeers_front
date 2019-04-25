@@ -240,50 +240,26 @@ export default new Vuex.Store({
             });
         },
 
-        // changeCommentPageAction: function({commit}, payload) {
-        //     return new Promise ((resolve, reject)=>{
-        //       axios.get('http://localhost/developeers/public/api/commentsafter/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
-        //               headers: this.state.headerObject
-        //           })
-        //           .then(response => {
-        //               let post = response.data;
-        //               commit('SET_POST', post);
-        //               resolve(response);
-        //           })
-        //           .catch(error => {
-        //               reject(error);
-        //           });
-        //     });
-        // },
-
-        // changeCommentPrevPageAction: function({commit}, payload) {
-        //     return new Promise ((resolve, reject)=>{
-        //       axios.get(('http://localhost/developeers/public/api/commentsbefore/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
-        //               headers: this.state.headerObject
-        //           })
-        //           .then(response => {
-        //               let post = response.data;
-        //               commit('SET_POST', post);
-        //               resolve(response);
-        //           })
-        //           .catch(error => {
-        //               reject(error);
-        //           });
-        //     });
-        // },
-
         addCommentAction: function({dispatch}, payload) {
+            return new Promise((resolve, reject) => {
+                axios.post('http://localhost/developeers/public/api/comments/' + payload.versionId, payload.comment, {
+                        headers: this.state.headerObject
+                    })
+                        .then(response => {
+                            //refresh the current version view
+                            dispatch('changePostVersionAction', payload)
+                            .then((response)=>{
+                                resolve(response);
+                            }, (error)=>{
+                                console.error(error);
+                            });
+                        })
+                        .catch(error => {
+                            reject(error);
+                            console.log(error)
+                        });
+            });
 
-            axios.post('http://localhost/developeers/public/api/comments/' + payload.versionId, payload.comment, {
-                    headers: this.state.headerObject
-                })
-                .then(response => {
-                    //refresh the current version view
-                    dispatch('changePostVersionAction', payload);
-                })
-                .catch(error => {
-                    console.log(error)
-                });
         },
 
         voteInFeedAction: function({dispatch}, payload) {
