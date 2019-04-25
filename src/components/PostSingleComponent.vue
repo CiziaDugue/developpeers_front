@@ -272,12 +272,12 @@
 
         </div>
     </div>
-    <!-- <button v-if="!firstPageOfComments" title="Voir des commentaires plus récents" type="button" v-on:click="getCommentsPrevPage">
+    <button v-if="!firstPageOfComments" title="Voir des commentaires plus récents" type="button" v-on:click="getCommentsPrevPage">
         <i class="fas fa-arrow-left"></i>
     </button>
     <button v-if="!lastPageOfComments" title="Voir des commentaires plus anciens" type="button" v-on:click="getCommentsNextPage">
         <i class="fas fa-arrow-right"></i>
-    </button> -->
+    </button>
 </div>
 </template>
 
