@@ -299,7 +299,7 @@ export default new Vuex.Store({
                 })
 
                 .then((response) => {
-SET_POST_COMMENTS
+
                     dispatch('getPostsFeed');
                 })
                 .catch((error) => {
