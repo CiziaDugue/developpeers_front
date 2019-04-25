@@ -817,7 +817,9 @@ SET_POST_COMMENTS
             let headerObject = {
                 'Authorization': userData.token,
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Accept, Origin, Content-Type, X-Auth-Token, Access-Control-Allow-Headers, Access-Control-Allow-Origin'
             };
             commit('SET_HEADER_OBJECT', headerObject);
             console.log('setting header object');
