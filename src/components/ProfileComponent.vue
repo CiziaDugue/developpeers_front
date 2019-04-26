@@ -34,17 +34,17 @@
                     <button type="button" class="close closePicForm" aria-label="Close" v-on:click='closePicForm'>
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <form class="form-inline">
+                    <form class="form-inline rounded-0">
                         <div class="input-group mb-3 rounded-0">
-                            <div class="input-group">
-                                <div class="custom-file">
+                            <div class="input-group rounded-0">
+                                <div class="custom-file rounded-0">
                                     <input type="file" class="custom-file-input rounded-0" id="picInput" ref="file" v-bind:name="authUserData.id" v-on:change="handlePicFile">
-                                    <label class="custom-file-label" for="picInput">
-                                        Aucun fichier choisi
+                                    <label class="custom-file-label rounded-0" for="picInput">
+
                                     </label>
                                 </div>
                                 <div class="input-group-append">
-                                    <button class="cursor rounded-0 border-0 btn-success" type="button" v-on:click='submitPic'>
+                                    <button class="cursor rounded-0 border-0 btn-success px-3" type="button" v-on:click='submitPic'>
                                         <i class="fas fa-check"></i>
                                     </button>
                                 </div>
