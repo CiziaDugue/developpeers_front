@@ -56,6 +56,7 @@ import {
     mapState
 } from 'vuex'
 const axios = require('axios');
+import config from '@/env_config'
 
 export default {
     data: function() {
@@ -103,7 +104,7 @@ export default {
 
         initProfilePic: function(userPublicData) {
             if (!userPublicData.profile_pic_url || userPublicData.profile_pic_url == "") {
-                this.userProfilePicUrl = "http://51.75.126.56/developeers/public/blank_profile_pic.png";
+                this.userProfilePicUrl = config.hostPublicUrl + 'blank_profile_pic.png';
             } else {
                 this.userProfilePicUrl = userPublicData.profile_pic_url;
             }
@@ -133,7 +134,7 @@ export default {
 
         followUser: function() {
             let userId = this.userData.user_id;
-            axios.put('http://51.75.126.56/developeers/public/api/followuser/' + userId, {}, {
+            axios.put(config.hostPublicUrl + 'api/followuser/' + userId, {}, {
                     headers: this.$store.state.headerObject
                 })
                 .then((response) => {
@@ -147,7 +148,7 @@ export default {
 
         unfollowUser: function() {
             let userId = this.userData.user_id;
-            axios.put('http://51.75.126.56/developeers/public/api/unfollowuser/' + userId, {}, {
+            axios.put(config.hostPublicUrl + 'api/unfollowuser/' + userId, {}, {
                     headers: this.$store.state.headerObject
                 })
                 .then((response) => {
@@ -160,7 +161,7 @@ export default {
         },
         getUserPublicData: function() {
             let userId = this.$route.params.userId;
-            axios.get('http://51.75.126.56/developeers/public/api/userdata/' + userId, {
+            axios.get(config.hostPublicUrl + 'api/userdata/' + userId, {
                     headers: this.$store.state.headerObject
                 })
                 .then((response) => {
