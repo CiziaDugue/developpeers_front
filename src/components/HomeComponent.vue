@@ -35,26 +35,6 @@
                                     Groupe:
                                     <router-link :to="{ name: 'groupPostsList', params: { groupId: post.group_id } }">{{ post.group_name }}</router-link>
                                 </p>
-                                <p v-if="authUserData.id == post.author_id" :class="textColor1(key)" class="text-center">
-                                    Auteur:
-                                    <router-link to="/profil">
-                                            {{ post.author_name }}
-                                    </router-link>
-                                    <router-link to="/profil">
-                                            <img class="logo-small" :src="post.author_profile_pic_url">
-                                    </router-link>
-                                </p>
-                                <p v-else :class="textColor1(key)" class="text-center">
-                                    Auteur:
-                                    <router-link
-                                            :to="{ name: 'userPublicProfile', params: {userId: post.author_id, userName: post.author_name.replace(' ', '-')} }">
-                                            {{ post.author_name }}
-                                    </router-link>
-                                    <router-link
-                                            :to="{ name: 'userPublicProfile', params: {userId: post.author_id, userName: post.author_name.replace(' ', '-')} }">
-                                            <img class="logo-small" :src="post.author_profile_pic_url">
-                                    </router-link>
-                                </p>
                                 <p :class="textColor1(key)" class="text-center align-self-middle">
                                     {{ post.number_of_versions }} Versions
                                 </p>
@@ -63,7 +43,17 @@
                                 </p>
                             </div>
                             <div class="col-12">
-                                <p class="footer-text" :class="textColor1(key)">Créé le {{ post.created_at }} par {{ post.author_name }}</p>
+                                <p class="footer-text" :class="textColor1(key)">
+                                    Créé le {{ post.created_at }} par
+                                    <router-link v-if="authUserData.id == post.author_id" to="/profil">
+                                            {{post.author_name}}
+                                    </router-link>
+                                    <router-link
+                                            v-else
+                                            :to="{ name: 'userPublicProfile', params: {userId: post.author_id, userName: post.author_name.replace(' ', '-')} }">
+                                            {{post.author_name}}
+                                    </router-link>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -71,9 +61,6 @@
                         <div class="d-flex flex-wrap p-4">
                             <p class="font-weight-light font-italic border-0 bg-transparent pr-1" :class="textColor2(key)" v-for="word in post.keywords">{{word}}</p>
                         </div>
-                        <!-- <ul class="card-text list-group list-group-flush py-4">
-                            <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" :class="textColor2(key)" v-for="keyword in post.keywords">{{ keyword }}</li>
-                        </ul> -->
                     </div>
                     <div class="col-sm-1 col-4 d-flex flex-column align-items-end" :class="bg2(key)">
                         <small v-if="!userIsFollowingPost(post.followers)" class="cursor square-btn bg-secondary text-center pt-1" title="Suivre cet article" v-on:click="followPost(post._id)">
@@ -114,17 +101,6 @@
                                     Groupe:
                                     <router-link to="/login">{{ post.group_name }}</router-link>
                                 </p>
-                                <p :class="textColor1(key)" class="text-center">
-                                    Auteur:
-                                    <router-link
-                                            :to="{ name: 'userPublicProfile', params: {userId: post.author_id, userName: post.author_name.replace(' ', '-')} }">
-                                            {{ post.author_name }}
-                                    </router-link>
-                                    <router-link
-                                            :to="{ name: 'userPublicProfile', params: {userId: post.author_id, userName: post.author_name.replace(' ', '-')} }">
-                                            <img class="logo-small" :src="post.author_profile_pic_url">
-                                    </router-link>
-                                </p>
                                 <p :class="textColor1(key)" class="text-center align-self-middle">
                                     {{ post.number_of_versions }} Versions
                                 </p>
@@ -133,7 +109,13 @@
                                 </p>
                             </div>
                             <div class="col-12">
-                                <p class="footer-text" :class="textColor1(key)">Créé le {{ post.created_at }} par {{ post.author_name }}</p>
+                                <p class="footer-text" :class="textColor2(key)">
+                                    Créé le {{ post.created_at }} par
+                                    <router-link
+                                            :to="{ name: 'userPublicProfile', params: {userId: post.author_id, userName: post.author_name.replace(' ', '-')} }">
+                                            {{post.author_name}}
+                                    </router-link>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -141,9 +123,6 @@
                         <div class="d-flex flex-wrap p-4">
                             <p class="font-weight-light font-italic border-0 bg-transparent pr-1" :class="textColor2(key)" v-for="word in post.keywords">{{word}}</p>
                         </div>
-                        <!-- <ul class="card-text list-group list-group-flush py-4">
-                            <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" :class="textColor2(key)" v-for="keyword in post.keywords">{{ keyword }}</li>
-                        </ul> -->
                     </div>
                 </div>
             </div>

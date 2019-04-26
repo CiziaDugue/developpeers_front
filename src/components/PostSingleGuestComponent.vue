@@ -17,36 +17,29 @@
                 - {{ postSingle.voteCons }}
             </small>
         </div>
-        <div class="col-sm-8 col-10 py-5 card-bg2 m-0 px-0">
+        <div class="col-sm-8 col-10 py-4 card-bg2 m-0 px-0">
             <div class="row justify-content-center">
                 <div class="col-12">
                     <h2 class="text-center">{{ postSingle.title }}</h2>
                 </div>
-                <div class="col-12 d-flex justify-content-around align-items-center">
+                <div class="col-12">
                     <p class="text-center align-self-middle card-text2">
                         Groupe:
                         <router-link to="/login">{{ postSingle.group_name }}</router-link>
                     </p>
-                    <p class="text-center card-text2">
-                        Auteur:
-                        <router-link :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
-                            {{ postSingle.author_name }}
-                        </router-link>
-                        <router-link :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
-                            <img class="logo-small" :src="postSingle.author_profile_pic_url">
-                        </router-link>
-
-                    </p>
                 </div>
                 <div class="col-12">
-                    <p class="footer-text card-text2">Créé le {{ postSingle.created_at }}</p>
+                    <p class="footer-text card-text2">
+                        Créé le {{ postSingle.created_at }} par
+                        <router-link
+                                :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
+                                {{postSingle.author_name}}
+                        </router-link>
+                    </p>
                 </div>
             </div>
         </div>
         <div class="col-sm-3 col-12 card-bg1 align-self-stretch m-0 p-0">
-            <!-- <ul class="list-group list-group-flush py-4">
-                <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" v-for="word in this.postSingle.keywords">{{word}}</li>
-            </ul> -->
             <div class="d-flex flex-wrap p-4">
                 <p class="font-weight-light font-italic border-0 bg-transparent card-text1 pr-1" v-for="word in this.postSingle.keywords">{{word}}</p>
             </div>
@@ -64,25 +57,21 @@
                 - {{ postSingle.active_version.voteCons }}
             </small>
         </div>
-        <div class="col-sm-8 col-10 py-5 card-bg1 m-0 px-0">
+        <div class="col-sm-8 col-10 py-3 card-bg1 m-0 px-0">
             <div class="row justify-content-center">
-                <div class="col-12 d-flex justify-content-around align-items-center">
-                    <p class="text-center align-self-middle card-text1">
+                <div class="col-12">
+                    <h4 class="text-center">
                         Version: <strong>{{ postSingle.active_version.number }}</strong>
-                    </p>
-                    <p class="text-center align-self-middle card-text1">
-                        Auteur:
-                        <router-link :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
-                            {{postSingle.active_version.author_name}}
-                        </router-link>
-                        <router-link :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
-                            <img class="logo-small" :src="postSingle.active_version.author_profile_pic_url">
-                        </router-link>
-
-                    </p>
+                    </h4>
                 </div>
                 <div class="col-12">
-                    <p class="footer-text card-text1">Créée le {{ postSingle.created_at }}</p>
+                    <p class="footer-text card-text1">
+                        Créé le {{ postSingle.active_version.created_at }} par
+                        <router-link
+                                :to="{ name: 'userPublicProfile', params: {userId: postSingle.active_version.author_id, userName: postSingle.active_version.author_name.replace(' ', '-')} }">
+                                {{postSingle.active_version.author_name}}
+                        </router-link>
+                    </p>
                 </div>
                 <!-- chevron sous la version??? -->
                 <!-- <div class="col-12">
