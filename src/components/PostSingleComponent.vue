@@ -302,15 +302,7 @@ export default {
             commentEditMode: false,
             commentEditedContent: "",
             editedCommentId: null,
-<<<<<<< HEAD
-            userIsFollowing: false,
-            lastCommentListId: null,
-            firstCommentListId: null,
-            firstPageOfComments: true,
-            lastPageOfComments: false
-=======
             userIsFollowing: false
->>>>>>> vps_pierre
         }
     },
     computed: {
@@ -547,26 +539,7 @@ export default {
             this.$store.dispatch('getNotificationsAction');
         },
 
-<<<<<<< HEAD
-        setLastAndFirstCommentId: function() {
-            if (this.postSingle.active_version.comments.length > 0) {
-                this.lastCommentListId = this.postSingle.active_version.comments[this.postSingle.active_version.comments.length - 1]._id;
-                this.firstCommentListId = this.postSingle.active_version.comments[0]._id;
-                this.isLastPageOfComments();
-                this.isFirstPageOfComments();
-            }
-        },
 
-        isLastPageOfComments: function() {
-            this.lastPageOfComments = (this.lastCommentListId == this.postSingle.active_version.last_comment_id) ? true : false;
-        },
-
-        isFirstPageOfComments: function() {
-            this.firstPageOfComments = (this.firstCommentListId == this.postSingle.active_version.first_comment_id) ? true : false;
-        },
-
-=======
->>>>>>> vps_pierre
         getCommentsNextPage: function() {
 
             let payload = {
@@ -577,11 +550,7 @@ export default {
 
             this.$store.dispatch('getCommentsNextPageAction', payload)
                         .then((response)=>{
-<<<<<<< HEAD
-                            this.setLastAndFirstCommentId();
-=======
                             //
->>>>>>> vps_pierre
                         }, (error)=>{
                             console.error(error);
                         });
@@ -597,11 +566,7 @@ export default {
 
             this.$store.dispatch('getCommentsPrevPageAction', payload)
                         .then((response)=>{
-<<<<<<< HEAD
-                            this.setLastAndFirstCommentId();
-=======
                             //
->>>>>>> vps_pierre
                         }, (error)=>{
                             console.error(error);
                         });
