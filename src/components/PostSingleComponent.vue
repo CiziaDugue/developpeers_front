@@ -307,11 +307,7 @@ export default {
             commentEditMode: false,
             commentEditedContent: "",
             editedCommentId: null,
-            userIsFollowing: false,
-            lastCommentListId: null,
-            firstCommentListId: null,
-            // firstPageOfComments: true,
-            // lastPageOfComments: false
+            userIsFollowing: false
         }
     },
     computed: {
@@ -320,13 +316,23 @@ export default {
             'authUserData',
             'userLogged'
         ]),
-        lastPageOfComments: function() {
+        lastPageOfComments() {
             return (this.lastCommentListId == this.postSingle.active_version.last_comment_id) ? true : false;
         },
 
-        firstPageOfComments: function() {
+        firstPageOfComments() {
             return (this.firstCommentListId == this.postSingle.active_version.first_comment_id) ? true : false;
         },
+        lastCommentListId() {
+            if (this.postSingle.active_version.comments.length > 0) {
+                return this.postSingle.active_version.comments[this.postSingle.active_version.comments.length - 1]._id;
+            } else return null;
+        },
+        firstCommentListId() {
+            if (this.postSingle.active_version.comments.length > 0) {
+                return this.postSingle.active_version.comments[0]._id;
+            } else return null;
+        }
     },
     methods: {
         bg1: function(key) {
@@ -417,13 +423,27 @@ export default {
 
                 this.$store.dispatch('addCommentAction', payload)
                             .then((response)=>{
-                                this.setLastAndFirstCommentId();
+                                //
                             }, (error)=>{
                                 console.error(error);
                             });
 
                 this.commentToAdd = '';
             }
+        },
+
+        deleteComment: function(commentId) {
+            let payload = {
+                postId: this.postSingle._id,
+                versionId: this.postSingle.active_version._id,
+                commentId: commentId
+            };
+            this.$store.dispatch('deleteComment', payload)
+                        .then((response) => {
+                            //
+                        }, (error) => {
+                            console.error(error);
+                        });
         },
 
         voteTarget: function(target, type, vote, activeVersionId) {
@@ -520,40 +540,10 @@ export default {
                 });
         },
 
-        deleteComment: function(commentId) {
-            let payload = {
-                postId: this.postSingle._id,
-                versionId: this.postSingle.active_version._id,
-                commentId: commentId
-            };
-            this.$store.dispatch('deleteComment', payload)
-                .then((response) => {
-                    this.setLastAndFirstCommentId();
-                }, (error) => {
-                    console.error(error);
-                });
-        },
-
         getNotifications: function() {
             this.$store.dispatch('getNotificationsAction');
         },
 
-        setLastAndFirstCommentId: function() {
-            if (this.postSingle.active_version.comments.length > 0) {
-                this.lastCommentListId = this.postSingle.active_version.comments[this.postSingle.active_version.comments.length - 1]._id;
-                this.firstCommentListId = this.postSingle.active_version.comments[0]._id;
-                //this.isLastPageOfComments();
-                //this.isFirstPageOfComments();
-            }
-        },
-
-        // isLastPageOfComments: function() {
-        //     this.lastPageOfComments = (this.lastCommentListId == this.postSingle.active_version.last_comment_id) ? true : false;
-        // },
-        //
-        // isFirstPageOfComments: function() {
-        //     this.firstPageOfComments = (this.firstCommentListId == this.postSingle.active_version.first_comment_id) ? true : false;
-        // },
 
         getCommentsNextPage: function() {
 
@@ -565,7 +555,7 @@ export default {
 
             this.$store.dispatch('getCommentsNextPageAction', payload)
                         .then((response)=>{
-                            this.setLastAndFirstCommentId();
+                            //
                         }, (error)=>{
                             console.error(error);
                         });
@@ -581,7 +571,7 @@ export default {
 
             this.$store.dispatch('getCommentsPrevPageAction', payload)
                         .then((response)=>{
-                            this.setLastAndFirstCommentId();
+                            //
                         }, (error)=>{
                             console.error(error);
                         });
@@ -595,7 +585,7 @@ export default {
                         this.updateUserRights();
                         this.getNotifications();
                         this.isUserFollowing();
-                        this.setLastAndFirstCommentId();
+                        //
                     }, (error) => {
                         console.error(error);
                     });
@@ -606,7 +596,7 @@ export default {
                         this.updateUserRights();
                         this.getNotifications();
                         this.isUserFollowing();
-                        this.setLastAndFirstCommentId();
+                        //
                     }, (error) => {
                         console.error(error);
                     });
@@ -624,7 +614,7 @@ export default {
                         this.updateUserRights();
                         this.getNotifications();
                         this.isUserFollowing();
-                        this.setLastAndFirstCommentId();
+                        //
                     }, (error) => {
                         console.error(error);
                     });
