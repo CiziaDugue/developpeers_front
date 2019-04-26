@@ -22,7 +22,10 @@
                         <label>Modifier le titre : </label>
                         <textarea-autosize type="text" v-model="postEditedTitle"></textarea-autosize>
                     </div> -->
-                    <textarea-autosize v-if="postEditMode" type="text" v-model="postEditedTitle"></textarea-autosize>
+                    <div v-if="postEditMode" class="row justify-content-center">
+                        <textarea-autosize type="text" v-model="postEditedTitle" class="text-center"></textarea-autosize>
+                    </div>
+
                     <h2 v-else class="text-center">{{ postSingle.title }}</h2>
                 </div>
                 <div class="col-12 d-flex justify-content-around align-items-center">
@@ -91,7 +94,10 @@
                 <label>Modifier les mots-clés : </label>
                 <input class="form-control searchBar w-50 rounded-0" type="text" v-model="postEditedKeywords">
             </div> -->
-            <textarea-autosize v-if="postEditMode" type="text" v-model="postEditedKeywords"></textarea-autosize>
+            <div v-if="postEditMode" class="row align-items-stretch justify-content-center py-4">
+                <textarea-autosize type="text" v-model="postEditedKeywords"></textarea-autosize>
+            </div>
+
             <ul v-else class="list-group list-group-flush py-4">
                 <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" v-for="word in this.postSingle.keywords">{{word}}</li>
             </ul>
