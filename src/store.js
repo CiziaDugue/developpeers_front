@@ -249,11 +249,11 @@ export default new Vuex.Store({
                         .then(response => {
                             //refresh the current version view
                             dispatch('changePostVersionAction', payload)
-                            .then((response)=>{
-                                resolve(response);
-                            }, (error)=>{
-                                console.error(error);
-                            });
+                                    .then((response)=>{
+                                        resolve(response);
+                                    }, (error)=>{
+                                        console.error(error);
+                                    });
                         })
                         .catch(error => {
                             reject(error);

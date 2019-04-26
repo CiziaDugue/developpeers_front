@@ -150,6 +150,12 @@
 
         </div>
     </div>
+    <!-- <button v-if="!firstPageOfComments" title="Voir des commentaires plus récents" type="button" v-on:click="getCommentsPrevPage">
+        <i class="fas fa-arrow-left"></i>
+    </button>
+    <button v-if="!lastPageOfComments" title="Voir des commentaires plus anciens" type="button" v-on:click="getCommentsNextPage">
+        <i class="fas fa-arrow-right"></i>
+    </button> -->
 </div>
 </template>
 
@@ -169,7 +175,24 @@ export default {
         ...mapState([
             'postSingle',
             'userLogged'
-        ])
+        ]),
+        lastPageOfComments() {
+            return (this.lastCommentListId == this.postSingle.active_version.last_comment_id) ? true : false;
+        },
+
+        firstPageOfComments() {
+            return (this.firstCommentListId == this.postSingle.active_version.first_comment_id) ? true : false;
+        },
+        lastCommentListId() {
+            if (this.postSingle.active_version.comments.length > 0) {
+                return this.postSingle.active_version.comments[this.postSingle.active_version.comments.length - 1]._id;
+            } else return null;
+        },
+        firstCommentListId() {
+            if (this.postSingle.active_version.comments.length > 0) {
+                return this.postSingle.active_version.comments[0]._id;
+            } else return null;
+        }
     },
     methods: {
         bg1: function(key) {
@@ -209,6 +232,38 @@ export default {
         goBack: function() {
             this.$router.go(-1);
         }
+    },
+
+    getCommentsNextPage: function() {
+
+        let payload = {
+            postId: this.postSingle._id,
+            versionId: this.postSingle.active_version._id,
+            commentId: this.lastCommentListId
+        };
+
+        this.$store.dispatch('getCommentsNextPageAction', payload)
+                    .then((response)=>{
+                        //
+                    }, (error)=>{
+                        console.error(error);
+                    });
+    },
+
+    getCommentsPrevPage: function() {
+
+        let payload = {
+            postId: this.postSingle._id,
+            versionId: this.postSingle.active_version._id,
+            commentId: this.firstCommentListId
+        };
+
+        this.$store.dispatch('getCommentsPrevPageAction', payload)
+                    .then((response)=>{
+                        //
+                    }, (error)=>{
+                        console.error(error);
+                    });
     },
 
     created: function() {
