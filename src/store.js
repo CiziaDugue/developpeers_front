@@ -240,6 +240,37 @@ export default new Vuex.Store({
                   });
             });
         },
+        getGuestCommentsNextPageAction: function({commit},payload) {
+                return new Promise ((resolve, reject)=>{
+                  axios.get(config.hostPublicUrl + 'api/guest/commentsafter/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
+                          headers: this.state.headerObject
+                      })
+                      .then(response => {
+                          let comments = response.data;
+                          commit('SET_POST_COMMENTS', comments);
+                          resolve(response);
+                      })
+                      .catch(error => {
+                          reject(error);
+                      });
+                });
+        },
+
+        getGuestCommentsPrevPageAction: function({commit},payload) {
+            return new Promise ((resolve, reject)=>{
+              axios.get(config.hostPublicUrl + 'api/guest/commentsbefore/' + payload.postId + '/' + payload.versionId + '/' + payload.commentId, {
+                      headers: this.state.headerObject
+                  })
+                  .then(response => {
+                      let comments = response.data;
+                      commit('SET_POST_COMMENTS', comments);
+                      resolve(response);
+                  })
+                  .catch(error => {
+                      reject(error);
+                  });
+            });
+        },
 
         addCommentAction: function({dispatch}, payload) {
             return new Promise((resolve, reject) => {
