@@ -1,77 +1,53 @@
 <template>
 <main>
-    <div class="row align-items-center justify-content-center p-0 m-0">
-        <div class="col-sm-9 col-12 card-bg2 py-4">
+    <div class="row align-items-center justify-content-center p-0 m-0 card-bg1">
+        <div class="col-sm-8 col-11 card-bg1 py-4">
             <h2 class="text-center">Profil de {{ userData.user_name }}</h2>
         </div>
-        <!-- <div class="col-sm-1 col-1 card-bg2 align-self-stretch d-flex flex-column align-items-end p-0 m-0">
-            <small v-if="!userDataView" class="cursor square-btn bg-secondary text-center pt-1" data-toggle="tooltip" data-placement="down" title="Informations personnelles" v-on:click="toggleUserDataView">
-                <i class="far fa-user"></i>
+        <div class="col-sm-1 col-1 card-bg1 align-self-stretch d-flex flex-column align-items-end p-0 m-0">
+            <small v-if="authUserIsFollowing" title="Ne plus suivre cet utilisateur" v-on:click="unfollowUser" class="cursor square-btn bg-info text-center pt-1">
+                <i class="fas fa-bookmark"></i>
             </small>
-            <small v-else class="square-btn bg-success text-center pt-1">
-                <i class="fas fa-user"></i>
+            <small v-else title="Suivre cet utilisateur" v-on:click="followUser" class="cursor square-btn bg-secondary text-center pt-1">
+                <i class="far fa-bookmark"></i>
             </small>
-            <small v-if="!followersFollowingView" class="cursor square-btn bg-secondary text-center pt-1" data-toggle="tooltip" data-placement="down" title="Utilisateurs suivis" v-on:click="toggleFollowersFollowingView">
-                <i class="fas fa-users"></i>
-            </small>
-            <small v-else class="square-btn bg-primary text-center pt-1" title="Valider les changements">
-                <i class="fas fa-users"></i>
-            </small>
-            <small v-if="!optionsView" class="cursor square-btn bg-secondary text-center pt-1" data-toggle="tooltip" data-placement="down" title="Paramètres" v-on:click="toggleOptionsView">
-                <i class="fas fa-tools"></i>
-            </small>
-            <small v-else class="square-btn bg-warning text-center pt-1" title="Valider les changements">
-                <i class="fas fa-tools"></i>
-            </small>
-        </div> -->
-        <div class="col-sm-3 col-12 card-bg1 align-self-stretch d-flex p-0 m-0">
-            <div class="profile_pic m-auto pt-4">
+        </div>
+        <div class="col-sm-3 col-12 card-bg2 align-self-stretch d-flex p-0 m-0">
+            <div class="profile_pic m-auto py-4">
                 <img :src="userProfilePicUrl" />
             </div>
         </div>
     </div>
-    <!-- <div class="row align-items-center justify-content-center">
+    <div class="row align-items-center justify-content-center p-0 m-0">
         <div class="col-sm-9 col-12 card-bg2 p-4">
-            <h2 class="text-center">Profil de {{ userData.user_name }}</h2>
-        </div>
-        <div class="col-sm-3 col-12 card-bg1 align-self-stretch d-flex">
-            <div class="profile_pic m-auto pt-4">
-                <img src="" />
+            <div class="row">
+                <div class="col-12 form-group">
+                    <h4 class="text-center">Informations Personnelles</h4>
+                </div>
+                <div class="col-12 form-group">
+                    <label>Présentation :</label>
+                    <p class="card-text1">{{ userPresentation }}</p>
+                </div>
+                <div class="col-12 form-group">
+                    <label>Centres d'interêt :</label>
+                    <p class="card-text1">{{ userInterests }}</p>
+                </div>
+                <div class="col-12 form-group">
+                    <label>Liens :</label>
+                    <div class="">
+                        <a class="searchUserPostsLink" v-on:click="searchUserPosts">Publications</a>
+                    </div>
+
+                    <div v-for="link in userLinks" class="">
+                        <a class="card-text1" :href="link.url">{{ link.url }}</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div> -->
+        <div class="col-sm-3 col-12 card-bg1 d-flex flex-column justify-content-around align-self-stretch p-0 m-0">
 
-    <div>
-        <button v-if="!authUserIsFollowing" type="button" v-on:click="followUser">Suivre</button>
-        <button v-else type="button" v-on:click="unfollowUser">Ne plus suivre</button>
+        </div>
     </div>
-
-    <div class="profile_pic">
-        <img :src="userProfilePicUrl" />
-    </div>
-
-    <div>
-        <h4>Presentation</h4>
-        <p>{{userPresentation}}</p>
-    </div>
-
-    <div>
-        <h4>Centre d'intérêts</h4>
-        <p>{{userInterests}}</p>
-    </div>
-
-    <div>
-        <h4>Liens</h4>
-        <ul>
-            <li v-for="link in userLinks">{{link.url}}</li>
-        </ul>
-    </div>
-
-    <div>
-         <h4 class="searchUserPostsLink" v-on:click="searchUserPosts">Publications</h4>
-    </div>
-
-
 </main>
 </template>
 
@@ -80,6 +56,7 @@ import {
     mapState
 } from 'vuex'
 const axios = require('axios');
+import config from '@/env_config'
 
 export default {
     data: function() {
@@ -127,7 +104,7 @@ export default {
 
         initProfilePic: function(userPublicData) {
             if (!userPublicData.profile_pic_url || userPublicData.profile_pic_url == "") {
-                this.userProfilePicUrl = "http://51.75.126.70/developeers/public/blank_profile_pic.png";
+                this.userProfilePicUrl = config.hostPublicUrl + 'blank_profile_pic.png';
             } else {
                 this.userProfilePicUrl = userPublicData.profile_pic_url;
             }
@@ -157,7 +134,7 @@ export default {
 
         followUser: function() {
             let userId = this.userData.user_id;
-            axios.put('http://51.75.126.70/developeers/public/api/followuser/' + userId, {}, {
+            axios.put(config.hostPublicUrl + 'api/followuser/' + userId, {}, {
                     headers: this.$store.state.headerObject
                 })
                 .then((response) => {
@@ -171,7 +148,7 @@ export default {
 
         unfollowUser: function() {
             let userId = this.userData.user_id;
-            axios.put('http://51.75.126.70/developeers/public/api/unfollowuser/' + userId, {}, {
+            axios.put(config.hostPublicUrl + 'api/unfollowuser/' + userId, {}, {
                     headers: this.$store.state.headerObject
                 })
                 .then((response) => {
@@ -184,7 +161,7 @@ export default {
         },
         getUserPublicData: function() {
             let userId = this.$route.params.userId;
-            axios.get('http://51.75.126.70/developeers/public/api/userdata/' + userId, {
+            axios.get(config.hostPublicUrl + 'api/userdata/' + userId, {
                     headers: this.$store.state.headerObject
                 })
                 .then((response) => {
@@ -253,10 +230,10 @@ export default {
     color: #57515b;
 }
 
-.card {
+/* .card {
     padding: 20px;
     border-radius: 0;
-}
+} */
 
 .profile_pic {
     width: 100px;
@@ -267,32 +244,6 @@ export default {
     width: 100%;
 }
 
-.changePicForm {
-    padding: 30px;
-    position: absolute;
-    background-color: #fff;
-    z-index: 2;
-    top: 20%;
-    left: 18%;
-    box-shadow: 3px 2px 8px #0002;
-    border-radius: 3px;
-}
-
-.changePicBtn {
-    position: relative;
-    top: -30px;
-    visibility: hidden;
-}
-
-.profile_pic:hover .changePicBtn {
-    visibility: visible;
-}
-
-.closePicForm {
-    position: absolute;
-    top: 3px;
-    right: 6px;
-}
 
 .searchUserPostsLink {
     cursor: pointer;

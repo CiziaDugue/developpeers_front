@@ -151,21 +151,6 @@
             <p class="text-center card-text2">
                 <a href="">Supprimer mon compte</a>
             </p>
-            <!-- <div class="row">
-                <div class="col-12">
-                    <p class="text-center card-text2">Nom : {{authUserData.name}}</p>
-                </div>
-                <div class="col-12">
-                    <p class="text-center card-text2">Email : {{ authUserData.email }}</p>
-                </div>
-
-                <div class="col-12">
-                    <p class="text-center card-text2"><a href="">Réinitialiser mon mot de passe</a></p>
-                </div>
-                <div class="col-12">
-                    <p class="text-center card-text2"><a href="">Supprimer mon compte</a></p>
-                </div>
-            </div> -->
         </div>
     </div>
 </main>
@@ -176,6 +161,7 @@ import {
     mapState
 } from 'vuex'
 const axios = require('axios');
+import config from '@/env_config'
 
 export default {
     data: function() {
@@ -309,7 +295,7 @@ export default {
             this.editMode = false;
         },
         unfollowUser: function(userId) {
-            axios.put('http://51.75.126.70/developeers/public/api/unfollowuser/' + userId, {}, {
+            axios.put(config.hostPublicUrl + 'api/unfollowuser/' + userId, {}, {
                     headers: this.$store.state.headerObject
                 })
                 // .then((response) => {
