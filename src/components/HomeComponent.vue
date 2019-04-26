@@ -68,9 +68,12 @@
                         </div>
                     </div>
                     <div class="col-sm-2 col-8 align-self-stetch" :class="bg2(key)">
-                        <ul class="card-text list-group list-group-flush py-4">
+                        <div class="d-flex flex-wrap p-4">
+                            <p class="font-weight-light font-italic border-0 bg-transparent pr-1" :class="textColor2(key)" v-for="word in post.keywords">{{word}}</p>
+                        </div>
+                        <!-- <ul class="card-text list-group list-group-flush py-4">
                             <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" :class="textColor2(key)" v-for="keyword in post.keywords">{{ keyword }}</li>
-                        </ul>
+                        </ul> -->
                     </div>
                     <div class="col-sm-1 col-4 d-flex flex-column align-items-end" :class="bg2(key)">
                         <small v-if="!userIsFollowingPost(post.followers)" class="cursor square-btn bg-secondary text-center pt-1" title="Suivre cet article" v-on:click="followPost(post._id)">
@@ -135,9 +138,12 @@
                         </div>
                     </div>
                     <div class="col-sm-3 col-12 align-self-stetch" :class="bg2(key)">
-                        <ul class="card-text list-group list-group-flush py-4">
+                        <div class="d-flex flex-wrap p-4">
+                            <p class="font-weight-light font-italic border-0 bg-transparent pr-1" :class="textColor2(key)" v-for="word in post.keywords">{{word}}</p>
+                        </div>
+                        <!-- <ul class="card-text list-group list-group-flush py-4">
                             <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" :class="textColor2(key)" v-for="keyword in post.keywords">{{ keyword }}</li>
-                        </ul>
+                        </ul> -->
                     </div>
                 </div>
             </div>

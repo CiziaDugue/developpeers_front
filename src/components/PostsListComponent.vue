@@ -13,11 +13,6 @@
     </div>
 
     <div v-if="isGroupList == true" class="row align-items-center justify-content-center p-0 m-0">
-        <!-- <div class="col-1 align-self-stretch">
-            <small class="cursor badge badge-secondary rounded-0" v-on:click="goBack()">
-                <i class="fas fa-angle-left"></i>
-            </small>
-        </div> -->
         <div class="col-sm-8 col-10 card-bg2 py-5 px-0 m-0">
             <div class="row align-items-center">
                 <div class="col-12">
@@ -31,13 +26,9 @@
         <div class="col-sm-1 col-2 card-bg2 align-self-stretch d-flex flex-column align-items-end p-0 m-0">
 
             <small v-if="isUserInGroup == true" class="cursor square-btn bg-info text-center pt-1" v-on:click="leaveOrJoinGroup('leave')" data-toggle="tooltip" data-placement="left" title="Quitter le groupe?">
-                <!-- <i class="fas fa-sign-out-alt"></i> -->
-                <!-- <i class="far fa-eye-slash"></i> -->
                 <i class="fas fa-bookmark"></i>
             </small>
             <small v-else-if="isUserInGroup == false" class="cursor square-btn bg-secondary text-center pt-1" v-on:click="leaveOrJoinGroup('join')" data-toggle="tooltip" data-placement="right" title="Rejoindre le groupe?">
-                <!-- <i class="fas fa-sign-in-alt"></i> -->
-                <!-- <i class="far fa-eye"></i> -->
                 <i class="far fa-bookmark"></i>
             </small>
             <small class="cursor square-btn bg-primary text-center pt-1" v-on:click="createPost" data-toggle="tooltip" data-placement="down" title="Ajouter un article?">
@@ -45,10 +36,8 @@
             </small>
         </div>
         <div class="col-sm-3 col-12 card-bg1 align-self-stretch p-0 m-0">
-            <div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item font-weight-light font-italic border-0 bg-transparent card-text1" v-for="word in groupSingle.keywords">{{word}}</li>
-                </ul>
+            <div class="d-flex flex-wrap p-4">
+                <p class="font-weight-light font-italic border-0 bg-transparent card-text1 pr-1" v-for="word in this.groupSingle.keywords">{{word}}</p>
             </div>
         </div>
 
@@ -115,9 +104,12 @@
                     </div>
                 </div>
                 <div class="col-sm-2 col-8 align-self-stetch p-0 m-0" :class="bg2(key)">
-                    <ul class="card-text list-group list-group-flush py-4">
+                    <div class="d-flex flex-wrap p-4">
+                        <p class="font-weight-light font-italic border-0 bg-transparent pr-1" :class="textColor2(key)" v-for="word in post.keywords">{{word}}</p>
+                    </div>
+                    <!-- <ul class="card-text list-group list-group-flush py-4">
                         <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" :class="textColor2(key)" v-for="keyword in post.keywords">{{ keyword }}</li>
-                    </ul>
+                    </ul> -->
                 </div>
                 <div class="col-sm-1 col-4 d-flex flex-column align-items-end p-0 m-0" :class="bg2(key)">
                     <small v-if="!userIsFollowingPost(post.followers)" title="Suivre cet article" class="cursor square-btn bg-secondary text-center pt-1" v-on:click="followPost(post._id)">

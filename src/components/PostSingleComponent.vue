@@ -7,7 +7,6 @@
     <!-- post row -->
     <div class="row align-items-center justify-content-center p-0 m-0">
         <div class="col-sm-1 col-2 d-flex flex-column card-bg2 align-self-stretch p-0 m-0">
-        <!-- <div class="col-sm-1 col-2 d-flex flex-column card-bg2 align-self-stretch p-0 m-0"> -->
             <small class="cursor square-btn bg-info text-center pt-1 font-weight-bold" v-on:click="voteTarget(postSingle, 'post', true, postSingle.active_version._id)" title="Voter pour cet article">
                 + {{ postSingle.votePros }}
             </small>
@@ -18,14 +17,9 @@
         <div class="col-sm-7 col-8 py-5 card-bg2 px-0 m-0">
             <div class="row justify-content-center">
                 <div class="col-12">
-                    <!-- <div v-if="postEditMode" class="input-group input-group-sm w-50">
-                        <label>Modifier le titre : </label>
-                        <textarea-autosize type="text" v-model="postEditedTitle"></textarea-autosize>
-                    </div> -->
                     <div v-if="postEditMode" class="row justify-content-center">
                         <textarea-autosize type="text" v-model="postEditedTitle" class="text-center"></textarea-autosize>
                     </div>
-
                     <h2 v-else class="text-center">{{ postSingle.title }}</h2>
                 </div>
                 <div class="col-12 d-flex justify-content-around align-items-center">
@@ -53,17 +47,6 @@
                                 <img class="logo-small" :src="postSingle.author_profile_pic_url">
                         </router-link>
                     </p>
-                    <!-- <p class="text-center card-text2">
-                        Auteur:
-                        <router-link
-                                :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
-                                {{ postSingle.author_name }}
-                        </router-link>
-                        <router-link
-                                :to="{ name: 'userPublicProfile', params: {userId: postSingle.author_id, userName: postSingle.author_name.replace(' ', '-')} }">
-                                <img class="logo-small" :src="postSingle.author_profile_pic_url">
-                        </router-link>
-                    </p> -->
                 </div>
                 <div class="col-12">
                     <p class="footer-text card-text2">Créé le {{ postSingle.created_at }}</p>
@@ -90,17 +73,15 @@
             </template>
         </div>
         <div class="col-sm-3 col-12 card-bg1 align-self-stretch p-0 m-0">
-            <!-- <div v-if="postEditMode" class="input-group input-group-sm w-100">
-                <label>Modifier les mots-clés : </label>
-                <input class="form-control searchBar w-50 rounded-0" type="text" v-model="postEditedKeywords">
-            </div> -->
+            <!-- <p><strong class="text-center card-text1 py-4">
+                Mots-clés
+            </strong></p> -->
             <div v-if="postEditMode" class="row align-items-stretch justify-content-center py-4">
                 <textarea-autosize type="text" v-model="postEditedKeywords"></textarea-autosize>
             </div>
-
-            <ul v-else class="list-group list-group-flush py-4">
-                <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" v-for="word in this.postSingle.keywords">{{word}}</li>
-            </ul>
+            <div v-else class="d-flex flex-wrap p-4">
+                <p class="font-weight-light font-italic border-0 bg-transparent card-text1 pr-1" v-for="word in this.postSingle.keywords">{{word}}</p>
+            </div>
         </div>
     </div>
 

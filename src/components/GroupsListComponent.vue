@@ -7,9 +7,6 @@
         <div class="col-sm-3 col-12 p-5 card-bg1 align-self-stretch">
             <div class="input-group input-group-sm">
                 <input type="search" class="form-control searchBar w-50 rounded-0" placeholder="Rechercher un groupe" v-model="searchGroupBarContent" v-on:keyup.enter="searchGroup">
-                <!-- <div class="input-group-append">
-                    <button type="button" class="btn btn-outline-primary my-2 my-sm-0 rounded-0" v-on:click="searchGroup"><i class="fa fa-search"></i></button>
-                </div> -->
             </div>
         </div>
     </div>
@@ -18,8 +15,6 @@
         <div v-for="(group, key, index) in groupsList" v-bind:key="group._id" class="card p-0 m-0 rounded-0">
             <div class="card-body p-0 m-0">
                 <div class="row">
-                    <!-- <div class="col-sm-1 col-2">
-                    </div> -->
                     <div class="col-sm-9 col-12 p-4" :class="bg1(key)">
                         <div class="row">
                             <div class="col-12">
@@ -39,17 +34,15 @@
                         </div>
                     </div>
                     <div class="col-sm-2 col-8 align-self-stretch" v-bind:class="bg2(key)">
-                        <ul class="card-text list-group list-group-flush py-4">
-                            <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" :class="textColor2(key)" v-for="keyword in group.keywords">{{ keyword }}</li>
-                        </ul>
+                        <div class="d-flex flex-wrap p-3">
+                            <p class="font-weight-light font-italic border-0 bg-transparent pr-1" :class="textColor2(key)" v-for="word in group.keywords">{{word}}</p>
+                        </div>
                     </div>
                     <div class="col-sm-1 col-4 d-flex flex-column align-items-end" v-bind:class="bg2(key)">
                         <small v-if="isUserInGroup(group.users_id, authUserData.id)" class="cursor square-btn bg-info text-center pt-1" v-on:click="leaveOrJoinGroup(group, 'leave')" data-toggle="tooltip" data-placement="up" title="Quitter le groupe?">
-                            <!-- <i class="far fa-eye-slash"></i> -->
                             <i class="fas fa-bookmark"></i>
                         </small>
                         <small v-else class="cursor square-btn bg-secondary text-center pt-1" v-on:click="leaveOrJoinGroup(group, 'join')" data-toggle="tooltip" data-placement="up" title="Rejoindre le groupe?">
-                            <!-- <i class="far fa-eye"></i> -->
                             <i class="far fa-bookmark"></i>
                         </small>
                     </div>

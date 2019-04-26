@@ -44,9 +44,12 @@
             </div>
         </div>
         <div class="col-sm-3 col-12 card-bg1 align-self-stretch m-0 p-0">
-            <ul class="list-group list-group-flush py-4">
+            <!-- <ul class="list-group list-group-flush py-4">
                 <li class="list-group-item font-weight-light font-italic border-0 bg-transparent" v-for="word in this.postSingle.keywords">{{word}}</li>
-            </ul>
+            </ul> -->
+            <div class="d-flex flex-wrap p-4">
+                <p class="font-weight-light font-italic border-0 bg-transparent card-text1 pr-1" v-for="word in this.postSingle.keywords">{{word}}</p>
+            </div>
         </div>
     </div>
 
