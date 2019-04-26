@@ -161,6 +161,7 @@ import {
     mapState
 } from 'vuex'
 const axios = require('axios');
+import config from '@/env_config'
 
 export default {
     data: function() {
@@ -294,7 +295,7 @@ export default {
             this.editMode = false;
         },
         unfollowUser: function(userId) {
-            axios.put('http://localhost/developeers/public/api/unfollowuser/' + userId, {}, {
+            axios.put(config.hostPublicUrl + 'api/unfollowuser/' + userId, {}, {
                     headers: this.$store.state.headerObject
                 })
                 // .then((response) => {

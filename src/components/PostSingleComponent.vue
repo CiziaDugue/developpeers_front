@@ -260,7 +260,7 @@
                 <small v-if="!commentEditMode" class="cursor square-btn bg-primary text-center pt-1" title="Éditer mon commentaire" v-on:click="toggleCommentEditMode(comment._id, comment.content)">
                     <i class="fas fa-pen"></i>
                 </small>
-                <small v-else-if="commentEditMode && comment._id==editedCommentId" class="cursor square-btn bg-success text-center pt-1" v-on:click="validateCommentUpdate(comment._id)" title="Valider les changements?">
+                <small v-else-if="commentEditMode && comment._id === editedCommentId" class="cursor square-btn bg-success text-center pt-1" v-on:click="validateCommentUpdate(comment._id)" title="Valider les changements?">
                     <i class="fas fa-check"></i>
                 </small>
                 <small class='cursor square-btn bg-danger text-center pt-1' title="Supprimer mon commentaire" v-on:click="deleteComment(comment._id)">
@@ -272,12 +272,12 @@
 
         </div>
     </div>
-    <!-- <button v-if="!firstPageOfComments" title="Voir des commentaires plus récents" type="button" v-on:click="getCommentsPrevPage">
+    <button v-if="!firstPageOfComments" title="Voir des commentaires plus récents" type="button" v-on:click="getCommentsPrevPage">
         <i class="fas fa-arrow-left"></i>
     </button>
     <button v-if="!lastPageOfComments" title="Voir des commentaires plus anciens" type="button" v-on:click="getCommentsNextPage">
         <i class="fas fa-arrow-right"></i>
-    </button> -->
+    </button>
 </div>
 </template>
 
@@ -305,8 +305,8 @@ export default {
             userIsFollowing: false,
             lastCommentListId: null,
             firstCommentListId: null,
-            firstPageOfComments: true,
-            lastPageOfComments: false
+            // firstPageOfComments: true,
+            // lastPageOfComments: false
         }
     },
     computed: {
@@ -314,7 +314,14 @@ export default {
             'postSingle',
             'authUserData',
             'userLogged'
-        ])
+        ]),
+        lastPageOfComments: function() {
+            return (this.lastCommentListId == this.postSingle.active_version.last_comment_id) ? true : false;
+        },
+
+        firstPageOfComments: function() {
+            return (this.firstCommentListId == this.postSingle.active_version.first_comment_id) ? true : false;
+        },
     },
     methods: {
         bg1: function(key) {
@@ -390,22 +397,6 @@ export default {
                 });
         },
 
-        // changeVersion: function(versionId) {
-        //
-        //     let payload = {
-        //         postId: this.postSingle._id,
-        //         versionId: versionId
-        //     };
-        //
-        //     this.$store.dispatch('changePostVersionAction', payload)
-        //         .then((response) => {
-        //             this.updateUserRights();
-        //             this.isUserFollowing();
-        //         }, (error) => {
-        //             console.error(error);
-        //         });
-        // },
-
         addComment: function() {
 
             if (this.commentToAdd != '' && this.commentToAdd != '\n') {
@@ -419,7 +410,12 @@ export default {
                     comment: comment
                 }
 
-                this.$store.dispatch('addCommentAction', payload);
+                this.$store.dispatch('addCommentAction', payload)
+                            .then((response)=>{
+                                this.setLastAndFirstCommentId();
+                            }, (error)=>{
+                                console.error(error);
+                            });
 
                 this.commentToAdd = '';
             }
@@ -527,7 +523,7 @@ export default {
             };
             this.$store.dispatch('deleteComment', payload)
                 .then((response) => {
-                    //
+                    this.setLastAndFirstCommentId();
                 }, (error) => {
                     console.error(error);
                 });
@@ -541,18 +537,18 @@ export default {
             if (this.postSingle.active_version.comments.length > 0) {
                 this.lastCommentListId = this.postSingle.active_version.comments[this.postSingle.active_version.comments.length - 1]._id;
                 this.firstCommentListId = this.postSingle.active_version.comments[0]._id;
-                this.isLastPageOfComments();
-                this.isFirstPageOfComments();
+                //this.isLastPageOfComments();
+                //this.isFirstPageOfComments();
             }
         },
 
-        isLastPageOfComments: function() {
-            this.lastPageOfComments = (this.lastCommentListId == this.postSingle.active_version.last_comment_id) ? true : false;
-        },
-
-        isFirstPageOfComments: function() {
-            this.firstPageOfComments = (this.firstCommentListId == this.postSingle.active_version.first_comment_id) ? true : false;
-        },
+        // isLastPageOfComments: function() {
+        //     this.lastPageOfComments = (this.lastCommentListId == this.postSingle.active_version.last_comment_id) ? true : false;
+        // },
+        //
+        // isFirstPageOfComments: function() {
+        //     this.firstPageOfComments = (this.firstCommentListId == this.postSingle.active_version.first_comment_id) ? true : false;
+        // },
 
         getCommentsNextPage: function() {
 
