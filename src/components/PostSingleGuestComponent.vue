@@ -150,12 +150,28 @@
 
         </div>
     </div>
-    <button v-if="!firstPageOfComments" title="Voir des commentaires plus récents" type="button" v-on:click="getCommentsPrevPage">
-        <i class="fas fa-arrow-left"></i>
-    </button>
-    <button v-if="!lastPageOfComments" title="Voir des commentaires plus anciens" type="button" v-on:click="getCommentsNextPage">
-        <i class="fas fa-arrow-right"></i>
-    </button>
+    <div class="row justify-content-center p-0 m-0">
+        <div class="col-sm-9 col-12 card-bg1 m-0 p-0">
+            <div class="d-flex align-items-center justify-content-center">
+                <small v-if="!firstPageOfComments" class="cursor square-btn bg-info text-center pt-1 font-weight-bold" v-on:click="getCommentsPrevPage" title="Commentaires précédents">
+                    <i class="fas fa-chevron-left"></i>
+                </small>
+                <small v-else class="square-btn bg-secondary text-center pt-1 font-weight-bold">
+                    <i class="fas fa-chevron-left"></i>
+                </small>
+                <small v-if="!lastPageOfComments" class="cursor square-btn bg-info text-center pt-1 font-weight-bold" v-on:click="getCommentsNextPage" title="Commentaires suivants">
+                    <i class="fas fa-chevron-right"></i>
+                </small>
+                <small v-else class="square-btn bg-secondary text-center pt-1 font-weight-bold">
+                    <i class="fas fa-chevron-right"></i>
+                </small>
+            </div>
+        </div>
+        <div class="col-sm-3 col-0 align-self-stretch m-0 p-0 card-bg2">
+
+        </div>
+    </div>
+
 </div>
 </template>
 
